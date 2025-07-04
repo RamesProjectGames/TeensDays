@@ -21,7 +21,7 @@ public class QuizManager : MonoBehaviour
     public Button nextButton;
 
     public List<SoalData> semuaSoal = new List<SoalData>();
-    private int indexSoal = 0;
+    private int indexSoal;
     private bool answered = false;
 
     void Start()
@@ -68,21 +68,23 @@ public class QuizManager : MonoBehaviour
             Debug.Log(values.Length);
             if (values.Length >= 8)
             {
+                Debug.Log("Masuk sini");
                 SoalData soal = new SoalData
                 {
                     soal = values[1],
-                    jawaban = new string[4] { values[5], values[4], values[6], values[7] },
-                    kunci = values[9].ToUpper()[0] // A/B/C/D
+                    jawaban = new string[4] { values[2], values[3], values[4], values[5] },
+                    kunci = values[7].ToUpper()[0] // A/B/C/D
                 };
                 semuaSoal.Add(soal);
             }
         }
     }
 
-    void TampilkanSoal(int index)
+    public void TampilkanSoal(int index)
     {
         ShuffleSoal();
         SoalData s = semuaSoal[index];
+        Debug.Log("Masuk Tampilkan Soal dan shuffle");
         soalTMP.text = s.soal;
         feedbackTMP.text = "";
         answered = false;
@@ -129,9 +131,9 @@ public class QuizManager : MonoBehaviour
             semuaSoal[rand] = temp;
         }
 
-        if (semuaSoal.Count > 20)
+        if (semuaSoal.Count > 5)
         {
-            semuaSoal = semuaSoal.GetRange(0, 20);
+            semuaSoal = semuaSoal.GetRange(0, 5);
         }
 
     }
