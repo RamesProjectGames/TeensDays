@@ -1,8 +1,11 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
+using UnityEditor.SearchService;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static Cinemachine.DocumentationSortingAttribute;
 
 [System.Serializable]
 public class SoalData
@@ -19,20 +22,28 @@ public class QuizManager : MonoBehaviour
     public TMP_Text feedbackTMP;
     public Button[] jawabanButtons; // urutan A, B, C, D
     public Button nextButton;
+    public Button BackToLevel;
 
     public List<SoalData> semuaSoal = new List<SoalData>();
     private int indexSoal;
     private bool answered = false;
+
+    public int totalBenar = 0;
+    public int totalSalah = 0;
 
     void Start()
     {
         LoadCSV();
         TampilkanSoal(indexSoal);
         feedbackTMP.text = "";
+        totalBenar = 0;
+        totalSalah = 0;
+        indexSoal = 0;
+        BackToLevel.gameObject.SetActive(false);
 
         for (int i = 0; i < jawabanButtons.Length; i++)
         {
-            int pilihanIndex = i; // perlu closure
+            int pilihanIndex = i;
             jawabanButtons[i].onClick.AddListener(() => CekJawaban(pilihanIndex));
         }
 
@@ -47,9 +58,14 @@ public class QuizManager : MonoBehaviour
             {
                 soalTMP.text = "Soal selesai!";
                 feedbackTMP.text = "";
+
                 foreach (var btn in jawabanButtons)
+                {
                     btn.gameObject.SetActive(false);
+                }
+
                 nextButton.gameObject.SetActive(false);
+                TotalScore();
             }
         });
     }
@@ -107,10 +123,12 @@ public class QuizManager : MonoBehaviour
         if (pilihan == current.kunci)
         {
             feedbackTMP.text = "<color=green>Jawaban benar!</color>";
+            totalBenar++;
         }
         else
         {
             feedbackTMP.text = $"<color=red>Salah! Jawaban benar: {current.kunci}</color>";
+            totalSalah++;
         }
 
         // Nonaktifkan tombol agar tidak bisa ditekan lagi
@@ -133,8 +151,47 @@ public class QuizManager : MonoBehaviour
 
         if (semuaSoal.Count > 5)
         {
-            semuaSoal = semuaSoal.GetRange(0, 5);
+            semuaSoal = semuaSoal.GetRange(0, 5); 
         }
 
+    }
+
+    void TotalScore()
+    {
+        float skor = ((float)totalBenar / semuaSoal.Count) * 100f;
+        soalTMP.text = $"Soal selesai!\nSkor akhir: <color=green>{skor:F0}%</color>\nBenar: {totalBenar}, Salah: {totalSalah}";
+
+        if (skor >= 75)
+        {
+            feedbackTMP.text = "<color=green>Lulus!</color>";
+            UnlockNewLevel();
+            BackToLevel.gameObject.SetActive(true);
+        }
+        else
+        {
+            feedbackTMP.text = "<color=red>Tidak lulus</color>";
+            BackToLevel.gameObject.SetActive(true);
+        }
+
+    }
+
+     void UnlockNewLevel()
+    {
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        int nextLevel = currentIndex + 1;
+
+        if (nextLevel > unlockedLevel)
+        {
+            PlayerPrefs.SetInt("UnlockedLevel", nextLevel);
+            PlayerPrefs.Save();
+            Debug.Log("Unlocked new level: " + nextLevel);
+        }
+    }
+
+    public void BackToLevelScene(int levelId)
+    {
+        SceneManager.LoadScene(levelId);
     }
 }
