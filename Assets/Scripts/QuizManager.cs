@@ -26,13 +26,22 @@ public class QuizManager : MonoBehaviour
     public List<SoalData> semuaSoal = new List<SoalData>();
     private int indexSoal;
     private bool answered = false;
+    private bool alreadyUnlocked = false;
 
     public int totalBenar = 0;
     public int totalSalah = 0;
 
     void Start()
     {
+        //int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        //int nextLevel = currentIndex++;
+        //Debug.Log(nextLevel + "Jumlah next level");
+
+        //int UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        //Debug.Log(UnlockedLevel + "Jumlah unlocked level");
+
         LoadCSV();
+        ShuffleSoal();
         TampilkanSoal(indexSoal);
         feedbackTMP.text = "";
         totalBenar = 0;
@@ -45,9 +54,37 @@ public class QuizManager : MonoBehaviour
             int pilihanIndex = i;
             jawabanButtons[i].onClick.AddListener(() => CekJawaban(pilihanIndex));
         }
+    }
 
-        nextButton.onClick.AddListener(() =>
+    void LoadCSV()
+    {
+        StringReader reader = new StringReader(csvFile.text);
+        bool isHeader = true;
+
+        while (reader.Peek() > -1)
         {
+            string line = reader.ReadLine();
+            if (isHeader) { isHeader = false; continue; }
+
+            string[] values = line.Split(';');
+            //Debug.Log(values.Length);
+            if (values.Length >= 8)
+            {
+                //Debug.Log("Masuk sini");
+                SoalData soal = new SoalData
+                {
+                    soal = values[1],
+                    jawaban = new string[4] { values[2], values[3], values[4], values[5] },
+                    kunci = values[7].ToUpper()[0] // A/B/C/D
+                };
+                semuaSoal.Add(soal);
+            }
+        }
+    }
+
+    public void NextButton()
+    {
+
             indexSoal++;
             if (indexSoal < semuaSoal.Count)
             {
@@ -65,41 +102,13 @@ public class QuizManager : MonoBehaviour
 
                 nextButton.gameObject.SetActive(false);
                 TotalScore();
-            }
-        });
-    }
-
-    void LoadCSV()
-    {
-        StringReader reader = new StringReader(csvFile.text);
-        bool isHeader = true;
-
-        while (reader.Peek() > -1)
-        {
-            string line = reader.ReadLine();
-            if (isHeader) { isHeader = false; continue; }
-
-            string[] values = line.Split(';');
-            Debug.Log(values.Length);
-            if (values.Length >= 8)
-            {
-                Debug.Log("Masuk sini");
-                SoalData soal = new SoalData
-                {
-                    soal = values[1],
-                    jawaban = new string[4] { values[2], values[3], values[4], values[5] },
-                    kunci = values[7].ToUpper()[0] // A/B/C/D
-                };
-                semuaSoal.Add(soal);
-            }
-        }
+            };
     }
 
     public void TampilkanSoal(int index)
     {
-        ShuffleSoal();
         SoalData s = semuaSoal[index];
-        Debug.Log("Masuk Tampilkan Soal dan shuffle");
+        //Debug.Log("Masuk Tampilkan Soal dan shuffle");
         soalTMP.text = s.soal;
         feedbackTMP.text = "";
         answered = false;
@@ -141,7 +150,7 @@ public class QuizManager : MonoBehaviour
     {
         for (int i = 0; i < semuaSoal.Count; i++)
         {
-            Debug.Log("Soal kerandom");
+            //Debug.Log("Soal kerandom");
             int rand = Random.Range(i, semuaSoal.Count);
             var temp = semuaSoal[i];
             semuaSoal[i] = semuaSoal[rand];
@@ -176,10 +185,13 @@ public class QuizManager : MonoBehaviour
 
      void UnlockNewLevel()
     {
+        if (alreadyUnlocked) return;
+        alreadyUnlocked = true;
+
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
         int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
-        int nextLevel = currentIndex + 1;
+        int nextLevel = currentIndex++;
 
         if (nextLevel > unlockedLevel)
         {

@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance;
     private Player inputActions;
+    public Animator animator;
+    public RunSystem runSystem;
     Vector2 moveVector;
 
     public float moveSpeed;
@@ -17,7 +19,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isJump;
     private Rigidbody rb;
 
-    //public float rotationSpeed = 720f;
+    public float rotationSpeed = 720f;
+    public GameObject playerObj;
 
     // Start is called before the first frame update
 
@@ -29,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
     }
     
     private void OnEnable()
@@ -36,12 +40,16 @@ public class PlayerMovement : MonoBehaviour
         inputActions.Movement.Enable();
         inputActions.Movement.JoystickInput.performed += ctx => moveVector = ctx.ReadValue<Vector2>();
         inputActions.Movement.JoystickInput.canceled += ctx => moveVector = Vector2.zero;
-        //inputActions.Movement.Jump.performed += ctx => Jump();
+        inputActions.Movement.Jump.performed += ctx => Jump();
+        inputActions.Movement.Run.started += ctx => runSystem.StartRunning();
+        inputActions.Movement.Run.canceled += ctx => runSystem.StopRunning();
     }
 
     private void OnDisable()
     {
         inputActions.Movement.Disable();
+        inputActions.Movement.Run.canceled -= ctx => runSystem.StartRunning();
+        inputActions.Movement.Run.canceled -= ctx => runSystem.StopRunning();
     }
 
     // Update is called once per frame
@@ -49,8 +57,17 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 movement = new Vector3(moveVector.x, 0, moveVector.y);
 
-        movement.Normalize();
-        transform.Translate(moveSpeed * movement * Time.deltaTime, Space.World);
+        //movement.Normalize();
+        transform.Translate(moveSpeed * movement.normalized * Time.deltaTime, Space.World);
+
+        if (movement.magnitude > 0.1f)
+        {
+            // ROTASI
+            Quaternion targetRotation = Quaternion.LookRotation(movement);
+            playerObj.transform.localRotation = Quaternion.RotateTowards(playerObj.transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        animator.SetFloat("Walking", movement.magnitude);
     }
 
     public void InputPlayer(InputAction.CallbackContext context)
@@ -62,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isJump)
         {
+            animator.SetBool("Jumping", true);
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isJump = false;
         }
@@ -72,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.collider.CompareTag("Ground"))
         {
             isJump = true;
+            animator.SetBool("Jumping", false);
         }
     }
 }

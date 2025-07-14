@@ -2,35 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-public class RunSystem : MonoBehaviour
+public class RunSystem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public bool isRunning;
 
-    public float moveRun;
-    public void Run()
+    public void StartRunning()
     {
-        if (isRunning)
-        {
-            PlayerMovement.Instance.moveSpeed = 15f;
-        }
+        PlayerMovement.Instance.moveSpeed = 7f;
+        isRunning = true;
+        PlayerMovement.Instance.animator.SetBool("Running", true);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void StopRunning()
     {
-        if (collision.collider.CompareTag("Ground"))
-        {
-            isRunning = true;
-        }
+        PlayerMovement.Instance.moveSpeed = 5f;
+        isRunning = false;
+        PlayerMovement.Instance.animator.SetBool("Running", false);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        PlayerMovement.Instance.moveSpeed = 15f;
+        StartRunning();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        PlayerMovement.Instance.moveSpeed = 5f;
+        StopRunning();
     }
 }
