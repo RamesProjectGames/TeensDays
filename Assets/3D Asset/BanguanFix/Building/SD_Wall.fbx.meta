@@ -3,7 +3,17 @@ guid: 2a2e30673c23c1b41960f7c03ff55ef0
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ColorPallet2
+    second: {fileID: 2100000, guid: a1f4c3ef1a2950f4e82d932b390dd532, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Daun
+    second: {fileID: 2100000, guid: f3aecafbd64e73f4688913c84d90d240, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

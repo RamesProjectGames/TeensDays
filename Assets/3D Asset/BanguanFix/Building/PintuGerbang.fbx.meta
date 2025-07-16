@@ -3,7 +3,12 @@ guid: 5979e7ee50c92034393faf6a67aab56a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PlayGround
+    second: {fileID: 2100000, guid: 57c59d33933344f4796c89e8b69bb526, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
