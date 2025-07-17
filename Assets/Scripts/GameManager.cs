@@ -1,22 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
-    [Tooltip("Daftar nama scene yang bisa dipilih lewat index")]
-    public string[] sceneNames;  // array nama scene
+    public static GameManager Instance;
+    
+    public int expLevel;
+    public int expOverflow;
+    public bool kuisDone;
 
-    public void LoadSceneByIndex(int index)
+    private void Awake()
     {
-        if (index >= 0 && index < sceneNames.Length)
+        if (Instance == null)
         {
-            SceneManager.LoadScene(sceneNames[index]);
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Agar tetap hidup saat ganti scene
         }
         else
         {
-            Debug.LogWarning("Index scene tidak valid: " + index);
+            Destroy(gameObject); // Jika sudah ada, hapus duplikat
         }
     }
 }

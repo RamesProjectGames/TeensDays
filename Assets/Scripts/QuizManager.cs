@@ -173,6 +173,8 @@ public class QuizManager : MonoBehaviour
         {
             feedbackTMP.text = "<color=green>Lulus!</color>";
             UnlockNewLevel();
+            GameManager.Instance.expLevel += 100;
+            GameManager.Instance.kuisDone = true;
             BackToLevel.gameObject.SetActive(true);
         }
         else
