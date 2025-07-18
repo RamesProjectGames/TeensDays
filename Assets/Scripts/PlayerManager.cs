@@ -20,6 +20,16 @@ public class PlayerManager : MonoBehaviour
 
     public bool hasCompleted;
 
+    public List<SekolahUI> sekolahList = new List<SekolahUI>();
+
+    [System.Serializable]
+    public class SekolahUI
+    {
+        public bool isActive;
+        public GameObject aktifObj;
+        public GameObject nonAktifObj;
+    }
+
     private void Update()
     {
         if(GameManager.Instance.kuisDone && !hasCompleted)
@@ -31,6 +41,8 @@ public class PlayerManager : MonoBehaviour
         expPlayer.text = GameManager.Instance.expLevel.ToString();
         expSlider.value = GameManager.Instance.expLevel / 100f;
         classExpPlayer.text = classExp.ToString();
+
+        UpdateSemuaSekolah();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -76,6 +88,15 @@ public class PlayerManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Index scene tidak valid: " + index);
+        }
+    }
+
+    public void UpdateSemuaSekolah()
+    {
+        foreach (var sekolah in sekolahList)
+        {
+            sekolah.aktifObj.SetActive(sekolah.isActive);
+            sekolah.nonAktifObj.SetActive(!sekolah.isActive);
         }
     }
 }

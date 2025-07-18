@@ -33,13 +33,6 @@ public class QuizManager : MonoBehaviour
 
     void Start()
     {
-        //int currentIndex = SceneManager.GetActiveScene().buildIndex;
-        //int nextLevel = currentIndex++;
-        //Debug.Log(nextLevel + "Jumlah next level");
-
-        //int UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
-        //Debug.Log(UnlockedLevel + "Jumlah unlocked level");
-
         LoadCSV();
         ShuffleSoal();
         TampilkanSoal(indexSoal);

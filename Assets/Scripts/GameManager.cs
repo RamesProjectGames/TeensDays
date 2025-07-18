@@ -18,11 +18,11 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Agar tetap hidup saat ganti scene
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject); // Jika sudah ada, hapus duplikat
+            Destroy(gameObject);
         }
     }
 }
