@@ -30,6 +30,11 @@ public class PlayerManager : MonoBehaviour
         public GameObject nonAktifObj;
     }
 
+    private void Start()
+    {
+       // CekLevelSekolah();
+    }
+
     private void Update()
     {
         if(GameManager.Instance.kuisDone && !hasCompleted)
@@ -99,4 +104,17 @@ public class PlayerManager : MonoBehaviour
             sekolah.nonAktifObj.SetActive(!sekolah.isActive);
         }
     }
+
+    public void CekLevelSekolah()
+    {
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel",1);
+
+        Debug.Log(unlockedLevel);
+
+        if (unlockedLevel >= 6)
+        {
+            sekolahList[0].isActive = false;
+        }
+    }
+
 }
