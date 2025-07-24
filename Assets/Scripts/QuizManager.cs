@@ -168,6 +168,7 @@ public class QuizManager : MonoBehaviour
             UnlockNewLevel();
             GameManager.Instance.expLevel += 100;
             GameManager.Instance.kuisDone = true;
+            GameManager.Instance.currMoney += 5000;
             BackToLevel.gameObject.SetActive(true);
         }
         else

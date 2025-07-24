@@ -15,6 +15,10 @@ public class PlayerManager : MonoBehaviour
     public TMP_Text expPlayer;
     public TMP_Text limitExpPlayer;
     public TMP_Text classExpPlayer;
+
+    public TMP_Text money_text;
+    public TMP_Text diamond_text;
+
     public Slider expSlider;
     public int classExp;
 
@@ -32,7 +36,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-       // CekLevelSekolah();
+        // CekLevelSekolah();
+        money_text.text = GameManager.Instance.currMoney.ToString();
+        diamond_text.text = GameManager.Instance.currDiamond.ToString();
     }
 
     private void Update()
@@ -45,7 +51,7 @@ public class PlayerManager : MonoBehaviour
 
         expPlayer.text = GameManager.Instance.expLevel.ToString();
         expSlider.value = GameManager.Instance.expLevel / 100f;
-        classExpPlayer.text = classExp.ToString();
+        classExpPlayer.text = "(Class " + classExp.ToString() + ")";
 
         UpdateSemuaSekolah();
     }

@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public int expOverflow;
     public bool kuisDone;
 
+    public int currMoney;
+    public int currDiamond;
+
     private void Awake()
     {
         if (Instance == null)

@@ -2,54 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class GlobalAudioManager : MonoBehaviour
 {
-    public static GlobalAudioManager Instance;
-
     public AudioMixer audioMixer;
+    public Slider bgmSlider;
+    public Slider sfxSlider;
 
-    private bool isBGMMuted;
-    private bool isSFXMuted;
-
-    private void Awake()
+    void Start()
     {
-        // Singleton supaya tidak hilang saat pindah scene
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        // Load saved volume or default to full (1.0)
+        bgmSlider.value = PlayerPrefs.GetFloat("BGMVolume", 1f);
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
 
-        // Load status mute dari PlayerPrefs
-        isBGMMuted = PlayerPrefs.GetInt("BGM", 0) == 1;
-        isSFXMuted = PlayerPrefs.GetInt("SFX", 0) == 1;
+        SetBGMVolume(bgmSlider.value);
+        SetSFXVolume(sfxSlider.value);
 
-        ApplyVolumeSettings();
+        // Tambahkan listener jika belum dari Inspector
+        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+        sfxSlider.onValueChanged.AddListener(SetSFXVolume);
     }
 
-    public void ToggleBGM()
+    public void SetBGMVolume(float value)
     {
-        isBGMMuted = !isBGMMuted;
-        PlayerPrefs.SetInt("BGM", isBGMMuted ? 1 : 0);
-        ApplyVolumeSettings();
+        audioMixer.SetFloat("BGMVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20);
+        PlayerPrefs.SetFloat("BGMVolume", value);
     }
 
-    public void ToggleSFX()
+    public void SetSFXVolume(float value)
     {
-        isSFXMuted = !isSFXMuted;
-        PlayerPrefs.SetInt("SFX", isSFXMuted ? 1 : 0);
-        ApplyVolumeSettings();
-    }
-
-    private void ApplyVolumeSettings()
-    {
-        audioMixer.SetFloat("BGMVolume", isBGMMuted ? -80f : 0f);
-        audioMixer.SetFloat("SFXVolume", isSFXMuted ? -80f : 0f);
+        audioMixer.SetFloat("SFXVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20);
+        PlayerPrefs.SetFloat("SFXVolume", value);
     }
 }
