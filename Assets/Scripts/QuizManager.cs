@@ -40,7 +40,7 @@ public class QuizManager : MonoBehaviour
         totalBenar = 0;
         totalSalah = 0;
         indexSoal = 0;
-        BackToLevel.gameObject.SetActive(false);
+        //BackToLevel.gameObject.SetActive(false);
 
         for (int i = 0; i < jawabanButtons.Length; i++)
         {
