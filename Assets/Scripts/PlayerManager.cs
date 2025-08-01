@@ -12,15 +12,17 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Daftar nama scene yang bisa dipilih lewat index")]
     public string[] sceneNames;  // array nama scene
 
+    [Header("Player Stats")]
     public TMP_Text expPlayer;
     public TMP_Text limitExpPlayer;
     public TMP_Text classExpPlayer;
+    public Slider expSlider;
+    public int classExp;
 
+    [Header("Currency Game")]
     public TMP_Text money_text;
     public TMP_Text diamond_text;
 
-    public Slider expSlider;
-    public int classExp;
 
     public bool hasCompleted;
 

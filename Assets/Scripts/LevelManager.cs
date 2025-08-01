@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,6 +8,11 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
+    public Button[] bgButtons;
+    public Sprite[] bgSpritesLocked;
+    public Sprite[] bgSpritesUnlocked;
+    public Sprite[] levelLockedImages;
+    public Sprite[] levelUnlockImages;
 
     private void Start()
     {
@@ -16,15 +22,19 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        int UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 6);
+        int UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
         for (int i = 0; i < levelButtons.Length; i++)
         {
             levelButtons[i].interactable = false;
+            levelButtons[i].image.sprite = levelLockedImages[i];
+            bgButtons[i].image.sprite = bgSpritesLocked[i];
         }
         for (int i = 0; i < UnlockedLevel; i++)
         {
             levelButtons[i].interactable = true;
+            levelButtons[i].image.sprite = levelUnlockImages[i];
+            bgButtons[i].image.sprite = bgSpritesUnlocked[i];
         }
     }
 

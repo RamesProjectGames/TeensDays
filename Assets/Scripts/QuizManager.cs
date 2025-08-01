@@ -109,7 +109,10 @@ public class QuizManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             jawabanButtons[i].GetComponentInChildren<TMP_Text>().text = s.jawaban[i];
-            jawabanButtons[i].interactable = true;
+            jawabanButtons[i].enabled = true;
+
+            var image = jawabanButtons[i].GetComponent<Image>();
+            image.color = Color.white;
         }
     }
 
@@ -123,19 +126,27 @@ public class QuizManager : MonoBehaviour
 
         if (pilihan == current.kunci)
         {
-            feedbackTMP.text = "<color=green>Jawaban benar!</color>";
+            //feedbackTMP.text = "<color=green>Jawaban benar!</color>";
             totalBenar++;
+
+            jawabanButtons[index].GetComponent<Image>().color = Color.green;
         }
         else
         {
-            feedbackTMP.text = $"<color=red>Salah! Jawaban benar: {current.kunci}</color>";
+            //feedbackTMP.text = $"<color=red>Salah! Jawaban benar: {current.kunci}</color>";
             totalSalah++;
+
+            jawabanButtons[index].GetComponent<Image>().color = Color.red;
+
+            //Kasih Tau Jawaban Benar
+            int indexBenar = current.kunci - 'A';
+            jawabanButtons[indexBenar].GetComponent<Image>().color = Color.green;
         }
 
         // Nonaktifkan tombol agar tidak bisa ditekan lagi
         foreach (var btn in jawabanButtons)
         {
-            btn.interactable = false;
+            btn.enabled = false;
         }
     }
 

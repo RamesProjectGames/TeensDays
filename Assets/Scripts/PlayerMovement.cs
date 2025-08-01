@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed = 720f;
     public GameObject playerObj;
 
+    public bool invertMovement;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -55,19 +57,17 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 movement = new Vector3(moveVector.x, 0, moveVector.y);
 
-        //movement.Normalize();
-        transform.Translate(moveSpeed * movement.normalized * Time.deltaTime, Space.World);
-
-        if (movement.magnitude > 0.1f)
+        if (invertMovement)
         {
-            // ROTASI
-            Quaternion targetRotation = Quaternion.LookRotation(movement);
-            playerObj.transform.localRotation = Quaternion.RotateTowards(playerObj.transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
+            InvertRotation();
         }
 
-        animator.SetFloat("Walking", movement.magnitude);
+        if (!invertMovement)
+        {
+            NormalRotation();
+        }
+        
     }
 
     public void InputPlayer(InputAction.CallbackContext context)
@@ -92,5 +92,40 @@ public class PlayerMovement : MonoBehaviour
             isJump = true;
             animator.SetBool("Jumping", false);
         }
+    }
+
+    public void InvertRotation()
+    {
+        // Invert input
+        Vector3 movement = new Vector3(-moveVector.x, 0, -moveVector.y);
+
+        if (movement.magnitude > 0.1f)
+        {
+            // Gerakkan karakter ke arah yang sudah dibalik
+            transform.Translate(movement.normalized * moveSpeed * Time.deltaTime, Space.World);
+
+            // Rotasikan karakter ke arah yang sudah dibalik
+            Quaternion targetRotation = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        animator.SetFloat("Walking", movement.magnitude);
+    }
+
+    public void NormalRotation()
+    {
+        Vector3 movement = new Vector3(moveVector.x, 0, moveVector.y);
+
+        //movement.Normalize();
+        transform.Translate(moveSpeed * movement.normalized * Time.deltaTime, Space.World);
+
+        if (movement.magnitude > 0.1f)
+        {
+            // ROTASI
+            Quaternion targetRotation = Quaternion.LookRotation(movement);
+            playerObj.transform.localRotation = Quaternion.RotateTowards(playerObj.transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        animator.SetFloat("Walking", movement.magnitude);
     }
 }
