@@ -40,6 +40,16 @@ public class ToolBoxExpand : MonoBehaviour
             }
         }
     }
+
+    public void EnterShop()
+    {
+        ShopManager.instance.OnTabClicked(0);
+    }
+
+    public void EnterGacha()
+    {
+        ShopManager.instance.OnTabClicked(1);
+    }
 }
 
 

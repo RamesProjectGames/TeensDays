@@ -7,12 +7,18 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    public static ShopManager instance;
     public Button[] ShopBtns;
     public Sprite[] onClickBtns;
     public Sprite[] onUpBtns2;
     public GameObject[] kontents;
 
     public int selectedIndex;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
