@@ -13,6 +13,12 @@ public class ProfilManager : MonoBehaviour
     public TMP_Text currTextProf;
     public TMP_Text diaTextProf;
 
+    [Header("Buttons In Profile")]
+    public Button[] profileBtns;
+    public Sprite[] onClickBtns;
+    public Sprite[] onUpBtns2;
+    public int selectedIndex;
+
     public Image sdSlider;
 
     public PlayerManager playerManager;
@@ -23,6 +29,14 @@ public class ProfilManager : MonoBehaviour
         expSliderProf.value = playerManager.expSlider.value;
         currTextProf.text = playerManager.money_text.text;
         diaTextProf.text = playerManager.diamond_text.text;
+
+        for (int i = 0; i < profileBtns.Length; i++)
+        {
+            int index = i;
+            profileBtns[i].onClick.AddListener(() => OnTabClicked(index));
+        }
+
+        OnTabClicked(0); // Pilih tab pertama saat mulai
 
         sliderSD();
     }
@@ -42,6 +56,27 @@ public class ProfilManager : MonoBehaviour
         float progressValue = Mathf.Clamp01((float)unlockedLevel / totalLevelSD);
         sdSlider.fillAmount = progressValue;
 
+    }
 
+    public void OnTabClicked(int index)
+    {
+        selectedIndex = index;
+
+        for (int i = 0; i < profileBtns.Length; i++)
+        {
+            Image buttonImage = profileBtns[i].GetComponent<Image>();
+            TextMeshProUGUI buttonText = profileBtns[i].GetComponentInChildren<TextMeshProUGUI>();
+
+            if (i == index)
+            {
+                buttonImage.sprite = onClickBtns[i];
+                //kontents[i].SetActive(true);
+            }
+            else
+            {
+                buttonImage.sprite = onUpBtns2[i];
+                //kontents[i].SetActive(false);
+            }
+        }
     }
 }
