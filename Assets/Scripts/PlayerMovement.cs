@@ -22,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed = 720f;
     public GameObject playerObj;
 
+    public Transform cameraTransform; // drag Main Camera ke sini di Inspector
+    //public float moveSpeed = 5f;
+    //public float rotationSpeed = 10f;
+    private Vector2 moveVector_play;
     public bool invertMovement;
 
     // Start is called before the first frame update
@@ -65,7 +69,33 @@ public class PlayerMovement : MonoBehaviour
 
         if (!invertMovement)
         {
-            NormalRotation();
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            // Hilangkan komponen Y supaya movement tetap di tanah
+            cameraForward.y = 0f;
+            cameraRight.y = 0f;
+
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            // Hitung arah gerak relatif kamera
+            Vector3 moveDirection = cameraForward * moveVector.y + cameraRight * moveVector.x;
+
+            if (moveDirection.magnitude > 0.1f)
+            {
+                // Gerak
+                transform.Translate(moveDirection.normalized * moveSpeed * Time.deltaTime, Space.World);
+
+                // Rotasi ke arah gerak
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
+
+            // Update animasi
+            if (animator != null)
+                animator.SetFloat("Walking", moveDirection.magnitude);
+            //NormalRotation();
         }
         
     }
@@ -126,6 +156,20 @@ public class PlayerMovement : MonoBehaviour
             playerObj.transform.localRotation = Quaternion.RotateTowards(playerObj.transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
+        //Vector3 inputDir = new Vector3(moveVector.x, 0, moveVector.y);
+
+        //if (inputDir.magnitude > 0.1f)
+        //{
+        //    // Hitung arah gerak berdasarkan rotasi karakter
+        //    Vector3 moveDir = transform.forward * moveVector.y + transform.right * moveVector.x;
+
+        //    // Gerakkan karakter
+        //    transform.Translate(moveDir.normalized * moveSpeed * Time.deltaTime, Space.World);
+
+        //    // Rotasi mengikuti arah input (kalau mau auto rotate)
+        //    Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        //}
         animator.SetFloat("Walking", movement.magnitude);
     }
 }
