@@ -26,7 +26,7 @@ public class ToolBoxExpand : MonoBehaviour
             if (isExpanded)
             {
                 btn.gameObject.SetActive(true);
-                Vector3 targetPos = toolboxButton.transform.position + new Vector3((i + 1) * 120, 0, 0);
+                Vector3 targetPos = toolboxButton.transform.position + new Vector3((i + 1) * -120, 0, 0);
                 btn.transform.position = toolboxButton.transform.position;
                 LeanTween.move(btn.gameObject, targetPos, 0.3f).setDelay(0.05f * i);
             }
