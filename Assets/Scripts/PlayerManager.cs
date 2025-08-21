@@ -39,13 +39,15 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         // CekLevelSekolah();
-        money_text.text = GameManager.Instance.currMoney.ToString();
-        diamond_text.text = GameManager.Instance.currDiamond.ToString();
+
     }
 
     private void Update()
     {
-        if(GameManager.Instance.kuisDone && !hasCompleted)
+        money_text.text = GameManager.Instance.currMoney.ToString();
+        diamond_text.text = GameManager.Instance.currDiamond.ToString();
+
+        if (GameManager.Instance.kuisDone && !hasCompleted)
         {
             ExpManager();
             hasCompleted = true;

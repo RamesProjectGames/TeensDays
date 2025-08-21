@@ -27,8 +27,6 @@ public class ProfilManager : MonoBehaviour
     {
         menuImage = profImage;
         expSliderProf.value = playerManager.expSlider.value;
-        currTextProf.text = playerManager.money_text.text;
-        diaTextProf.text = playerManager.diamond_text.text;
 
         for (int i = 0; i < profileBtns.Length; i++)
         {
@@ -44,7 +42,8 @@ public class ProfilManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        currTextProf.text = playerManager.money_text.text;
+        diaTextProf.text = playerManager.diamond_text.text;
     }
 
     void sliderSD()

@@ -19,6 +19,7 @@ public class QuizManager : MonoBehaviour
 
     public TMP_Text soalTMP;
     public TMP_Text feedbackTMP;
+    public TMP_Text healthTMP;
     public Button[] jawabanButtons; // urutan A, B, C, D
     public Button nextButton;
     public Button BackToLevel;
@@ -30,12 +31,16 @@ public class QuizManager : MonoBehaviour
 
     public int totalBenar = 0;
     public int totalSalah = 0;
+    public int maxHealth;
+    public int currHealth;
 
     void Start()
     {
         LoadCSV();
         ShuffleSoal();
         TampilkanSoal(indexSoal);
+        currHealth = maxHealth;
+        UpdateHealthUI();
         feedbackTMP.text = "";
         totalBenar = 0;
         totalSalah = 0;
@@ -77,25 +82,28 @@ public class QuizManager : MonoBehaviour
 
     public void NextButton()
     {
+        indexSoal++;
 
-            indexSoal++;
-            if (indexSoal < semuaSoal.Count)
+        if (indexSoal < semuaSoal.Count)
+        {
+            TampilkanSoal(indexSoal);
+            nextButton.gameObject.SetActive(false);
+
+        }
+        else
+        {
+            soalTMP.text = "Soal selesai!";
+            feedbackTMP.text = "";
+
+            foreach (var btn in jawabanButtons)
             {
-                TampilkanSoal(indexSoal);
+                btn.gameObject.SetActive(false);
             }
-            else
-            {
-                soalTMP.text = "Soal selesai!";
-                feedbackTMP.text = "";
 
-                foreach (var btn in jawabanButtons)
-                {
-                    btn.gameObject.SetActive(false);
-                }
-
-                nextButton.gameObject.SetActive(false);
-                TotalScore();
-            };
+            nextButton.gameObject.SetActive(false);
+            TotalScore();
+        }
+        ;
     }
 
     public void TampilkanSoal(int index)
@@ -123,6 +131,7 @@ public class QuizManager : MonoBehaviour
         answered = true;
         char pilihan = (char)('A' + index);
         SoalData current = semuaSoal[indexSoal];
+        nextButton.gameObject.SetActive(true);
 
         if (pilihan == current.kunci)
         {
@@ -141,6 +150,8 @@ public class QuizManager : MonoBehaviour
             //Kasih Tau Jawaban Benar
             int indexBenar = current.kunci - 'A';
             jawabanButtons[indexBenar].GetComponent<Image>().color = Color.green;
+
+            KurangiHealth();
         }
 
         // Nonaktifkan tombol agar tidak bisa ditekan lagi
@@ -161,9 +172,9 @@ public class QuizManager : MonoBehaviour
             semuaSoal[rand] = temp;
         }
 
-        if (semuaSoal.Count > 5)
+        if (semuaSoal.Count > 1)
         {
-            semuaSoal = semuaSoal.GetRange(0, 5); 
+            semuaSoal = semuaSoal.GetRange(0, 20); 
         }
 
     }
@@ -211,5 +222,28 @@ public class QuizManager : MonoBehaviour
     public void BackToLevelScene(int levelId)
     {
         SceneManager.LoadScene(levelId);
+    }
+
+    void KurangiHealth()
+    {
+        currHealth--;
+
+        if (currHealth <= 0)
+        {
+            //GameOver();
+        }
+        else
+        {
+            UpdateHealthUI();
+        }
+    }
+
+    void UpdateHealthUI()
+    {
+        // misal kalau pakai TextMeshPro
+        healthTMP.text = $"HP: {currHealth}/{maxHealth}";
+
+        //// atau kalau pakai slider/bar
+        //healthSlider.value = (float)currentHealth / maxHealth;
     }
 }
