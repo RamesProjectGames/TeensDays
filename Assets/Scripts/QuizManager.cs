@@ -1,10 +1,12 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Cinemachine.DocumentationSortingAttribute;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 [System.Serializable]
 public class SoalData
@@ -36,6 +38,7 @@ public class QuizManager : MonoBehaviour
 
     void Start()
     {
+        
         LoadCSV();
         ShuffleSoal();
         TampilkanSoal(indexSoal);
@@ -174,25 +177,44 @@ public class QuizManager : MonoBehaviour
 
         if (semuaSoal.Count > 1)
         {
-            semuaSoal = semuaSoal.GetRange(0, 20); 
+            semuaSoal = semuaSoal.GetRange(0, 2); 
         }
 
     }
 
     void TotalScore()
     {
+        int levelIndex = SceneManager.GetActiveScene().buildIndex;
+
         float skor = ((float)totalBenar / semuaSoal.Count) * 100f;
         soalTMP.text = $"Soal selesai!\nSkor akhir: <color=green>{skor:F0}%</color>\nBenar: {totalBenar}, Salah: {totalSalah}";
 
         if (skor >= 75)
         {
             feedbackTMP.text = "<color=green>Lulus!</color>";
-            UnlockNewLevel();
-            GameManager.Instance.expLevel += 100;
             GameManager.Instance.kuisDone = true;
-            GameManager.Instance.currMoney += 5000;
             BackToLevel.gameObject.SetActive(true);
-        }
+
+            if (!GameManager.Instance.checkLevelCompleted[levelIndex])
+            {
+                // Pertama kali lulus → hadiah besar
+                GameManager.Instance.currMoney += 15000;
+                GameManager.Instance.checkLevelCompleted[levelIndex] = true;
+                GameManager.Instance.expLevel += 100;
+                UnlockNewLevel();
+            }
+            else
+            {
+                // Sudah pernah lulus → hadiah kecil
+                GameManager.Instance.currMoney += 500;
+            }
+
+            int money = PlayerPrefs.GetInt("Money", 0);
+            money = GameManager.Instance.currMoney;
+            PlayerPrefs.SetInt("Money", money);
+
+            PlayerPrefs.Save();
+        } 
         else
         {
             feedbackTMP.text = "<color=red>Tidak lulus</color>";

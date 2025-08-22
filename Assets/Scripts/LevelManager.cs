@@ -41,6 +41,7 @@ public class LevelManager : MonoBehaviour
     public void OpenLevel(int levelId)
     {
         SceneManager.LoadScene(levelId);
+        //GameManager.Instance.checkLevelCompleted[levelId] = true;
     }
 
     public void ResetLevel()

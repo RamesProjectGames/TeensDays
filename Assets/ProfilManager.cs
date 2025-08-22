@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ProfilManager : MonoBehaviour
 {
-
+    //public GameObject panelDaily;
     public Image profImage;
     public Image menuImage;
     public Slider expSliderProf;
@@ -25,6 +25,7 @@ public class ProfilManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //panelDaily.SetActive(true);
         menuImage = profImage;
         expSliderProf.value = playerManager.expSlider.value;
 
