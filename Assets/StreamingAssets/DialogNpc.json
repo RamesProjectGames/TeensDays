@@ -1,0 +1,20 @@
+{
+   "npcs": [
+    {
+      "id": "npc_1",
+      "name": "Ibu",
+      "dialog": [
+        "Bobon, Sudah jam berapa ini?",
+        "These lands are dangerous, be careful."
+      ]
+    },
+    {
+      "id": "npc_2",
+      "name": "Merchant",
+      "dialog": [
+        "Hello! Want to buy something?",
+        "I have the best prices in town."
+      ]
+    }
+  ]
+}

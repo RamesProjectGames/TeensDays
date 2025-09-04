@@ -1,0 +1,30 @@
+[
+    {
+    "name": "Awan",
+    "description": "Deskripsi awan",
+    "price": 150,
+    "priceMoney": 5000,
+    "isDiamondPayment": false
+  },
+  {
+    "name": "Otak Buku",
+    "description": "Deskripsi otak dan buku",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": true
+  },
+  {
+    "name": "Puzzle",
+    "description": "Deskripsi puzzle",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false
+  },
+  {
+    "name": "Naga",
+    "description": "Deskripsi naga lucu",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": true
+  }
+]

@@ -36,7 +36,7 @@ public class MailBoxManager : MonoBehaviour
     void Awake()
     {
         if (Instance == null) Instance = this;
-        savePath = Path.Combine(Application.persistentDataPath, "mailbox.json");
+        savePath = Path.Combine(Application.streamingAssetsPath, "mailbox.json");
         Debug.Log(savePath);
         LoadMailbox();
 

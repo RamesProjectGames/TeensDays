@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,12 +7,16 @@ public class QuestSystem : MonoBehaviour
 {
     public List<Quest> quests = new List<Quest>();
     public List<GameObject> questObject = new List<GameObject>();
+    public List<bool> boolQuest = new List<bool>();
+    public List<Outline> outlineQuest = new List<Outline>();
     [SerializeField] private int currentQuestIndex = 0;
+    [SerializeField] private float blinkSpeed = 2f;
 
     private void Update()
     {
         UpdateQuestDisplay();
         CheckAutoCompleteQuests();
+        UpdateQuestOutlines();
     }
 
     public void UpdateQuestDisplay()
@@ -82,6 +86,32 @@ public class QuestSystem : MonoBehaviour
         for (int i = 0; i < questObject.Count; i++)
         {
             questObject[i].SetActive(i == index);
+        }
+    }
+
+    private void UpdateQuestOutlines()
+    {
+        for (int i = 0; i < outlineQuest.Count; i++)
+        {
+            if (outlineQuest[i] == null) continue;
+
+            // Boolean aktif + quest index cocok dengan quest aktif
+            if (i == currentQuestIndex && questObject[i])
+            {
+                outlineQuest[i].enabled = true; // tetap nyala
+
+                // PingPong nilai alpha antara 0 → 1
+                float alpha = Mathf.PingPong(Time.time * blinkSpeed, 1f);
+
+                // ambil warna lama, lalu ubah alpha
+                Color c = outlineQuest[i].OutlineColor;
+                c.a = alpha;
+                outlineQuest[i].OutlineColor = c;
+            }
+            else
+            {
+                outlineQuest[i].enabled = false;
+            }
         }
     }
 }
