@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -42,6 +42,41 @@ public class PlayerInteraction : MonoBehaviour
             {
                 chatPanel.SetActive(true);
                 chatText.text = $"{npcData.name}: {npcData.dialog[0]}";
+
+                // kalau NPC ini punya quest
+                if (npcData.givesQuest)
+                {
+                    if (npcData.isSubQuest)
+                    {
+                        // Subquest
+                        QuestSystem.instance.AddNewQuest(
+                            QuestSystem.instance.quests[npcData.parentIndex].subQuests[npcData.questIndex],
+                            false,   // isMainQuest
+                            true,    // isSubQuest
+                            false    // isSideQuest
+                        );
+                    }
+                    else if (npcData.isSideQuest)
+                    {
+                        // Side quest
+                        QuestSystem.instance.AddNewQuest(
+                            QuestSystem.instance.sideQuests[npcData.questIndex],
+                            false,   // isMainQuest
+                            false,   // isSubQuest
+                            true     // isSideQuest
+                        );
+                    }
+                    else if (npcData.isMainQuest)
+                    {
+                        // Main quest
+                        QuestSystem.instance.AddNewQuest(
+                            QuestSystem.instance.quests[npcData.questIndex],
+                            true,    // isMainQuest
+                            false,   // isSubQuest
+                            false    // isSideQuest
+                        );
+                    }
+                }
             }
             else
             {
@@ -50,12 +85,60 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    public void QuestDone()
+    public void OnQuestButtonClicked()
     {
-        questSystem.MarkQuestDone(0, 0);
+        if (currentNPC == null) return;
+
+        var npcData = DialogManager.Instance.GetDialogByID(currentNPC.npcId);
+        if (npcData == null) return;
+
+        if (npcData.givesQuest)
+        {
+            Debug.Log($"▶ NPC {npcData.name}, parentIndex={npcData.parentIndex}, questIndex={npcData.questIndex}");
+
+            if (npcData.isSubQuest)
+            {
+                // ✅ Kalau ini SubQuest → langsung selesai
+                QuestSystem.instance.MarkQuestDone(npcData.parentIndex, npcData.questIndex, true, false);
+                Debug.Log($"✅ Subquest {npcData.questIndex} dari Quest {npcData.parentIndex} selesai!");
+            }
+            else if (npcData.isMainQuest)
+            {
+                var quest = QuestSystem.instance.quests[npcData.questIndex];
+
+                if (quest.subQuests.Count > 0)
+                {
+                    // ✅ MainQuest punya SubQuest → otomatis mark salah satu subquest
+                    int subIndex = quest.subQuests.FindIndex(sq => !sq.isDone);
+                    if (subIndex >= 0)
+                    {
+                        QuestSystem.instance.MarkQuestDone(npcData.questIndex, subIndex, true, false);
+                        Debug.Log($"📌 Main Quest {npcData.questIndex}: Subquest {subIndex} selesai!");
+                    }
+                    else
+                    {
+                        Debug.Log($"🎉 Semua Subquest dari MainQuest {npcData.questIndex} sudah selesai → MainQuest auto selesai!");
+                    }
+                }
+                else
+                {
+                    // ✅ Kalau tidak punya subquest → langsung selesai
+                    QuestSystem.instance.MarkQuestDone(-1, npcData.questIndex, false, false);
+                    Debug.Log($"✅ Main Quest {npcData.questIndex} selesai (tanpa subquest).");
+                }
+            }
+            else if (npcData.isSideQuest)
+            {
+                QuestSystem.instance.MarkQuestDone(-1, npcData.questIndex, false, true);
+                Debug.Log($"✅ Side Quest {npcData.questIndex} selesai!");
+            }
+        }
+        else
+        {
+            Debug.Log($"💬 NPC {npcData.name} hanya ngobrol, tidak ada quest.");
+        }
+
         chatPanel.SetActive(false);
         floatingButton.SetActive(false);
-        //int valQuest = QuestData.x;
-        //int valSubQuest = QuestData.y;
     }
 }

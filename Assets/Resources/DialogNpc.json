@@ -5,15 +5,13 @@
       "name": "Ibu",
       "dialog": [
         "Bobon, Sudah jam berapa ini? sana pergi ke sekolah!"
-      ]
-    },
-    {
-      "id": "npc_2",
-      "name": "Merchant",
-      "dialog": [
-        "Hello! Want to buy something?",
-        "I have the best prices in town."
-      ]
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": false,
+      "isSideQuest": true,
+      "parentIndex": 0,
+      "questIndex": 0
     }
   ]
 }

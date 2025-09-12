@@ -13,6 +13,9 @@ public class Quest
 
     public List<Quest> subQuests = new List<Quest>(); // Tambahkan ini
 
+    public GameObject questUIObject;   // referensi prefab UI
+    public Outline questOutline;       // referensi Outline UI
+
     public bool IsFullyCompleted()
     {
         // Quest utama selesai jika dirinya dan semua subquest selesai

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestUIManager : MonoBehaviour
 {
@@ -11,26 +12,31 @@ public class QuestUIManager : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject questItemPrefab;
+    public GameObject subQuestItemPrefab;
 
     [Header("References")]
-    public GameObject objectivesPanel;
+    public GameObject panelQuests;     // Panel semua quest
+    public Image arrowIcon;            // Icon panah
+    public Sprite arrowDown;           // Sprite panah ke bawah
+    public Sprite arrowUp;             // Sprite panah ke atas
 
-    // Tambahkan quest ke panel sesuai kategori
-    public void AddQuest(string questName, bool isMainQuest)
+    private bool isOpen = true;
+
+    private void Start()
     {
-        GameObject newItem = Instantiate(questItemPrefab);
 
-        newItem.GetComponentInChildren<TMP_Text>().text = questName;
-
-        if (isMainQuest)
-            newItem.transform.SetParent(panelMainQuestList, false);
-        else
-            newItem.transform.SetParent(panelSubQuestList, false);
     }
+
 
     // Collapse/expand Objectives
     public void ToggleObjectives()
     {
-        objectivesPanel.SetActive(!objectivesPanel.activeSelf);
+        isOpen = !isOpen;
+
+        // Aktifkan / nonaktifkan panel quest
+        panelQuests.SetActive(isOpen);
+
+        // Ubah sprite panah
+        arrowIcon.sprite = isOpen ? arrowDown : arrowUp;
     }
 }
