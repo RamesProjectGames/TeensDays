@@ -16,6 +16,7 @@ public class NPCDialogData
     public bool isSideQuest;           // True jika side quest
     public int parentIndex;            // Index quest utama (hanya untuk subquest)
     public int questIndex;             // Index quest / subquest / sidequest
+    public int subQuestIndex;
 }
 
 [System.Serializable]

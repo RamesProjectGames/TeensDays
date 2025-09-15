@@ -10,6 +10,7 @@ public class QuestSystem : MonoBehaviour
     public List<Quest> quests = new List<Quest>();
     public List<Quest> sideQuests = new List<Quest>(); // Side quest list
     [SerializeField] private int currentQuestIndex = 0;
+    [SerializeField] private int currentSideQuestIndex = 0;
     [SerializeField] private float blinkSpeed = 2f;
 
     public QuestUIManager questUIManager;
@@ -52,7 +53,7 @@ public class QuestSystem : MonoBehaviour
         }
     }
 
-    private void UpdateSingleQuestDisplay(Quest quest)
+    public void UpdateSingleQuestDisplay(Quest quest)
     {
         if (quest.questText == null) return;
         quest.questText.text = quest.isDone ? $"<s>{quest.text}</s>" : quest.text;
@@ -67,72 +68,30 @@ public class QuestSystem : MonoBehaviour
 
     public void MarkQuestDone(int parentIndex, int questIndex, bool isSubQuest, bool isSideQuest = false)
     {
-        if (isSideQuest)
-        {
-            // ✅ Side Quest langsung selesai
-            if (questIndex >= 0 && questIndex < sideQuests.Count)
-            {
-                var sideQuest = sideQuests[questIndex];
-                sideQuest.isDone = true;
-                UpdateSingleQuestDisplay(sideQuest);
-
-                CheckAutoCompleteQuests();
-
-                Debug.Log($"✅ Side Quest {questIndex} selesai!");
-            }
-            return;
-        }
+        List<Quest> questList = isSideQuest ? sideQuests : quests;
 
         if (isSubQuest)
         {
-            // ✅ Subquest selesai
-            if (parentIndex >= 0 && parentIndex < quests.Count)
+            if (parentIndex >= 0 && parentIndex < questList.Count)
             {
-                var parentQuest = quests[parentIndex];
+                Quest subQuest = questList[parentIndex].subQuests[questIndex];
+                subQuest.isDone = true;
+                UpdateSingleQuestDisplay(subQuest);
 
-                if (questIndex >= 0 && questIndex < parentQuest.subQuests.Count)
+                bool allDone = questList[parentIndex].subQuests.All(sq => sq.isDone);
+                if (allDone)
                 {
-                    var subQuest = parentQuest.subQuests[questIndex];
-                    subQuest.isDone = true;
-                    UpdateSingleQuestDisplay(subQuest);
-
-                    Debug.Log($"✅ SubQuest {questIndex} dari MainQuest {parentIndex} selesai!");
-
-                    // ✅ cek apakah semua subquest selesai
-                    if (parentQuest.subQuests.All(sq => sq.isDone))
-                    {
-                        parentQuest.isDone = true;
-                        UpdateSingleQuestDisplay(parentQuest);
-
-                        Debug.Log($"🎉 MainQuest {parentIndex} selesai karena semua SubQuest sudah beres!");
-
-                        CheckAutoCompleteQuests();
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning($"⚠ SubQuest index {questIndex} tidak valid di MainQuest {parentIndex}");
+                    questList[parentIndex].isDone = true;
+                    UpdateSingleQuestDisplay(questList[parentIndex]);
                 }
             }
         }
         else
         {
-            // ✅ Main quest (tanpa subquest) → langsung selesai
-            if (questIndex >= 0 && questIndex < quests.Count)
+            if (questIndex >= 0 && questIndex < questList.Count)
             {
-                var mainQuest = quests[questIndex];
-
-                if (mainQuest.subQuests.Count == 0)
-                {
-                    mainQuest.isDone = true;
-                    UpdateSingleQuestDisplay(mainQuest);
-
-                    Debug.Log($"✅ MainQuest {questIndex} selesai (tanpa subquest).");
-                }
-                else
-                {
-                    Debug.Log($"📌 MainQuest {questIndex} punya subquest, selesaikan dulu subquest-nya.");
-                }
+                questList[questIndex].isDone = true;
+                UpdateSingleQuestDisplay(questList[questIndex]);
             }
         }
     }
@@ -161,6 +120,23 @@ public class QuestSystem : MonoBehaviour
         {
             Debug.Log($"[CheckAutoComplete] currentQuestIndex {currentQuestIndex} out of range (total={quests.Count})");
         }
+
+        if(currentSideQuestIndex < sideQuests.Count)
+        {
+            var quest = sideQuests[currentSideQuestIndex];
+
+            // Hanya cek side quest yang belum selesai
+            if (quest.isDone && quest.subQuests.All(sq => sq.isDone))
+            {
+                Debug.Log($"✅ Semua subquest side quest '{quest.text}' selesai!");
+                quest.isDone = true;
+                currentSideQuestIndex++;
+                ActivateQuestObject(currentSideQuestIndex);
+            }
+
+        }
+
+        
     }
 
     public void ActivateQuestObject(int index)
@@ -169,6 +145,12 @@ public class QuestSystem : MonoBehaviour
         {
             if (quests[i].questUIObject != null)
                 quests[i].questUIObject.SetActive(i == index);
+        }
+
+        for (int i = 0; i < sideQuests.Count; i++)
+        {
+            if (sideQuests[i].questUIObject != null)
+                sideQuests[i].questUIObject.SetActive(i == index);
         }
     }
 

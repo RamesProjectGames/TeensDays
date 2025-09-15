@@ -7,9 +7,9 @@
         "Bobon, Sudah jam berapa ini? sana pergi ke sekolah!"
       ],
       "givesQuest": true,
-      "isMainQuest": false,
+      "isMainQuest": true,
       "isSubQuest": false,
-      "isSideQuest": true,
+      "isSideQuest": false,
       "parentIndex": 0,
       "questIndex": 0
     }

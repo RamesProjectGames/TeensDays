@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -129,8 +130,29 @@ public class PlayerInteraction : MonoBehaviour
             }
             else if (npcData.isSideQuest)
             {
-                QuestSystem.instance.MarkQuestDone(-1, npcData.questIndex, false, true);
-                Debug.Log($"✅ Side Quest {npcData.questIndex} selesai!");
+                var sideQuest = QuestSystem.instance.sideQuests[npcData.questIndex];
+
+                // Cek apakah side quest punya subquest
+                if (sideQuest.subQuests != null && sideQuest.subQuests.Count > 0)
+                {
+                    // ✅ Mark subquest tertentu done
+                    QuestSystem.instance.MarkQuestDone(npcData.questIndex, npcData.subQuestIndex, true, true);
+
+                    // ✅ Cek apakah semua subquest sudah selesai
+                    bool allDone = sideQuest.subQuests.All(sq => sq.isDone);
+                    if (allDone && !sideQuest.isDone)
+                    {
+                        sideQuest.isDone = true;
+                        QuestSystem.instance.UpdateSingleQuestDisplay(sideQuest);
+                        Debug.Log($"✅ Semua subquest selesai → Side Quest {npcData.questIndex} selesai!");
+                    }
+                }
+                else
+                {
+                    // Tidak punya subquest → langsung done
+                    QuestSystem.instance.MarkQuestDone(-1, npcData.questIndex, false, true);
+                    Debug.Log($"✅ Side Quest {npcData.questIndex} selesai!");
+                }
             }
         }
         else
