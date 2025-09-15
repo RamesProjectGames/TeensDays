@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 49e61ad2c4b4a28468b199ed2a6f29f7
+guid: d5742c9be9b4e9b44ac9985340aef4c1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PavingBlock
+    second: {fileID: 2100000, guid: a9665c380ea7b9a468b9353cff011067, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Window
+    second: {fileID: 2100000, guid: 33d248843d2260145a59e942fb14d4e6, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
