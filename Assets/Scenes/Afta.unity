@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 1.17
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 6bfab16f387f95e4bb60f866299be241, type: 2}
@@ -55739,6 +55739,7 @@ MonoBehaviour:
     questUIObject: {fileID: 0}
     questOutline: {fileID: 0}
   currentQuestIndex: 0
+  currentSideQuestIndex: 0
   blinkSpeed: 1
   questUIManager: {fileID: 1676451814}
 --- !u!4 &1193089283
@@ -61992,6 +61993,74 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1369807444
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.99999595
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -77.512
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dedc7159ad31ce846b14e04e72c4589a,
+        type: 3}
+      propertyPath: m_Name
+      value: Bobon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dedc7159ad31ce846b14e04e72c4589a, type: 3}
 --- !u!1 &1376582360
 GameObject:
   m_ObjectHideFlags: 0
@@ -103540,3 +103609,4 @@ SceneRoots:
   - {fileID: 1404247074}
   - {fileID: 1496062027}
   - {fileID: 2105357762}
+  - {fileID: 1369807444}
