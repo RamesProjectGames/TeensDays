@@ -17,6 +17,7 @@ public class ProfilManager : MonoBehaviour
     public Button[] profileBtns;
     public Sprite[] onClickBtns;
     public Sprite[] onUpBtns2;
+    public GameObject[] kontents;
     public int selectedIndex;
 
     public Image sdSlider;
@@ -70,12 +71,12 @@ public class ProfilManager : MonoBehaviour
             if (i == index)
             {
                 buttonImage.sprite = onClickBtns[i];
-                //kontents[i].SetActive(true);
+                kontents[i].SetActive(true);
             }
             else
             {
                 buttonImage.sprite = onUpBtns2[i];
-                //kontents[i].SetActive(false);
+                kontents[i].SetActive(false);
             }
         }
     }
