@@ -1,0 +1,486 @@
+fileFormatVersion: 2
+guid: 087095e929794994db4ad1c95a19621f
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SD Test
+    second: {fileID: 2100000, guid: d64704b5e50aba0459c5ef926a352f86, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftFoot' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: BONBON
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: UPPLG.L
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: UPPLG.R
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LOWLG.L
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LOWLG.R
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TOR1
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TOR2
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: NK
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: HD
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: SHD.L
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: SHD.R
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: UPPARM.L
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: UPPARM.R
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LOWARM.L
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: LOWARM.R
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: TOR3
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: HND.R
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Animated Bobon 3D(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bodymain
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 0.9037304, z: -3.5527137e-15}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    - name: BONBON
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -0.000018452512, y: 0.58893704, z: -0.0000000325205}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 13.252388, y: 13.252388, z: 13.252388}
+    - name: BOD_PV
+      parentName: BONBON
+      position: {x: -2.910383e-13, y: -0.017038258, z: 0.01537931}
+      rotation: {x: 1, y: 4.6229134e-24, z: -0.00000007549791, w: 6.123234e-17}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: FT.L
+      parentName: BONBON
+      position: {x: -0.0022477922, y: 0.03309496, z: -0.0013547324}
+      rotation: {x: -0.2540479, y: -0.6578875, z: 0.24670814, w: 0.6646644}
+      scale: {x: 1, y: 0.9999999, z: 1.0000327}
+    - name: FT.R
+      parentName: BONBON
+      position: {x: 0.001997382, y: -0.014149697, z: -0.039067853}
+      rotation: {x: 0.6979205, y: 0.1325636, z: 0.69000554, w: 0.13865879}
+      scale: {x: 0.99999976, y: 0.9999996, z: 1.0000327}
+    - name: HD_CTRL
+      parentName: BONBON
+      position: {x: -2.910383e-13, y: -0.0002163529, z: 0.03949281}
+      rotation: {x: 0.000000005522444, y: -0.00000011908132, z: 0.046325613, w: 0.9989264}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: HD_IK
+      parentName: BONBON
+      position: {x: -2.910383e-13, y: -0.01476532, z: 0.113329254}
+      rotation: {x: 0.7071067, y: -0.00000008429369, z: -0.000000084293674, w: 0.7071068}
+      scale: {x: 0.9999998, y: 0.9999997, z: 0.9999997}
+    - name: HD_IK.L
+      parentName: BONBON
+      position: {x: -0.013601174, y: -0.032107487, z: 0.009808926}
+      rotation: {x: 0.079575315, y: 0.7758628, z: 0.6109884, w: -0.13563927}
+      scale: {x: 0.9999997, y: 0.9999998, z: 0.99999976}
+    - name: HD_IK.R
+      parentName: BONBON
+      position: {x: 0.020980105, y: 0.016600974, z: 0.021670436}
+      rotation: {x: -0.069644816, y: -0.25781178, z: 0.96313494, w: 0.032462418}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999999}
+    - name: HD_PV.L
+      parentName: BONBON
+      position: {x: -0.02322801, y: 0.0070689246, z: 0.0037875604}
+      rotation: {x: 3.6261583e-17, y: 0.9382243, z: -3.6261583e-17, w: -0.34602776}
+      scale: {x: 0.99999976, y: 0.9999997, z: 0.99999976}
+    - name: HD_PV.R
+      parentName: BONBON
+      position: {x: 0.02390503, y: 0.036385354, z: 0.043544147}
+      rotation: {x: 7.3757214e-17, y: 0.9727687, z: -7.3757214e-17, w: 0.23177798}
+      scale: {x: 0.9999998, y: 0.9999997, z: 0.9999998}
+    - name: HND.L
+      parentName: BONBON
+      position: {x: -0.013601174, y: -0.032107476, z: 0.009808926}
+      rotation: {x: 0.23573938, y: 0.12818024, z: 0.9621519, w: -0.047546234}
+      scale: {x: 0.99999946, y: 0.9999998, z: 0.9999996}
+    - name: HND.R
+      parentName: BONBON
+      position: {x: 0.020980097, y: 0.01660097, z: 0.021670436}
+      rotation: {x: 0.100060396, y: 0.8578027, z: -0.50106806, w: -0.0556174}
+      scale: {x: 0.9999997, y: 1, z: 0.9999996}
+    - name: HP.L
+      parentName: BONBON
+      position: {x: -0.00071296736, y: 0.0012243288, z: -0.0029363155}
+      rotation: {x: 0.11222334, y: 0.040261738, z: 0.63795936, w: 0.7607843}
+      scale: {x: 0.99999964, y: 0.9999996, z: 0.9999995}
+    - name: UPPLG.L
+      parentName: HP.L
+      position: {x: -2.3283064e-10, y: 0.008671029, z: 1.4901161e-10}
+      rotation: {x: -0.70513856, y: -0.28916946, z: -0.18929042, w: 0.6191364}
+      scale: {x: 1, y: 0.9999999, z: 1.0000002}
+    - name: LOWLG.L
+      parentName: UPPLG.L
+      position: {x: -7.0780515e-10, y: 0.019880826, z: -7.4505804e-11}
+      rotation: {x: -0.124619275, y: -0.000039428283, z: -0.6602011, w: 0.7406785}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.9999996}
+    - name: HP.R
+      parentName: BONBON
+      position: {x: -0.00071296736, y: 0.0012243288, z: -0.0029363155}
+      rotation: {x: 0.111307345, y: -0.07033772, z: -0.76579344, w: 0.629463}
+      scale: {x: 0.9999997, y: 0.99999964, z: 0.9999996}
+    - name: UPPLG.R
+      parentName: HP.R
+      position: {x: 5.122274e-11, y: 0.008671027, z: 3.085006e-10}
+      rotation: {x: -0.7523183, y: -0.2581351, z: -0.21217382, w: 0.56777257}
+      scale: {x: 0.9999998, y: 1.0000001, z: 1}
+    - name: LOWLG.R
+      parentName: UPPLG.R
+      position: {x: -2.2351741e-10, y: 0.019880826, z: -7.45058e-10}
+      rotation: {x: -0.042033426, y: 0.000051917556, z: 0.22268237, w: 0.9739845}
+      scale: {x: 0.9999995, y: 0.99999946, z: 0.9999995}
+    - name: LG_IK.R
+      parentName: BONBON
+      position: {x: 0.0019973812, y: -0.014149702, z: -0.039067857}
+      rotation: {x: -0.17738022, y: 0.66668355, z: -0.16793539, w: 0.70417833}
+      scale: {x: 0.99999976, y: 0.9999998, z: 0.9999998}
+    - name: LG_PV.R
+      parentName: BONBON
+      position: {x: 0.0009150431, y: -0.025633888, z: -0.0121513605}
+      rotation: {x: 0.6733302, y: 4.122958e-17, z: 0.7393419, w: -4.5271638e-17}
+      scale: {x: 0.99999976, y: 0.9999998, z: 0.99999976}
+    - name: MASTER
+      parentName: BONBON
+      position: {x: -0, y: 0, z: -0.044357095}
+      rotation: {x: -0.49999994, y: 0.5000002, z: 0.5000001, w: -0.4999999}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: PELV
+      parentName: BONBON
+      position: {x: -2.910383e-13, y: 0.005047435, z: -0.0025981283}
+      rotation: {x: 0.040211707, y: -0.010383202, z: -0.09227814, w: 0.99486685}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.99999976}
+    - name: SHD_CTRL.L
+      parentName: BONBON
+      position: {x: -0.012531792, y: -0.018412897, z: 0.026967581}
+      rotation: {x: 2.8291956e-17, y: 0.89932454, z: -2.8291956e-17, w: -0.43728185}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: SHD_CTRL.R
+      parentName: BONBON
+      position: {x: 0.013941924, y: -0.0051007075, z: 0.03594261}
+      rotation: {x: 8.184353e-17, y: 0.89932454, z: -8.184353e-17, w: 0.43728185}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: SHLD
+      parentName: BONBON
+      position: {x: -2.910383e-13, y: -0.0078010047, z: 0.033817157}
+      rotation: {x: 0.000000027134615, y: -0.000000116079995, z: 0.07938088, w: 0.99684435}
+      scale: {x: 0.99999976, y: 0.99999976, z: 0.9999998}
+    - name: TOR1
+      parentName: BONBON
+      position: {x: -0.00033446326, y: 0.003408014, z: -0.0006103849}
+      rotation: {x: 0.8030034, y: -0.0786293, z: -0.04940159, w: 0.5886957}
+      scale: {x: 0.9999996, y: 0.9999994, z: 0.99999964}
+    - name: TOR2
+      parentName: TOR1
+      position: {x: 9.3132255e-12, y: 0.012064397, z: 2.2351741e-10}
+      rotation: {x: 0.009033428, y: 0.10978625, z: -0.058694, w: 0.99217963}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: TOR3
+      parentName: TOR2
+      position: {x: -5.5879353e-11, y: 0.010705424, z: -9.080395e-11}
+      rotation: {x: -0.0026244472, y: -0.000000001396989, z: 0.0000000032596408, w: 0.99999654}
+      scale: {x: 0.99999976, y: 1, z: 0.99999976}
+    - name: NK
+      parentName: TOR3
+      position: {x: 3.306195e-10, y: 0.011597765, z: 0.0009957632}
+      rotation: {x: -0.10490308, y: 0.0010820862, z: 0.017960615, w: 0.9943197}
+      scale: {x: 0.9999998, y: 0.99999964, z: 1}
+    - name: HD
+      parentName: NK
+      position: {x: -3.213063e-10, y: 0.0050562276, z: 3.441528e-10}
+      rotation: {x: -0.016547281, y: 0.043905694, z: -0.001505351, w: 0.99889755}
+      scale: {x: 0.9999995, y: 1, z: 0.9999995}
+    - name: SHD.L
+      parentName: TOR3
+      position: {x: -1.11758706e-10, y: 0.011689716, z: -0.0000000015570549}
+      rotation: {x: 0.26942408, y: 0.155924, z: 0.7245492, w: 0.6149202}
+      scale: {x: 0.99999946, y: 0.9999993, z: 0.9999996}
+    - name: UPPARM.L
+      parentName: SHD.L
+      position: {x: -0.000000003054738, y: 0.014225549, z: 0.0000000011920929}
+      rotation: {x: 0.0237919, y: 0.23097394, z: 0.42156276, w: 0.8765671}
+      scale: {x: 0.9999999, y: 1.0000002, z: 1.0000001}
+    - name: LOWARM.L
+      parentName: UPPARM.L
+      position: {x: -5.9604643e-10, y: 0.016340025, z: 7.0780515e-10}
+      rotation: {x: 0.6256767, y: -0.0015569078, z: -0.104792796, w: 0.7730102}
+      scale: {x: 0.9999999, y: 1.0000001, z: 0.9999996}
+    - name: SHD.R
+      parentName: TOR3
+      position: {x: -1.11758706e-10, y: 0.011689716, z: -0.0000000015570549}
+      rotation: {x: 0.039574172, y: 0.11341389, z: -0.7495297, w: 0.6509811}
+      scale: {x: 1, y: 0.9999999, z: 0.9999994}
+    - name: UPPARM.R
+      parentName: SHD.R
+      position: {x: -0.0000000055134297, y: 0.014225552, z: 1.4901161e-10}
+      rotation: {x: -0.39916745, y: 0.4955567, z: -0.36584973, w: 0.67914873}
+      scale: {x: 0.9999997, y: 0.99999976, z: 0.9999999}
+    - name: LOWARM.R
+      parentName: UPPARM.R
+      position: {x: -0.0000000023841857, y: 0.01634002, z: 0.00000000243861}
+      rotation: {x: 0.6657439, y: 0.0014859887, z: 0.11150398, w: 0.7378006}
+      scale: {x: 1.0000005, y: 0.9999998, z: 1.0000002}
+    - name: cap
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.5615116, z: -3.5527137e-15}
+      rotation: {x: -0.8433914, y: -3.3983025e-17, z: 3.398302e-17, w: 0.5372997}
+      scale: {x: 54.967678, y: 54.967678, z: 54.967678}
+    - name: eyebrows
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: 0.18504353, y: 1.5988265, z: 0.42169082}
+      rotation: {x: 0.000000018904023, y: -0.00000001862905, z: 0.1282369, w: 0.99174356}
+      scale: {x: 3.3495753, y: 1.2873081, z: 1.2873081}
+    - name: eyes
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: 0.18029016, y: 1.4633791, z: 0.4216908}
+      rotation: {x: -0.7033388, y: 0.07290185, z: -0.07290182, w: 0.7033386}
+      scale: {x: 3.5468373, y: 3.8571086, z: 3.9029217}
+    - name: hair
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.5615116, z: -3.5527137e-15}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 57.562984, y: 56.897617, z: 56.897617}
+    - name: Head
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.5615116, z: -3.5527137e-15}
+      rotation: {x: -0.70710695, y: 0, z: 0, w: 0.7071066}
+      scale: {x: 49.343636, y: 49.343636, z: 49.343636}
+    - name: MainBody
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 0.9313852, z: -3.5527137e-15}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    - name: mouth
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.278085, z: 0.43691647}
+      rotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
+      scale: {x: 12.7206, y: 0.73102045, z: 12.7206}
+    - name: nose
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.3663384, z: 0.4359697}
+      rotation: {x: -0.70710695, y: 0, z: 0, w: 0.7071066}
+      scale: {x: 4.0745597, y: 3.4297342, z: 3.4297342}
+    - name: tie
+      parentName: Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 0.9348925, z: -0.0041634324}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
