@@ -1,0 +1,295 @@
+fileFormatVersion: 2
+guid: 4b0d0ce04477c424d809ab4722e3abee
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftFoot' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: NYOBA Animated Bobon 3D(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -0.000018452512, y: 0.58893704, z: -0.0000000325205}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 13.252388, y: 13.252388, z: 13.252388}
+    - name: TOR1
+      parentName: Armature
+      position: {x: -5.820766e-13, y: 0.0023991715, z: 0.000092072485}
+      rotation: {x: 0.7822294, y: -0.00000007425141, z: -0.00000009324882, w: 0.6229905}
+      scale: {x: 0.99999946, y: 1.0000002, z: 0.9999999}
+    - name: TOR2
+      parentName: TOR1
+      position: {x: -7.115836e-17, y: 0.012064398, z: -4.656613e-10}
+      rotation: {x: -0.15904365, y: 1.0431434e-11, z: 0.000000037927464, w: 0.98727155}
+      scale: {x: 0.99999994, y: 0.9999991, z: 1.000001}
+    - name: TOR3
+      parentName: TOR2
+      position: {x: -9.839351e-17, y: 0.010705424, z: -2.9802322e-10}
+      rotation: {x: 0.043642856, y: 1.3011312e-12, z: -0.000000010400875, w: 0.9990472}
+      scale: {x: 1, y: 1, z: 1.0000004}
+    - name: NK
+      parentName: TOR3
+      position: {x: 3.4000579e-18, y: 0.0116897235, z: 1.11758706e-10}
+      rotation: {x: 0.041830733, y: 1.9485875e-13, z: -0.000000009975107, w: 0.9991247}
+      scale: {x: 1, y: 1, z: 1.0000004}
+    - name: HD
+      parentName: NK
+      position: {x: 2.8900492e-16, y: 0.0050353683, z: 0.000000001527369}
+      rotation: {x: -0.03333446, y: -2.3433804e-11, z: 0.0000000079466185, w: 0.99944425}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999997}
+    - name: SHD.L
+      parentName: TOR3
+      position: {x: -4.5449753e-17, y: 0.011689733, z: -9.313225e-11}
+      rotation: {x: 0.116096206, y: -0.03336141, z: 0.73020154, w: 0.6724689}
+      scale: {x: 0.99999976, y: 0.99999905, z: 0.99999994}
+    - name: UPPARM.L
+      parentName: SHD.L
+      position: {x: -0.0000000047683715, y: 0.014225554, z: 9.685754e-10}
+      rotation: {x: -0.06982438, y: -0.029762171, z: -0.015377146, w: 0.9969967}
+      scale: {x: 1.0000001, y: 0.9999986, z: 0.9999999}
+    - name: LOWARM.L
+      parentName: UPPARM.L
+      position: {x: -0.000000003306195, y: 0.01634002, z: -5.587935e-10}
+      rotation: {x: 0.0026383237, y: -0.0020139595, z: -0.00044191192, w: 0.9999944}
+      scale: {x: 0.9999996, y: 0.99999946, z: 1.0000001}
+    - name: SHD.R
+      parentName: TOR3
+      position: {x: -4.5449753e-17, y: 0.011689733, z: -9.313225e-11}
+      rotation: {x: 0.116096035, y: 0.03336154, z: -0.7302017, w: 0.6724687}
+      scale: {x: 1.0000002, y: 1, z: 1}
+    - name: UPPARM.R
+      parentName: SHD.R
+      position: {x: 0.0000000043585895, y: 0.014225553, z: 3.72529e-10}
+      rotation: {x: -0.069781475, y: 0.02705055, z: 0.015559465, w: 0.99707407}
+      scale: {x: 1, y: 0.9999991, z: 1.0000002}
+    - name: LOWARM.R
+      parentName: UPPARM.R
+      position: {x: -0.0000000030174852, y: 0.016340021, z: 0.0000000011920929}
+      rotation: {x: 0.002638363, y: 0.0020139741, z: 0.00044189673, w: 0.9999944}
+      scale: {x: 0.99999994, y: 0.9999995, z: 0.9999998}
+    - name: HND.L
+      parentName: Armature
+      position: {x: -0.046512954, y: -0.00018587556, z: 0.031889368}
+      rotation: {x: 0.57623214, y: -0.5021963, z: 0.4381819, w: 0.47302434}
+      scale: {x: 1.1809336, y: 1.2706369, z: 1.0058824}
+    - name: HND.R
+      parentName: Armature
+      position: {x: 0.046512928, y: -0.00018587556, z: 0.031889357}
+      rotation: {x: 0.57745343, y: 0.5008783, z: -0.43651038, w: 0.47447568}
+      scale: {x: 1.1809336, y: 1.2706366, z: 1.0058824}
+    - name: HP.L
+      parentName: Armature
+      position: {x: -5.820766e-13, y: 3.570983e-10, z: -0.0020446777}
+      rotation: {x: 0.08396353, y: 0.083963566, z: 0.70210415, w: 0.702104}
+      scale: {x: 0.99999946, y: 0.9999996, z: 0.9999996}
+    - name: UPPLG.L
+      parentName: HP.L
+      position: {x: -5.1368277e-17, y: 0.008671028, z: 4.5202123e-12}
+      rotation: {x: -0.76900154, y: 0.042057488, z: 0.0571869, w: 0.63529325}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1.0000002}
+    - name: LOWLG.L
+      parentName: UPPLG.L
+      position: {x: 3.7252902e-11, y: 0.01988083, z: 9.313226e-10}
+      rotation: {x: -0.024224246, y: -0.000052853895, z: -0.1283339, w: 0.9914351}
+      scale: {x: 1.0000002, y: 0.9999999, z: 0.99999994}
+    - name: FT.L
+      parentName: Armature
+      position: {x: -0.009468236, y: -0.000043022665, z: -0.04173669}
+      rotation: {x: 0.71031517, y: 0.04731655, z: -0.7010628, w: -0.04152658}
+      scale: {x: 0.9999994, y: 0.9999994, z: 0.9999852}
+    - name: TOE.L
+      parentName: FT.L
+      position: {x: 0.000000009322539, y: 0.009567004, z: -1.5366822e-10}
+      rotation: {x: 0.004228089, y: 0.00011732226, z: 0.021110771, w: 0.9997682}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000143}
+    - name: HP.R
+      parentName: Armature
+      position: {x: -5.820766e-13, y: 3.570983e-10, z: -0.0020446777}
+      rotation: {x: 0.08396353, y: -0.083963566, z: -0.70210415, w: 0.702104}
+      scale: {x: 0.99999946, y: 0.9999996, z: 0.9999996}
+    - name: UPPLG.R
+      parentName: HP.R
+      position: {x: 5.1368277e-17, y: 0.008671028, z: 4.5202123e-12}
+      rotation: {x: -0.768904, y: -0.044088982, z: -0.054607656, w: 0.6355005}
+      scale: {x: 0.99999994, y: 0.9999999, z: 1.0000002}
+    - name: LOWLG.R
+      parentName: UPPLG.R
+      position: {x: 6.3329936e-10, y: 0.019880826, z: 0.00000000115484}
+      rotation: {x: -0.024224265, y: 0.00005284907, z: 0.128334, w: 0.9914351}
+      scale: {x: 1.0000001, y: 0.99999976, z: 0.9999998}
+    - name: FT.R
+      parentName: Armature
+      position: {x: 0.009468239, y: -0.00004302265, z: -0.041736685}
+      rotation: {x: 0.71031517, y: -0.04731655, z: 0.7010628, w: -0.04152658}
+      scale: {x: 0.9999994, y: 0.9999993, z: 0.9999852}
+    - name: TOE.R.001
+      parentName: FT.R
+      position: {x: 0.000000004954636, y: 0.009567003, z: -0.0000000029895455}
+      rotation: {x: 0.004228082, y: -0.000117326774, z: -0.021110818, w: 0.9997682}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000145}
+    - name: LG_IK.R
+      parentName: Armature
+      position: {x: 0.009468239, y: -0.00004302267, z: -0.041736692}
+      rotation: {x: 0, y: 0.6875094, z: -0, w: 0.72617555}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: TOE_CTRL.R
+      parentName: LG_IK.R
+      position: {x: 0.0011926019, y: -0.009491171, z: -0.00015147134}
+      rotation: {x: 0.027372992, y: 0.011290663, z: 0.7065768, w: 0.7070166}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Bodymain
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 0.9037304, z: -3.5527137e-15}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    - name: Head
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.5615116, z: -3.5527137e-15}
+      rotation: {x: -0.70710695, y: 0, z: 0, w: 0.7071066}
+      scale: {x: 49.343636, y: 49.343636, z: 49.343636}
+    - name: MainBody
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 0.9313852, z: -3.5527137e-15}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    - name: cap
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.5615116, z: -3.5527137e-15}
+      rotation: {x: -0.8433914, y: -3.3983025e-17, z: 3.398302e-17, w: 0.5372997}
+      scale: {x: 54.967678, y: 54.967678, z: 54.967678}
+    - name: eyebrows
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: 0.18504353, y: 1.5988265, z: 0.42169082}
+      rotation: {x: 0.000000018904023, y: -0.00000001862905, z: 0.1282369, w: 0.99174356}
+      scale: {x: 3.3495753, y: 1.2873081, z: 1.2873081}
+    - name: eyes
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: 0.18029016, y: 1.4633791, z: 0.4216908}
+      rotation: {x: -0.7033388, y: 0.07290185, z: -0.07290182, w: 0.7033386}
+      scale: {x: 3.5468373, y: 3.8571086, z: 3.9029217}
+    - name: hair
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.5615116, z: -3.5527137e-15}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 57.562984, y: 56.897617, z: 56.897617}
+    - name: mouth
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.278085, z: 0.43691647}
+      rotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
+      scale: {x: 12.7206, y: 0.73102045, z: 12.7206}
+    - name: nose
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 1.3663384, z: 0.4359697}
+      rotation: {x: -0.70710695, y: 0, z: 0, w: 0.7071066}
+      scale: {x: 4.0745597, y: 3.4297342, z: 3.4297342}
+    - name: tie
+      parentName: NYOBA Animated Bobon 3D(Clone)
+      position: {x: -5.456968e-12, y: 0.9348925, z: -0.0041634324}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
