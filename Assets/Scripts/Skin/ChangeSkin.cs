@@ -17,6 +17,7 @@ public class ChangeSkin : MonoBehaviour
 
     public Sprite useSprite;
     public Sprite selectedSprite;
+    public GameObject locksprite;
 
     private void Update()
     {

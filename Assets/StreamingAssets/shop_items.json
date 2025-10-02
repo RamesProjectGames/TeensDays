@@ -1,30 +1,38 @@
 [
     {
-    "name": "Awan",
+    "itemId": "skin_001",
+    "name": "Skin Rare SD",
     "description": "Deskripsi awan",
     "price": 150,
     "priceMoney": 5000,
-    "isDiamondPayment": false
+    "isDiamondPayment": false,
+    "rarity": "rare"
   },
   {
+    "itemId": "skin_002",
     "name": "Otak Buku",
     "description": "Deskripsi otak dan buku",
     "price": 200,
     "priceMoney": 5000,
-    "isDiamondPayment": true
+    "isDiamondPayment": true,
+    "rarity": "epic"
   },
   {
+    "itemId": "skin_003",
     "name": "Puzzle",
     "description": "Deskripsi puzzle",
     "price": 200,
     "priceMoney": 5000,
-    "isDiamondPayment": false
+    "isDiamondPayment": false,
+    "rarity": "legend"
   },
   {
+    "itemId": "skin_004",
     "name": "Naga",
     "description": "Deskripsi naga lucu",
     "price": 200,
     "priceMoney": 5000,
-    "isDiamondPayment": true
+    "isDiamondPayment": true,
+    "rarity": "mythic"
   }
 ]

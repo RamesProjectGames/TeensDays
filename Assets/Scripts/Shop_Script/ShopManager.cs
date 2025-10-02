@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour
     public Sprite[] onClickBtns;
     public Sprite[] onUpBtns2;
     public GameObject[] kontents;
+    public bool[] shopChecked;
 
     public int selectedIndex;
 
@@ -52,11 +53,13 @@ public class ShopManager : MonoBehaviour
             {
                 buttonImage.sprite = onClickBtns[i];
                 kontents[i].SetActive(true);
+                shopChecked[i] = true;
             }
             else
             {
                 buttonImage.sprite = onUpBtns2[i];
                 kontents[i].SetActive(false);
+                shopChecked[i] = false;
             }
         }
     }
@@ -77,7 +80,14 @@ public class ShopManager : MonoBehaviour
 
             for (int i = 0; i < itemList.items.Length && i < itemCards.Length; i++)
             {
-                itemCards[i].SetItem(itemList.items[i].name, itemList.items[i].description, itemList.items[i].price, itemList.items[i].priceMoney, itemList.items[i].isDiamondPayment);
+                itemCards[i].SetItem(
+                    itemList.items[i].itemId,
+                    itemList.items[i].name, 
+                    itemList.items[i].description, 
+                    itemList.items[i].price, 
+                    itemList.items[i].priceMoney, 
+                    itemList.items[i].isDiamondPayment,
+                    itemList.items[i].rarity);
             }
         }
         else

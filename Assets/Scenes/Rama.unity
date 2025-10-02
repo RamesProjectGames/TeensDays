@@ -24576,6 +24576,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1866608437}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &574723163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26709,8 +26721,9 @@ GameObject:
   m_Component:
   - component: {fileID: 621417962}
   - component: {fileID: 621417963}
+  - component: {fileID: 621417964}
   m_Layer: 0
-  m_Name: Player Manager
+  m_Name: Profil Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26753,6 +26766,19 @@ MonoBehaviour:
   smpButton: {fileID: 1616913021}
   useSprite: {fileID: 21300000, guid: 99d7fdaf8ebf96149a6a7b159bee314f, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3d838776fa3169047889f8b18c486c83, type: 3}
+  locksprite: {fileID: 1866608437}
+--- !u!114 &621417964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621417961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8bed70e161841544a40ad7e4fb3fe8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &622150594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28760,7 +28786,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662633518}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15035984, y: 0.004797995, z: -0.0007297304, w: 0.98861945}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.000000052154064, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33952,7 +33978,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 752428269}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 621417963}
+        m_TargetAssemblyTypeName: ChangeSkin, Assembly-CSharp
+        m_MethodName: SkinOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &752428269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41877,10 +41915,14 @@ MonoBehaviour:
   itemNameText: {fileID: 366525007}
   itemDescText: {fileID: 182903592}
   priceText: {fileID: 673077460}
+  rarityFrame: {fileID: 922110294}
+  rarityType: 
+  itemId: 
   buyButton: {fileID: 1212687416}
   imageDiamond: {fileID: 21300000, guid: 9fc6cc3a36296ac41b518ee669ada8cd, type: 3}
   imageMoney: {fileID: 21300000, guid: ac386509810ed874f8f95e7570f56a05, type: 3}
   isDiamondPayment: 0
+  isAlreadyPurchased: 0
 --- !u!114 &922110294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48316,10 +48358,14 @@ MonoBehaviour:
   itemNameText: {fileID: 2130305038}
   itemDescText: {fileID: 2092953305}
   priceText: {fileID: 1386970163}
+  rarityFrame: {fileID: 1098958267}
+  rarityType: 
+  itemId: 
   buyButton: {fileID: 1212687416}
   imageDiamond: {fileID: 21300000, guid: 9fc6cc3a36296ac41b518ee669ada8cd, type: 3}
   imageMoney: {fileID: 21300000, guid: ac386509810ed874f8f95e7570f56a05, type: 3}
   isDiamondPayment: 0
+  isAlreadyPurchased: 0
 --- !u!114 &1098958267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51363,6 +51409,7 @@ MonoBehaviour:
   - {fileID: 2031459910}
   - {fileID: 833649072}
   - {fileID: 37309941}
+  shopChecked: 000000000000
   selectedIndex: 0
   itemCards:
   - {fileID: 1098958266}
@@ -53741,7 +53788,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206050539}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -86640,6 +86687,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Animated Bobon
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8f65294f7e3a9ef4aba205d3a7f65631,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2105694637702158544, guid: 8f65294f7e3a9ef4aba205d3a7f65631,
         type: 3}
