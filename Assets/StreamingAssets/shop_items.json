@@ -1,38 +1,74 @@
 [
     {
     "itemId": "skin_001",
-    "name": "Skin Rare SD",
-    "description": "Deskripsi awan",
+    "name": "Skin SD",
+    "description": "Pakaian Seragam Sekolah Dasar Bobon",
     "price": 150,
     "priceMoney": 5000,
     "isDiamondPayment": false,
-    "rarity": "rare"
+    "rarity": "common"
   },
   {
     "itemId": "skin_002",
-    "name": "Otak Buku",
-    "description": "Deskripsi otak dan buku",
+    "name": "Skin SMP",
+    "description": "Bobon sudah lulus SD dan Memakai Seragam SMP",
     "price": 200,
     "priceMoney": 5000,
     "isDiamondPayment": true,
-    "rarity": "epic"
+    "rarity": "rare"
   },
   {
     "itemId": "skin_003",
-    "name": "Puzzle",
-    "description": "Deskripsi puzzle",
+    "name": "Skin Fashion",
+    "description": "Pakaian Pergi Mall ala fashionista",
     "price": 200,
     "priceMoney": 5000,
     "isDiamondPayment": false,
-    "rarity": "legend"
+    "rarity": "epic"
   },
   {
     "itemId": "skin_004",
-    "name": "Naga",
-    "description": "Deskripsi naga lucu",
+    "name": "Skin Naga",
+    "description": "Pakaian Naga lucu merayakan hari raya imlek",
     "price": 200,
     "priceMoney": 5000,
     "isDiamondPayment": true,
-    "rarity": "mythic"
+    "rarity": "legend"
+  },
+  {
+    "itemId": "skin_005",
+    "name": "Skin Kaos",
+    "description": "Pakaian Main Bobon",
+    "price": 150,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "common"
+  },
+  {
+    "itemId": "skin_006",
+    "name": "Skin SMA",
+    "description": "Bobon sudah lulus SMP dan Memakai Seragam SMA",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": true,
+    "rarity": "rare"
+  },
+  {
+    "itemId": "skin_007",
+    "name": "Skin Hypbeast",
+    "description": "Pakaian Pergi Mall ala hypebeast",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "epic"
+  },
+  {
+    "itemId": "skin_008",
+    "name": "Skin Santa",
+    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": true,
+    "rarity": "legend"
   }
 ]

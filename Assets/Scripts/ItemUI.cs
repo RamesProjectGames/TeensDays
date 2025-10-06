@@ -24,6 +24,7 @@ public class ItemUI : MonoBehaviour
     public TextMeshProUGUI itemDescText;
     public TextMeshProUGUI priceText;
     public Image rarityFrame;
+    public Sprite[] imageRarityFrame;
     public string rarityType;
     public string itemId;
     public Button buyButton;
@@ -49,11 +50,12 @@ public class ItemUI : MonoBehaviour
 
         switch (rarity.ToLower())
         {
-            case "rare": rarityFrame.color = Color.blue; break;
-            case "epic": rarityFrame.color = new Color(0.6f, 0f, 1f); break; // ungu
-            case "legend": rarityFrame.color = new Color(1f, 0.5f, 0f); break; // oranye
-            case "mythic": rarityFrame.color = Color.red; break;
-            default: rarityFrame.color = Color.white; break;
+            case "common": rarityFrame.sprite = imageRarityFrame[0]; break;
+            case "rare": rarityFrame.sprite = imageRarityFrame[1]; break;
+            case "epic": rarityFrame.sprite = imageRarityFrame[2]; break;
+            case "legend": rarityFrame.sprite = imageRarityFrame[3]; break;
+            //case "mythic": rarityFrame.sprite = imageRarityFrame[4]; break;
+            default: rarityFrame.sprite = imageRarityFrame[0]; break;
         }
 
         if (isDiamondPayment)
@@ -71,7 +73,6 @@ public class ItemUI : MonoBehaviour
 
         buyButton.onClick.RemoveAllListeners();
 
-        // ✅ simpan dulu ke variable lokal agar tidak tertimpa
         string thisItemId = _itemId;
         buyButton.onClick.AddListener(() => BuyItem(thisItemId)); //Debug.Log(_itemId)
     }
