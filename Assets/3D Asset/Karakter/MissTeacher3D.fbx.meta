@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 8f5db0fbed3ee3e428af590d88c69bab
+guid: f66a857f6f95af049802b67a98c2999b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Bunga
-    second: {fileID: 2100000, guid: f3aecafbd64e73f4688913c84d90d240, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -39,10 +34,7 @@ ModelImporter:
     clipAnimations: []
     isReadable: 0
   meshes:
-    lODScreenPercentages:
-    - 0.25
-    - 0.125
-    - 0.01
+    lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
