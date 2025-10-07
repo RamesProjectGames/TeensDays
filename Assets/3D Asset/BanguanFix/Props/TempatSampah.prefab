@@ -296,7 +296,7 @@ LODGroup:
   m_LocalReferencePoint: {x: -0.000000059604645, y: 0.3408675, z: 0.0013599396}
   m_Size: 1.1362097
   m_FadeMode: 1
-  m_AnimateCrossFading: 0
+  m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
   - screenRelativeHeight: 0.44561514
@@ -331,5 +331,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.46203324, y: 0.754341, z: 1.1598711}
-  m_Center: {x: 0.0007987298, y: 0.32829654, z: 0.0003189226}
+  m_Size: {x: 0.46203324, y: 0.75434107, z: 1.0715605}
+  m_Center: {x: 0.0007987309, y: 0.32829654, z: -0.3668669}
