@@ -3,7 +3,12 @@ guid: f66a857f6f95af049802b67a98c2999b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Miss Teacher Texture
+    second: {fileID: 2100000, guid: 4a46fbddd0d29f948839575a0ac64e13, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
