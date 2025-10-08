@@ -75,13 +75,13 @@ public class SettingManager : MonoBehaviour
         if (isOnInvert)
         {
             switchBG.sprite = invertOnSprite;
-            CinemachineFreeLook.m_YAxis.m_InvertInput = true;
+            CinemachineFreeLook.m_YAxis.m_InvertInput = false;
             CinemachineFreeLook.m_XAxis.m_InvertInput = true;
         }
         else
         {
             switchBG.sprite = invertOffSprite;
-            CinemachineFreeLook.m_YAxis.m_InvertInput = false;
+            CinemachineFreeLook.m_YAxis.m_InvertInput = true;
             CinemachineFreeLook.m_XAxis.m_InvertInput = false;
         }
     }

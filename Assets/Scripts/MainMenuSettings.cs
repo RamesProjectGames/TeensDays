@@ -4,15 +4,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class MainMenuSettings : MonoBehaviour
 {
     public Slider sliderMusic, sliderBGM;
     public TextMeshProUGUI valueText, valueBGM;
     public int maxValue = 100;
+
+    public VideoPlayer videoPlayer;
+    public GameObject loadingPanel;
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(PrepareAndPlay());
+
         sliderMusic.onValueChanged.AddListener(UpdateValueText);
         sliderBGM.onValueChanged.AddListener(UpdateValueText2);
 
@@ -48,5 +54,17 @@ public class MainMenuSettings : MonoBehaviour
     public void OnApplicationQuit()
     {
         Application.Quit();
+    }
+
+    IEnumerator PrepareAndPlay()
+    {
+        loadingPanel.SetActive(true);
+        videoPlayer.Prepare();
+
+        while (!videoPlayer.isPrepared)
+            yield return null;
+
+        loadingPanel.SetActive(false);
+        videoPlayer.Play();
     }
 }
