@@ -28,6 +28,13 @@ public class CutsceneController : MonoBehaviour
 
     private Coroutine cutsceneRoutine;
 
+    [Header("Skip Hold Settings")]
+    public Image skipFillImage;  // drag Image fill ke sini
+    public float holdDuration = 5f;
+
+    private bool isHoldingSkip = false;
+    private float holdTime = 0f;
+
     void Start()
     {
         //panelCutscene.SetActivetrue;
@@ -44,7 +51,31 @@ public class CutsceneController : MonoBehaviour
             t.alpha = 0f;
 
         fadeImage.color = new Color(0, 0, 0, 1);
-        skipButton.onClick.AddListener(() => SkipCutscene());
+
+        // Tambahkan event untuk skip hold
+        skipButton.onClick.RemoveAllListeners(); // pastikan tidak dobel
+        var trigger = skipButton.gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
+
+        // Saat pointer down
+        var downEntry = new UnityEngine.EventSystems.EventTrigger.Entry
+        {
+            eventID = UnityEngine.EventSystems.EventTriggerType.PointerDown
+        };
+        downEntry.callback.AddListener((data) => StartSkipHold());
+        trigger.triggers.Add(downEntry);
+
+        // Saat pointer up
+        var upEntry = new UnityEngine.EventSystems.EventTrigger.Entry
+        {
+            eventID = UnityEngine.EventSystems.EventTriggerType.PointerUp
+        };
+        upEntry.callback.AddListener((data) => CancelSkipHold());
+        trigger.triggers.Add(upEntry);
+
+        skipFillImage.fillAmount = 0f;
+        skipFillImage.gameObject.SetActive(false);
+
+        //skipButton.onClick.AddListener(() => SkipCutscene());
 
         if (tapHintPanel != null)
             tapHintPanel.SetActive(false);
@@ -54,6 +85,19 @@ public class CutsceneController : MonoBehaviour
 
     void Update()
     {
+        if (isHoldingSkip)
+        {
+            holdTime += Time.deltaTime;
+            skipFillImage.fillAmount = holdTime / holdDuration;
+
+            if (holdTime >= holdDuration)
+            {
+                isHoldingSkip = false;
+                skipFillImage.fillAmount = 1f;
+                StartCoroutine(SkipToEnd());
+            }
+        }
+
         // Deteksi AFK hanya saat menunggu tap
         if (isWaitingForTap && !isSkipping)
         {
@@ -193,6 +237,22 @@ public class CutsceneController : MonoBehaviour
         fadeImage.color = c;
     }
 
+    void StartSkipHold()
+    {
+        if (isSkipping) return;
+        isHoldingSkip = true;
+        holdTime = 0f;
+        skipFillImage.gameObject.SetActive(true);
+    }
+
+    void CancelSkipHold()
+    {
+        isHoldingSkip = false;
+        holdTime = 0f;
+        skipFillImage.fillAmount = 0f;
+        skipFillImage.gameObject.SetActive(false);
+    }
+
     public void SkipCutscene()
     {
         if (isSkipping) return;
@@ -209,6 +269,8 @@ public class CutsceneController : MonoBehaviour
 
     IEnumerator SkipToEnd()
     {
+        if (isSkipping) yield break;
+        isSkipping = true;
         // Nonaktifkan semua image agar tidak tersisa di layar
         foreach (var img in pages)
         {
@@ -224,6 +286,11 @@ public class CutsceneController : MonoBehaviour
             tapHintPanel.SetActive(false);
 
         yield return FadeInBlack();
+
+        yield return new WaitForSeconds(0.5f);
+
+        //// Fade keluar lagi (opsional)
+        //yield return FadeOutBlack();
         EndCutscene();
     }
 
