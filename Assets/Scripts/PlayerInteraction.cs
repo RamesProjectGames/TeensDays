@@ -20,16 +20,22 @@ public class PlayerInteraction : MonoBehaviour
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
 
+        Debug.Log(hits.Length);
+
         if (hits.Length > 0)
         {
             currentNPC = hits[0].GetComponent<InteractableNPC>();
             if (currentNPC != null)
                 floatingButton.SetActive(true);
+
+            Debug.Log(" hit collider ibu");
         }
         else
         {
             currentNPC = null;
             floatingButton.SetActive(false);
+
+            Debug.Log("ga hit collider ibu");
         }
     }
 
