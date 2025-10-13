@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float rotationSpeed = 720f;
     public GameObject playerObj;
+    public GameObject objectPlayerSpawn;
 
     public Transform cameraTransform; // drag Main Camera ke sini di Inspector
     //public float moveSpeed = 5f;

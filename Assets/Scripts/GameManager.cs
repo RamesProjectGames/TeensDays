@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
         if (Instance == null)
         {
+            Debug.Log("Masuk dont destroy");
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
@@ -47,6 +48,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+
+
+
     }
 
     public void SaveLevelStatus()
