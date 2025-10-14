@@ -40,8 +40,30 @@ public class LevelManager : MonoBehaviour
 
     public void OpenLevel(int levelId)
     {
+        string prevSceneName = SceneManager.GetActiveScene().name;
+        int prevSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         SceneManager.LoadScene(levelId);
-        //GameManager.Instance.checkLevelCompleted[levelId] = true;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        if (scene.name == "Rama") 
+        {
+            if (PlayerMovement.Instance != null)
+            {
+                PlayerMovement.Instance.objectPlayerSpawn.transform.position = new Vector3(77, -2, 6);
+                Debug.Log("Player dipindahkan ke posisi awal!");
+            }
+            else
+            {
+                Debug.LogWarning("PlayerMovement.Instance tidak ditemukan di scene baru!");
+            }
+        }
     }
 
     public void ResetLevel()

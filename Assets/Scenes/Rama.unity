@@ -1529,6 +1529,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -5538,6 +5543,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -5644,6 +5654,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (32)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -6101,6 +6116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -6180,8 +6200,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7834826585833670724, guid: f1dde63aa1026094192dc463ecbf9500,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7834826585833670724, guid: f1dde63aa1026094192dc463ecbf9500,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: -7834826585833670724, guid: f1dde63aa1026094192dc463ecbf9500,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7489906969844244857, guid: f1dde63aa1026094192dc463ecbf9500,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: -7489906969844244857, guid: f1dde63aa1026094192dc463ecbf9500,
         type: 3}
@@ -6197,6 +6232,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1685099865912109361, guid: f1dde63aa1026094192dc463ecbf9500,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: -1685099865912109361, guid: f1dde63aa1026094192dc463ecbf9500,
         type: 3}
@@ -6307,6 +6347,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8863897743014413346, guid: f1dde63aa1026094192dc463ecbf9500,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8863897743014413346, guid: f1dde63aa1026094192dc463ecbf9500,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 8863897743014413346, guid: f1dde63aa1026094192dc463ecbf9500,
         type: 3}
@@ -8320,7 +8370,7 @@ GameObject:
   - component: {fileID: 87311405}
   m_Layer: 0
   m_Name: TanggaSMA
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9005,6 +9055,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -9563,6 +9618,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -10769,6 +10829,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -13444,6 +13509,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -17941,6 +18016,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -21963,6 +22043,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -22338,6 +22423,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -23919,6 +24009,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -24960,6 +25055,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -25983,6 +26088,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (26)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -27900,13 +28010,33 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f3aecafbd64e73f4688913c84d90d240, type: 2}
     - target: {fileID: -1857309847194865932, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1857309847194865932, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1668085826825611484, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1668085826825611484, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: -1668085826825611484, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1063203228461421988, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1063203228461421988, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
@@ -27925,6 +28055,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -27935,8 +28070,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816873401973916513, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816873401973916513, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816873401973916513, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893722416717529905, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3893722416717529905, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
@@ -27945,8 +28095,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4767400413853537203, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767400413853537203, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326429817487046537, guid: 459d1bd0389a75b4184d52aaf6c34667,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5326429817487046537, guid: 459d1bd0389a75b4184d52aaf6c34667,
         type: 3}
@@ -33543,7 +33703,7 @@ MonoBehaviour:
   kuisDone: 0
   currMoney: 0
   currDiamond: 0
-  checkLevelCompleted: 
+  checkLevelCompleted: 00
   totalLevel: 5
 --- !u!4 &361086592
 Transform:
@@ -35986,6 +36146,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -36568,6 +36738,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -36693,6 +36868,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -38735,6 +38920,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -40094,6 +40284,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -40390,6 +40590,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -43076,6 +43286,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -44687,6 +44902,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -45063,6 +45283,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (34)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -58654,6 +58879,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -58685,6 +58915,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -61263,6 +61503,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (41)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -64611,6 +64856,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -64824,6 +65074,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -66050,6 +66305,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -67042,6 +67302,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -68322,6 +68587,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -75406,6 +75681,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -76245,6 +76525,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -79230,6 +79515,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -82227,6 +82522,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -84433,6 +84733,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -87506,6 +87816,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -88189,7 +88509,7 @@ GameObject:
   - component: {fileID: 991292241}
   m_Layer: 0
   m_Name: BangkuKantin
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89840,6 +90160,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (40)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -93690,6 +94015,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -93835,7 +94165,7 @@ GameObject:
   - component: {fileID: 1042594233}
   m_Layer: 0
   m_Name: BasketColider2
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99485,6 +99815,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -100348,6 +100683,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -100809,6 +101149,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (57)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -102055,6 +102400,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (27)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -103401,6 +103751,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -105577,7 +105932,7 @@ GameObject:
   - component: {fileID: 1179753877}
   m_Layer: 0
   m_Name: Basket
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112579,7 +112934,7 @@ GameObject:
   - component: {fileID: 1272329631}
   m_Layer: 0
   m_Name: BasketColider
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114093,6 +114448,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -116269,6 +116629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (58)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -121051,6 +121416,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -126792,6 +127162,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -130271,6 +130651,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -131694,7 +132084,7 @@ GameObject:
   - component: {fileID: 1478386472}
   m_Layer: 0
   m_Name: KursiPenonton
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134381,6 +134771,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -134697,6 +135092,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -136356,7 +136761,7 @@ GameObject:
   - component: {fileID: 1542183948}
   m_Layer: 0
   m_Name: SMAFloor1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137354,6 +137759,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -143545,6 +143955,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -145024,7 +145439,7 @@ GameObject:
   - component: {fileID: 1632840421}
   m_Layer: 0
   m_Name: BangkuTaman
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148829,6 +149244,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -149518,6 +149938,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (36)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -152074,6 +152499,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -153460,7 +153895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c24ad5a5b6f1c4ab9b55898cca68ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactRange: 10
+  interactRange: 2.5
   npcLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -153514,6 +153949,7 @@ MonoBehaviour:
   isJump: 0
   rotationSpeed: 720
   playerObj: {fileID: 695320779}
+  objectPlayerSpawn: {fileID: 1731563525}
   cameraTransform: {fileID: 415754743}
   invertMovement: 0
 --- !u!114 &1731563530
@@ -154929,6 +155365,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -158020,6 +158461,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -159221,6 +159672,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (38)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -160716,6 +161172,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -161853,6 +162319,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (45)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -166929,6 +167400,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -167255,6 +167731,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -167610,6 +168091,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -167696,6 +168182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c0c7c9928f2954f4888e896994349162,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c0c7c9928f2954f4888e896994349162,
         type: 3}
@@ -168514,6 +169005,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuKantin (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
@@ -171718,6 +172219,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -174633,6 +175139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -176169,6 +176680,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -177247,6 +177763,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -177443,6 +177964,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (39)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -179384,6 +179910,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -180643,6 +181174,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BangkuTaman (28)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
@@ -185098,6 +185634,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
         type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801170552983262363, guid: b4e381d1eae9d5d40b32bb3df2ddad0f,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -185934,6 +186475,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -186444,6 +186995,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057806148409427776, guid: d215fc0ea36df8142961d52f2b0a3a01,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -186823,6 +187384,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 216913512}
     m_Modifications:
+    - target: {fileID: -9032550769158480313, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8708396805832778714, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8c092eb3160a7d74b8cd402156e30d68,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -186873,10 +187444,175 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8231697396893043278, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8050499270715150028, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -6696225151440498651, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -5372517161854395141, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -3143204233415978497, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2511240423080479738, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2222766873886323730, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2169690482372742196, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2054560076165190303, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1626349782603668768, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1599858827994962100, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1200414460371856962, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1124852722899496038, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -460171064885927405, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -435372290357916958, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 635547659545568360, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8c092eb3160a7d74b8cd402156e30d68,
         type: 3}
       propertyPath: m_Name
       value: IbuBobon
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702225051587240328, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780874370365923429, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2060779873998986203, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131160405119227994, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441369332457506674, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3345292009868657443, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4077159432984237250, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246033775202154418, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5134071759825955463, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307330734867035158, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767772677077548533, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829485909940997511, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7663845065331670979, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8129190100758098985, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8697133449083604099, guid: 8c092eb3160a7d74b8cd402156e30d68,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -186915,7 +187651,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091431636}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 01292586d6442354d97c44055c19cb16, type: 2}
   m_CullingMode: 0
