@@ -1,0 +1,295 @@
+fileFormatVersion: 2
+guid: 7ed0c48bee8ce1c4ea42c4c53b4f2cdf
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Baju
+    second: {fileID: 2100000, guid: 6bdca217185b3444aaa4cf56bea9e86a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rambut
+    second: {fileID: 2100000, guid: 12e8780823ab6364aabeef25ac34cb6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin
+    second: {fileID: 2100000, guid: 4ec1ff807800e1748b55237795f369fd, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftFoot' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: NPC Cowo(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: NPC Cowo(Clone)
+      position: {x: -0.000018452512, y: 0.58893704, z: -0.0000000325205}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 13.252388, y: 13.252388, z: 13.252388}
+    - name: TOR1
+      parentName: Armature
+      position: {x: -5.820766e-13, y: 0.0023991715, z: 0.000092072485}
+      rotation: {x: 0.7816998, y: -0.0000000743446, z: -0.00000009318689, w: 0.623655}
+      scale: {x: 0.99999946, y: 0.99999976, z: 0.9999997}
+    - name: TOR2
+      parentName: TOR1
+      position: {x: 3.4867943e-17, y: 0.012064395, z: -7.4505804e-11}
+      rotation: {x: -0.10985603, y: -1.5297406e-13, z: 0.000000026190827, w: 0.9939475}
+      scale: {x: 0.9999999, y: 0.99999964, z: 0.99999964}
+    - name: TOR3
+      parentName: TOR2
+      position: {x: -1.4571677e-18, y: 0.010705422, z: -1.8626451e-11}
+      rotation: {x: -0.04895506, y: -1.3004347e-14, z: 0.000000011671327, w: 0.998801}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999999}
+    - name: NK
+      parentName: TOR3
+      position: {x: 1.7982143e-16, y: 0.011689715, z: 2.9802322e-10}
+      rotation: {x: 0.08546827, y: 1.1653992e-14, z: -0.000000020377026, w: 0.9963409}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: HD
+      parentName: NK
+      position: {x: 3.3466285e-16, y: 0.005035361, z: 0.0000000014156103}
+      rotation: {x: -0.03321694, y: 1.1504601e-13, z: 0.000000007922068, w: 0.9994482}
+      scale: {x: 0.9999998, y: 1, z: 0.9999997}
+    - name: SHD.L
+      parentName: TOR3
+      position: {x: 2.865416e-16, y: 0.011689723, z: 7.45058e-10}
+      rotation: {x: 0.11801277, y: -0.030218158, z: 0.72957534, w: 0.6729634}
+      scale: {x: 0.99999964, y: 0.99999905, z: 0.9999997}
+    - name: UPPARM.L
+      parentName: SHD.L
+      position: {x: -0.000000011026859, y: 0.014225553, z: 1.4901161e-10}
+      rotation: {x: -0.07799785, y: -0.07084918, z: -0.008603725, w: 0.9943957}
+      scale: {x: 1.0000005, y: 0.99999946, z: 0.9999999}
+    - name: LOWARM.L
+      parentName: UPPARM.L
+      position: {x: 0.0000000036228447, y: 0.016340015, z: -5.2154064e-10}
+      rotation: {x: 0.0026385998, y: -0.0020139953, z: -0.00044190997, w: 0.9999944}
+      scale: {x: 0.9999998, y: 0.9999996, z: 1.0000001}
+    - name: SHD.R
+      parentName: TOR3
+      position: {x: 2.865416e-16, y: 0.011689723, z: 7.45058e-10}
+      rotation: {x: 0.118012585, y: 0.030218322, z: -0.7295754, w: 0.6729633}
+      scale: {x: 1.0000001, y: 1, z: 0.9999997}
+    - name: UPPARM.R
+      parentName: SHD.R
+      position: {x: 0.0000000042654573, y: 0.014225549, z: 1.4901161e-10}
+      rotation: {x: -0.07797362, y: 0.06814456, z: 0.00880836, w: 0.9945848}
+      scale: {x: 1.0000002, y: 1.0000001, z: 0.99999976}
+    - name: LOWARM.R
+      parentName: UPPARM.R
+      position: {x: -0.0000000023003668, y: 0.016340015, z: 7.45058e-10}
+      rotation: {x: 0.0026386604, y: 0.0020139718, z: 0.00044191538, w: 0.9999944}
+      scale: {x: 1, y: 0.9999991, z: 1.0000001}
+    - name: HND.L
+      parentName: Armature
+      position: {x: -0.046512954, y: -0.00018587556, z: 0.031889368}
+      rotation: {x: 0.57623214, y: -0.5021963, z: 0.4381819, w: 0.47302434}
+      scale: {x: 1.1809336, y: 1.2706369, z: 1.0058824}
+    - name: HND.R
+      parentName: Armature
+      position: {x: 0.046512928, y: -0.00018587556, z: 0.031889357}
+      rotation: {x: 0.57745343, y: 0.5008783, z: -0.4365104, w: 0.47447565}
+      scale: {x: 1.1809336, y: 1.2706366, z: 1.0058824}
+    - name: HP.L
+      parentName: Armature
+      position: {x: -5.820766e-13, y: 3.570983e-10, z: -0.0020446777}
+      rotation: {x: 0.08396353, y: 0.083963566, z: 0.70210415, w: 0.702104}
+      scale: {x: 0.99999946, y: 0.9999996, z: 0.9999996}
+    - name: UPPLG.L
+      parentName: HP.L
+      position: {x: -5.1368277e-17, y: 0.008671028, z: 4.5202123e-12}
+      rotation: {x: -0.76900154, y: 0.042057488, z: 0.0571869, w: 0.63529325}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1.0000002}
+    - name: LOWLG.L
+      parentName: UPPLG.L
+      position: {x: 3.7252902e-11, y: 0.01988083, z: 9.313226e-10}
+      rotation: {x: -0.024224246, y: -0.000052853895, z: -0.1283339, w: 0.9914351}
+      scale: {x: 1.0000002, y: 0.9999999, z: 0.99999994}
+    - name: FT.L
+      parentName: Armature
+      position: {x: -0.009468236, y: -0.000043022665, z: -0.04173669}
+      rotation: {x: 0.71031517, y: 0.04731655, z: -0.7010628, w: -0.04152658}
+      scale: {x: 0.9999994, y: 0.9999994, z: 0.9999852}
+    - name: TOE.L
+      parentName: FT.L
+      position: {x: 0.000000009322539, y: 0.009567004, z: -1.5366822e-10}
+      rotation: {x: 0.004228089, y: 0.00011732226, z: 0.021110771, w: 0.9997682}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000143}
+    - name: HP.R
+      parentName: Armature
+      position: {x: -5.820766e-13, y: 3.570983e-10, z: -0.0020446777}
+      rotation: {x: 0.08396353, y: -0.083963566, z: -0.70210415, w: 0.702104}
+      scale: {x: 0.99999946, y: 0.9999996, z: 0.9999996}
+    - name: UPPLG.R
+      parentName: HP.R
+      position: {x: 5.1368277e-17, y: 0.008671028, z: 4.5202123e-12}
+      rotation: {x: -0.768904, y: -0.044088982, z: -0.054607656, w: 0.6355005}
+      scale: {x: 0.99999994, y: 0.9999999, z: 1.0000002}
+    - name: LOWLG.R
+      parentName: UPPLG.R
+      position: {x: 6.3329936e-10, y: 0.019880826, z: 0.00000000115484}
+      rotation: {x: -0.024224265, y: 0.00005284907, z: 0.128334, w: 0.9914351}
+      scale: {x: 1.0000001, y: 0.99999976, z: 0.9999998}
+    - name: FT.R
+      parentName: Armature
+      position: {x: 0.009468239, y: -0.00004302265, z: -0.041736685}
+      rotation: {x: 0.71031517, y: -0.0473166, z: 0.7010628, w: -0.04152653}
+      scale: {x: 0.9999994, y: 0.9999993, z: 0.9999852}
+    - name: TOE.R.001
+      parentName: FT.R
+      position: {x: 0.000000004954636, y: 0.009567003, z: -0.0000000029895455}
+      rotation: {x: 0.004228082, y: -0.000117326774, z: -0.021110818, w: 0.9997682}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000145}
+    - name: LG_IK.R
+      parentName: Armature
+      position: {x: 0.009468239, y: -0.00004302267, z: -0.041736692}
+      rotation: {x: 0, y: 0.6875094, z: -0, w: 0.72617555}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: TOE_CTRL.R
+      parentName: LG_IK.R
+      position: {x: 0.0011926019, y: -0.009491171, z: -0.00015147134}
+      rotation: {x: 0.027372992, y: 0.011290663, z: 0.7065768, w: 0.7070166}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Bodymain
+      parentName: NPC Cowo(Clone)
+      position: {x: -5.456968e-12, y: 0.9037304, z: -3.5527137e-15}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    - name: HeadNPC
+      parentName: NPC Cowo(Clone)
+      position: {x: 0.000028192502, y: 1.4498396, z: 0.2910255}
+      rotation: {x: -0.70710695, y: 0, z: 0, w: 0.7071066}
+      scale: {x: 49.343636, y: 49.343636, z: 49.343636}
+    - name: MainBody
+      parentName: NPC Cowo(Clone)
+      position: {x: -5.456968e-12, y: 0.9313852, z: -3.5527137e-15}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    - name: RambutNPC1
+      parentName: NPC Cowo(Clone)
+      position: {x: 0.000033844422, y: 1.6575564, z: 0.06580999}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 50.414932, y: 50.414932, z: 50.414932}
+    - name: RambutNPC2
+      parentName: NPC Cowo(Clone)
+      position: {x: 0.000033855424, y: 1.5910275, z: -0.10086897}
+      rotation: {x: -0.70710695, y: 0, z: 0, w: 0.7071066}
+      scale: {x: 49.343636, y: 49.343636, z: 49.343636}
+    - name: RambutNPC3
+      parentName: NPC Cowo(Clone)
+      position: {x: -0.0012063978, y: 1.703821, z: -0.025749601}
+      rotation: {x: -0.70710695, y: 0, z: 0, w: 0.7071066}
+      scale: {x: 49.343636, y: 49.343636, z: 49.343636}
+    - name: tie
+      parentName: NPC Cowo(Clone)
+      position: {x: -5.456968e-12, y: 0.9348925, z: -0.0041634324}
+      rotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 99.999985, y: 99.999985, z: 99.999985}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
