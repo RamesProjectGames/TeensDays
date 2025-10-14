@@ -1,9 +1,24 @@
 fileFormatVersion: 2
-guid: 02c256e666448a140a77f1babb2591eb
+guid: 7ed0c48bee8ce1c4ea42c4c53b4f2cdf
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Baju
+    second: {fileID: 2100000, guid: 6bdca217185b3444aaa4cf56bea9e86a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rambut
+    second: {fileID: 2100000, guid: 12e8780823ab6364aabeef25ac34cb6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin
+    second: {fileID: 2100000, guid: 4ec1ff807800e1748b55237795f369fd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
