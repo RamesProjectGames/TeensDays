@@ -263,7 +263,7 @@ public class QuizManager : MonoBehaviour
     void UpdateHealthUI()
     {
         // misal kalau pakai TextMeshPro
-        healthTMP.text = $"HP: {currHealth}/{maxHealth}";
+        healthTMP.text = $"{currHealth}/{maxHealth}";
 
         //// atau kalau pakai slider/bar
         //healthSlider.value = (float)currentHealth / maxHealth;
