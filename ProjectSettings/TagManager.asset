@@ -8,6 +8,11 @@ TagManager:
   - DoorSystem2
   - DoorSystem3
   - Ground
+  - Satpam
+  - Murid SD
+  - Murid SMP
+  - Murid SMA
+  - Guru
   layers:
   - Default
   - TransparentFX

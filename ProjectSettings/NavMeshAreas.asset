@@ -11,13 +11,13 @@ NavMeshProjectSettings:
     cost: 1
   - name: Jump
     cost: 2
-  - name: NPC Satpam
+  - name: SD
     cost: 1
-  - name: 
+  - name: SMP
     cost: 1
-  - name: 
+  - name: SMA
     cost: 1
-  - name: 
+  - name: KaryawanSekolah
     cost: 1
   - name: 
     cost: 1
