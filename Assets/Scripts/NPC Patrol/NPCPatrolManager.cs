@@ -25,11 +25,14 @@ public class NPCPatrolManager : MonoBehaviour
             foreach (GameObject npc in foundNPCs)
             {
                 NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+                
                 if (agent == null)
                 {
                     Debug.LogWarning($"NPC {npc.name} tidak memiliki NavMeshAgent, dilewati.");
                     continue;
                 }
+
+                agent.autoBraking = false;
 
                 int mask = GetAreaMaskByTag(tag);
                 npcListPatrol.Add(new NPCDataPatrol(npc, agent, mask));
@@ -51,7 +54,9 @@ public class NPCPatrolManager : MonoBehaviour
                 // Jika NPC sudah sampai di tujuan
                 if (!npcData.agent.pathPending && npcData.agent.remainingDistance <= npcData.agent.stoppingDistance)
                 {
-                    StartCoroutine(WaitAndMove(npcData));
+                    MoveToRandomPoint(npcData.agent, npcData.areaMask, npcData.npc.transform.position);
+
+                    //StartCoroutine(WaitAndMove(npcData));
                 }
             }
 

@@ -11,6 +11,7 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask npcLayer;
     public GameObject floatingButton;
     public GameObject chatPanel;
+    public GameObject questObjectAnnoun;
     public TMP_Text chatText;
 
     private InteractableNPC currentNPC;
@@ -168,5 +169,6 @@ public class PlayerInteraction : MonoBehaviour
 
         chatPanel.SetActive(false);
         floatingButton.SetActive(false);
+        questObjectAnnoun.SetActive(false);
     }
 }
