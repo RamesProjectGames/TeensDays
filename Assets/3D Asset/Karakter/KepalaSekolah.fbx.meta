@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Headmaster Texture
+    second: {fileID: 2100000, guid: c53d125ca9aa1d849b683f19f797459c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: UV GridTest
     second: {fileID: 2100000, guid: 812800f7b8ae6c0498c01a37ef51ecb7, type: 2}
   materials:
