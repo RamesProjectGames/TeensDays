@@ -73814,6 +73814,7 @@ MonoBehaviour:
     m_Bits: 64
   floatingButton: {fileID: 2112962785}
   chatPanel: {fileID: 1115213117}
+  questObjectAnnoun: {fileID: 0}
   chatText: {fileID: 1118810913}
   questSystem: {fileID: 495612686}
 --- !u!54 &1011680802
@@ -147253,6 +147254,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 839634028}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1001 &2023343759
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -495.74368
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0000076293945
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 429.50098
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5000007
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5000008
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.49999925
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.49999928
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ffdde158449e8e4ba1f86255b699784,
+        type: 3}
+      propertyPath: m_Name
+      value: NPCRumah1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2ffdde158449e8e4ba1f86255b699784, type: 3}
 --- !u!1001 &2024044813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -164544,3 +164613,4 @@ SceneRoots:
   - {fileID: 1178887636}
   - {fileID: 6107045278715891277}
   - {fileID: 1298769265}
+  - {fileID: 2023343759}
