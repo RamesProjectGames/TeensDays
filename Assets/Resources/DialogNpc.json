@@ -12,6 +12,19 @@
       "isSideQuest": false,
       "parentIndex": 0,
       "questIndex": 0
+    },
+    {
+      "id": "npc_2",
+      "name": "",
+      "dialog": [
+        "Taruh Bola ini di lapangan basket"
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": false,
+      "isSideQuest": true,
+      "parentIndex": -1,
+      "questIndex": 0
     }
   ]
 }

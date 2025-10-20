@@ -8,12 +8,13 @@ public class UiQuestAnim : MonoBehaviour
     public Transform player;
     public float maxRotasion = 30f;
     public float minRotasion = 0;
+    public float pointOfY;
 
     private float currentAngle = 0f;
     // Start is called before the first frame update
     void Start()
     {
-        LeanTween.moveLocalY(objectUi, 2.4f, 1f).setLoopPingPong();
+        LeanTween.moveLocalY(objectUi, pointOfY, 1f).setLoopPingPong();
     }
 
     // Update is called once per frame

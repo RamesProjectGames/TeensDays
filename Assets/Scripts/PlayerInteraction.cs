@@ -12,6 +12,8 @@ public class PlayerInteraction : MonoBehaviour
     public GameObject floatingButton;
     public GameObject chatPanel;
     public GameObject questObjectAnnoun;
+    public GameObject questObjectSide;
+    public GameObject contohSideQuest;
     public TMP_Text chatText;
 
     private InteractableNPC currentNPC;
@@ -29,14 +31,11 @@ public class PlayerInteraction : MonoBehaviour
             if (currentNPC != null)
                 floatingButton.SetActive(true);
 
-            Debug.Log(" hit collider ibu");
         }
         else
         {
             currentNPC = null;
             floatingButton.SetActive(false);
-
-            Debug.Log("ga hit collider ibu");
         }
     }
 
@@ -118,10 +117,12 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     // ✅ MainQuest punya SubQuest → otomatis mark salah satu subquest
                     int subIndex = quest.subQuests.FindIndex(sq => !sq.isDone);
+                    questObjectAnnoun.SetActive(false);
                     if (subIndex >= 0)
                     {
                         QuestSystem.instance.MarkQuestDone(npcData.questIndex, subIndex, true, false);
                         Debug.Log($"📌 Main Quest {npcData.questIndex}: Subquest {subIndex} selesai!");
+                        questObjectAnnoun.SetActive(false);
                     }
                     else
                     {
@@ -131,6 +132,7 @@ public class PlayerInteraction : MonoBehaviour
                 else
                 {
                     // ✅ Kalau tidak punya subquest → langsung selesai
+                    questObjectAnnoun.SetActive(false);
                     QuestSystem.instance.MarkQuestDone(-1, npcData.questIndex, false, false);
                     Debug.Log($"✅ Main Quest {npcData.questIndex} selesai (tanpa subquest).");
                 }
@@ -153,6 +155,9 @@ public class PlayerInteraction : MonoBehaviour
                         QuestSystem.instance.UpdateSingleQuestDisplay(sideQuest);
                         Debug.Log($"✅ Semua subquest selesai → Side Quest {npcData.questIndex} selesai!");
                     }
+
+                    questObjectSide.SetActive(false);
+                    contohSideQuest.SetActive(false);
                 }
                 else
                 {
@@ -169,6 +174,5 @@ public class PlayerInteraction : MonoBehaviour
 
         chatPanel.SetActive(false);
         floatingButton.SetActive(false);
-        questObjectAnnoun.SetActive(false);
     }
 }
