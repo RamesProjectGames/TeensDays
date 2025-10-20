@@ -15,6 +15,8 @@ public class QuestSystem : MonoBehaviour
 
     public QuestUIManager questUIManager;
 
+    public GameObject gerbangSekolah;
+
     private void Awake()
     {
         instance = this;
@@ -23,7 +25,7 @@ public class QuestSystem : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
 
     private void Update()
@@ -114,6 +116,7 @@ public class QuestSystem : MonoBehaviour
                 quest.isDone = true;
                 currentQuestIndex++;
                 ActivateQuestObject(currentQuestIndex);
+                LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
             }
         }
         else

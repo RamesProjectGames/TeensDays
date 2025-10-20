@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections;
 
 [System.Serializable]
 public class MailMessage
@@ -32,6 +33,11 @@ public class MailBoxManager : MonoBehaviour
     public static MailBoxManager Instance;
     private string savePath;
     public MailboxData mailboxData = new MailboxData();
+
+    private void Start()
+    {
+       
+    }
 
     void Awake()
     {

@@ -12,9 +12,12 @@ public class MailBoxUI : MonoBehaviour
     public TMP_Text detailTitle;
     public TMP_Text detailContent;
 
+    public GameObject notifEmail;
+
     void Start()
     {
         //RefreshList();
+        StartCoroutine(CallMessageEveryMinute());
     }
 
     private void Update()
@@ -59,5 +62,24 @@ public class MailBoxUI : MonoBehaviour
     public void CloseDetail()
     {
         detailPanel.SetActive(false);
+    }
+
+    private IEnumerator CallMessageEveryMinute()
+    {
+        
+        while (true) // Loop tak terbatas
+        {
+            Debug.Log("Mailbox Kirim");
+
+            // Panggil fungsi AddMessage
+            MailBoxManager.Instance.AddMessage("Pesan Baru", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"), "Isi pesan baru ini dikirim pada" + " " + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+
+            notifEmail.SetActive(true);
+
+            RefreshList();
+
+            // Tunggu selama 60 detik (1 menit)
+            yield return new WaitForSeconds(60f);
+        }
     }
 }

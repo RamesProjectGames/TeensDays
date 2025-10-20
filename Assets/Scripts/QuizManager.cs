@@ -17,6 +17,8 @@ public class SoalData
 }
 public class QuizManager : MonoBehaviour
 {
+    public static QuizManager instance;
+
     public TextAsset csvFile;
 
     public TMP_Text soalTMP;
@@ -27,7 +29,7 @@ public class QuizManager : MonoBehaviour
     public Button BackToLevel;
 
     public List<SoalData> semuaSoal = new List<SoalData>();
-    private int indexSoal;
+    public int indexSoal;
     private bool answered = false;
     private bool alreadyUnlocked = false;
 
@@ -35,6 +37,11 @@ public class QuizManager : MonoBehaviour
     public int totalSalah = 0;
     public int maxHealth;
     public int currHealth;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
@@ -106,7 +113,6 @@ public class QuizManager : MonoBehaviour
             nextButton.gameObject.SetActive(false);
             TotalScore();
         }
-        ;
     }
 
     public void TampilkanSoal(int index)
@@ -177,7 +183,7 @@ public class QuizManager : MonoBehaviour
 
         if (semuaSoal.Count > 1)
         {
-            semuaSoal = semuaSoal.GetRange(0, 2); 
+            semuaSoal = semuaSoal.GetRange(0, 10); 
         }
 
     }
@@ -252,7 +258,8 @@ public class QuizManager : MonoBehaviour
 
         if (currHealth <= 0)
         {
-            //GameOver();
+            GameOver();
+            UpdateHealthUI();
         }
         else
         {
@@ -260,12 +267,18 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    void UpdateHealthUI()
+    public void UpdateHealthUI()
     {
         // misal kalau pakai TextMeshPro
         healthTMP.text = $"{currHealth}/{maxHealth}";
 
         //// atau kalau pakai slider/bar
         //healthSlider.value = (float)currentHealth / maxHealth;
+    }
+
+    public void GameOver()
+    {
+        indexSoal = 10;
+        NextButton();
     }
 }
