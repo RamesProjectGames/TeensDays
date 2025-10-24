@@ -56,9 +56,7 @@ public class ObjectGradientController : MonoBehaviour
     // Fungsi ini akan dipanggil saat nilai di Inspector diubah dalam mode Play
     void Update()
     {
-        // Jika kita berada dalam mode Play, kita ingin script Update normal tetap berjalan.
-        // Jika kita mengubah nilai 'topColor' atau 'bottomColor' saat Play,
-        // OnValidate tidak akan dipanggil, jadi kita panggil di sini sebagai fallback.
+        
         if (Application.isPlaying)
         {
             // Panggil fungsi ini jika ada perubahan warna dari script lain saat runtime.

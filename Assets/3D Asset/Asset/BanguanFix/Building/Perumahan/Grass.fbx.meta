@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b862f83bf0f91bd44b78afcf5f80c0b0
+guid: 0bf0ac00eb92a6349be8c68bff781caf
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Atap
-    second: {fileID: 2100000, guid: 956a7a953933f7244818e8a2baba5efd, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: GradientTexture
-    second: {fileID: 2100000, guid: 47836e91256c0194d9f08312d850ba78, type: 2}
+      name: Grass
+    second: {fileID: 2100000, guid: 1f5be659a9290bf4f9dd8400493e7949, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
