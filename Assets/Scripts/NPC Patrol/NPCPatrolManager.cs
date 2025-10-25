@@ -41,12 +41,43 @@ public class NPCPatrolManager : MonoBehaviour
         }
 
         StartCoroutine(HandlePatrols());
+        StartCoroutine(RefreshActiveNPCs());
+    }
+
+    private IEnumerator RefreshActiveNPCs()
+    {
+        while (true)
+        {
+            foreach (string tag in npcTags)
+            {
+                GameObject[] foundNPCs = GameObject.FindGameObjectsWithTag(tag);
+                foreach (GameObject npc in foundNPCs)
+                {
+                    // Skip jika NPC sudah ada di list
+                    if (npcListPatrol.Exists(n => n.npc == npc)) continue;
+
+                    // Tambahkan hanya jika memiliki NavMeshAgent dan aktif
+                    NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+                    if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+                    {
+                        int mask = GetAreaMaskByTag(tag);
+                        npcListPatrol.Add(new NPCDataPatrol(npc, agent, mask));
+                        MoveToRandomPoint(agent, mask, npc.transform.position);
+
+                        Debug.Log($"NPC {npc.name} aktif kembali dan ditambahkan ke patrol list");
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(2f); // cek tiap 2 detik
+        }
     }
 
     private IEnumerator HandlePatrols()
     {
         while (true)
         {
+            npcListPatrol.RemoveAll(npc => npc.npc == null || !npc.npc.activeInHierarchy);
             foreach (NPCDataPatrol npcData in npcListPatrol)
             {
                 if (npcData.agent == null || npcData.isWaiting) continue;

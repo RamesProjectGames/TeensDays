@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static PlayerManager;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -33,13 +34,16 @@ public class PlayerManager : MonoBehaviour
     {
         public bool isActive;
         public GameObject aktifObj;
+        public GameObject pembatasSekolah;
         public GameObject nonAktifObj;
+        public GameObject npcObj;
+        public int unlockLevel;
     }
 
     private void Start()
     {
-        // CekLevelSekolah();
 
+        CekLevelSekolah();
     }
 
     private void Update()
@@ -111,20 +115,23 @@ public class PlayerManager : MonoBehaviour
         foreach (var sekolah in sekolahList)
         {
             sekolah.aktifObj.SetActive(sekolah.isActive);
+            sekolah.pembatasSekolah.SetActive(sekolah.isActive);
             sekolah.nonAktifObj.SetActive(!sekolah.isActive);
+            sekolah.npcObj.SetActive(sekolah.isActive);
         }
     }
 
     public void CekLevelSekolah()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel",1);
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel",7);
 
-        Debug.Log(unlockedLevel);
-
-        if (unlockedLevel >= 6)
+        foreach (var sekolah in sekolahList)
         {
-            sekolahList[0].isActive = false;
+            Debug.Log("masuk ke foreach");
+            if (unlockedLevel >= sekolah.unlockLevel)
+            {
+                sekolah.isActive = false;
+            }
         }
     }
-
 }

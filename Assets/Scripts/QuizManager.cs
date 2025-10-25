@@ -129,7 +129,10 @@ public class QuizManager : MonoBehaviour
             jawabanButtons[i].enabled = true;
 
             var image = jawabanButtons[i].GetComponent<Image>();
-            image.color = Color.white;
+
+            Color color = new Color(12f / 255f, 49f / 255f, 32f / 255f);
+
+            image.color = color;
         }
     }
 
@@ -259,7 +262,6 @@ public class QuizManager : MonoBehaviour
         if (currHealth <= 0)
         {
             GameOver();
-            UpdateHealthUI();
         }
         else
         {
@@ -269,16 +271,16 @@ public class QuizManager : MonoBehaviour
 
     public void UpdateHealthUI()
     {
-        // misal kalau pakai TextMeshPro
         healthTMP.text = $"{currHealth}/{maxHealth}";
 
-        //// atau kalau pakai slider/bar
         //healthSlider.value = (float)currentHealth / maxHealth;
     }
 
     public void GameOver()
     {
-        indexSoal = 10;
+        int sisaSoal = semuaSoal.Count - (indexSoal + 1);
+        totalSalah += sisaSoal;
+        indexSoal = semuaSoal.Count;
         NextButton();
     }
 }
