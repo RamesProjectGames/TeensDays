@@ -9,6 +9,9 @@ public class Quest
 {
     public TMP_Text questText;
     public string text;
+    public int expForQuest;
+    public Transform targetTransform;
+    public GameObject questObjectAnnoun;
     public bool isDone;
 
     public List<Quest> subQuests = new List<Quest>(); // Tambahkan ini

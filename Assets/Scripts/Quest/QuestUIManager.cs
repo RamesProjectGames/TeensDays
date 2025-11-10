@@ -9,6 +9,7 @@ public class QuestUIManager : MonoBehaviour
     [Header("Quest Panels")]
     public Transform panelMainQuestList;
     public Transform panelSubQuestList;
+    public Transform panelSideQuestList;
 
     [Header("Prefabs")]
     public GameObject questItemPrefab;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
@@ -14,111 +14,236 @@ public class NPCPatrolManager : MonoBehaviour
     [Header("NPC Groups by Tag")]
     public string[] npcTags = { "Murid SD", "Murid SMP", "Guru", "Satpam" };
 
+    [Header("Waypoint Groups (Assign di Inspector)")]
+    public Transform[] sdWaypoints;        // 5 titik untuk Murid SD
+    public Transform[] smpWaypoints;       // 5 titik untuk Murid SMP
+    public Transform[] smaWaypoints;       // 5 titik untuk Murid SMA
+    public Transform[] karyawanWaypoints;  // 7 titik untuk Guru & Satpam
+
     private List<NPCDataPatrol> npcListPatrol = new List<NPCDataPatrol>();
 
     private void Start()
     {
-        // Cari semua NPC berdasarkan tag yang terdaftar
+        RegisterAllNPCs();
+        StartCoroutine(HandlePatrols());
+        //StartCoroutine(RefreshActiveNPCs());
+    }
+
+    private void RegisterAllNPCs()
+    {
         foreach (string tag in npcTags)
         {
             GameObject[] foundNPCs = GameObject.FindGameObjectsWithTag(tag);
             foreach (GameObject npc in foundNPCs)
             {
-                NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
-                
-                if (agent == null)
-                {
-                    Debug.LogWarning($"NPC {npc.name} tidak memiliki NavMeshAgent, dilewati.");
-                    continue;
-                }
-
-                agent.autoBraking = false;
-
-                int mask = GetAreaMaskByTag(tag);
-                npcListPatrol.Add(new NPCDataPatrol(npc, agent, mask));
-                MoveToRandomPoint(agent, mask, npc.transform.position);
+                RegisterNPC(npc, tag);
             }
         }
-
-        StartCoroutine(HandlePatrols());
-        StartCoroutine(RefreshActiveNPCs());
     }
 
-    private IEnumerator RefreshActiveNPCs()
+    // 🧩 Daftarkan 1 NPC (bisa dipanggil ulang kalau aktif lagi)
+    private void RegisterNPC(GameObject npc, string tag)
     {
-        while (true)
+        if (npcListPatrol.Exists(n => n.npc == npc))
+            return;
+
+        NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+        if (agent == null)
         {
-            foreach (string tag in npcTags)
-            {
-                GameObject[] foundNPCs = GameObject.FindGameObjectsWithTag(tag);
-                foreach (GameObject npc in foundNPCs)
-                {
-                    // Skip jika NPC sudah ada di list
-                    if (npcListPatrol.Exists(n => n.npc == npc)) continue;
-
-                    // Tambahkan hanya jika memiliki NavMeshAgent dan aktif
-                    NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
-                    if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
-                    {
-                        int mask = GetAreaMaskByTag(tag);
-                        npcListPatrol.Add(new NPCDataPatrol(npc, agent, mask));
-                        MoveToRandomPoint(agent, mask, npc.transform.position);
-
-                        Debug.Log($"NPC {npc.name} aktif kembali dan ditambahkan ke patrol list");
-                    }
-                }
-            }
-
-            yield return new WaitForSeconds(2f); // cek tiap 2 detik
+            Debug.LogWarning($"NPC {npc.name} tidak punya NavMeshAgent.");
+            return;
         }
+
+        if (!agent.isOnNavMesh)
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(npc.transform.position, out hit, 3f, NavMesh.AllAreas))
+            {
+                npc.transform.position = hit.position;
+            }
+            else
+            {
+                Debug.LogWarning($"NPC {npc.name} tidak berada di NavMesh!");
+                return;
+            }
+        }
+
+        Transform[] waypoints = GetWaypointsByTag(tag);
+        if (waypoints == null || waypoints.Length == 0)
+        {
+            Debug.LogWarning($"NPC {npc.name} (tag {tag}) tidak punya waypoint.");
+            return;
+        }
+
+        NPCDataPatrol data = new NPCDataPatrol(npc, agent, waypoints);
+        npcListPatrol.Add(data);
+
+        MoveToNextWaypoint(data);
     }
+
+    //private IEnumerator RefreshActiveNPCs()
+    //{
+    //    while (true)
+    //    {
+    //        foreach (string tag in npcTags)
+    //        {
+    //            GameObject[] foundNPCs = GameObject.FindGameObjectsWithTag(tag);
+    //            foreach (GameObject npc in foundNPCs)
+    //            {
+    //                // Skip jika NPC sudah ada di list
+    //                if (npcListPatrol.Exists(n => n.npc == npc)) continue;
+
+    //                // Tambahkan hanya jika memiliki NavMeshAgent dan aktif
+    //                NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+    //                if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+    //                {
+    //                    int mask = GetAreaMaskByTag(tag);
+    //                    var data = new NPCDataPatrol(npc, agent, mask);
+    //                    data.startPos = npc.transform.position;
+    //                    data.direction = npc.transform.forward;
+    //                    npcListPatrol.Add(new NPCDataPatrol(npc, agent, mask));
+
+    //                    // MoveToRandomPoint(agent, mask, npc.transform.position);
+
+    //                    MoveInLine(data);
+
+    //                    Debug.Log($"NPC {npc.name} aktif kembali dan ditambahkan ke patrol list");
+    //                }
+    //            }
+    //        }
+
+    //        yield return new WaitForSeconds(2f); // cek tiap 2 detik
+    //    }
+    //}
 
     private IEnumerator HandlePatrols()
     {
         while (true)
         {
-            npcListPatrol.RemoveAll(npc => npc.npc == null || !npc.npc.activeInHierarchy);
+            npcListPatrol.RemoveAll(npc => npc.npc == null);
+
             foreach (NPCDataPatrol npcData in npcListPatrol)
             {
-                if (npcData.agent == null || npcData.isWaiting) continue;
+                if (!npcData.npc.activeInHierarchy || npcData.agent == null)
+                    continue;
 
-                // Jika NPC sudah sampai di tujuan
+                if (!npcData.agent.isOnNavMesh)
+                {
+                    // kalau agent belum balik ke NavMesh, reposition
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(npcData.npc.transform.position, out hit, 2f, NavMesh.AllAreas))
+                    {
+                        npcData.npc.transform.position = hit.position;
+                    }
+                    continue;
+                }
+
                 if (!npcData.agent.pathPending && npcData.agent.remainingDistance <= npcData.agent.stoppingDistance)
                 {
-                    MoveToRandomPoint(npcData.agent, npcData.areaMask, npcData.npc.transform.position);
-
-                    //StartCoroutine(WaitAndMove(npcData));
+                    StartCoroutine(WaitAndMove(npcData));
                 }
             }
-
-            yield return null; // per frame cek
+            yield return null;
         }
     }
 
+    //private IEnumerator StraightWaitAndMove(NPCDataPatrol npcData)
+    //{
+    //    npcData.isWaiting = true;
+    //    yield return new WaitForSeconds(waitTime);
+    //    // Balik arah
+    //    npcData.direction = -npcData.direction;
+    //    MoveInLine(npcData);
+    //    npcData.isWaiting = false;
+    //}
+
+    //private void MoveInLine(NPCDataPatrol npcData)
+    //{
+    //    Vector3 targetPos = npcData.startPos + npcData.direction * patrolRadius;
+    //    NavMeshHit hit;
+    //    if (NavMesh.SamplePosition(targetPos, out hit, 3f, npcData.areaMask))
+    //    {
+    //        npcData.agent.SetDestination(hit.position);
+    //    }
+    //    else
+    //    {
+    //        // Jika tidak ada titik valid, coba sedikit di arah sebaliknya
+    //        npcData.direction = -npcData.direction;
+    //        targetPos = npcData.startPos + npcData.direction * patrolRadius;
+    //        if (NavMesh.SamplePosition(targetPos, out hit, 3f, npcData.areaMask))
+    //        {
+    //            npcData.agent.SetDestination(hit.position);
+    //        }
+    //    }
+    //}
+
+    #region NPC Move Random Point
     private IEnumerator WaitAndMove(NPCDataPatrol npcData)
     {
         npcData.isWaiting = true;
         yield return new WaitForSeconds(waitTime);
-        MoveToRandomPoint(npcData.agent, npcData.areaMask, npcData.npc.transform.position);
+        MoveToNextWaypoint(npcData);
+        //MoveToRandomPoint(npcData.agent, npcData.areaMask, npcData.npc.transform.position);
         npcData.isWaiting = false;
     }
 
-    private void MoveToRandomPoint(NavMeshAgent agent, int areaMask, Vector3 origin)
+    private void MoveToNextWaypoint(NPCDataPatrol npc)
     {
-        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
-        randomDirection += origin;
+        if (npc.waypoints == null || npc.waypoints.Length == 0) return;
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, areaMask))
+        npc.agent.SetDestination(npc.waypoints[npc.currentWaypointIndex].position);
+
+        // Cek arah gerak
+        if (npc.movingForward)
         {
-            if (Vector3.Distance(origin, hit.position) >= minMoveDistance)
+            npc.currentWaypointIndex++;
+            if (npc.currentWaypointIndex >= npc.waypoints.Length)
             {
-                agent.SetDestination(hit.position);
+                npc.currentWaypointIndex = npc.waypoints.Length - 2;
+                npc.movingForward = false;
             }
-            else
+        }
+        else
+        {
+            npc.currentWaypointIndex--;
+            if (npc.currentWaypointIndex < 0)
             {
-                MoveToRandomPoint(agent, areaMask, origin); // cari titik lain
+                npc.currentWaypointIndex = 1;
+                npc.movingForward = true;
             }
+        }
+    }
+
+    //private void MoveToRandomPoint(NavMeshAgent agent, int areaMask, Vector3 origin)
+    //{
+    //    Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+    //    randomDirection += origin;
+
+    //    NavMeshHit hit;
+    //    if (NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, areaMask))
+    //    {
+    //        if (Vector3.Distance(origin, hit.position) >= minMoveDistance)
+    //        {
+    //            agent.SetDestination(hit.position);
+    //        }
+    //        else
+    //        {
+    //            MoveToRandomPoint(agent, areaMask, origin); // cari titik lain
+    //        }
+    //    }
+    //}
+    #endregion
+
+    private Transform[] GetWaypointsByTag(string tag)
+    {
+        switch (tag)
+        {
+            case "Murid SD": return sdWaypoints;
+            case "Murid SMP": return smpWaypoints;
+            case "Murid SMA": return smaWaypoints;
+            case "Guru":
+            case "Satpam": return karyawanWaypoints;
+            default: return null;
         }
     }
 
@@ -140,11 +265,24 @@ public class NPCPatrolManager : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        // Biar kelihatan garis waypoint-nya di Scene
+        Gizmos.color = Color.green;
+
+        DrawWaypointLine(sdWaypoints);
+        DrawWaypointLine(smpWaypoints);
+        DrawWaypointLine(smaWaypoints);
+
         Gizmos.color = Color.yellow;
-        foreach (NPCDataPatrol npc in npcListPatrol)
+        DrawWaypointLine(karyawanWaypoints);
+    }
+
+    private void DrawWaypointLine(Transform[] points)
+    {
+        if (points == null || points.Length < 2) return;
+        for (int i = 0; i < points.Length - 1; i++)
         {
-            if (npc.npc != null)
-                Gizmos.DrawWireSphere(npc.npc.transform.position, patrolRadius);
+            Gizmos.DrawLine(points[i].position, points[i + 1].position);
+            Gizmos.DrawSphere(points[i].position, 0.3f);
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class AchieveManager : MonoBehaviour
 {
     public Button[] rewardButtons;
+    //int _index;
 
     // Start is called before the first frame update
     void Start()

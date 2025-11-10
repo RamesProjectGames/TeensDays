@@ -11,13 +11,20 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask npcLayer;
     public GameObject floatingButton;
     public GameObject chatPanel;
-    public GameObject questObjectAnnoun;
-    public GameObject questObjectSide;
+    //public GameObject questObjectAnnoun;
+   // public GameObject questObjectSide;
     public GameObject contohSideQuest;
     public TMP_Text chatText;
 
+    public GameObject gerbangSekolah;
+
+    public Image achieveAnnoun;
+
     private InteractableNPC currentNPC;
     public QuestSystem questSystem;
+    public QuestPathManager questPathManager;
+    public AchieveManager achieveManager;
+    public PlayerManager playerManager;
 
     void Update()
     {
@@ -117,12 +124,11 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     // ✅ MainQuest punya SubQuest → otomatis mark salah satu subquest
                     int subIndex = quest.subQuests.FindIndex(sq => !sq.isDone);
-                    questObjectAnnoun.SetActive(false);
+                    quest.questObjectAnnoun.SetActive(false);
                     if (subIndex >= 0)
                     {
                         QuestSystem.instance.MarkQuestDone(npcData.questIndex, subIndex, true, false);
                         Debug.Log($"📌 Main Quest {npcData.questIndex}: Subquest {subIndex} selesai!");
-                        questObjectAnnoun.SetActive(false);
                     }
                     else
                     {
@@ -132,9 +138,50 @@ public class PlayerInteraction : MonoBehaviour
                 else
                 {
                     // ✅ Kalau tidak punya subquest → langsung selesai
-                    questObjectAnnoun.SetActive(false);
+                    quest.questObjectAnnoun.SetActive(false);
                     QuestSystem.instance.MarkQuestDone(-1, npcData.questIndex, false, false);
                     Debug.Log($"✅ Main Quest {npcData.questIndex} selesai (tanpa subquest).");
+                }
+
+                // 🟢 Tambahan → cek quest berikutnya dan set target
+                if (quest.isDone)
+                {
+                    int nextIndex = npcData.questIndex + 1;
+                    if (nextIndex < QuestSystem.instance.quests.Count)
+                    {
+                        var nextQuest = QuestSystem.instance.quests[nextIndex];
+                        if (!nextQuest.isDone)
+                        {
+                            Debug.Log($"➡️ Lanjut ke Main Quest berikutnya: {nextQuest.text}");
+
+                            // Tambahkan quest baru
+                            // QuestSystem.instance.AddNewQuest(nextQuest, true, false, false);
+
+                            // 🟢 Set target quest berikutnya
+                            if (nextQuest.targetTransform != null)
+                            {
+                                QuestSystem.instance.questPathManager.SetQuestTarget(nextQuest.targetTransform);
+                                Debug.Log($"🎯 Target diatur ke {nextQuest.targetTransform.name}");
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"⚠️ Quest '{nextQuest.text}' belum punya targetTransform.");
+                            }
+                        }
+                    }
+
+                    if (npcData.questIndex == 0)
+                    {
+                        LeanTween.moveY(achieveAnnoun.rectTransform, 280, .7f).setOnComplete(() =>
+                        {            // Tunggu 5 detik sebelum melanjutkan
+                            LeanTween.delayedCall(5f, () =>
+                            {
+                                LeanTween.moveY(achieveAnnoun.rectTransform, 430, .7f);
+                            });
+                        });
+
+                        LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
+                    }
                 }
             }
             else if (npcData.isSideQuest)
@@ -154,9 +201,23 @@ public class PlayerInteraction : MonoBehaviour
                         sideQuest.isDone = true;
                         QuestSystem.instance.UpdateSingleQuestDisplay(sideQuest);
                         Debug.Log($"✅ Semua subquest selesai → Side Quest {npcData.questIndex} selesai!");
+
+                        // 🟢 Tambahan → lanjut ke side quest berikutnya
+                        int nextIndex = npcData.questIndex + 1;
+                        if (nextIndex < QuestSystem.instance.sideQuests.Count)
+                        {
+                            var nextSide = QuestSystem.instance.sideQuests[nextIndex];
+                            //QuestSystem.instance.AddNewQuest(nextSide, false, false, true);
+
+                            if (nextSide.targetTransform != null)
+                            {
+                                QuestSystem.instance.questPathManager.SetQuestTarget(nextSide.targetTransform);
+                                Debug.Log($"🎯 Target side quest diatur ke {nextSide.targetTransform.name}");
+                            }
+                        }
                     }
 
-                    questObjectSide.SetActive(false);
+                    //questObjectSide.SetActive(false);
                     contohSideQuest.SetActive(false);
                 }
                 else
@@ -166,6 +227,9 @@ public class PlayerInteraction : MonoBehaviour
                     Debug.Log($"✅ Side Quest {npcData.questIndex} selesai!");
                 }
             }
+
+            QuestSystem.instance.CheckAutoCompleteQuests();
+            QuestSystem.instance.UpdateQuestDisplay();
         }
         else
         {

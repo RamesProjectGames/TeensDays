@@ -14,8 +14,7 @@ public class QuestSystem : MonoBehaviour
     [SerializeField] private float blinkSpeed = 2f;
 
     public QuestUIManager questUIManager;
-
-    public GameObject gerbangSekolah;
+    public QuestPathManager questPathManager;
 
     private void Awake()
     {
@@ -25,7 +24,7 @@ public class QuestSystem : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     private void Update()
@@ -37,8 +36,8 @@ public class QuestSystem : MonoBehaviour
             Debug.Log("Test masuk");
         }
 
-        UpdateQuestDisplay();
-        CheckAutoCompleteQuests();
+        //UpdateQuestDisplay();
+        //CheckAutoCompleteQuests();
         UpdateQuestOutlines();
     }
 
@@ -100,11 +99,11 @@ public class QuestSystem : MonoBehaviour
 
     public void CheckAutoCompleteQuests()
     {
-        if(currentQuestIndex < quests.Count)
+        if (currentQuestIndex < quests.Count)
         {
             var quest = quests[currentQuestIndex];
             Debug.Log($"[CheckAutoComplete] Cek quest {currentQuestIndex}: {quest.text}, isDone={quest.isDone}");
-             
+
             foreach (var sq in quest.subQuests)
             {
                 Debug.Log($"   Subquest '{sq.text}' -> isDone={sq.isDone}");
@@ -114,9 +113,9 @@ public class QuestSystem : MonoBehaviour
             {
                 Debug.Log("✅ Semua subquest selesai, quest utama done!");
                 quest.isDone = true;
+                GameManager.Instance.expLevel += quest.expForQuest;
                 currentQuestIndex++;
                 ActivateQuestObject(currentQuestIndex);
-                LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
             }
         }
         else
@@ -124,7 +123,7 @@ public class QuestSystem : MonoBehaviour
             Debug.Log($"[CheckAutoComplete] currentQuestIndex {currentQuestIndex} out of range (total={quests.Count})");
         }
 
-        if(currentSideQuestIndex < sideQuests.Count)
+        if (currentSideQuestIndex < sideQuests.Count)
         {
             var quest = sideQuests[currentSideQuestIndex];
 
@@ -133,13 +132,14 @@ public class QuestSystem : MonoBehaviour
             {
                 Debug.Log($"✅ Semua subquest side quest '{quest.text}' selesai!");
                 quest.isDone = true;
+                GameManager.Instance.expLevel += quest.expForQuest;
                 currentSideQuestIndex++;
                 ActivateQuestObject(currentSideQuestIndex);
             }
 
         }
 
-        
+
     }
 
     public void ActivateQuestObject(int index)
@@ -240,6 +240,16 @@ public class QuestSystem : MonoBehaviour
             sub.questUIObject = subItem;
             sub.questText = subText;
             sub.questOutline = subItem.GetComponent<Outline>();
+        }
+
+        if (questData.targetTransform != null)
+        {
+            questPathManager.SetQuestTarget(questData.targetTransform);
+            Debug.Log($"🎯 Quest target diatur ke: {questData.targetTransform.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ Quest '{questData.text}' tidak memiliki targetTransform!");
         }
     }
 

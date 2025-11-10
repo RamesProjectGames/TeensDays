@@ -14,8 +14,8 @@ public class PlayerManager : MonoBehaviour
     public string[] sceneNames;  // array nama scene
 
     [Header("Player Stats")]
-    public TMP_Text expPlayer;
-    public TMP_Text limitExpPlayer;
+    //public TMP_Text expPlayer;
+    //public TMP_Text limitExpPlayer;
     public TMP_Text classExpPlayer;
     public Slider expSlider;
     public int classExp;
@@ -57,10 +57,9 @@ public class PlayerManager : MonoBehaviour
             hasCompleted = true;
         }
 
-        expPlayer.text = GameManager.Instance.expLevel.ToString();
+        //expPlayer.text = GameManager.Instance.expLevel.ToString();
         expSlider.value = GameManager.Instance.expLevel / 100f;
-        classExpPlayer.text = "(Class " + classExp.ToString() + ")";
-
+        classExpPlayer.text = classExp.ToString();
         UpdateSemuaSekolah();
     }
 
@@ -117,13 +116,13 @@ public class PlayerManager : MonoBehaviour
             sekolah.aktifObj.SetActive(sekolah.isActive);
             sekolah.pembatasSekolah.SetActive(sekolah.isActive);
             sekolah.nonAktifObj.SetActive(!sekolah.isActive);
-            sekolah.npcObj.SetActive(sekolah.isActive);
+            sekolah.npcObj.SetActive(!sekolah.isActive);
         }
     }
 
     public void CekLevelSekolah()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel",7);
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel",1);
 
         foreach (var sekolah in sekolahList)
         {
