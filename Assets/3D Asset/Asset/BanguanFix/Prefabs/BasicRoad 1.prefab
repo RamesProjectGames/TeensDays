@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1425381677932270154}
   - component: {fileID: 4122958788796516641}
   - component: {fileID: 2407674126718947897}
-  - component: {fileID: 2720501812160049123}
   - component: {fileID: 1417307368697015132}
   m_Layer: 0
   m_Name: BasicRoad 1
@@ -108,27 +107,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.08125, y: 0.059999987, z: 0.0014999998}
   m_Center: {x: 0.000000029802322, y: 0.029999934, z: 0.0007499986}
---- !u!65 &2720501812160049123
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2912278313932688204}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.08125, y: 0.059999987, z: 0.0014999998}
-  m_Center: {x: 0.000000029802322, y: 0.029999934, z: 0.0007499986}
 --- !u!205 &1417307368697015132
 LODGroup:
   m_ObjectHideFlags: 0
@@ -143,7 +121,7 @@ LODGroup:
   m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.24626029
+  - screenRelativeHeight: 0.14764275
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4122958788796516641}

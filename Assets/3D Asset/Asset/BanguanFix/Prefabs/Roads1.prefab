@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1682149535718355476}
   - component: {fileID: 2956475479854954207}
   - component: {fileID: 4428843002999892119}
+  - component: {fileID: 2606799428283331710}
   m_Layer: 0
   m_Name: Roads1
   m_TagString: Untagged
@@ -83,3 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &2606799428283331710
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194815337771357243}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.010000001, y: 0.0000000018626451, z: -1.110223e-16}
+  m_Size: 0.02
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.30481854
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4428843002999892119}
+  m_Enabled: 1

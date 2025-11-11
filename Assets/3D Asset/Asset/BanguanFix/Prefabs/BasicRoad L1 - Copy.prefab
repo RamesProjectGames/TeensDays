@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 784623759739835039}
   - component: {fileID: 8544524552142929018}
   - component: {fileID: 6380450710804581339}
+  - component: {fileID: 7400705633761967788}
   m_Layer: 0
   m_Name: BasicRoad L1 - Copy
   m_TagString: Untagged
@@ -95,12 +96,34 @@ LODGroup:
   serializedVersion: 2
   m_LocalReferencePoint: {x: -0.058437675, y: 0.09906246, z: 0.0009999996}
   m_Size: 0.19812536
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.39529303
+  - screenRelativeHeight: 0.249
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8544524552142929018}
   m_Enabled: 1
+--- !u!64 &7400705633761967788
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2257960597465954251}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7919966236315579489, guid: 8032f06f74711e347be58b2892907a26, type: 3}
