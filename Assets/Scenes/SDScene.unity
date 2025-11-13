@@ -6473,7 +6473,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 194, y: -323}
+  m_AnchoredPosition: {x: 453, y: -323}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &768386311
@@ -9903,22 +9903,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelButtons:
-  - {fileID: 21771563}
-  - {fileID: 1132149791}
-  - {fileID: 1117015026}
-  - {fileID: 1020990933}
-  - {fileID: 118197072}
-  - {fileID: 210930072}
+  - {fileID: 1427707421}
+  - {fileID: 1804001990}
+  - {fileID: 295828598}
+  - {fileID: 1365500534}
+  - {fileID: 1311014412}
+  - {fileID: 746711044}
   bgButtons:
-  - {fileID: 2048465169}
-  - {fileID: 1399927619}
-  - {fileID: 1415716134}
-  - {fileID: 115765649}
-  - {fileID: 1600256895}
-  - {fileID: 2059522703}
+  - {fileID: 148513141}
+  - {fileID: 1425989561}
+  - {fileID: 27751441}
+  - {fileID: 2095484124}
+  - {fileID: 366736828}
+  - {fileID: 2018101611}
   bgSpritesLocked:
-  - {fileID: 21300000, guid: 4f6ed0751645f8c4bb3a19b4b87ccc4d, type: 3}
-  - {fileID: 21300000, guid: 4f6ed0751645f8c4bb3a19b4b87ccc4d, type: 3}
+  - {fileID: 21300000, guid: ccc84366365532444b0138f7cace082b, type: 3}
+  - {fileID: 21300000, guid: ccc84366365532444b0138f7cace082b, type: 3}
   - {fileID: 21300000, guid: 4f6ed0751645f8c4bb3a19b4b87ccc4d, type: 3}
   - {fileID: 21300000, guid: 4f6ed0751645f8c4bb3a19b4b87ccc4d, type: 3}
   - {fileID: 21300000, guid: 4f6ed0751645f8c4bb3a19b4b87ccc4d, type: 3}

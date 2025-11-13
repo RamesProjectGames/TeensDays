@@ -26,6 +26,8 @@ public class PlayerInteraction : MonoBehaviour
     public AchieveManager achieveManager;
     public PlayerManager playerManager;
 
+    public GameObject[] imageAnnoun;
+
     void Update()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
@@ -181,6 +183,11 @@ public class PlayerInteraction : MonoBehaviour
                         });
 
                         LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
+
+                        for (int i = 0; i < imageAnnoun.Length; i++)
+                        {
+                            imageAnnoun[i].SetActive(true);
+                        }
                     }
                 }
             }

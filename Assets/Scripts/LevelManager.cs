@@ -60,7 +60,7 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateLevelButtons()
     {
-        int UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 7);
+        int UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
         for (int i = 0; i < levelButtons.Length; i++)
         {
