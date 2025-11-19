@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ba3070e19388a51499dfb654562dbae5
+guid: 51fc7307d0222aa44888524211934694
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,23 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Asphalt
-    second: {fileID: 2100000, guid: 6483f771d2c29ec42a23c0cee2fed7dc, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ColorPallet2
-    second: {fileID: 2100000, guid: a1f4c3ef1a2950f4e82d932b390dd532, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Kantin
-    second: {fileID: 2100000, guid: 18c4f608418cff441862e82154039165, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Window
-    second: {fileID: 2100000, guid: 33d248843d2260145a59e942fb14d4e6, type: 2}
+      name: Gradient1
+    second: {fileID: 2100000, guid: 47836e91256c0194d9f08312d850ba78, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
