@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: be5d1e28e4ed82646a54783b6e471181
+guid: 7a3dba608388dae4ab946826060642ad
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gradient1
+    second: {fileID: 2100000, guid: 47836e91256c0194d9f08312d850ba78, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -34,7 +39,9 @@ ModelImporter:
     clipAnimations: []
     isReadable: 0
   meshes:
-    lODScreenPercentages: []
+    lODScreenPercentages:
+    - 0.25
+    - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0
