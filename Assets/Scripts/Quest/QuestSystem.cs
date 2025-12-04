@@ -29,12 +29,12 @@ public class QuestSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            // contoh: set parent0 sub0 done
-            MarkQuestDone(0, 0, true, false);
-            Debug.Log("Test masuk");
-        }
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    // contoh: set parent0 sub0 done
+        //    MarkQuestDone(0, 0, true, false);
+        //    Debug.Log("Test masuk");
+        //}
 
         //UpdateQuestDisplay();
         //CheckAutoCompleteQuests();

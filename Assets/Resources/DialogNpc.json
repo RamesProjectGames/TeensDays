@@ -2,9 +2,18 @@
    "npcs": [
     {
       "id": "npc_1",
-      "name": "Ibu",
+      "name": "IBU",
       "dialog": [
-        "Bobon, Sudah jam berapa ini? sana pergi ke sekolah!"
+        {
+    "speaker": "BOBON",
+    "isPlayer": true,
+    "text": "Ibu, Bobon berangkat dulu, ya!"
+  },
+  {
+    "speaker": "IBU",
+    "isPlayer": false,
+    "text": "Iya, Bon. Hati-hati di jalan, ya. Belajar yang semangat!"
+  }
       ],
       "givesQuest": true,
       "isMainQuest": true,
@@ -15,9 +24,13 @@
     },
     {
       "id": "npc_2",
-      "name": "Satpam Sekolah",
+      "name": "BU GURU MIRA",
       "dialog": [
-        "Kamu kenapa belum masuk ke kelas? masuk ke kelas sana sebelum terlambat!"
+        {
+    "speaker": "BU GURU MIRA",
+    "isPlayer": false,
+    "text": "Selamat pagi, Bobon! Nama ibu Bu Mira,guru kelas kamu di Sekolah Tunas Unggul Harapan. Ayo, cepat masuk! Kelas akan segera dimulai."
+  }
       ],
       "givesQuest": true,
       "isMainQuest": true,

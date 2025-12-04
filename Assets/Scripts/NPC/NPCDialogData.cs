@@ -7,7 +7,7 @@ public class NPCDialogData
 {
     public string id;                  // ID unik NPC
     public string name;                // Nama NPC
-    public List<string> dialog;        // Percakapan default
+    public List<DialogLine> dialog;        // Percakapan default
 
     // --- Quest Info ---
     public bool givesQuest;            // Apakah NPC ini memberikan quest
@@ -23,4 +23,12 @@ public class NPCDialogData
 public class NPCDialogList
 {
     public NPCDialogData[] npcs;
+}
+
+[System.Serializable]
+public class DialogLine
+{
+    public string speaker;   // "IBU" atau "BOBON"
+    public bool isPlayer;    // true = player, false = NPC
+    public string text;      // isi dialog
 }

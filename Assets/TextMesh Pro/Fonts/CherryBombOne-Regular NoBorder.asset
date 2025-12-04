@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: CherryBombOne-Regular NoBorder
   m_EditorClassIdentifier: 
-  hashCode: -1196635625
+  hashCode: 70466219
   material: {fileID: 5391008125474669389}
-  materialHashCode: 1037036631
+  materialHashCode: 246688171
   m_Version: 1.1.0
   m_SourceFontFileGUID: 91bea3cf3c82ed5448b6a564b189e102
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 91bea3cf3c82ed5448b6a564b189e102,
@@ -2680,7 +2680,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.4
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8333333

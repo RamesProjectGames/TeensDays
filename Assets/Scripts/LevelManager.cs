@@ -8,11 +8,7 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
-    public Button[] bgButtons;
-    public Sprite[] bgSpritesLocked;
-    public Sprite[] bgSpritesUnlocked;
-    public Sprite[] levelLockedImages;
-    public Sprite[] levelUnlockImages;
+    public GameObject[] bgSpritesLocked;
 
     private void Start()
     {
@@ -65,14 +61,12 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < levelButtons.Length; i++)
         {
             levelButtons[i].interactable = false;
-            levelButtons[i].image.sprite = levelLockedImages[i];
-            bgButtons[i].image.sprite = bgSpritesLocked[i];
+            bgSpritesLocked[i].SetActive(true);
         }
         for (int i = 0; i < UnlockedLevel && i < levelButtons.Length; i++)
         {
             levelButtons[i].interactable = true;
-            levelButtons[i].image.sprite = levelUnlockImages[i];
-            bgButtons[i].image.sprite = bgSpritesUnlocked[i];
+            bgSpritesLocked[i].SetActive(false);
         }
     }
 }

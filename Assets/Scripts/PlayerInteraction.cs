@@ -11,12 +11,16 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask npcLayer;
     public GameObject floatingButton;
     public GameObject chatPanel;
-    //public GameObject questObjectAnnoun;
-   // public GameObject questObjectSide;
-    public GameObject contohSideQuest;
-    public TMP_Text chatText;
 
-    public GameObject gerbangSekolah;
+    //public TMP_Text nameText;
+    //public TMP_Text dialogText;
+
+    //public GameObject questObjectAnnoun;
+    // public GameObject questObjectSide;
+    //public GameObject contohSideQuest;
+    //public TMP_Text chatText;
+
+    //public GameObject gerbangSekolah;
 
     public Image achieveAnnoun;
 
@@ -27,6 +31,24 @@ public class PlayerInteraction : MonoBehaviour
     public PlayerManager playerManager;
 
     public GameObject[] imageAnnoun;
+
+    [Header("Panel Bubble Chat")]
+    private int dialogIndex = 0;
+    private NPCDialogData activeDialog;
+    public GameObject leftBubble;
+    public GameObject rightBubble;
+    public TMP_Text leftNameText;
+    public TMP_Text leftDialogText;
+    public TMP_Text rightNameText;
+    public TMP_Text rightDialogText;
+    public Image leftPortrait;
+    public Image rightPortrait;
+    public int questIndex;
+
+    private void Start()
+    {
+        StartQuest();
+    }
 
     void Update()
     {
@@ -50,54 +72,215 @@ public class PlayerInteraction : MonoBehaviour
 
     public void OnTalkButtonClicked()
     {
-        if (currentNPC != null)
+        if (currentNPC == null) return;
+
+        activeDialog = DialogManager.Instance.GetDialogByID(currentNPC.npcId);
+        if (activeDialog == null) return;
+
+        dialogIndex = 0;
+        chatPanel.SetActive(true);
+
+        ShowDialogLine();
+        #region old
+        //if (currentNPC != null)
+        //{
+        //    var npcData = DialogManager.Instance.GetDialogByID(currentNPC.npcId);
+
+        //    if (npcData != null)
+        //    {
+        //        chatPanel.SetActive(true);
+        //        chatText.text = $"{npcData.name}: {npcData.dialog[0]}";
+
+        //        // kalau NPC ini punya quest
+        //        if (npcData.givesQuest)
+        //        {
+        //            if (npcData.isSubQuest)
+        //            {
+        //                // Subquest
+        //                QuestSystem.instance.AddNewQuest(
+        //                    QuestSystem.instance.quests[npcData.parentIndex].subQuests[npcData.questIndex],
+        //                    false,   // isMainQuest
+        //                    true,    // isSubQuest
+        //                    false    // isSideQuest
+        //                );
+        //            }
+        //            else if (npcData.isSideQuest)
+        //            {
+        //                // Side quest
+        //                QuestSystem.instance.AddNewQuest(
+        //                    QuestSystem.instance.sideQuests[npcData.questIndex],
+        //                    false,   // isMainQuest
+        //                    false,   // isSubQuest
+        //                    true     // isSideQuest
+        //                );
+        //            }
+        //            else if (npcData.isMainQuest)
+        //            {
+        //                // Main quest
+        //                QuestSystem.instance.AddNewQuest(
+        //                    QuestSystem.instance.quests[npcData.questIndex],
+        //                    true,    // isMainQuest
+        //                    false,   // isSubQuest
+        //                    false    // isSideQuest
+        //                );
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("NPC dialog not found for id: " + currentNPC.npcId);
+        //    }
+        //}
+        #endregion
+    }
+
+    public void StartQuest()
+    {
+        // Pastikan QuestSystem sudah siap
+        if (QuestSystem.instance == null) return;
+
+        // Tambahkan quest utama pertama
+        QuestSystem.instance.AddNewQuest(
+            QuestSystem.instance.quests[questIndex],
+            true,   // isMainQuest
+            false,  // isSubQuest
+            false   // isSideQuest
+        );
+
+        // Set target jika ada
+        var quest = QuestSystem.instance.quests[questIndex];
+        if (quest.targetTransform != null)
         {
-            var npcData = DialogManager.Instance.GetDialogByID(currentNPC.npcId);
+            QuestSystem.instance.questPathManager
+                .SetQuestTarget(quest.targetTransform);
+        }
 
-            if (npcData != null)
-            {
-                chatPanel.SetActive(true);
-                chatText.text = $"{npcData.name}: {npcData.dialog[0]}";
+        Debug.Log("✅ Quest langsung aktif saat Start Game!");
+    }
 
-                // kalau NPC ini punya quest
-                if (npcData.givesQuest)
-                {
-                    if (npcData.isSubQuest)
-                    {
-                        // Subquest
-                        QuestSystem.instance.AddNewQuest(
-                            QuestSystem.instance.quests[npcData.parentIndex].subQuests[npcData.questIndex],
-                            false,   // isMainQuest
-                            true,    // isSubQuest
-                            false    // isSideQuest
-                        );
-                    }
-                    else if (npcData.isSideQuest)
-                    {
-                        // Side quest
-                        QuestSystem.instance.AddNewQuest(
-                            QuestSystem.instance.sideQuests[npcData.questIndex],
-                            false,   // isMainQuest
-                            false,   // isSubQuest
-                            true     // isSideQuest
-                        );
-                    }
-                    else if (npcData.isMainQuest)
-                    {
-                        // Main quest
-                        QuestSystem.instance.AddNewQuest(
-                            QuestSystem.instance.quests[npcData.questIndex],
-                            true,    // isMainQuest
-                            false,   // isSubQuest
-                            false    // isSideQuest
-                        );
-                    }
-                }
-            }
-            else
+    void ShowDialogLine()
+    {
+        if (dialogIndex >= activeDialog.dialog.Count)
+        {
+            EndDialog();
+            return;
+        }
+
+        var line = activeDialog.dialog[dialogIndex];
+
+        // Matikan semua bubble dulu
+        leftBubble.SetActive(false);
+        rightBubble.SetActive(false);
+
+        if (line.isPlayer)
+        {
+            // BUBBLE KANAN (PLAYER)
+            rightBubble.SetActive(true);
+            rightNameText.text = line.speaker;
+            rightDialogText.text = line.text;
+        }
+        else
+        {
+            // BUBBLE KIRI (NPC)
+            leftBubble.SetActive(true);
+            leftNameText.text = line.speaker;
+            leftDialogText.text = line.text;
+        }
+
+        dialogIndex++;
+    }
+
+    public void OnNextDialogClicked()
+    {
+        if (activeDialog == null) return;
+        ShowDialogLine();
+    }
+
+    void EndDialog()
+    {
+        chatPanel.SetActive(false);
+        leftBubble.SetActive(false);
+        rightBubble.SetActive(false);
+
+        dialogIndex = 0;
+        OnQuestButtonClicked();
+
+        int startQuestIndex = activeDialog.questIndex;                   // Quest yang muncul saat Start Game
+        int nextQuestIndex = startQuestIndex + 1; // Quest berikutnya
+        if (nextQuestIndex < QuestSystem.instance.quests.Count)
+        {
+            var nextQuest = QuestSystem.instance.quests[nextQuestIndex];
+
+            QuestSystem.instance.AddNewQuest(
+                nextQuest,
+                true,   // isMainQuest
+                false,  // isSubQuest
+                false   // isSideQuest
+            );
+
+            Debug.Log($"➡️ Quest berikutnya aktif: {nextQuest.text}");
+
+            if (nextQuest.targetTransform != null)
             {
-                Debug.LogWarning("NPC dialog not found for id: " + currentNPC.npcId);
+                QuestSystem.instance.questPathManager
+                    .SetQuestTarget(nextQuest.targetTransform);
+
+                Debug.Log($"🎯 Target diarahkan ke {nextQuest.targetTransform.name}");
             }
+        }
+
+        // ============================
+        // ✅ QUEST START GAME AUTO SELESAI
+        // ============================
+
+        //// ✅ Selesaikan Quest Awal
+        //var startQuest = QuestSystem.instance.quests[startQuestIndex];
+        //startQuest.questObjectAnnoun?.SetActive(false);
+
+        //QuestSystem.instance.MarkQuestDone(-1, startQuestIndex, false, false);
+
+        //QuestSystem.instance.UpdateQuestDisplay();
+        //QuestSystem.instance.CheckAutoCompleteQuests();
+
+        //Debug.Log("✅ Quest awal otomatis diselesaikan di akhir dialog!");
+
+        //// ============================
+        //// ✅ AKTIFKAN QUEST SELANJUTNYA
+        //// ============================
+
+
+        //chatPanel.SetActive(false);
+        //floatingButton.SetActive(false);
+        //dialogIndex = 0;
+
+        //if (activeDialog.givesQuest)
+        //{
+        //    GiveQuest(activeDialog);
+        //}
+    }
+
+    void GiveQuest(NPCDialogData npcData)
+    {
+        if (npcData.isSubQuest)
+        {
+            QuestSystem.instance.AddNewQuest(
+                QuestSystem.instance.quests[npcData.parentIndex].subQuests[npcData.questIndex],
+                false, true, false
+            );
+        }
+        else if (npcData.isSideQuest)
+        {
+            QuestSystem.instance.AddNewQuest(
+                QuestSystem.instance.sideQuests[npcData.questIndex],
+                false, false, true
+            );
+        }
+        else if (npcData.isMainQuest)
+        {
+            QuestSystem.instance.AddNewQuest(
+                QuestSystem.instance.quests[npcData.questIndex],
+                true, false, false
+            );
         }
     }
 
@@ -182,7 +365,7 @@ public class PlayerInteraction : MonoBehaviour
                             });
                         });
 
-                        LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
+                        //LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
 
                         for (int i = 0; i < imageAnnoun.Length; i++)
                         {
@@ -225,7 +408,7 @@ public class PlayerInteraction : MonoBehaviour
                     }
 
                     //questObjectSide.SetActive(false);
-                    contohSideQuest.SetActive(false);
+                    //contohSideQuest.SetActive(false);
                 }
                 else
                 {
