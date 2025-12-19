@@ -21,6 +21,7 @@ public class ProfilManager : MonoBehaviour
     public int selectedIndex;
 
     public Image sdSlider;
+    public TMP_Text sdTextProgress;
 
     public PlayerManager playerManager;
     // Start is called before the first frame update
@@ -56,6 +57,7 @@ public class ProfilManager : MonoBehaviour
 
         float progressValue = Mathf.Clamp01((float)unlockedLevel / totalLevelSD);
         sdSlider.fillAmount = progressValue;
+        sdTextProgress.text = progressValue.ToString();
 
     }
 

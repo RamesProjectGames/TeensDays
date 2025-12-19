@@ -6,6 +6,8 @@ using UnityEngine.AI;
 
 public class NPCPatrolManager : MonoBehaviour
 {
+    public static NPCPatrolManager Instance;
+
     [Header("Patrol Settings (Global)")]
     public float patrolRadius = 15f;
     public float waitTime = 2f;
@@ -22,11 +24,31 @@ public class NPCPatrolManager : MonoBehaviour
 
     private List<NPCDataPatrol> npcListPatrol = new List<NPCDataPatrol>();
 
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
     private void Start()
     {
         RegisterAllNPCs();
         StartCoroutine(HandlePatrols());
         //StartCoroutine(RefreshActiveNPCs());
+    }
+
+    //public NPCDataPatrol GetNPCData(string npcId)
+    //{
+    //    return npcListPatrol.Find(n =>
+    //    {
+    //        var interactable = n.npc.GetComponent<InteractableNPC>();
+    //        return interactable != null && interactable.npcId == npcId;
+    //    });
+    //}
+
+    public NPCDataPatrol GetNPCData(GameObject npc)
+    {
+        return npcListPatrol.Find(n => n.npc == npc);
     }
 
     private void RegisterAllNPCs()
@@ -138,7 +160,9 @@ public class NPCPatrolManager : MonoBehaviour
                     continue;
                 }
 
-                if (!npcData.agent.pathPending && npcData.agent.remainingDistance <= npcData.agent.stoppingDistance)
+                if (!npcData.isPaused &&                         // <— tambahan ini
+    !npcData.agent.pathPending &&
+    npcData.agent.remainingDistance <= npcData.agent.stoppingDistance)
                 {
                     StartCoroutine(WaitAndMove(npcData));
                 }
@@ -182,14 +206,19 @@ public class NPCPatrolManager : MonoBehaviour
     {
         npcData.isWaiting = true;
         yield return new WaitForSeconds(waitTime);
-        MoveToNextWaypoint(npcData);
+
+        if (!npcData.isPaused)
+            MoveToNextWaypoint(npcData);
         //MoveToRandomPoint(npcData.agent, npcData.areaMask, npcData.npc.transform.position);
         npcData.isWaiting = false;
     }
 
     private void MoveToNextWaypoint(NPCDataPatrol npc)
     {
+
         if (npc.waypoints == null || npc.waypoints.Length == 0) return;
+
+        if (npc.isPaused) return; // Stop dulu saat dialog
 
         npc.agent.SetDestination(npc.waypoints[npc.currentWaypointIndex].position);
 

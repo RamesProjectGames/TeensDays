@@ -12,6 +12,7 @@ public class NPCDataPatrol
     public bool movingForward;
     //public int areaMask;
     public bool isWaiting;
+    public bool isPaused = false;
     //public Vector3 startPos;
     //public Vector3 direction;
 
