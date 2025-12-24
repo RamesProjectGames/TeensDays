@@ -1,10 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CutsceneController : MonoBehaviour
 {
+    public enum CutsceneType
+    {
+        Cutscene1,
+        Cutscene2
+    }
+
+    [Header("Cutscene Type")]
+    public CutsceneType cutsceneType;
+
     [Header("Cutscene Pages")]
     public List<Image> pages;           // Drag semua Image_Page1–5 (komponen Image)
     public List<CanvasGroup> textPanels; // Drag semua Panel_Teks (tiap halaman)
@@ -35,9 +45,44 @@ public class CutsceneController : MonoBehaviour
     private bool isHoldingSkip = false;
     private float holdTime = 0f;
 
+    public List<Image> pagesCutscene1;
+    public List<Image> pagesCutscene2;
+
     void Start()
     {
-        //panelCutscene.SetActivetrue;
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        // 1️⃣ Tentukan cutscene berdasarkan progress
+        if (unlockedLevel >= 6)
+            cutsceneType = CutsceneType.Cutscene2;
+        else
+            cutsceneType = CutsceneType.Cutscene1;
+
+        // 2️⃣ Pilih pages sesuai cutscene
+        pages = (cutsceneType == CutsceneType.Cutscene1)
+            ? pagesCutscene1
+            : pagesCutscene2;
+
+        // 3️⃣ Cek apakah cutscene sudah pernah diputar
+        string cutsceneKey = cutsceneType.ToString();
+
+        if (PlayerPrefs.GetInt(cutsceneKey, 0) == 1)
+        {
+            panelCutscene.SetActive(false);
+            return;
+        }
+
+        // 4️⃣ Tandai sudah diputar
+        PlayerPrefs.SetInt(cutsceneKey, 1);
+        PlayerPrefs.Save();
+
+        // 5️⃣ Mulai cutscene
+        InitializeCutscene();
+        StartCoroutine(PlayCutscene());
+    }
+
+    private void InitializeCutscene()
+    {
         isSkipping = false;
         // Reset semua page & teks
         foreach (var img in pages)
@@ -54,7 +99,11 @@ public class CutsceneController : MonoBehaviour
 
         // Tambahkan event untuk skip hold
         skipButton.onClick.RemoveAllListeners(); // pastikan tidak dobel
-        var trigger = skipButton.gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
+        var trigger = skipButton.GetComponent<UnityEngine.EventSystems.EventTrigger>();
+        if (trigger == null)
+            trigger = skipButton.gameObject.AddComponent<UnityEngine.EventSystems.EventTrigger>();
+
+        trigger.triggers.Clear();
 
         // Saat pointer down
         var downEntry = new UnityEngine.EventSystems.EventTrigger.Entry
@@ -80,7 +129,7 @@ public class CutsceneController : MonoBehaviour
         if (tapHintPanel != null)
             tapHintPanel.SetActive(false);
 
-        StartCoroutine(PlayCutscene());
+        currentPage = 0;
     }
 
     void Update()
