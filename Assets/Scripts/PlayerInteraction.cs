@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
@@ -11,6 +12,8 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask npcLayer;
     public GameObject floatingButton;
     public GameObject chatPanel;
+    private Quaternion originalRotation;
+    public bool wasPatrolling = false;
 
     //public TMP_Text nameText;
     //public TMP_Text dialogText;
@@ -25,6 +28,7 @@ public class PlayerInteraction : MonoBehaviour
     public Image achieveAnnoun;
 
     private InteractableNPC currentNPC;
+    private InteractableNPC npcBeingTalkedTo;
     public QuestSystem questSystem;
     public QuestPathManager questPathManager;
     public AchieveManager achieveManager;
@@ -52,26 +56,81 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
+        if (npcBeingTalkedTo != null) return; // <-- NPC locked, jangan ubah currentNPC
 
-        Debug.Log(hits.Length);
+        Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
 
         if (hits.Length > 0)
         {
             currentNPC = hits[0].GetComponent<InteractableNPC>();
             if (currentNPC != null)
                 floatingButton.SetActive(true);
-
         }
         else
         {
             currentNPC = null;
             floatingButton.SetActive(false);
         }
+        //Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
+
+        //Debug.Log(hits.Length);
+
+        //if (hits.Length > 0)
+        //{
+        //    currentNPC = hits[0].GetComponent<InteractableNPC>();
+        //    if (currentNPC != null)
+        //        floatingButton.SetActive(true);
+
+        //}
+        //else
+        //{
+        //    currentNPC = null;
+        //    floatingButton.SetActive(false);
+        //}
     }
 
     public void OnTalkButtonClicked()
     {
+        if (currentNPC == null) return;
+
+        npcBeingTalkedTo = currentNPC;  // <-- Kunci NPC saat ini
+
+        var data = NPCPatrolManager.Instance.GetNPCData(npcBeingTalkedTo.gameObject);
+        if (data != null)
+        {
+            data.isPaused = true;
+            data.agent.isStopped = true;
+        }
+
+        // Simpan rotasi awal sebelum menghadap ke player
+        originalRotation = currentNPC.transform.rotation;
+
+        // Simpan status patrol sebelumnya
+        NavMeshAgent agent = currentNPC.GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            wasPatrolling = !agent.isStopped; // Jika agent sedang berjalan, berarti dia patrol
+            agent.isStopped = true;           // Stop untuk dialog
+        }
+
+        // ==========================
+        //  NPC Hadap ke Player
+        // ==========================
+        Vector3 dir = (transform.position - currentNPC.transform.position).normalized;
+        dir.y = 0;
+        currentNPC.transform.rotation = Quaternion.LookRotation(dir);
+
+        //// ==========================
+        ////  NPC Animasi Idle
+        //// ==========================
+        //Animator npcAnim = currentNPC.GetComponent<Animator>();
+        //if (npcAnim != null)
+        //{
+        //    npcAnim.SetBool("isWalking", false);
+        //    npcAnim.SetBool("isIdle", true);
+        //    npcAnim.SetFloat("Speed", 0f);   // Kalau pakai blend tree
+        //}
+
         if (currentNPC == null) return;
 
         activeDialog = DialogManager.Instance.GetDialogByID(currentNPC.npcId);
@@ -198,6 +257,39 @@ public class PlayerInteraction : MonoBehaviour
 
     void EndDialog()
     {
+        if (npcBeingTalkedTo != null)
+        {
+            var data = NPCPatrolManager.Instance.GetNPCData(npcBeingTalkedTo.gameObject);
+            if (data != null)
+            {
+                data.isPaused = false;
+                data.agent.isStopped = false;
+            }
+        }
+
+        npcBeingTalkedTo = null;  // <— penting
+
+        if (currentNPC != null)
+        {
+            currentNPC.transform.rotation = originalRotation;
+
+            // ===============================
+            // Kembalikan patrol NPC
+            // ===============================
+            NavMeshAgent agent = currentNPC.GetComponent<NavMeshAgent>();
+            if (agent != null)
+            {
+                if (wasPatrolling)
+                {
+                    agent.isStopped = false; // lanjut patrol
+                }
+                else
+                {
+                    agent.isStopped = true;  // jika sebelumnya memang idle
+                }
+            }
+        }
+
         chatPanel.SetActive(false);
         leftBubble.SetActive(false);
         rightBubble.SetActive(false);
@@ -229,35 +321,35 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        // ============================
-        // ✅ QUEST START GAME AUTO SELESAI
-        // ============================
+            // ============================
+            // ✅ QUEST START GAME AUTO SELESAI
+            // ============================
 
-        //// ✅ Selesaikan Quest Awal
-        //var startQuest = QuestSystem.instance.quests[startQuestIndex];
-        //startQuest.questObjectAnnoun?.SetActive(false);
+            //// ✅ Selesaikan Quest Awal
+            //var startQuest = QuestSystem.instance.quests[startQuestIndex];
+            //startQuest.questObjectAnnoun?.SetActive(false);
 
-        //QuestSystem.instance.MarkQuestDone(-1, startQuestIndex, false, false);
+            //QuestSystem.instance.MarkQuestDone(-1, startQuestIndex, false, false);
 
-        //QuestSystem.instance.UpdateQuestDisplay();
-        //QuestSystem.instance.CheckAutoCompleteQuests();
+            //QuestSystem.instance.UpdateQuestDisplay();
+            //QuestSystem.instance.CheckAutoCompleteQuests();
 
-        //Debug.Log("✅ Quest awal otomatis diselesaikan di akhir dialog!");
+            //Debug.Log("✅ Quest awal otomatis diselesaikan di akhir dialog!");
 
-        //// ============================
-        //// ✅ AKTIFKAN QUEST SELANJUTNYA
-        //// ============================
+            //// ============================
+            //// ✅ AKTIFKAN QUEST SELANJUTNYA
+            //// ============================
 
 
-        //chatPanel.SetActive(false);
-        //floatingButton.SetActive(false);
-        //dialogIndex = 0;
+            //chatPanel.SetActive(false);
+            //floatingButton.SetActive(false);
+            //dialogIndex = 0;
 
-        //if (activeDialog.givesQuest)
-        //{
-        //    GiveQuest(activeDialog);
-        //}
-    }
+            //if (activeDialog.givesQuest)
+            //{
+            //    GiveQuest(activeDialog);
+            //}
+        }
 
     void GiveQuest(NPCDialogData npcData)
     {
@@ -357,6 +449,7 @@ public class PlayerInteraction : MonoBehaviour
 
                     if (npcData.questIndex == 0)
                     {
+                        achieveManager.rewardButtons[0].interactable = true;
                         LeanTween.moveY(achieveAnnoun.rectTransform, 280, .7f).setOnComplete(() =>
                         {            // Tunggu 5 detik sebelum melanjutkan
                             LeanTween.delayedCall(5f, () =>
@@ -367,6 +460,15 @@ public class PlayerInteraction : MonoBehaviour
 
                         //LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
 
+                        for (int i = 0; i < imageAnnoun.Length; i++)
+                        {
+                            imageAnnoun[i].SetActive(true);
+                        }
+                    }
+
+                    if(npcData.questIndex == 2)
+                    {
+                        achieveManager.rewardButtons[2].interactable = true;
                         for (int i = 0; i < imageAnnoun.Length; i++)
                         {
                             imageAnnoun[i].SetActive(true);

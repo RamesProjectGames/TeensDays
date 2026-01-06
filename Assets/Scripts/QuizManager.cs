@@ -240,7 +240,7 @@ public class QuizManager : MonoBehaviour
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
         int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
-        int nextLevel = currentIndex++;
+        int nextLevel = currentIndex + 1;
 
         if (nextLevel > unlockedLevel)
         {
