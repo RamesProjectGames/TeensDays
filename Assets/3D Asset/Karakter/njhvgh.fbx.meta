@@ -1,0 +1,394 @@
+fileFormatVersion: 2
+guid: f5d00381b848c5e4baa507b6ae0bda0c
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: njhvgh(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: njhvgh(Clone)
+      position: {x: -0, y: 0.00047045946, z: -0.0005945151}
+      rotation: {x: -0.7071067, y: -0.00000006964853, z: -0.00000017641867, w: 0.7071068}
+      scale: {x: 100, y: 100, z: 100}
+    - name: TOR1
+      parentName: Armature
+      position: {x: 2.842171e-16, y: 0, z: 0.0117461635}
+      rotation: {x: 0.7684213, y: -4.2399861e-10, z: 5.0908966e-10, w: 0.6399443}
+      scale: {x: 0.99999416, y: 1, z: 0.9999997}
+    - name: TOR2
+      parentName: TOR1
+      position: {x: -6.193928e-23, y: 0.0022395535, z: -1.11758706e-10}
+      rotation: {x: -0.06041807, y: 0.0000000025314466, z: -0.0000000011329461, w: 0.9981732}
+      scale: {x: 1.0000081, y: 1.000003, z: 1.0000108}
+    - name: TOR3
+      parentName: TOR2
+      position: {x: -2.0487609e-22, y: 0.0020299307, z: 3.7252902e-11}
+      rotation: {x: -0.15141633, y: -0.000000002653262, z: -8.611676e-11, w: 0.98847014}
+      scale: {x: 1.0000286, y: 0.9999991, z: 1.0000206}
+    - name: NK
+      parentName: TOR3
+      position: {x: -1.4512652e-19, y: 0.0022614202, z: 6.367918e-10}
+      rotation: {x: 0.2328222, y: -0.0000000013064559, z: -0.000000002329323, w: 0.97251934}
+      scale: {x: 0.99999213, y: 1.0000193, z: 0.9999743}
+    - name: HD
+      parentName: NK
+      position: {x: -5.6551985e-18, y: 0.0014672, z: 1.3038516e-10}
+      rotation: {x: -0.10611168, y: 0.0000000016070041, z: 0.0000000022452062, w: 0.99435425}
+      scale: {x: 1.000005, y: 1.0000695, z: 0.999935}
+    - name: SHD.R
+      parentName: TOR3
+      position: {x: -1.4512652e-19, y: 0.0022614202, z: 6.367918e-10}
+      rotation: {x: 0.46423256, y: 0.4052214, z: 0.57954156, w: -0.5333061}
+      scale: {x: 0.99998724, y: 0.9999943, z: 1.0000149}
+    - name: UPPARM.R
+      parentName: SHD.R
+      position: {x: -2.4556357e-12, y: 0.002283748, z: 0.0000000012104874}
+      rotation: {x: -0.024811601, y: 0.6942969, z: 0.020742977, w: -0.71896166}
+      scale: {x: 0.99996686, y: 1.0000489, z: 1.0000087}
+    - name: LOWARM.R
+      parentName: UPPARM.R
+      position: {x: 7.21775e-11, y: 0.003526179, z: 0}
+      rotation: {x: -0.08069259, y: 0.011849016, z: 0.0028370172, w: 0.99666464}
+      scale: {x: 1.0000141, y: 1.0000359, z: 0.9999832}
+    - name: SHD.L
+      parentName: TOR3
+      position: {x: -1.822527e-22, y: 0.0022614202, z: 6.367918e-10}
+      rotation: {x: -0.4642325, y: 0.40522134, z: 0.5795416, w: 0.5333061}
+      scale: {x: 0.9999795, y: 0.99998796, z: 1.0000088}
+    - name: UPPARM.L
+      parentName: SHD.L
+      position: {x: -2.4920155e-12, y: 0.0022837478, z: -0.0000000032598721}
+      rotation: {x: 0.024811419, y: 0.6942971, z: 0.020742858, w: 0.71896154}
+      scale: {x: 0.9999647, y: 1.0000422, z: 1.0000097}
+    - name: LOWARM.L
+      parentName: UPPARM.L
+      position: {x: -9.103678e-10, y: 0.0035261784, z: 2.2351741e-10}
+      rotation: {x: -0.08069262, y: -0.011849011, z: -0.0028370013, w: 0.9966645}
+      scale: {x: 1.00001, y: 1.0000353, z: 0.99998254}
+    - name: HND.L
+      parentName: Armature
+      position: {x: -0.0030565693, y: -0.0017214715, z: 0.011884012}
+      rotation: {x: -0.6747329, y: 0.22327673, z: 0.20431621, w: 0.6731552}
+      scale: {x: 1.0000051, y: 1.0000008, z: 0.9999999}
+    - name: HND.R
+      parentName: Armature
+      position: {x: 0.003035685, y: 0.0015210547, z: 0.011969094}
+      rotation: {x: -0.674733, y: -0.22327675, z: -0.20431623, w: 0.6731552}
+      scale: {x: 1.0000008, y: 1.0000033, z: 1}
+    - name: PLV.R
+      parentName: Armature
+      position: {x: 2.842171e-16, y: 0, z: 0.0117461635}
+      rotation: {x: 0.01341744, y: -0.0055933297, z: -0.6123897, w: 0.79042244}
+      scale: {x: 1.0000037, y: 1.0000018, z: 1.0000048}
+    - name: UPPLG.R
+      parentName: PLV.R
+      position: {x: 1.8626451e-11, y: 0.001562942, z: -5.3551047e-10}
+      rotation: {x: -0.59109783, y: -0.4855181, z: 0.37996212, w: 0.5201004}
+      scale: {x: 1.0000076, y: 1.000009, z: 0.99999785}
+    - name: LOWLG.R
+      parentName: UPPLG.R
+      position: {x: 2.165325e-10, y: 0.005269975, z: -5.122274e-11}
+      rotation: {x: 0.15383717, y: -0.0085036745, z: 0.009876966, w: 0.9880103}
+      scale: {x: 1.0000163, y: 1.0000131, z: 1.0000014}
+    - name: FT.R
+      parentName: Armature
+      position: {x: 0.0012280438, y: -0.0012675243, z: 0.0004724499}
+      rotation: {x: 7.105428e-15, y: -0.00000014901163, z: -1, w: -1.4210856e-14}
+      scale: {x: 1, y: 0.9999958, z: 0.99999565}
+    - name: TOE.R
+      parentName: FT.R
+      position: {x: -0, y: 0.001557137, z: 0}
+      rotation: {x: -0.00000005960466, y: -0.000000010600374, z: -5.5258473e-15, w: 1}
+      scale: {x: 1, y: 1.0000005, z: 1.0000002}
+    - name: PLV.L
+      parentName: Armature
+      position: {x: 2.842171e-16, y: 0, z: 0.0117461635}
+      rotation: {x: 0.013417348, y: 0.0055933003, z: 0.61238974, w: 0.7904224}
+      scale: {x: 0.9999994, y: 1.0000007, z: 1.0000019}
+    - name: UPPLG.L
+      parentName: PLV.L
+      position: {x: -1.8626451e-11, y: 0.001562942, z: -5.3551047e-10}
+      rotation: {x: -0.5910978, y: 0.4855182, z: -0.37996212, w: 0.5201004}
+      scale: {x: 1.0000129, y: 1.0000138, z: 1.0000002}
+    - name: LOWLG.L
+      parentName: UPPLG.L
+      position: {x: -2.561137e-10, y: 0.0052699754, z: -6.0535965e-11}
+      rotation: {x: 0.15383726, y: 0.008503674, z: -0.009876889, w: 0.9880102}
+      scale: {x: 1.0000136, y: 1.0000124, z: 1.0000054}
+    - name: FT.L
+      parentName: Armature
+      position: {x: -0.0009602562, y: 0.0030622818, z: 0.0010296339}
+      rotation: {x: 7.105428e-15, y: -0.00000014901163, z: -1, w: -1.4210856e-14}
+      scale: {x: 1, y: 0.99999595, z: 0.9999958}
+    - name: TOE.L
+      parentName: FT.L
+      position: {x: -0, y: 0.001557137, z: 0}
+      rotation: {x: 7.061263e-23, y: 3.3126768e-10, z: -0.000000010600382, w: 1}
+      scale: {x: 1, y: 0.99999565, z: 0.9999955}
+    - name: BajuAngkot
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010285299, y: 1.1769714, z: -0.0005945151}
+      rotation: {x: -0.0000000437114, y: 1, z: 0.000000037748954, w: 0.0000000754979}
+      scale: {x: 100, y: 100, z: 100}
+    - name: BajuLenganPanjang1
+      parentName: njhvgh(Clone)
+      position: {x: -0.000000103196534, y: 1.180901, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: BajuLenganPanjangIbuPenjual
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010315191, y: 1.1803906, z: -0.0005945151}
+      rotation: {x: -0.00000010677015, y: 0.70710665, z: 0.7071069, w: -2.0569975e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: BajuLenganPendek1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010321282, y: 1.1810873, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: BajuLenganPendek2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010257276, y: 1.180999, z: -0.0047822897}
+      rotation: {x: -0.00000010677015, y: 0.70710665, z: 0.7071069, w: -2.0569975e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: BajuPasar
+      parentName: njhvgh(Clone)
+      position: {x: -0, y: 1.1800463, z: -0.0005945151}
+      rotation: {x: -0.00000010677014, y: 0.7071068, z: 0.7071067, w: -5.1625794e-15}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: BajuPolo_Panjang
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010150361, y: 1.1615362, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: BajuPolo_Pendek
+      parentName: njhvgh(Clone)
+      position: {x: -0.000000103175545, y: 1.180661, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Base Body
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000018780176, y: 2.1484058, z: -0.0004406243}
+      rotation: {x: -0.000000106770145, y: 0.7071068, z: 0.7071067, w: -1.382833e-16}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: CelanaPanjang1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: CelanaPanjang2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677015, y: 0.70710665, z: 0.7071069, w: -2.0569975e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: CelanaPanjang3
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677015, y: 0.70710665, z: 0.7071069, w: -2.0569975e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: CelanaPendek1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677015, y: 0.70710665, z: 0.7071069, w: -2.0569975e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: CelanaPendek2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Head
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010317893, y: 1.1806996, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: Hijab1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010285022, y: 1.1769397, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 38.98256, y: 38.98256, z: 38.98256}
+    - name: Hijab2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010285782, y: 1.1770265, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 38.98256, y: 38.98256, z: 38.98256}
+    - name: RambutAngkot
+      parentName: njhvgh(Clone)
+      position: {x: -0.000000103425734, y: 1.1835227, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: RambutCewe1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010375562, y: 1.1872962, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: RambutCewe2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010435316, y: 1.1941314, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 21.652681, y: 30.135155, z: 30.135155}
+    - name: RambutCewe3
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010322096, y: 1.1811805, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: RambutCowo1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010353653, y: 1.1847901, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 28.61673, y: 27.814796, z: 29.151842}
+    - name: RambutCowo2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010341348, y: 1.1833825, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 28.61673, y: 27.814796, z: 28.68397}
+    - name: RambutCowo3
+      parentName: njhvgh(Clone)
+      position: {x: -0.000000103776024, y: 1.1875296, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: RambutTopi_Test
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010323793, y: 1.1813744, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: RokPanjang1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: RokPanjang2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677015, y: 0.70710665, z: 0.7071069, w: -2.0569975e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: RokPendek
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 100, y: 100, z: 100}
+    - name: SendalJepit1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010514958, y: 1.2032411, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: SendalJepit2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: Sepatu1
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    - name: Sepatu2
+      parentName: njhvgh(Clone)
+      position: {x: -0.00000010505031, y: 1.2021058, z: -0.0005945151}
+      rotation: {x: -0.00000010677016, y: 0.70710665, z: 0.7071069, w: -1.0521384e-14}
+      scale: {x: 27.455467, y: 27.455467, z: 27.455467}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
