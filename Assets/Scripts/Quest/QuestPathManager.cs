@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,9 @@ public class QuestPathManager : MonoBehaviour
     public NavMeshAgent agent;       // Agent hanya dipakai untuk akses NavMesh data
 
     private LineRenderer line;
+
+    float lastPathLength = 0f;
+    float updateThreshold = 0.5f; // meter
 
     void Start()
     {
@@ -36,11 +40,31 @@ public class QuestPathManager : MonoBehaviour
     void DrawPathToTarget()
     {
         NavMeshPath path = new NavMeshPath();
-        if (NavMesh.CalculatePath(player.position, questTarget.position, NavMesh.AllAreas, path))
+
+        float totalLength = 0f;
+        for (int i = 0; i < path.corners.Length - 1; i++)
         {
-            line.positionCount = path.corners.Length;
-            line.SetPositions(path.corners);
+            totalLength += Vector3.Distance(path.corners[i], path.corners[i + 1]);
         }
+
+        // Update texture hanya jika beda cukup jauh
+        if (Mathf.Abs(totalLength - lastPathLength) > updateThreshold)
+        {
+            float arrowSize = 1.5f;
+            line.material.mainTextureScale = new Vector2(
+                totalLength / arrowSize,
+                1
+            );
+
+            lastPathLength = totalLength;
+        }
+
+        //
+        //if (NavMesh.CalculatePath(player.position, questTarget.position, NavMesh.AllAreas, path))
+        //{
+        //    line.positionCount = path.corners.Length;
+        //    line.SetPositions(path.corners);
+        //}
     }
 
     // Panggil ini ketika quest aktif atau selesai

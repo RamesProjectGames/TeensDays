@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -8,6 +9,9 @@ using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    [Header("Cinemachine")]
+    public CinemachineVirtualCamera talkCam;
+
     public float interactRange = 3f;
     public LayerMask npcLayer;
     public GameObject floatingButton;
@@ -30,7 +34,7 @@ public class PlayerInteraction : MonoBehaviour
     private InteractableNPC currentNPC;
     private InteractableNPC npcBeingTalkedTo;
     public QuestSystem questSystem;
-    public QuestPathManager questPathManager;
+    //public QuestPathManager questPathManager;
     public AchieveManager achieveManager;
     public PlayerManager playerManager;
 
@@ -94,6 +98,22 @@ public class PlayerInteraction : MonoBehaviour
         if (currentNPC == null) return;
 
         npcBeingTalkedTo = currentNPC;  // <-- Kunci NPC saat ini
+
+        // =======================
+        // 🎥 Aktifkan kamera dialog
+        // =======================
+        Transform lookTarget = npcBeingTalkedTo.transform.Find("HeadLookTarget");
+        if (lookTarget != null)
+        {
+            talkCam.LookAt = lookTarget;
+        }
+        else
+        {
+            Debug.Log("Tidak menemukan HeadLookTarget");
+            talkCam.LookAt = npcBeingTalkedTo.transform;
+        }
+
+        talkCam.Priority = 20;
 
         var data = NPCPatrolManager.Instance.GetNPCData(npcBeingTalkedTo.gameObject);
         if (data != null)
@@ -321,35 +341,41 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-            // ============================
-            // ✅ QUEST START GAME AUTO SELESAI
-            // ============================
+        // =======================
+        // 🎥 Matikan kamera dialog
+        // =======================
+        talkCam.Priority = 0;
+        talkCam.LookAt = null;
 
-            //// ✅ Selesaikan Quest Awal
-            //var startQuest = QuestSystem.instance.quests[startQuestIndex];
-            //startQuest.questObjectAnnoun?.SetActive(false);
+        // ============================
+        // ✅ QUEST START GAME AUTO SELESAI
+        // ============================
 
-            //QuestSystem.instance.MarkQuestDone(-1, startQuestIndex, false, false);
+        //// ✅ Selesaikan Quest Awal
+        //var startQuest = QuestSystem.instance.quests[startQuestIndex];
+        //startQuest.questObjectAnnoun?.SetActive(false);
 
-            //QuestSystem.instance.UpdateQuestDisplay();
-            //QuestSystem.instance.CheckAutoCompleteQuests();
+        //QuestSystem.instance.MarkQuestDone(-1, startQuestIndex, false, false);
 
-            //Debug.Log("✅ Quest awal otomatis diselesaikan di akhir dialog!");
+        //QuestSystem.instance.UpdateQuestDisplay();
+        //QuestSystem.instance.CheckAutoCompleteQuests();
 
-            //// ============================
-            //// ✅ AKTIFKAN QUEST SELANJUTNYA
-            //// ============================
+        //Debug.Log("✅ Quest awal otomatis diselesaikan di akhir dialog!");
+
+        //// ============================
+        //// ✅ AKTIFKAN QUEST SELANJUTNYA
+        //// ============================
 
 
-            //chatPanel.SetActive(false);
-            //floatingButton.SetActive(false);
-            //dialogIndex = 0;
+        //chatPanel.SetActive(false);
+        //floatingButton.SetActive(false);
+        //dialogIndex = 0;
 
-            //if (activeDialog.givesQuest)
-            //{
-            //    GiveQuest(activeDialog);
-            //}
-        }
+        //if (activeDialog.givesQuest)
+        //{
+        //    GiveQuest(activeDialog);
+        //}
+    }
 
     void GiveQuest(NPCDialogData npcData)
     {
