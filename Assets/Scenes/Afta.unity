@@ -133909,6 +133909,74 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 629203572}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &630018467
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.531607
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.999072
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -152.82768
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e8f54bec4ce33e4a8968cb651825336,
+        type: 3}
+      propertyPath: m_Name
+      value: BOBON Rigify rev
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e8f54bec4ce33e4a8968cb651825336, type: 3}
 --- !u!1001 &631649213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219475,6 +219543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c24ad5a5b6f1c4ab9b55898cca68ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  talkCam: {fileID: 0}
   interactRange: 3
   npcLayer:
     serializedVersion: 2
@@ -219484,7 +219553,6 @@ MonoBehaviour:
   wasPatrolling: 0
   achieveAnnoun: {fileID: 0}
   questSystem: {fileID: 495612686}
-  questPathManager: {fileID: 0}
   achieveManager: {fileID: 0}
   playerManager: {fileID: 0}
   imageAnnoun: []
@@ -484060,3 +484128,4 @@ SceneRoots:
   - {fileID: 7686069092559163212}
   - {fileID: 1581185066}
   - {fileID: 1387789187}
+  - {fileID: 630018467}
