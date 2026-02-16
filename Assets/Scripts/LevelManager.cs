@@ -21,6 +21,16 @@ public class LevelManager : MonoBehaviour
         UpdateLevelButtons();
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void OpenLevel(int levelId)
     {
         string prevSceneName = SceneManager.GetActiveScene().name;
@@ -33,20 +43,25 @@ public class LevelManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        if (scene.name == "Rama") 
-        {
-            if (PlayerMovement.Instance != null)
-            {
-                PlayerMovement.Instance.objectPlayerSpawn.transform.position = new Vector3(77, -2, 6);
-                Debug.Log("Player dipindahkan ke posisi awal!");
-            }
-            else
-            {
-                Debug.LogWarning("PlayerMovement.Instance tidak ditemukan di scene baru!");
-            }
-        }
+        if (SceneEntryManager.LastEntryID != "PortalSD")
+            return;
+
+        Debug.Log("Logic khusus PortalSD dijalankan");
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        //if (scene.name == "Rama") 
+        //{
+        //    if (PlayerMovement.Instance != null)
+        //    {
+        //        PlayerMovement.Instance.objectPlayerSpawn.transform.position = new Vector3(77, 3, 6);
+        //        Debug.Log("Player dipindahkan ke posisi awal!");
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("PlayerMovement.Instance tidak ditemukan di scene baru!");
+        //    }
+        //}
     }
 
     public void ResetLevel()
