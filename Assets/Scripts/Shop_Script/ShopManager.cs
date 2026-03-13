@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    //public ShopItemList currentItemList;
     public static ShopManager instance;
     public Button[] ShopBtns;
     public Sprite[] onClickBtns;
@@ -17,8 +18,12 @@ public class ShopManager : MonoBehaviour
     public bool[] shopChecked;
 
     public int selectedIndex;
+    //public int filterIndex;
 
     public ItemUI[] itemCards; // drag prefab UI item di Inspector
+
+    [Header("Filter Settings")]
+    public string[] filterRarity;
 
     private void Awake()
     {
@@ -64,6 +69,53 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public void OnTabClickedFilter(int _filterIndex)
+    {
+        //filterIndex = _filterIndex;
+
+        ApplyFilter(filterRarity[_filterIndex]);
+    }
+
+    //public void LoadShopItems()
+    //{
+    //    string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
+
+    //    if (File.Exists(path))
+    //    {
+    //        string jsonData = File.ReadAllText(path);
+    //        string wrappedJson = "{ \"items\": " + jsonData + "}";
+    //        currentItemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
+
+    //        for (int i = 0; i < currentItemList.items.Length && i < itemCards.Length; i++)
+    //        {
+    //            itemCards[i].SetItem(
+    //                currentItemList.items[i].itemId,
+    //                currentItemList.items[i].name,
+    //                currentItemList.items[i].description,
+    //                currentItemList.items[i].price,
+    //                currentItemList.items[i].priceMoney,
+    //                currentItemList.items[i].isDiamondPayment,
+    //                currentItemList.items[i].rarity);
+    //        }
+    //    }
+    //}
+
+    void ApplyFilter(string rarity)
+    {
+        for (int i = 0; i < itemCards.Length; i++)
+        {
+            if (rarity.ToLower() == "all")
+            {
+                itemCards[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                bool match = itemCards[i].rarityType.ToLower() == rarity.ToLower();
+                itemCards[i].gameObject.SetActive(match);
+            }
+        }
+    }
+
     public void LoadShopItems()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
@@ -82,10 +134,10 @@ public class ShopManager : MonoBehaviour
             {
                 itemCards[i].SetItem(
                     itemList.items[i].itemId,
-                    itemList.items[i].name, 
-                    itemList.items[i].description, 
-                    itemList.items[i].price, 
-                    itemList.items[i].priceMoney, 
+                    itemList.items[i].name,
+                    itemList.items[i].description,
+                    itemList.items[i].price,
+                    itemList.items[i].priceMoney,
                     itemList.items[i].isDiamondPayment,
                     itemList.items[i].rarity);
             }

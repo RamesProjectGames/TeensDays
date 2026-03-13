@@ -19,7 +19,7 @@ Kelas;Soal;A;B;C;D;E;Jawaban
 6;Hai, hebat sekali benda peninggalan nenekmu? hardik Oca. Kesalah penggunaan tanda baca pada kalimat tersebut adalah ...;"Tanda petik ("" ..."")";Tanda koma (,);Tanda tanya (?);Tanda titik (.);#;C
 6;anita akan menyumbang tas peralatan sekolah dan buku ke panti asuhan Ejaan yang tepat sesuai kaidah yang benar adalah ...;Anita akan menyumbang tas, peralatan sekolah, dan buku ke panti asuhan.;Anita akan menyumbang: tas, peralatan sekolah, dan buku ke panti asuhan.;Anita akan menyumbang tas, peralatan sekolah, dan buku ke Panti Asuhan.;Anita akan menyumbang: tas, peralatan sekolah, dan buku ke Panti asuhan.;#;C
 6;( ... ) Saya tidak akan mengulanginya lagi ( ... ) Bu ( ... ) ( ... ) jawab Ina ( ... ) Tanda baca yang benar sesuai dengan kaidah adalah ...;"(""), (.), (!), (""), (.)";"(""), (,), (!), (""), (.)";"(""), (,), (,), (""), (.)";"(""), (,), (.), (""), (.)";#;D
-6;"Besok pagi; Tina akan pergi ke Tawangmangu? kata Doni. Perbaikan penggunaan tanda baca yang tepat pada kalimat tersebut adalah ...";Besok pagi, Tina akan pergi ke Tawangmangu, kata Doni.;Besok pagi, Tina akan pergi ke Tawangmangu. kata Doni.;Besok pagi, Tina akan pergi ke Tawangmangu, kata Doni.;Besok pagi, Tina akan pergi ke Tawangmangu. kata Doni.;#;C
+6;"Besok pagi, Tina akan pergi ke Tawangmangu? kata Doni. Perbaikan penggunaan tanda baca yang tepat pada kalimat tersebut adalah ...";Besok pagi, Tina akan pergi ke Tawangmangu, kata Doni.;Besok pagi, Tina akan pergi ke Tawangmangu. kata Doni.;Besok pagi, Tina akan pergi ke Tawangmangu, kata Doni.;Besok pagi, Tina akan pergi ke Tawangmangu. kata Doni.;#;C
 6;Bagian surat pribadi yang berisi memberi tahu keadaan, menanyakan keadaan adalah ...;Isi;penutup;pembukaan;kekerabatan;#;A
 6;Di bawah ini yang merupakan kalimat penutup surat resmi adalah ...;Bila ada kata-kata yang salah kami mohon maaf.;Jangan lupa segera di bawah surat ini.;Atas perhatian dan kehadirannya kami ucapkan terima kasih.;Sekian surat ini, bila ada waktu bisa disambung lagi.;#;C
 6;Penulisan judul puisi yang tepat di bawah ini adalah ...;Secangkir Kopi untuk Ayah;SECANGKIR KOPI UNTUK AYAH;Secangkir Kopi Untuk Ayah;Secangkir kopi untuk Ayah;#;A
@@ -83,19 +83,16 @@ Kelas;Soal;A;B;C;D;E;Jawaban
 6;Tumbuhan yang terancam punah karena sering digunakan sebagai rempah-rempah dan aroma terapi ialah ...;cendana;meranti;gaharu;jati;#;A
 6;Kawasan yang melindungi tumbuhan di tempat asalnya ialah ...;hutan lindung;kebun botani;kebun binatang;suaka margasatwa;#;B
 6;Hewan yang berasal dari Sulawesi dan terancam punah ialah ...;komodo;harimau sumatra;badak;anoa;#;D
-6;Bagian yang berfungsi memantulkan kembali panas adalah ... (gambar tidak ditampilkan);1;2;3;4;#;B
 6;Perpindahan panas dari suatu benda ke benda lainnya disebut ...;konduksi;konveksi;radiasi;isolasi;#;A
-6;Benda yang bersifat isolator ditunjukkan oleh nomor ... (gambar tidak ditampilkan);1;2;3;4;#;B
-6;Gambar tersebut menunjukkan bahwa pada mur besi telah terjadi ...;pembusukan;pelapukan;perkaratan;pengapuran;#;C
 6;Berikut ini pernyataan yang benar mengenai perkaratan ialah ...;penghancuran bahan yang disebabkan oleh organisme;pembentukan lapisan merah kekuningan akibat proses kimia;contoh perkaratan adalah hancurnya kayu di hutan;contoh perkaratan adalah membusuknya sayuran;#;B
 6;Ban sepeda sebaiknya terbuat dari ...;kayu;plastik;karet;logam;#;C
 6;Berikut ini pernyataan yang benar mengenai sifat logam ialah ...;mudah pecah;elastis;penghantar listrik;mudah lapuk;#;C
 6;Ciri khusus yang dimiliki tumbuhan kaktus adalah ...;daun lebar dan tipis;akar pendek dan lebat;daunnya berbentuk duri;batang tebal dan berlapis lilin;#;D
 6;Daun pandan banyak dimanfaatkan untuk ...;pewarna alami;tanaman hias;pengawet makanan;penyedap masakan;#;D
 6;Mengembangbiakkan buaya di penangkaran bertujuan untuk ...;agar dapat dipelihara;supaya tidak punah;mengembangbiakkan secara besar-besaran;untuk diambil kulitnya;#;B
-6;Rantai makanan yang mungkin terjadi dalam ekosistem danau adalah ...;zooplankton ? ikan gabus ? ular ? elang;lumut ? fitoplankton ? ikan bawal ? burung pelikan;fitoplankton ? zooplankton ? udang kecil ? ikan gabus;zooplankton ? fitoplankton ? udang kecil ? ikan lele;#;C
+6;Rantai makanan yang mungkin terjadi dalam ekosistem danau adalah ...;zooplankton > ikan gabus > ular > elang;lumut > fitoplankton > ikan bawal > burung pelikan;fitoplankton > zooplankton > udang kecil > ikan gabus;zooplankton > fitoplankton > udang kecil > ikan lele;#;C
 6;Hubungan antara anggrek dengan tumbuhan inangnya adalah ...;simbiosis parasitisme;simbiosis mutualisme;simbiosis amensalisme;simbiosis komensalisme;#;D
-6;Pada rantai makanan padi ? belalang ? katak ? ular ? elang, katak berperan sebagai ...;produsen;konsumen I;konsumen II;konsumen III;#;C
+6;Pada rantai makanan padi > belalang > katak > ular > elang, katak berperan sebagai ...;produsen;konsumen I;konsumen II;konsumen III;#;C
 6;Jamur bagi makhluk hidup di sekitarnya berperan sebagai ...;pengurai sisa kehidupan;penghasil karbohidrat;pencegah erosi;konsumen terakhir;#;A
 6;Salah satu cara mencegah longsor di tanah curam adalah ...;melakukan rotasi tanaman;melakukan rehabilitasi lahan;membuat tanah bertingkat-tingkat;menanam kembali tanaman atau reboisasi;#;D
 6;Tujuan padi menggulungkan daunnya pada musim kemarau adalah ...;mempermudah proses penyerbukan;memperindah bentuk pohon;menghentikan fotosintesis;mengurangi penguapan;#;D
@@ -154,31 +151,26 @@ Kelas;Soal;A;B;C;D;E;Jawaban
 6;5.326 -- 26 x 112 + 237 =  ...;1,294;2,016;2,315;2,735;#;C
 6;KPK dari 18, 30, dan 45 adalah ...;9;54;60;90;#;D
 6;Pak Ali akan membagikan 48 jeruk dan 80 buah apel kepada sejumlah anak. Jika setiap anak memperoleh bagian yang sama, maka jumlah anak yang akan menerima bagian tersebut sebanyak... anak.;8;16;24;32;#;B
-6;Nilai dari 133 = ...;39;133;2,197;3,197;#;C
-6;Nilai dari ?4.096 = ...;16;26;36;46;#;A
-6;93 + 6 - ?1.000 = n, maka nilai n adalah...;635;735;835;935;#;B
-6;Dua buah kubus masing-masing panjang rusuknya adalah 8 cm dan 5 cm. Jumlah volume kedua kubus tersebut adalah...cm³;89;637;725;837;#;B
+6;Nilai dari v4.096 = ...;16;26;36;64;#;A
+6;Dua buah kubus masing-masing panjang rusuknya adalah 8 cm dan 5 cm. Jumlah volume kedua kubus tersebut adalah...cm ;89;637;725;837;#;B
 6;Sebuah bak mandi berisi air dengan menggunakan pipa yang debitnya 400 ml/detik. Artinya...;Dalam waktu 400 detik, volume air yang mengalir dari pipa 1 ml;Dalam waktu satu detik, volume yang mengalir dari pipa 1 liter;Dalam waktu satu detik, volume air yang mengalir dari pipa 400 ml;Dalam waktu satu jam, volume air yang mengalir dari pipa 400 ml;#;C
 6;12 liter/menit = ... liter/detik;0,12;12;0,02;0,2;#;D
 6;Sebuah tengki minyak tanah berisi 7.200 liter. Minyak tersebut dialirkan ke dalam drum selama 40 menit. Maka debit minyak tanah tersebut adalah... liter/menit;140;150;160;180;#;D
-6;Sebuah lingkaran memiliki jari-jari 28 cm. Maka luasnya adalah ...cm²;2,464;1,232;616;308;#;A
-6;Sebuah kaleng susu memiliki tinggi 20 cm dan jari-jari alasnya 6 cm. Maka volume kaleng susu tersebut adalah...cm³.;120;1.260,80;1,884;2.260,80;#;D
+6;Sebuah lingkaran memiliki jari-jari 28 cm. Maka luasnya adalah ...cm ;2,464;1,232;616;308;#;A
+6;Sebuah kaleng susu memiliki tinggi 20 cm dan jari-jari alasnya 6 cm. Maka volume kaleng susu tersebut adalah...cm .;120;1.260,80;1,884;2.260,80;#;D
 6;Di bawah ini adalah nilai ulangan IPA siswa kelas VI : 5 8 7 9 6 7 9 7 8 6 7 9 8 6 5 7 8 9 8 7 6 7 5 8 7 9 5. Banyak siswa yang mengikuti ulangan IPA adalah...anak;25;26;27;28;#;B
 6;Hasil 3.444 + 2.678 -- 3.446 = ...;2,786;2,676;2,576;2,566;#;B
 6;Hasil 4.896 : 12 x 8 = ...;51;384;3,204;3,264;#;D
 6;Hasil 243 = ...;13,824;13,584;13,484;12,724;#;A
 6;Hasil -344 + (-268) -- 146 = ...;-506;-516;-748;-758;#;D
-6;Hasil ?9.216 - ?5.184 : ?144 = ...;2;13;86;90;#;D
 6;KPK dari 39, 63, 84 adalah ...;22 x 32 x 7 x 13;2 x 32 x 7 x 13;22 x 3 x 7 x 13;2 x 3 x 7 x 13;#;A
-6;Bakso dalam kulkas bersuhu 8°C di bawah nol. Setelah dimasak dalam air mendidih selama 45 menit, suhu bakso tersebut naik 95°C. Saat dihidangkan suhu bakso turun 27°C. Selisih suhu bakso saat dalam kulkas dan saat dihidangkan adalah ...;52°C;60°C;68°C;76°C;#;C
 6;Pak Bondan memelihara kambing 24 ekor dan ayam 32 ekor lebih banyak dari kambing. Perbandingan kambing dengan ayam yang dipelihara Pak Bondan adalah ...;03:04;03:07;03:10;04:10;#;B
-6;Pekan olahraga daerah diikuti lima daerah kabupaten dari DIY. Peserta dari Gunungkidul 15%, Kota Madya ¼, Bantul dan Sleman masing-masing 0,15. Selebihnya Kulon Progo. Peserta dari Kulon Progo dan Bantul ada ...;12%;30%;37,50%;45%;#;B
+6;Pekan olahraga daerah diikuti lima daerah kabupaten dari DIY. Peserta dari Gunungkidul 15%, Kota Madya  , Bantul dan Sleman masing-masing 0,15. Selebihnya Kulon Progo. Peserta dari Kulon Progo dan Bantul ada ...;12%;30%;37,50%;45%;#;B
 6;Hasil 2.456 -- 1.632 : 8 + 24 x 6 = ...;762;2,396;2,549;2,576;#;B
 6;Ibu Sardi memiliki gelas 3,25 gross lebih 8 buah. Untuk keperluan acara pernikahan anaknya, bu Sardi meminjam gelas 16 lusin. Banyaknya seluruh gelas yang ada pada bu Sardi ada ... biji.;650;658;660;668;#;A
 6;Banu menyelesaikan lomba MIPA selama 3 jam 12 menit 24 detik, sedangkan Ari menyelesaikan lomba MIPA selama 1 jam 46 menit 48 detik. Selisih waktu menyelesaikan lomba MIPA Banu dengan Ari adalah ...;01.25.36;01.26.46;01.35.36;01.36.46;#;A
 6;Hasil 10,03 km -- 2,8 hm + 37 dam = ... hm;100,2;101,2;110,2;111,2;#;B
 6;Jarak rumah Andi ke sekolah ada 0,8 km. Andi berangkat ke sekolah dari rumah bersepeda dengan kecepatan rata-rata 12 km/jam. Ia tiba di sekolah 19 menit sebelum bel masuk berbunyi. Sekolah masuk pukul 07.00. Ia berangkat dari rumah pukul ...;6,01;6,11;6,37;6,41;#;C
-6;Sebuah kayu berbentuk balok. Panjang balok tersebut 78 cm, lebar 16 cm, dan tinggi dua kali lebarnya. Luas permukaan kayu tersebut adalah ...;39.936 cm²;19.968 cm²;8.512 cm²;4.256 cm²;#;C
 6;Berat sebuah truk tanpa muatan 1,8 ton. Truk tersebut mengangkut beras 32,7 kuintal. Beras tersebut diturunkan di toko sembako 1.750 kg. Beras yang masih termuat di truk tersebut ada ...;1.520 kg;1.800 kg;3.270 kg;3.320 kg;#;A
 6;KLMN adalah sebuah bangun datar trapesium sama kaki. Titik K terletak pada koordinat (-3,4), titik L (1,4), titik M (4,1). Titik N terletak pada koordinat ...;(-6,1);(1,-6);(-6,-1);(-1,-6);#;A
 6;Sebuah taman berbentuk persegi panjang. Panjang taman 288 meter dan lebar setengah dari panjangnya. Di sekeliling taman tersebut diletakkan lampu penerangan. Jarak antar lampu penerangan 24 meter. Jarak 4 meter dari tepi luar, diletakkan tempat duduk. Jarak antar tempat duduk 16 meter. Selisih banyak lampu penerangan dengan tempat duduk ada ...;16 buah;17 buah;36 buah;52 buah;#;B
@@ -187,19 +179,13 @@ Kelas;Soal;A;B;C;D;E;Jawaban
 6;Hasil 68.317 + 21.683 -- 80.957 = ...;7,153;8,043;9,043;10,153;#;C
 6;Operasi hitung yang hasilnya bilangan 112 adalah ...;256 : 16 x 8;672 : 6 x 4;224 x 14 : 28;144 x 12 : 16;#;C
 6;Hasil (-3.130) + 540 : (-12) -- 2.019 = ...;-5,194;-5,094;5,094;5,194;#;A
-6;Sebuah daging harus dipanaskan mencapai suhu 120°C. Suhu awal daging tersebut 10°C. Oven yang digunakan dapat memanaskan daging 4°C tiap 2 menit. Agar mencapai suhu yang diinginkan, daging tersebut harus dipanaskan selama ...;50 menit;55 menit;60 menit;65 menit;#;B
-6;Hasil (12 + 15)³ -- (?(21.000 + 952) + ?576) = ...;19,681;19,671;19,631;19,619;#;A
-6;Hasil dari (89 -- 34)² + 27³ : 9³ = ...;3,042;3,052;3,252;3,502;#;B
 6;Kelipatan Persekutuan Terkecil (KPK) dari 42, 72, dan 96 adalah ...;2,016;1,344;672;502;#;A
 6;Sekelompok penari terbagi menjadi tiga kelompok. Kelompok pertama menggerakkan tangan tiap 12 langkah, kelompok kedua tiap 24 langkah, dan kelompok ketiga tiap 8 langkah. Ketiga kelompok akan menggerakkan tangan bersama-sama pada langkah ke ...;12;24;36;48;#;B
 6;Bentuk persen dari 0,025 adalah ...;25%;4%;15%;22%;#;A
 6;Sebuah truk mengangkut 72 ton beras dan 5,25 kuintal jagung. Muatan truk tersebut diturunkan di pasar 5.675 kg. Berat muatan yang belum diturunkan ada ... kuintal.;7.075;23,5;2,35;6,95;#;A
 6;Pernyataan bilangan bulat negatif yang benar adalah ...;Bilangan yang kurang dari nol;Bilangan yang lebih dari nol;Bilangan yang letaknya sebelah kanan dari nol pada garis bilangan;Bilangan yang dimulai dari 0, 1, 2, 3, ... dst;#;A
-6;Tanda yang tepat untuk menyatakan hubungan -5 dengan -11 adalah ...;<;>;#ERROR!;?;#;B
 6;Letak bilangan negatif pada garis bilangan adalah ...;berada di sebelah kanan bilangan nol;berada di sebelah kanan bilangan satu;berada di sebelah kiri bilangan nol;berada di sebelah kiri bilangan nol;#;C
 6;Bilangan yang terletak antara -25 dan -47 adalah ...;-36;-35;-34;-33;#;A
-6;Suhu udara di kota Amsterdam pada pukul 01.00 adalah -10°C. Pada pukul 08.00 berubah menjadi -6°C. Perubahan suhu yang terjadi adalah ...;-16°C;-4°C;4°C;16°C;#;C
-6;(20 -- 15) -- 5 ... 20 -- (15 -- 5). Tanda yang tepat adalah ...;?;#ERROR!;>;<;#;D
 6;-20, -15, -10, -14, -17, -12. Urutan dari yang terbesar adalah ...;-88;-88;-88;-88;#;D
 6;Bilangan bulat antara -12 dan -2 adalah ...;-102;-91;-77;-63;#;D
 6;Keterampilan dasar dalam permainan kasti adalah...;passing;menembak;melempar bola;menggiring bola;#;C
@@ -323,7 +309,7 @@ Kelas;Soal;A;B;C;D;E;Jawaban
 6;Contoh perwujudan nilai kebersamaan dalam kehidupan siswa misalnya .;menengok teman yang sakit;menolong orang yang sedang berkelahi;memberi makan fakir miskin;membantu teman yang sedang ulangan;#;A
 6;Untuk mempersatukan bangsa, nilai juang yang patut dimiliki bangsa kita saat ini ialah nilai .;kegigihan;rela berkorban;keikhlasan;kebersamaan;#;D
 6;Berikut termasuk sikap gigih, kecuali .;sabar dan ulet;mudah bosan;tak mudah bosan;pantang menyerah;#;B
-6;Berikut ini bukan nilai Pancasila, yakni .;Ketuhanan;Kemanusiaan;Kebangsaan;Kebebasan mutlak;#;D
+6;Berikut ini bukan nilai Pancasila, yakni.;Ketuhanan;Kemanusiaan;Kebangsaan;Kebebasan mutlak;#;D
 6;Bukti yang menunjukkan bahwa dalam proses perumusan dasar negara para pejuang bangsa kita menjunjung nilai kebersamaan ialah diubahnya sila Ketuhanan, dengan kewajiban menjalankan syariat Islam bagi pemeluk-pemeluknya menjadi .;Ketuhanan yang berkeadilan;Ketuhanan Yang Maha Esa;Ketuhanan yang kebudayaan;Ketuhanan yang berkemanusiaan;#;B
 6;Ketika hendak pergi ke sekolah, Dewi menolong anak yang tertabrak sepeda motor. Akibatnya, ia terlambat masuk sekolah. Nilai perjuangan yang dilakukan Dewi adalah nilai .;keadilan;rela berkorban;keberanian;kebersamaan;#;B
 6;Dalam berdiskusi, Tatang tidak marah meskipun pendapatnya dikritik oleh Dadang, karena Tatang mengamalkan nilai juang, yakni nilai .;demokratis;keadilan;persatuan;kemanusiaan;#;A
@@ -468,9 +454,9 @@ Kelas;Soal;A;B;C;D;E;Jawaban
 6;Alat membatik yang berupa teko kecil dari tembaga ringan dan memiliki co rong di ujungnya disebut . . . .;alat cap;corong;canting;alas;#;C
 6;Di antara nama motif batik di bawah ini yang termasuk motif khas Jambi yaitu motif . . . .;basurek;sido mulyo;ombak sinapur karang;daun talas;#;A
 6;Motif batik khas Banjarmasin yang pada masa lampau hanya diperuntukkan bagi kaum bangsawan yaitu motif . . . .;bintang bahambur;naga balimbur;bayam raja;ombak sinapur karang;#;A
-6;Proses penghilangan lilin dalam mem batik disebut . . . .;nglorot;nitik;nyanting;mola;#;A
-6;Proses penghilangan lilin dalam mem ba tik dapat dilakukan dengan cara . . . .;merebus kain;menyetrika kain;mencelupkan kain ke dalam alkohol;mencelupkan kain ke dalam minyak tanah;#;A
-6;Gambar yang menceritakan suatu ade gan atau peristiwa disebut . . . .;dekorasi;ilustrasi;khayalan;karikatur;#;B
+6;Proses penghilangan lilin dalam membatik disebut . . . .;nglorot;nitik;nyanting;mola;#;A
+6;Proses penghilangan lilin dalam membatik dapat dilakukan dengan cara . . . .;merebus kain;menyetrika kain;mencelupkan kain ke dalam alkohol;mencelupkan kain ke dalam minyak tanah;#;A
+6;Gambar yang menceritakan suatu adegan atau peristiwa disebut . . . .;dekorasi;ilustrasi;khayalan;karikatur;#;B
 6;Jenis musik yang lahir dan berkembang dari budaya daerah setempat disebut musik . . . .;instrumental;vokal;modern;daerah;#;D
 6;Musik Gambang Kromong merupakan percampuran budaya pribumi dan budaya . . . .;Amerika;Cina;Inggris;Vietnam;#;B
 6;Tangga nada yang terdiri atas tujuh nada yaitu tangga nada . . . .;diatonik;pentatonik;mayor;minor;#;A

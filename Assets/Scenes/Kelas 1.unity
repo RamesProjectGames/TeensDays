@@ -3262,7 +3262,7 @@ MonoBehaviour:
   timeRemaining: 180
   timeMax: 180
   quizSlider: {fileID: 981991260}
-  totalQuestions: 11
+  totalQuestions: 10
 --- !u!1 &1413607627
 GameObject:
   m_ObjectHideFlags: 0

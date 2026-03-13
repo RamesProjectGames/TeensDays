@@ -1,74 +1,56 @@
 [
     {
-    "itemId": "skin_001",
-    "name": "Skin SD",
-    "description": "Pakaian Seragam Sekolah Dasar Bobon",
-    "price": 150,
-    "priceMoney": 5000,
-    "isDiamondPayment": false,
-    "rarity": "common"
-  },
-  {
-    "itemId": "skin_002",
-    "name": "Skin SMP",
-    "description": "Bobon sudah lulus SD dan Memakai Seragam SMP",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": true,
-    "rarity": "rare"
-  },
-  {
-    "itemId": "skin_003",
-    "name": "Skin Fashion",
-    "description": "Pakaian Pergi Mall ala fashionista",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": false,
-    "rarity": "epic"
-  },
-  {
-    "itemId": "skin_004",
-    "name": "Skin Naga",
-    "description": "Pakaian Naga lucu merayakan hari raya imlek",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": true,
-    "rarity": "legend"
-  },
-  {
-    "itemId": "skin_005",
-    "name": "Skin Kaos",
-    "description": "Pakaian Main Bobon",
-    "price": 150,
-    "priceMoney": 5000,
-    "isDiamondPayment": false,
-    "rarity": "common"
-  },
-  {
-    "itemId": "skin_006",
-    "name": "Skin SMA",
-    "description": "Bobon sudah lulus SMP dan Memakai Seragam SMA",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": true,
-    "rarity": "rare"
-  },
-  {
-    "itemId": "skin_007",
-    "name": "Skin Hypbeast",
-    "description": "Pakaian Pergi Mall ala hypebeast",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": false,
-    "rarity": "epic"
-  },
-  {
-    "itemId": "skin_008",
+    "itemId": "skin_009",
     "name": "Skin Santa",
     "description": "Pakaian Santa lucu merayakan hari raya Natal",
     "price": 200,
     "priceMoney": 5000,
-    "isDiamondPayment": true,
-    "rarity": "legend"
+    "isDiamondPayment": false,
+    "rarity": "common"
+  },
+  {
+    "itemId": "skin_010",
+    "name": "Skin Santa",
+    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "common"
+  },
+    {
+    "itemId": "skin_011",
+    "name": "Skin Santa",
+    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "common"
+  },
+    {
+    "itemId": "skin_012",
+    "name": "Skin Santa",
+    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "rare"
+  },
+      {
+    "itemId": "skin_013",
+    "name": "Skin Santa",
+    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "rare"
+  },
+      {
+    "itemId": "skin_014",
+    "name": "Skin Santa",
+    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "rare"
   }
 ]
