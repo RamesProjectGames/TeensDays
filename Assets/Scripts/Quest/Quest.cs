@@ -12,6 +12,7 @@ public class Quest
     public int expForQuest;
     public Transform targetTransform;
     public GameObject questObjectAnnoun;
+    public GameObject npcObject;
     public bool isDone;
 
     public List<Quest> subQuests = new List<Quest>(); // Tambahkan ini

@@ -116,6 +116,7 @@ public class QuestSystem : MonoBehaviour
                 GameManager.Instance.expLevel += quest.expForQuest;
                 currentQuestIndex++;
                 ActivateQuestObject(currentQuestIndex);
+                UpdateNPCs();
             }
         }
         else
@@ -140,6 +141,18 @@ public class QuestSystem : MonoBehaviour
         }
 
 
+    }
+    public void UpdateNPCs()
+    {
+        for (int i = 0; i < quests.Count; i++)
+        {
+            if (quests[i].npcObject == null) continue;
+
+            // NPC aktif hanya untuk quest yang sedang aktif
+            bool isActiveQuest = (i == currentQuestIndex);
+
+            quests[i].npcObject.SetActive(isActiveQuest);
+        }
     }
 
     public void ActivateQuestObject(int index)
