@@ -12,6 +12,7 @@ public class ShopItem
     public int priceMoney;
     public bool isDiamondPayment;
     public string rarity;
+    public string icon;
 }
 
 [System.Serializable]

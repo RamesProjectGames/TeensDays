@@ -6,7 +6,8 @@
     "price": 200,
     "priceMoney": 5000,
     "isDiamondPayment": false,
-    "rarity": "common"
+    "rarity": "common",
+    "icon": "skin_santa"
   },
   {
     "itemId": "skin_010",

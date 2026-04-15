@@ -24,6 +24,7 @@ public class ItemUI : MonoBehaviour
     public TextMeshProUGUI itemDescText;
     public TextMeshProUGUI priceText;
     public Image rarityFrame;
+    public Image iconImage;
     public Sprite[] imageRarityFrame;
     public string rarityType;
     public string itemId;
@@ -39,7 +40,7 @@ public class ItemUI : MonoBehaviour
         Instance = this;
     }
 
-    public void SetItem(string _itemId,string name, string desc, int priceValue, int _priceMoney, bool _isDiamondPayment, string rarity)
+    public void SetItem(string _itemId,string name, string desc, int priceValue, int _priceMoney, bool _isDiamondPayment, string rarity, Sprite icon)
     {
         itemNameText.text = name;
         itemDescText.text = desc;
@@ -47,6 +48,7 @@ public class ItemUI : MonoBehaviour
         rarityType = rarity;
         itemId = _itemId;
         var img = currImage.sprite;
+        iconImage.sprite = icon;
 
         switch (rarity.ToLower())
         {

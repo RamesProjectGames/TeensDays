@@ -34,7 +34,7 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        LoadShopItems();
+        //LoadShopItems();
 
         for (int i = 0; i < ShopBtns.Length; i++)
         {
@@ -116,37 +116,37 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void LoadShopItems()
-    {
-        string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
+    //public void LoadShopItems()
+    //{
+    //    string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
 
 
-        if (File.Exists(path))
-        {
-            string jsonData = File.ReadAllText(path);
+    //    if (File.Exists(path))
+    //    {
+    //        string jsonData = File.ReadAllText(path);
 
-            // Karena format JSON berupa array, kita bungkus manual agar bisa di-parse
-            string wrappedJson = "{ \"items\": " + jsonData + "}";
+    //        // Karena format JSON berupa array, kita bungkus manual agar bisa di-parse
+    //        string wrappedJson = "{ \"items\": " + jsonData + "}";
 
-            ShopItemList itemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
+    //        ShopItemList itemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
 
-            for (int i = 0; i < itemList.items.Length && i < itemCards.Length; i++)
-            {
-                itemCards[i].SetItem(
-                    itemList.items[i].itemId,
-                    itemList.items[i].name,
-                    itemList.items[i].description,
-                    itemList.items[i].price,
-                    itemList.items[i].priceMoney,
-                    itemList.items[i].isDiamondPayment,
-                    itemList.items[i].rarity);
-            }
-        }
-        else
-        {
-            Debug.LogError("File JSON tidak ditemukan di: " + path);
-        }
-    }
+    //        for (int i = 0; i < itemList.items.Length && i < itemCards.Length; i++)
+    //        {
+    //            itemCards[i].SetItem(
+    //                itemList.items[i].itemId,
+    //                itemList.items[i].name,
+    //                itemList.items[i].description,
+    //                itemList.items[i].price,
+    //                itemList.items[i].priceMoney,
+    //                itemList.items[i].isDiamondPayment,
+    //                itemList.items[i].rarity);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("File JSON tidak ditemukan di: " + path);
+    //    }
+    //}
 
     void MakeJsonData()
     {
