@@ -15,6 +15,7 @@ public class ShopManager : MonoBehaviour
     public Sprite[] onClickBtns;
     public Sprite[] onUpBtns2;
     public GameObject[] kontents;
+    public GameObject filterButton;
     public bool[] shopChecked;
 
     public int selectedIndex;
@@ -58,12 +59,20 @@ public class ShopManager : MonoBehaviour
             {
                 buttonImage.sprite = onClickBtns[i];
                 kontents[i].SetActive(true);
+                if (kontents[1].activeInHierarchy)
+                {
+                    filterButton.SetActive(true);
+                }
                 shopChecked[i] = true;
             }
             else
             {
                 buttonImage.sprite = onUpBtns2[i];
                 kontents[i].SetActive(false);
+                if (!kontents[1].activeInHierarchy)
+                {
+                    filterButton.SetActive(false);
+                }
                 shopChecked[i] = false;
             }
         }
