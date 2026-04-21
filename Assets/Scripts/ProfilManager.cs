@@ -15,8 +15,8 @@ public class ProfilManager : MonoBehaviour
 
     [Header("Buttons In Profile")]
     public Button[] profileBtns;
-    public Sprite[] onClickBtns;
-    public Sprite[] onUpBtns2;
+    //public Sprite[] onClickBtns;
+    //public Sprite[] onUpBtns2;
     public GameObject[] kontents;
     public int selectedIndex;
 
@@ -80,12 +80,12 @@ public class ProfilManager : MonoBehaviour
 
             if (i == index)
             {
-                buttonImage.sprite = onClickBtns[i];
+                //buttonImage.sprite = onClickBtns[i];
                 kontents[i].SetActive(true);
             }
             else
             {
-                buttonImage.sprite = onUpBtns2[i];
+                //buttonImage.sprite = onUpBtns2[i];
                 kontents[i].SetActive(false);
             }
         }
