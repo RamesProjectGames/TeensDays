@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -17,6 +18,7 @@ public class ShopManager : MonoBehaviour
     public GameObject[] kontents;
     public GameObject filterButton;
     public bool[] shopChecked;
+    public ShopItemList currentItemList;
 
     public int selectedIndex;
     //public int filterIndex;
@@ -124,6 +126,106 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
+
+    public void BuyItem(string itemId)
+    {
+        if (currentItemList == null || currentItemList.items == null)
+        {
+            Debug.LogError("Shop data belum terload!");
+            return;
+        }
+
+        ShopItem item = currentItemList.items.FirstOrDefault(i => i.itemId == itemId);
+
+        if (item == null)
+        {
+            Debug.LogError("Item tidak ditemukan: " + itemId);
+            return;
+        }
+
+        if (InventoryManager.Instance == null)
+        {
+            Debug.LogError("InventoryManager tidak ada di scene!");
+            return;
+        }
+
+        if (InventoryManager.Instance.HasItem(itemId))
+        {
+            Debug.Log("Item sudah dimiliki!");
+            return;
+        }
+
+        if (item.isDiamondPayment)
+        {
+            if (GameManager.Instance.currDiamond >= item.price)
+            {
+                GameManager.Instance.currDiamond -= item.price;
+            }
+            else
+            {
+                Debug.Log("Diamond tidak cukup!");
+                return;
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.currMoney >= item.priceMoney)
+            {
+                GameManager.Instance.currMoney -= item.priceMoney;
+            }
+            else
+            {
+                Debug.Log("Money tidak cukup!");
+                return;
+            }
+        }
+
+        InventoryManager.Instance.AddItem(itemId);
+
+        var uiManager = FindObjectOfType<InventoryUIManager>();
+        if (uiManager != null)
+        {
+            uiManager.RefreshAll();
+        }
+
+        PlayerPrefs.Save();
+
+        Debug.Log("Berhasil beli: " + item.name);
+    }
+
+    //public void BuyItem(string itemId)
+    //{
+    //    ShopItem item = currentItemList.items.FirstOrDefault(i => i.itemId == itemId);
+
+    //    if (InventoryManager.Instance.HasItem(itemId))
+    //    {
+    //        Debug.Log("Item sudah dimiliki!");
+    //        return;
+    //    }
+
+    //    if (item.isDiamondPayment)
+    //    {
+    //        if (GameManager.Instance.currDiamond >= item.price)
+    //        {
+    //            GameManager.Instance.currDiamond -= item.price;
+    //        }
+    //        else return;
+    //    }
+    //    else
+    //    {
+    //        if (GameManager.Instance.currMoney >= item.priceMoney)
+    //        {
+    //            GameManager.Instance.currMoney -= item.priceMoney;
+    //        }
+    //        else return;
+    //    }
+
+    //    InventoryManager.Instance.AddItem(itemId);
+
+    //    // refresh semua inventory UI
+    //    FindObjectOfType<InventoryUIManager>().RefreshAll();
+    //    PlayerPrefs.Save();
+    //}
 
     //public void LoadShopItems()
     //{

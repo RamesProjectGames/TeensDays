@@ -11,12 +11,14 @@ public class ListItem : MonoBehaviour
 
     private void Start()
     {
+
         LoadShopItems();
     }
 
     public void LoadShopItems()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
+        
 
         if (File.Exists(path))
         {
@@ -25,6 +27,7 @@ public class ListItem : MonoBehaviour
 
             // ✅ simpan data
             ShopItemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
+            shopManager.currentItemList = ShopItemList;
 
 
             // ✅ tampilkan ke UI

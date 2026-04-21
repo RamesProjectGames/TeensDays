@@ -5,10 +5,11 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ItemUI : MonoBehaviour
 {
-    public static ItemUI Instance;
+    //public static ItemUI Instance;
 
     [Header("Panel Shop Confirmation")]
     public GameObject confirmationPanel;
@@ -35,10 +36,10 @@ public class ItemUI : MonoBehaviour
     public bool isDiamondPayment;
     public bool isAlreadyPurchased;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    //private void Awake()
+    //{
+    //    Instance = this;
+    //}
 
     public void SetItem(string _itemId,string name, string desc, int priceValue, int _priceMoney, bool _isDiamondPayment, string rarity, Sprite icon)
     {
@@ -76,60 +77,63 @@ public class ItemUI : MonoBehaviour
         buyButton.onClick.RemoveAllListeners();
 
         string thisItemId = _itemId;
-        buyButton.onClick.AddListener(() => BuyItem(thisItemId)); //Debug.Log(_itemId)
+        buyButton.onClick.AddListener(() => {
+            ShopManager.instance.BuyItem(itemId);
+        });
     }
 
-    void BuyItem(string itemId)
-    {
-        Debug.Log(itemId);
+    //void BuyItem(string itemId)
+    //{
+    //    Debug.Log(itemId);
 
-        string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
-        string jsonData = File.ReadAllText(path);
-        string wrappedJson = "{ \"items\": " + jsonData + "}";
-        ShopItemList itemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
+    //    string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
+    //    string jsonData = File.ReadAllText(path);
+    //    string wrappedJson = "{ \"items\": " + jsonData + "}";
+    //    ShopItemList itemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
 
-        for (int i = 0; i < itemList.items.Length; i++)
-        {
-            ShopItem item = itemList.items[i];
-            if (itemId == item.itemId)
-            {
-                if (item.isDiamondPayment)
-                {
-                    int playerCurrency = GameManager.Instance.currDiamond;
-                    if (playerCurrency >= item.price)
-                    {
-                        playerCurrency -= item.price;
-                        GameManager.Instance.currDiamond = playerCurrency;
-                        PlayerPrefs.SetInt("Diamond", playerCurrency);
-                        Debug.Log("Berhasil beli item: " + item.name);
-                        completePurchased.SetActive(true);
-                    }
-                    else
-                    {
-                        Debug.Log("Currency tidak cukup!");
-                        cancelPurchased.SetActive(true);
-                    }
-                }
-                else
-                {
-                    int _playerCurrency = GameManager.Instance.currMoney;
-                    if (_playerCurrency >= item.priceMoney)
-                    {
-                        _playerCurrency -= item.priceMoney;
-                        GameManager.Instance.currMoney = _playerCurrency;
-                        PlayerPrefs.SetInt("Money", _playerCurrency);
-                        Debug.Log("Berhasil beli item: " + item.name);
-                        completePurchased.SetActive(true);
-                    }
-                    else
-                    {
-                        Debug.Log("Currency tidak cukup!");
-                        cancelPurchased.SetActive(true);
-                    }
-                }
-                PlayerPrefs.Save();
-                break;
-            }
-        }
-    }
+    //    for (int i = 0; i < itemList.items.Length; i++)
+    //    {
+    //        ShopItem item = itemList.items[i];
+    //        InventoryManager.Instance.AddItem(item.itemId);
+    //        if (itemId == item.itemId)
+    //        {
+    //            if (item.isDiamondPayment)
+    //            {
+    //                int playerCurrency = GameManager.Instance.currDiamond;
+    //                if (playerCurrency >= item.price)
+    //                {
+    //                    playerCurrency -= item.price;
+    //                    GameManager.Instance.currDiamond = playerCurrency;
+    //                    PlayerPrefs.SetInt("Diamond", playerCurrency);
+    //                    Debug.Log("Berhasil beli item: " + item.name);
+    //                    completePurchased.SetActive(true);
+    //                }
+    //                else
+    //                {
+    //                    Debug.Log("Currency tidak cukup!");
+    //                    cancelPurchased.SetActive(true);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                int _playerCurrency = GameManager.Instance.currMoney;
+    //                if (_playerCurrency >= item.priceMoney)
+    //                {
+    //                    _playerCurrency -= item.priceMoney;
+    //                    GameManager.Instance.currMoney = _playerCurrency;
+    //                    PlayerPrefs.SetInt("Money", _playerCurrency);
+    //                    Debug.Log("Berhasil beli item: " + item.name);
+    //                    completePurchased.SetActive(true);
+    //                }
+    //                else
+    //                {
+    //                    Debug.Log("Currency tidak cukup!");
+    //                    cancelPurchased.SetActive(true);
+    //                }
+    //            }
+    //            PlayerPrefs.Save();
+    //            break;
+    //        }
+    //    }
+    //}
 }
