@@ -21,6 +21,11 @@ public class QuizManager : MonoBehaviour
 
     public TextAsset csvFile;
 
+    public AudioSource sucessAudio;
+    public AudioSource failAudio;
+    public AudioSource correctAudio;
+    public AudioSource falseAudio;
+
     public TMP_Text soalTMP;
     public TMP_Text feedbackTMP;
     public TMP_Text healthTMP;
@@ -149,6 +154,7 @@ public class QuizManager : MonoBehaviour
         {
             //feedbackTMP.text = "<color=green>Jawaban benar!</color>";
             totalBenar++;
+            correctAudio.Play();
 
             jawabanButtons[index].GetComponent<Image>().color = Color.green;
         }
@@ -156,6 +162,7 @@ public class QuizManager : MonoBehaviour
         {
             //feedbackTMP.text = $"<color=red>Salah! Jawaban benar: {current.kunci}</color>";
             totalSalah++;
+            falseAudio.Play();
 
             jawabanButtons[index].GetComponent<Image>().color = Color.red;
 
@@ -198,11 +205,12 @@ public class QuizManager : MonoBehaviour
         float skor = ((float)totalBenar / semuaSoal.Count) * 100f;
         soalTMP.text = $"Soal selesai!\nSkor akhir: <color=green>{skor:F0}%</color>\nBenar: {totalBenar}, Salah: {totalSalah}";
 
-        if (skor >= 75)
+        if (skor >= 75 || skor > 75)
         {
             feedbackTMP.text = "<color=green>Lulus!</color>";
             GameManager.Instance.kuisDone = true;
             BackToLevel.gameObject.SetActive(true);
+            sucessAudio.Play();
 
             if (!GameManager.Instance.checkLevelCompleted[levelIndex])
             {
@@ -228,6 +236,7 @@ public class QuizManager : MonoBehaviour
         {
             feedbackTMP.text = "<color=red>Tidak lulus</color>";
             BackToLevel.gameObject.SetActive(true);
+            failAudio.Play();
         }
 
     }

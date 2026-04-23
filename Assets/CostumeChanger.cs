@@ -9,6 +9,7 @@ public class CostumeChanger : MonoBehaviour
     {
         public string partName; // Head, Body, dll
         public SkinnedMeshRenderer targetRenderer;
+        public SkinnedMeshRenderer bobonTargetSkin;
 
         public Mesh mesh;
         public Material material;
@@ -56,6 +57,8 @@ public class CostumeChanger : MonoBehaviour
 
             part.targetRenderer.sharedMesh = part.mesh;
             part.targetRenderer.material = part.material;
+            part.bobonTargetSkin.sharedMesh = part.mesh;
+            part.bobonTargetSkin.material = part.material;
         }
 
         Debug.Log("Ganti kostum ke: " + set.costumeName);

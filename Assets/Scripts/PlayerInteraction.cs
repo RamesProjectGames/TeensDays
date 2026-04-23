@@ -30,6 +30,7 @@ public class PlayerInteraction : MonoBehaviour
     //public GameObject gerbangSekolah;
 
     public Image achieveAnnoun;
+    public AudioSource achieveAnnounAudio;
 
     private InteractableNPC currentNPC;
     private InteractableNPC npcBeingTalkedTo;
@@ -476,6 +477,7 @@ public class PlayerInteraction : MonoBehaviour
                     if (npcData.questIndex == 0)
                     {
                         achieveManager.rewardButtons[0].interactable = true;
+                        achieveAnnounAudio.Play();
                         LeanTween.moveY(achieveAnnoun.rectTransform, 280, .7f).setOnComplete(() =>
                         {            // Tunggu 5 detik sebelum melanjutkan
                             LeanTween.delayedCall(5f, () =>
