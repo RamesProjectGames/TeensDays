@@ -18,7 +18,6 @@ public class PlayerManager : MonoBehaviour
     //public TMP_Text limitExpPlayer;
     public TMP_Text classExpPlayer;
     public Slider expSlider;
-    public int classExp;
 
     [Header("Currency Game")]
     public TMP_Text money_text;
@@ -42,24 +41,23 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-
         CekLevelSekolah();
     }
 
     private void Update()
     {
-        money_text.text = GameManager.Instance.currMoney.ToString();
-        diamond_text.text = GameManager.Instance.currDiamond.ToString();
+        money_text.text = GameManager.Instance.playerData.currMoney.ToString();
+        diamond_text.text = GameManager.Instance.playerData.currDiamond.ToString();
 
-        if (GameManager.Instance.kuisDone && !hasCompleted)
+        if (GameManager.Instance.playerData.kuisDone && !hasCompleted)
         {
             ExpManager();
             hasCompleted = true;
         }
 
         //expPlayer.text = GameManager.Instance.expLevel.ToString();
-        expSlider.value = GameManager.Instance.expLevel / 100f;
-        classExpPlayer.text = classExp.ToString();
+        expSlider.value = GameManager.Instance.playerData.expLevel / 100f;
+        classExpPlayer.text = GameManager.Instance.playerData.classExp.ToString();
         UpdateSemuaSekolah();
     }
 
@@ -82,18 +80,18 @@ public class PlayerManager : MonoBehaviour
     public void ExpManager()
     {
         // Update tampilan slider
-        expSlider.value = GameManager.Instance.expLevel;
+        expSlider.value = GameManager.Instance.playerData.expLevel;
 
-        if (GameManager.Instance.expLevel >= 100)
+        if (GameManager.Instance.playerData.expLevel >= 100)
         {
-            GameManager.Instance.expOverflow = GameManager.Instance.expLevel - 100;
+            GameManager.Instance.playerData.expOverflow = GameManager.Instance.playerData.expLevel - 100;
 
-            classExp += 1; // Tambah level atau exp class
+            GameManager.Instance.playerData.classExp += 1; // Tambah level atau exp class
             hasCompleted = false;
-            GameManager.Instance.kuisDone = false;
+            GameManager.Instance.playerData.kuisDone = false;
 
             // Simpan sisa EXP ke level berikutnya
-            GameManager.Instance.expLevel = GameManager.Instance.expOverflow;
+            GameManager.Instance.playerData.expLevel = GameManager.Instance.playerData.expOverflow;
         }
     }
 
@@ -122,7 +120,7 @@ public class PlayerManager : MonoBehaviour
 
     public void CekLevelSekolah()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel",1);
+        int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
 
         foreach (var sekolah in sekolahList)
         {
@@ -134,3 +132,5 @@ public class PlayerManager : MonoBehaviour
         }
     }
 }
+
+    

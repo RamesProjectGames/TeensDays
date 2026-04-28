@@ -155,30 +155,30 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
-        if (item.isDiamondPayment)
-        {
-            if (GameManager.Instance.currDiamond >= item.price)
-            {
-                GameManager.Instance.currDiamond -= item.price;
-            }
-            else
-            {
-                Debug.Log("Diamond tidak cukup!");
-                return;
-            }
-        }
-        else
-        {
-            if (GameManager.Instance.currMoney >= item.priceMoney)
-            {
-                GameManager.Instance.currMoney -= item.priceMoney;
-            }
-            else
-            {
-                Debug.Log("Money tidak cukup!");
-                return;
-            }
-        }
+         if (item.isDiamondPayment)
+         {
+             if (GameManager.Instance.playerData.currDiamond >= item.price)
+             {
+                 GameManager.Instance.playerData.currDiamond -= item.price;
+             }
+             else
+             {
+                 Debug.Log("Diamond tidak cukup!");
+                 return;
+             }
+         }
+         else
+         {
+             if (GameManager.Instance.playerData.currMoney >= item.priceMoney)
+             {
+                 GameManager.Instance.playerData.currMoney -= item.priceMoney;
+             }
+             else
+             {
+                 Debug.Log("Money tidak cukup!");
+                 return;
+             }
+         }
 
         InventoryManager.Instance.AddItem(itemId);
 
@@ -188,44 +188,13 @@ public class ShopManager : MonoBehaviour
             uiManager.RefreshAll();
         }
 
-        PlayerPrefs.Save();
+        // Save to cloud instead of PlayerPrefs
+        GameManager.Instance.SavePlayerDataToCloud();
 
         Debug.Log("Berhasil beli: " + item.name);
     }
 
-    //public void BuyItem(string itemId)
-    //{
-    //    ShopItem item = currentItemList.items.FirstOrDefault(i => i.itemId == itemId);
 
-    //    if (InventoryManager.Instance.HasItem(itemId))
-    //    {
-    //        Debug.Log("Item sudah dimiliki!");
-    //        return;
-    //    }
-
-    //    if (item.isDiamondPayment)
-    //    {
-    //        if (GameManager.Instance.currDiamond >= item.price)
-    //        {
-    //            GameManager.Instance.currDiamond -= item.price;
-    //        }
-    //        else return;
-    //    }
-    //    else
-    //    {
-    //        if (GameManager.Instance.currMoney >= item.priceMoney)
-    //        {
-    //            GameManager.Instance.currMoney -= item.priceMoney;
-    //        }
-    //        else return;
-    //    }
-
-    //    InventoryManager.Instance.AddItem(itemId);
-
-    //    // refresh semua inventory UI
-    //    FindObjectOfType<InventoryUIManager>().RefreshAll();
-    //    PlayerPrefs.Save();
-    //}
 
     //public void LoadShopItems()
     //{

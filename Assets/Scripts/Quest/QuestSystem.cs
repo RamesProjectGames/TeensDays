@@ -109,15 +109,15 @@ public class QuestSystem : MonoBehaviour
                 Debug.Log($"   Subquest '{sq.text}' -> isDone={sq.isDone}");
             }
 
-            if (quest.isDone && quest.subQuests.All(sq => sq.isDone))
-            {
-                Debug.Log("✅ Semua subquest selesai, quest utama done!");
-                quest.isDone = true;
-                GameManager.Instance.expLevel += quest.expForQuest;
-                currentQuestIndex++;
-                ActivateQuestObject(currentQuestIndex);
-                UpdateNPCs();
-            }
+             if (quest.isDone && quest.subQuests.All(sq => sq.isDone))
+             {
+                 Debug.Log("✅ Semua subquest selesai, quest utama done!");
+                 quest.isDone = true;
+                 GameManager.Instance.playerData.expLevel += quest.expForQuest;
+                 currentQuestIndex++;
+                 ActivateQuestObject(currentQuestIndex);
+                 UpdateNPCs();
+             }
         }
         else
         {
@@ -129,14 +129,14 @@ public class QuestSystem : MonoBehaviour
             var quest = sideQuests[currentSideQuestIndex];
 
             // Hanya cek side quest yang belum selesai
-            if (quest.isDone && quest.subQuests.All(sq => sq.isDone))
-            {
-                Debug.Log($"✅ Semua subquest side quest '{quest.text}' selesai!");
-                quest.isDone = true;
-                GameManager.Instance.expLevel += quest.expForQuest;
-                currentSideQuestIndex++;
-                ActivateQuestObject(currentSideQuestIndex);
-            }
+             if (quest.isDone && quest.subQuests.All(sq => sq.isDone))
+             {
+                 Debug.Log($"✅ Semua subquest side quest '{quest.text}' selesai!");
+                 quest.isDone = true;
+                 GameManager.Instance.playerData.expLevel += quest.expForQuest;
+                 currentSideQuestIndex++;
+                 ActivateQuestObject(currentSideQuestIndex);
+             }
 
         }
 

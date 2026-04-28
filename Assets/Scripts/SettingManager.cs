@@ -24,24 +24,32 @@ public class SettingManager : MonoBehaviour
     public float maxXSpeed = 500f;
     public TextMeshProUGUI sensitivityText;
 
-    private void Start()
+private void Start()
+{
+    sliderMusic.onValueChanged.AddListener(UpdateValueText);
+    sliderBGM.onValueChanged.AddListener(UpdateValueText2);
+    sliderSensitif.onValueChanged.AddListener(UpdateValueText3);
+    UpdateValueText(sliderMusic.value);
+    UpdateValueText2(sliderBGM.value);
+    UpdateValueText3(sliderSensitif.value);
+
+    // Load invert setting from playerData
+    if (GameManager.Instance != null && GameManager.Instance.playerData != null)
     {
-        sliderMusic.onValueChanged.AddListener(UpdateValueText);
-        sliderBGM.onValueChanged.AddListener(UpdateValueText2);
-        sliderSensitif.onValueChanged.AddListener(UpdateValueText3);
-        UpdateValueText(sliderMusic.value);
-        UpdateValueText2(sliderBGM.value);
-        UpdateValueText3(sliderSensitif.value);
-
-        isOnInvert = PlayerPrefs.GetInt("InvertCamera", 1) == 0;
-        UpdateSwitchUI();
-
-        // Saat slider berubah, update sensitivity kamera
-        sensitivitySlider.onValueChanged.AddListener(UpdateCameraSensitivity);
-
-        // Set awal
-        UpdateCameraSensitivity(sensitivitySlider.value);
+        isOnInvert = GameManager.Instance.playerData.invertCamera;
     }
+    else
+    {
+        isOnInvert = true; // Default value
+    }
+    UpdateSwitchUI();
+
+    // Saat slider berubah, update sensitivity kamera
+    sensitivitySlider.onValueChanged.AddListener(UpdateCameraSensitivity);
+
+    // Set awal
+    UpdateCameraSensitivity(sensitivitySlider.value);
+}
 
     void UpdateValueText(float value)
     {
@@ -66,7 +74,14 @@ public class SettingManager : MonoBehaviour
     public void OnToggleClick()
     {
         isOnInvert = !isOnInvert; // Balik status
-        PlayerPrefs.SetInt("InvertCamera", isOnInvert ? 1 : 0);
+        
+        // Save to playerData and cloud
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            GameManager.Instance.playerData.invertCamera = isOnInvert;
+            GameManager.Instance.SavePlayerDataToCloud();
+        }
+        
         UpdateSwitchUI();
     }
 

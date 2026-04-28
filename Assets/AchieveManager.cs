@@ -23,11 +23,12 @@ public class AchieveManager : MonoBehaviour
 
     public void ClaimReward(int _index)
     {
-        GameManager.Instance.currMoney += 5000;
+        GameManager.Instance.playerData.currMoney += 5000;
+        GameManager.Instance.SavePlayerDataToCloud();
 
-        int money = PlayerPrefs.GetInt("Money", 0);
-        money += 5000;
-        PlayerPrefs.SetInt("Money", money);
+        // int money = PlayerPrefs.GetInt("Money", 0);
+        // money += 5000;
+        // PlayerPrefs.SetInt("Money", money);
 
         rewardButtons[_index].interactable = false;
     }

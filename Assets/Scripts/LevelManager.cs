@@ -49,7 +49,6 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log("Logic khusus PortalSD dijalankan");
         //SceneManager.sceneLoaded -= OnSceneLoaded;
-
         //if (scene.name == "Rama") 
         //{
         //    if (PlayerMovement.Instance != null)
@@ -66,19 +65,30 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
-        PlayerPrefs.DeleteAll();
+        // Clear player data and save to cloud (effectively resetting progress)
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            // Reset to default values
+            GameManager.Instance.playerData.unlockedLevel = 1;
+            // Reset other progress data as needed
+            GameManager.Instance.SavePlayerDataToCloud();
+        }
     }
 
     public void UpdateLevelButtons()
     {
-        int UnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        int unlockedLevel = 1;
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
+        }
 
         for (int i = 0; i < levelButtons.Length; i++)
         {
             levelButtons[i].interactable = false;
             bgSpritesLocked[i].SetActive(true);
         }
-        for (int i = 0; i < UnlockedLevel && i < levelButtons.Length; i++)
+        for (int i = 0; i < unlockedLevel && i < levelButtons.Length; i++)
         {
             levelButtons[i].interactable = true;
             bgSpritesLocked[i].SetActive(false);

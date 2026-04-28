@@ -49,9 +49,9 @@ public class ProfilManager : MonoBehaviour
         diaTextProf.text = playerManager.diamond_text.text;
     }
 
-    void sliderSD()
+void sliderSD()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
         int totalLevelSD = 6;
 
         // Clamp supaya tidak lebih dari max
@@ -66,7 +66,6 @@ public class ProfilManager : MonoBehaviour
         // Text progress (pilih salah satu)
         sdTextProgress.text = currentLevel + " / " + totalLevelSD;
         // sdTextProgress.text = Mathf.RoundToInt(progressValue * 100) + "%";
-
     }
 
     public void OnTabClicked(int index)

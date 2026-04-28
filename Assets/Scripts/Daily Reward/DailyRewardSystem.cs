@@ -28,9 +28,9 @@ public class DailyRewardSystem : MonoBehaviour
 
     void LoadProgress()
     {
-        currentDay = PlayerPrefs.GetInt(currentDayKey, 0);
+        currentDay = GameManager.Instance.playerData.currentDay;
 
-        string lastClaimDate = PlayerPrefs.GetString(lastClaimDateKey, "");
+        string lastClaimDate = GameManager.Instance.playerData.lastClaimDate;
         DateTime lastDate;
 
         if (DateTime.TryParse(lastClaimDate, out lastDate))
@@ -48,9 +48,8 @@ public class DailyRewardSystem : MonoBehaviour
             currentDay = 1;
         }
 
-        PlayerPrefs.SetInt(currentDayKey, currentDay);
-        PlayerPrefs.SetString(lastClaimDateKey, DateTime.Now.ToString());
-        PlayerPrefs.Save();
+        // Save to cloud after loading
+        GameManager.Instance.SavePlayerDataToCloud();
     }
 
     void UpdateUI()
@@ -98,20 +97,20 @@ public class DailyRewardSystem : MonoBehaviour
         {
             // contoh reward spesial (hadiah random / item unik)
             Debug.Log("Player mendapat hadiah spesial!");
-            PlayerPrefs.SetInt("SpecialRewardClaimed", 1);
+            GameManager.Instance.playerData.specialRewardClaimed = true;
         }
         else
         {
             // contoh reward diamond
-            GameManager.Instance.currDiamond += reward.amount;
-
-            int diamond = PlayerPrefs.GetInt("Diamond", 0);
-            diamond += reward.amount;
-            PlayerPrefs.SetInt("Diamond", diamond);
+            GameManager.Instance.playerData.currDiamond += reward.amount;
         }
 
-        // Simpan status
-        PlayerPrefs.Save();
+        // Update day tracking
+        GameManager.Instance.playerData.currentDay = currentDay;
+        GameManager.Instance.playerData.lastClaimDate = DateTime.Now.ToString();
+
+        // Save to cloud
+        GameManager.Instance.SavePlayerDataToCloud();
 
         // Update UI
         rewardButtons[index].interactable = false;

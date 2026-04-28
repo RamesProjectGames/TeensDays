@@ -12,9 +12,17 @@ public class GlobalAudioManager : MonoBehaviour
 
     void Start()
     {
-        // Load saved volume or default to full (1.0)
-        bgmSlider.value = PlayerPrefs.GetFloat("BGMVolume", 1f);
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        // Load saved volume from playerData or default to full (1.0)
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            bgmSlider.value = GameManager.Instance.playerData.bgmVolume;
+            sfxSlider.value = GameManager.Instance.playerData.sfxVolume;
+        }
+        else
+        {
+            bgmSlider.value = 1f;
+            sfxSlider.value = 1f;
+        }
 
         SetBGMVolume(bgmSlider.value);
         SetSFXVolume(sfxSlider.value);
@@ -27,12 +35,24 @@ public class GlobalAudioManager : MonoBehaviour
     public void SetBGMVolume(float value)
     {
         audioMixer.SetFloat("BGMVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20);
-        PlayerPrefs.SetFloat("BGMVolume", value);
+        
+        // Save to playerData and cloud
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            GameManager.Instance.playerData.bgmVolume = value;
+            GameManager.Instance.SavePlayerDataToCloud();
+        }
     }
 
     public void SetSFXVolume(float value)
     {
         audioMixer.SetFloat("SFXVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20);
-        PlayerPrefs.SetFloat("SFXVolume", value);
+        
+        // Save to playerData and cloud
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            GameManager.Instance.playerData.sfxVolume = value;
+            GameManager.Instance.SavePlayerDataToCloud();
+        }
     }
 }

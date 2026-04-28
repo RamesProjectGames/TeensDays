@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "707396864543",
+    "project_id": "learn-it-up",
+    "storage_bucket": "learn-it-up.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707396864543:android:c71eb82a93d53c3ca1232a",
+        "android_client_info": {
+          "package_name": "com.EggineStudio.LearnItUp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC2Et-8G3uuM1BbwoE06b_3XbwXFmyUXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -205,33 +205,30 @@ public class QuizManager : MonoBehaviour
         float skor = ((float)totalBenar / semuaSoal.Count) * 100f;
         soalTMP.text = $"Soal selesai!\nSkor akhir: <color=green>{skor:F0}%</color>\nBenar: {totalBenar}, Salah: {totalSalah}";
 
-        if (skor >= 75 || skor > 75)
-        {
-            feedbackTMP.text = "<color=green>Lulus!</color>";
-            GameManager.Instance.kuisDone = true;
-            BackToLevel.gameObject.SetActive(true);
-            sucessAudio.Play();
-
-            if (!GameManager.Instance.checkLevelCompleted[levelIndex])
+            if (skor >= 75 || skor > 75)
             {
-                // Pertama kali lulus → hadiah besar
-                GameManager.Instance.currMoney += 15000;
-                GameManager.Instance.checkLevelCompleted[levelIndex] = true;
-                GameManager.Instance.expLevel += 100;
-                UnlockNewLevel();
-            }
-            else
-            {
-                // Sudah pernah lulus → hadiah kecil
-                GameManager.Instance.currMoney += 500;
-            }
+                feedbackTMP.text = "<color=green>Lulus!</color>";
+                GameManager.Instance.playerData.kuisDone = true;
+                BackToLevel.gameObject.SetActive(true);
+                sucessAudio.Play();
 
-            int money = PlayerPrefs.GetInt("Money", 0);
-            money = GameManager.Instance.currMoney;
-            PlayerPrefs.SetInt("Money", money);
+                if (!GameManager.Instance.playerData.checkLevelCompleted[levelIndex])
+                {
+                    // Pertama kali lulus → hadiah besar
+                    GameManager.Instance.playerData.currMoney += 15000;
+                    GameManager.Instance.playerData.checkLevelCompleted[levelIndex] = true;
+                    GameManager.Instance.playerData.expLevel += 100;
+                    UnlockNewLevel();
+                }
+                else
+                {
+                    // Sudah pernah lulus → hadiah kecil
+                    GameManager.Instance.playerData.currMoney += 500;
+                }
 
-            PlayerPrefs.Save();
-        } 
+                // Save to cloud instead of PlayerPrefs
+                GameManager.Instance.SavePlayerDataToCloud();
+            }
         else
         {
             feedbackTMP.text = "<color=red>Tidak lulus</color>";
@@ -241,20 +238,20 @@ public class QuizManager : MonoBehaviour
 
     }
 
-     void UnlockNewLevel()
+      void UnlockNewLevel()
     {
         if (alreadyUnlocked) return;
         alreadyUnlocked = true;
 
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
 
         int nextLevel = currentIndex + 1;
 
         if (nextLevel > unlockedLevel)
         {
-            PlayerPrefs.SetInt("UnlockedLevel", nextLevel);
-            PlayerPrefs.Save();
+            GameManager.Instance.playerData.unlockedLevel = nextLevel;
+            GameManager.Instance.SavePlayerDataToCloud();
             Debug.Log("Unlocked new level: " + nextLevel);
         }
     }
