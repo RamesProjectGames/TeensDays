@@ -49,7 +49,7 @@ public class ItemUI : MonoBehaviour
         rarityType = rarity;
         itemId = _itemId;
         var img = currImage.sprite;
-        iconImage.sprite = icon;
+        if(iconImage != null) iconImage.sprite = icon;
 
         switch (rarity.ToLower())
         {

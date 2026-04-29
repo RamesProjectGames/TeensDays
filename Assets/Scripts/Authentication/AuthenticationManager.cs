@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Firebase;
 using Firebase.Auth;
 using Google;
@@ -17,7 +18,7 @@ public class AuthenticationManager : MonoBehaviour
     public bool debugSignOut = false;
     public FirebaseAuth auth;
     public FirebaseUser currentUser;
-    public string GoogleAPI = "531163515091-sdfbja2iudl84ot9ck788al752he8apr.apps.googleusercontent.com";
+    public string GoogleAPI = "707396864543-3qshllveacsvmph6of2dv4an31micd9o.apps.googleusercontent.com";
     public static string userIdString = "omgbruh";
     private bool isGoogleSignInInitialized = false;
     void Awake()
@@ -33,9 +34,9 @@ public class AuthenticationManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void Start()
+    async void Start()
     {
-        
+        await StartClientService();
     }
     private void InitializeFirebase()
     {
@@ -50,7 +51,7 @@ public class AuthenticationManager : MonoBehaviour
             // auth.StateChanged += AuthStateChanged;
         }
     }
-    public async void StartClientService()
+    public async Task StartClientService()
     {
         if (FirebaseApp.DefaultInstance == null)
         {
@@ -66,6 +67,11 @@ public class AuthenticationManager : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            InitializeFirebase();
+            Debug.Log("Firebase already initialized");
+        }
 
 
         // Auto sign-in if user exists
@@ -73,6 +79,11 @@ public class AuthenticationManager : MonoBehaviour
     }
     private void AutoSignIn()
     {
+        if(auth == null)
+        {
+            // Debug.LogError("FirebaseAuth is not initialized.");
+            return;
+        }
         if (auth.CurrentUser != null)
         {
             currentUser = auth.CurrentUser;
@@ -90,7 +101,7 @@ public class AuthenticationManager : MonoBehaviour
         }
         else
         {
-            
+            Debug.Log("No user is currently signed in.");
         }
     }
     private void OnSignedIn()

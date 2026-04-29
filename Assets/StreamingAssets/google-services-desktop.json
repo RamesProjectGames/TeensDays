@@ -12,7 +12,20 @@
           "package_name": "com.EggineStudio.LearnItUp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "707396864543-8t0kig7e10cg4ks7435avul02467f7c8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.EggineStudio.LearnItUp",
+            "certificate_hash": "3fba74359240f3f48bcfb5cd59676be8986bffcc"
+          }
+        },
+        {
+          "client_id": "707396864543-3qshllveacsvmph6of2dv4an31micd9o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAC2Et-8G3uuM1BbwoE06b_3XbwXFmyUXE"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707396864543-3qshllveacsvmph6of2dv4an31micd9o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

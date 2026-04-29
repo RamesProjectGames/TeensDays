@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
   <string name="gcm_defaultSenderId" translatable="false">707396864543</string>
   <string name="google_storage_bucket" translatable="false">learn-it-up.firebasestorage.app</string>
   <string name="project_id" translatable="false">learn-it-up</string>
   <string name="google_api_key" translatable="false">AIzaSyAC2Et-8G3uuM1BbwoE06b_3XbwXFmyUXE</string>
   <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAC2Et-8G3uuM1BbwoE06b_3XbwXFmyUXE</string>
   <string name="google_app_id" translatable="false">1:707396864543:android:c71eb82a93d53c3ca1232a</string>
+  <string name="default_android_client_id" translatable="false">707396864543-8t0kig7e10cg4ks7435avul02467f7c8.apps.googleusercontent.com</string>
+  <string name="default_web_client_id" translatable="false">707396864543-3qshllveacsvmph6of2dv4an31micd9o.apps.googleusercontent.com</string>
 </resources>

@@ -153,8 +153,15 @@ public class QuestPathManager : MonoBehaviour
             lockedSize = currentSize;
 
         // 🔒 Lock size (toleransi perubahan kecil)
-        if (Mathf.Abs(currentSize - lockedSize) > maxCornerChange)
+        if (currentSize > lockedSize)
+        {
             lockedSize = currentSize;
+        }
+        // Only shrink if difference is significant
+        else if (lockedSize - currentSize > maxCornerChange)
+        {
+            lockedSize = currentSize;
+        }
 
         line.positionCount = lockedSize;
 
@@ -180,7 +187,16 @@ public class QuestPathManager : MonoBehaviour
         if (!NavMesh.CalculatePath(player.position, questTarget.position, NavMesh.AllAreas, navPath))
             return;
 
-        cachedPath.Clear();
+        if (navPath.status != NavMeshPathStatus.PathComplete)
+        {
+            // Optional: still draw partial path if you want
+            return;
+        }
+
+        if(HasPathChanged(navPath))
+        {
+            cachedPath.Clear();            
+        }
 
         for (int i = 0; i < navPath.corners.Length; i++)
         {
@@ -200,10 +216,26 @@ public class QuestPathManager : MonoBehaviour
         cachedPath.Clear();
         CalculateAndCachePath();
     }
+    bool HasPathChanged(NavMeshPath newPath)
+    {
+        if (newPath.corners.Length != cachedPath.Count)
+            return true;
 
+        for (int i = 0; i < newPath.corners.Length; i++)
+        {
+            if (Vector3.Distance(newPath.corners[i], cachedPath[i]) > 0.1f)
+                return true;
+        }
+
+        return false;
+    }
     public void ClearPath()
     {
         questTarget = null;
-        line.positionCount = 0;
+        if (cachedPath.Count < 2)
+        {
+            line.positionCount = 0;
+            return;
+        }
     }
 }
