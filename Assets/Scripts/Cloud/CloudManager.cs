@@ -23,10 +23,9 @@ public class CloudManager : MonoBehaviour
             Destroy(gameObject);
         }
         dbRef = FirebaseDatabase.DefaultInstance.RootReference;
-        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(true);
     }
 
-    public async void SaveToCloudAsJSON( string childData, string jsonData)
+    public void SaveToCloudAsJSON( string childData, string jsonData)
     {
         if(AuthenticationManager.Singleton.auth.CurrentUser == null)
         {
@@ -35,7 +34,7 @@ public class CloudManager : MonoBehaviour
         }
         string userId = AuthenticationManager.Singleton.auth.CurrentUser.UserId;
         // Simulate a cloud save operation with a delay
-        await dbRef.Child("users").Child(userId).Child(childData).SetRawJsonValueAsync(jsonData);
+        dbRef.Child("users").Child(userId).Child(childData).SetRawJsonValueAsync(jsonData);
     }
     public async Task<string> LoadFromJSONCloud(string childData)
     {

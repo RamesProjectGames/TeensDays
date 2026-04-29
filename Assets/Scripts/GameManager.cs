@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
         
         // UI Settings defaults
         playerData.invertCamera = false;
+
+        SavePlayerDataToCloud();
     }
 
     private void SyncPlayerDataToGame()

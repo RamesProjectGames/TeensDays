@@ -14,6 +14,8 @@ public class MainMenuSettings : MonoBehaviour
 
     public VideoPlayer videoPlayer;
     public GameObject loadingPanel;
+    public GameObject buttonPlayPanel;
+    public GameObject loginButtonPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +47,11 @@ public class MainMenuSettings : MonoBehaviour
         int displayValue = Mathf.RoundToInt(value * maxValue);
         valueBGM.text = displayValue.ToString();
     }
-
+    public void ShowPlayButton(bool show)
+    {
+        buttonPlayPanel.SetActive(show);
+        loginButtonPanel.SetActive(!show);
+    }
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

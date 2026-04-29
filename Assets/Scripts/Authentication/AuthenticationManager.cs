@@ -36,6 +36,7 @@ public class AuthenticationManager : MonoBehaviour
     }
     async void Start()
     {
+
         await StartClientService();
     }
     private void InitializeFirebase()
@@ -129,7 +130,12 @@ public class AuthenticationManager : MonoBehaviour
         }
 
         // Initialize cloud save and other services
-
+        var mainMenuSettings = FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include);
+        if (mainMenuSettings != null)
+        {
+            mainMenuSettings.loadingPanel.SetActive(true);
+            mainMenuSettings.ChangeScene("Dwiky");
+        }
     }
 
      #region Anonymous Sign In
@@ -141,6 +147,7 @@ public class AuthenticationManager : MonoBehaviour
             currentUser = result.User;
             Debug.Log($"Anonymous sign in successful: {currentUser.UserId}");
             isAuthenticated = true;
+            FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include)?.ShowPlayButton(true);
             OnSignedIn();
         }
         catch (FirebaseException ex)
@@ -215,6 +222,7 @@ public class AuthenticationManager : MonoBehaviour
                         Debug.Log("Google Sign-In Successful: " + currentUser.UserId);
                         googleAuthenticated = true;
                         isAuthenticated = true;
+                        FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include)?.ShowPlayButton(true);
                         OnSignedIn();
                         // OnSignedIn will be called automatically via AuthStateChanged
                     }
