@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Cinemachine.DocumentationSortingAttribute;
 using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
+using System.Text.RegularExpressions;
 
 [System.Serializable]
 public class SoalData
@@ -42,6 +43,7 @@ public class QuizManager : MonoBehaviour
     public int totalSalah = 0;
     public int maxHealth;
     public int currHealth;
+    long startTime;
 
     private void Awake()
     {
@@ -50,7 +52,7 @@ public class QuizManager : MonoBehaviour
 
     void Start()
     {
-        
+
         LoadCSV();
         ShuffleSoal();
         TampilkanSoal(indexSoal);
@@ -60,6 +62,7 @@ public class QuizManager : MonoBehaviour
         totalBenar = 0;
         totalSalah = 0;
         indexSoal = 0;
+        StartTrackTime();
         //BackToLevel.gameObject.SetActive(false);
 
         for (int i = 0; i < jawabanButtons.Length; i++)
@@ -68,7 +71,10 @@ public class QuizManager : MonoBehaviour
             jawabanButtons[i].onClick.AddListener(() => CekJawaban(pilihanIndex));
         }
     }
-
+    async void StartTrackTime()
+    {
+        startTime = await LeaderboardSystem.Instance.StartRun();
+    }
     void LoadCSV()
     {
         StringReader reader = new StringReader(csvFile.text);
@@ -193,7 +199,7 @@ public class QuizManager : MonoBehaviour
 
         if (semuaSoal.Count > 1)
         {
-            semuaSoal = semuaSoal.GetRange(0, 10); 
+            semuaSoal = semuaSoal.GetRange(0, 10);
         }
 
     }
@@ -205,40 +211,40 @@ public class QuizManager : MonoBehaviour
         float skor = ((float)totalBenar / semuaSoal.Count) * 100f;
         soalTMP.text = $"Soal selesai!\nSkor akhir: <color=green>{skor:F0}%</color>\nBenar: {totalBenar}, Salah: {totalSalah}";
 
-            if (skor >= 75 || skor > 75)
+        if (skor >= 75 || skor > 75)
+        {
+            feedbackTMP.text = "<color=green>Lulus!</color>";
+            GameManager.Instance.playerData.kuisDone = true;
+            BackToLevel.gameObject.SetActive(true);
+            sucessAudio.Play();
+
+            if (!GameManager.Instance.playerData.checkLevelCompleted.list[levelIndex])
             {
-                feedbackTMP.text = "<color=green>Lulus!</color>";
-                GameManager.Instance.playerData.kuisDone = true;
-                BackToLevel.gameObject.SetActive(true);
-                sucessAudio.Play();
-
-                if (!GameManager.Instance.playerData.checkLevelCompleted[levelIndex])
-                {
-                    // Pertama kali lulus → hadiah besar
-                    GameManager.Instance.playerData.currMoney += 15000;
-                    GameManager.Instance.playerData.checkLevelCompleted[levelIndex] = true;
-                    GameManager.Instance.playerData.expLevel += 100;
-                    UnlockNewLevel();
-                }
-                else
-                {
-                    // Sudah pernah lulus → hadiah kecil
-                    GameManager.Instance.playerData.currMoney += 500;
-                }
-
-                // Save to cloud instead of PlayerPrefs
-                GameManager.Instance.SavePlayerDataToCloud();
+                // Pertama kali lulus → hadiah besar
+                GameManager.Instance.playerData.currMoney += 15000;
+                GameManager.Instance.playerData.checkLevelCompleted.list[levelIndex] = true;
+                GameManager.Instance.playerData.expLevel += 100;
+                UnlockNewLevel();
             }
+            else
+            {
+                // Sudah pernah lulus → hadiah kecil
+                GameManager.Instance.playerData.currMoney += 500;
+            }
+
+            // Save to cloud instead of PlayerPrefs
+            LeaderboardSystem.Instance.SubmitScoreValidated(GameManager.Instance.playerData.unlockedLevel);
+            GameManager.Instance.SavePlayerDataToCloud();
+        }
         else
         {
             feedbackTMP.text = "<color=red>Tidak lulus</color>";
             BackToLevel.gameObject.SetActive(true);
             failAudio.Play();
         }
-
     }
 
-      void UnlockNewLevel()
+    void UnlockNewLevel()
     {
         if (alreadyUnlocked) return;
         alreadyUnlocked = true;
@@ -288,5 +294,10 @@ public class QuizManager : MonoBehaviour
         totalSalah += sisaSoal;
         indexSoal = semuaSoal.Count;
         NextButton();
+    }
+    public static int GetNumberFromString(string input)
+    {
+        Match match = Regex.Match(input, @"\d+");
+        return match.Success ? int.Parse(match.Value) : 0;
     }
 }

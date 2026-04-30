@@ -24,7 +24,7 @@ public class QuestSystem : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
 
     private void Update()
@@ -39,6 +39,27 @@ public class QuestSystem : MonoBehaviour
         //UpdateQuestDisplay();
         //CheckAutoCompleteQuests();
         UpdateQuestOutlines();
+    }
+    public void SetCurrentQuestIndex(int index)
+    {
+        currentQuestIndex = index;
+        GameManager.Instance.playerData.questIndex = index; // Sync ke playerData
+        ActivateQuestObject(currentQuestIndex);
+        UpdateNPCs();
+    }
+    public void SetCurrentSideQuestIndex(int index)
+    {
+        currentSideQuestIndex = index;
+        GameManager.Instance.playerData.sideQuestIndex = index; // Sync ke playerData
+        ActivateQuestObject(currentSideQuestIndex);
+    }
+    public int GetCurrentQuestIndex()
+    {
+        return currentQuestIndex;
+    }
+    public int GetCurrentSideQuestIndex()
+    {
+        return currentSideQuestIndex;
     }
 
     public bool HasQuest(Quest questData)

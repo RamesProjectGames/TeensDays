@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public bool kuisDone;
 
  
-    public bool[] checkLevelCompleted;
+    public List<bool> checkLevelCompleted;
     public int totalLevel = 5;
 
     private void Awake()
@@ -25,17 +25,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Masuk dont destroy");
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);           
             
-            // Initialize playerData if not already loaded from cloud
-            if (playerData == null)
-            {
-                playerData = new PlayerData();
-                InitializeDefaultPlayerData();
-            }
-            
-            // Sync gameplay variables with playerData
-            SyncPlayerDataToGame();
         }
         else
         {
@@ -50,7 +41,9 @@ public class GameManager : MonoBehaviour
         playerData.kuisDone = false;
         playerData.currMoney = 0;
         playerData.currDiamond = 0;
-        playerData.checkLevelCompleted = new bool[totalLevel];
+        playerData.checkLevelCompleted = new SerializableList<bool>();
+        playerData.ownedItems = new SerializableList<string>();
+        playerData.mailboxData = new SerializableList<MailboxData>();
         playerData.classExp = 0;
         playerData.questIndex = 0;
         playerData.sideQuestIndex = 0;
@@ -76,7 +69,10 @@ public class GameManager : MonoBehaviour
         expLevel = playerData.expLevel;
         expOverflow = playerData.expOverflow;
         kuisDone = playerData.kuisDone;
-        checkLevelCompleted = playerData.checkLevelCompleted;
+        checkLevelCompleted = playerData.checkLevelCompleted.list;
+        QuestSystem.instance.SetCurrentQuestIndex(playerData.questIndex);
+        QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
+        InventoryManager.Instance.LoadInventory();
         // Note: currMoney and currDiamond are accessed directly from playerData when needed
         
         // Sync other settings
@@ -89,7 +85,10 @@ public class GameManager : MonoBehaviour
         playerData.expLevel = expLevel;
         playerData.expOverflow = expOverflow;
         playerData.kuisDone = kuisDone;
-        playerData.checkLevelCompleted = checkLevelCompleted;
+        playerData.checkLevelCompleted = new SerializableList<bool>(checkLevelCompleted);
+        playerData.questIndex = QuestSystem.instance.GetCurrentQuestIndex();
+        playerData.sideQuestIndex = QuestSystem.instance.GetCurrentSideQuestIndex();
+        playerData.ownedItems = new SerializableList<string>(InventoryManager.Instance.ownedItems);
     }
 
     private void Start()
@@ -101,7 +100,7 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            string jsonData = await CloudManager.Singleton.LoadFromJSONCloud("playerData");
+            string jsonData = await CloudManager.Instance.LoadFromJSONCloud("playerData");
             if (!string.IsNullOrEmpty(jsonData))
             {
                 PlayerData loadedData = JsonUtility.FromJson<PlayerData>(jsonData);
@@ -133,18 +132,18 @@ public class GameManager : MonoBehaviour
     public void SavePlayerDataToCloud()
     {
         SyncGameToPlayerData();
-        CloudManager.Singleton.SaveToCloudAsJSON("playerData", JsonUtility.ToJson(playerData));
+        CloudManager.Instance.SaveToCloudAsJSON("playerData", JsonUtility.ToJson(playerData));
         Debug.Log("Player data saved to cloud.");
     }
 
     public void SaveLevelStatus()
     {
         // Update playerData from current gameplay variables
-        for (int i = 0; i < checkLevelCompleted.Length; i++)
+        for (int i = 0; i < checkLevelCompleted.Count; i++)
         {
-            if (i < playerData.checkLevelCompleted.Length)
+            if (i < playerData.checkLevelCompleted.Count())
             {
-                playerData.checkLevelCompleted[i] = checkLevelCompleted[i];
+                playerData.checkLevelCompleted.list[i] = checkLevelCompleted[i];
             }
         }
         

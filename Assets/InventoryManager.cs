@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     {
         Instance = this;
 
-        LoadInventory();
+        // LoadInventory();
     }
 
     public void AddItem(string itemId)
@@ -20,8 +20,10 @@ public class InventoryManager : MonoBehaviour
         if (!ownedItems.Contains(itemId))
         {
             ownedItems.Add(itemId);
-            PlayerPrefs.SetInt("ITEM_" + itemId, 1);
-            PlayerPrefs.Save();
+            // PlayerPrefs.SetInt("ITEM_" + itemId, 1);
+            // PlayerPrefs.Save();
+            GameManager.Instance.playerData.ownedItems.list = ownedItems;
+            GameManager.Instance.SavePlayerDataToCloud(); 
         }
     }
 
@@ -30,14 +32,14 @@ public class InventoryManager : MonoBehaviour
         return ownedItems.Contains(itemId);
     }
 
-    void LoadInventory()
+    public void LoadInventory()
     {
         ownedItems.Clear();
 
         // contoh load sederhana (kalau item list sudah ada)
         foreach (var item in ShopManager.instance.currentItemList.items)
         {
-            if (PlayerPrefs.GetInt("ITEM_" + item.itemId, 0) == 1)
+            if (GameManager.Instance.playerData.ownedItems.list.Contains(item.itemId))
             {
                 ownedItems.Add(item.itemId);
             }

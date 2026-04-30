@@ -54,7 +54,7 @@ public class MainMenuSettings : MonoBehaviour
     }
     public void ChangeScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync(sceneName);
     }
 
     public void OnApplicationQuit()

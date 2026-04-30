@@ -12,6 +12,7 @@ public class ProfilManager : MonoBehaviour
     public Slider expSliderProf;
     public TMP_Text currTextProf;
     public TMP_Text diaTextProf;
+    public TMP_Text nameTextProf;
 
     [Header("Buttons In Profile")]
     public Button[] profileBtns;
@@ -47,9 +48,15 @@ public class ProfilManager : MonoBehaviour
     {
         currTextProf.text = playerManager.money_text.text;
         diaTextProf.text = playerManager.diamond_text.text;
+        nameTextProf.text = GameManager.Instance.playerData.displayName;
     }
-
-void sliderSD()
+    public void ChangeName(string newName)
+    {
+        nameTextProf.text = newName;
+        GameManager.Instance.playerData.displayName = newName;
+        GameManager.Instance.SavePlayerDataToCloud();
+    }
+    void sliderSD()
     {
         int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
         int totalLevelSD = 6;

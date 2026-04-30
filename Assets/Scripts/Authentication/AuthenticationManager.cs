@@ -380,7 +380,7 @@ public class AuthenticationManager : MonoBehaviour
              string userIdToDelete = !string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId : 
                                    (GameManager.Instance != null && GameManager.Instance.playerData != null ? 
                                     GameManager.Instance.playerData.userId : "");
-             await CloudManager.Singleton.DeletePlayerData(userIdToDelete);
+             await CloudManager.Instance.DeletePlayerData(userIdToDelete);
              await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>
              {
                  if (deleteTask.IsCanceled)
@@ -417,7 +417,7 @@ public class AuthenticationManager : MonoBehaviour
                  string userIdToDelete = !string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId : 
                                        (GameManager.Instance != null && GameManager.Instance.playerData != null ? 
                                         GameManager.Instance.playerData.userId : "");
-                 await CloudManager.Singleton.DeletePlayerData(userIdToDelete);
+                 await CloudManager.Instance.DeletePlayerData(userIdToDelete);
                  await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>
                  {
                      if (deleteTask.IsCanceled)
@@ -447,7 +447,7 @@ public class AuthenticationManager : MonoBehaviour
             return;
         }
 
-        await CloudManager.Singleton.DeletePlayerData(!string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId : 
+        await CloudManager.Instance.DeletePlayerData(!string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId : 
                                                    (GameManager.Instance != null && GameManager.Instance.playerData != null ? 
                                                     GameManager.Instance.playerData.userId : ""));
         await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>

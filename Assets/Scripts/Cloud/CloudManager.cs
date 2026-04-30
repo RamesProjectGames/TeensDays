@@ -6,19 +6,19 @@ using UnityEngine;
 
 public class CloudManager : MonoBehaviour
 {
-    private static CloudManager singleton = null;
-    public static CloudManager Singleton => singleton;
+    private static CloudManager instance = null;
+    public static CloudManager Instance => instance;
     private DatabaseReference dbRef;
     // Start is called before the first frame update
     void Awake()
     {
         transform.SetParent(null);
-        if (singleton == null)
+        if (instance == null)
         {
-            singleton = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (singleton != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
@@ -133,17 +133,19 @@ public class CloudManager : MonoBehaviour
             //         });
             //     }
             // });
-            await dbRef.Child("users").Child(uid).RemoveValueAsync().ContinueWith(task =>
+            await dbRef.Child("users").Child(uid).RemoveValueAsync().ContinueWith(async task =>
             {
                 if (task.IsCompleted)
                 {
                     Debug.Log("Player data deleted successfully.");
+                    await LeaderboardSystem.Instance.DeleteFromLeaderboardFull();
                 }
                 else
                 {
                     Debug.LogError($"Failed to delete player data: {task.Exception}");
                 }
             });
+            
         }
         catch (System.Exception e)
          {

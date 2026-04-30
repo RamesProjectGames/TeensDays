@@ -6,6 +6,7 @@ public class PlayerData
 {
     // User Identification
     public string userId;
+    public string displayName;
     
     // Game Progress
     public int expLevel;
@@ -13,7 +14,9 @@ public class PlayerData
     public bool kuisDone;
     public int currMoney;
     public int currDiamond;
-    public bool[] checkLevelCompleted;
+    public SerializableList<bool> checkLevelCompleted = new SerializableList<bool>();
+    public SerializableList<string> ownedItems = new SerializableList<string>();
+    public SerializableList<MailboxData> mailboxData = new SerializableList<MailboxData>();
     public int classExp;
     public int questIndex;
     public int sideQuestIndex;

@@ -42,8 +42,8 @@ public class MailBoxManager : MonoBehaviour
     void Awake()
     {
         if (Instance == null) Instance = this;
-        savePath = Path.Combine(Application.streamingAssetsPath, "mailbox.json");
-        Debug.Log(savePath);
+        // savePath = Path.Combine(Application.streamingAssetsPath, "mailbox.json");
+        // Debug.Log(savePath);
         LoadMailbox();
 
         // ✅ Tambah data dummy kalau kosong
@@ -75,19 +75,15 @@ public class MailBoxManager : MonoBehaviour
     public void SaveMailbox()
     {
         string json = JsonUtility.ToJson(mailboxData, true);
-        File.WriteAllText(savePath, json);
+        CloudManager.Instance.SaveToCloudAsJSON("mailboxData", json);
     }
 
     public void LoadMailbox()
     {
-        if (File.Exists(savePath))
-        {
-            string json = File.ReadAllText(savePath);
+        string json = CloudManager.Instance.LoadFromJSONCloud("mailboxData").Result;
+        if (!string.IsNullOrEmpty(json))
             mailboxData = JsonUtility.FromJson<MailboxData>(json);
-        }
         else
-        {
             mailboxData = new MailboxData();
-        }
     }
 }
