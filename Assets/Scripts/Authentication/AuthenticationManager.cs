@@ -101,6 +101,11 @@ public class AuthenticationManager : MonoBehaviour
         }
         else
         {
+            var mainMenuSettings = FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include);
+            if (mainMenuSettings != null)
+            {
+                mainMenuSettings.EnableLoginButtons(true);
+            }
             Debug.Log("No user is currently signed in.");
         }
     }

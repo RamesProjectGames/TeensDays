@@ -3513,6 +3513,10 @@ MonoBehaviour:
   loadingPanel: {fileID: 853700161}
   buttonPlayPanel: {fileID: 514196753}
   loginButtonPanel: {fileID: 83965856}
+  googleLoginButton: {fileID: 1625465101}
+  anonymousLoginButton: {fileID: 1993272655}
+  buttonPlay: {fileID: 75327723}
+  buttonQuit: {fileID: 314397542}
 --- !u!114 &1456708096
 MonoBehaviour:
   m_ObjectHideFlags: 0

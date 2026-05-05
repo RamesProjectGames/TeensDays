@@ -16,9 +16,16 @@ public class MainMenuSettings : MonoBehaviour
     public GameObject loadingPanel;
     public GameObject buttonPlayPanel;
     public GameObject loginButtonPanel;
+    public Button googleLoginButton;
+    public Button anonymousLoginButton;
+    public Button buttonPlay;
+    public Button buttonQuit;
+
     // Start is called before the first frame update
     void Start()
     {
+        EnableLoginButtons(false);
+        EnableMainButtons(false);
         StartCoroutine(PrepareAndPlay());
 
         sliderMusic.onValueChanged.AddListener(UpdateValueText);
@@ -26,6 +33,7 @@ public class MainMenuSettings : MonoBehaviour
 
         UpdateValueText(sliderMusic.value);
         UpdateValueText2(sliderBGM.value);
+        
     }
 
     // Update is called once per frame
@@ -47,10 +55,20 @@ public class MainMenuSettings : MonoBehaviour
         int displayValue = Mathf.RoundToInt(value * maxValue);
         valueBGM.text = displayValue.ToString();
     }
+    public void EnableLoginButtons(bool enable)
+    {
+        googleLoginButton.interactable = enable;
+        anonymousLoginButton.interactable = enable;
+    }
     public void ShowPlayButton(bool show)
     {
         buttonPlayPanel.SetActive(show);
         loginButtonPanel.SetActive(!show);
+    }
+    public void EnableMainButtons(bool enable)
+    {
+        buttonPlay.interactable = enable;
+        buttonQuit.interactable = enable;
     }
     public void ChangeScene(string sceneName)
     {
@@ -66,11 +84,11 @@ public class MainMenuSettings : MonoBehaviour
     {
         loadingPanel.SetActive(true);
         videoPlayer.Prepare();
-
         while (!videoPlayer.isPrepared)
             yield return null;
 
         loadingPanel.SetActive(false);
         videoPlayer.Play();
+        EnableMainButtons(true);
     }
 }

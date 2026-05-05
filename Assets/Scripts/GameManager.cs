@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,8 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-  
+    public static GameManager Instance;  
     public PlayerData playerData;
     
     private void Awake()
@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
  
     public List<bool> checkLevelCompleted;
     public int totalLevel = 5;
-
-
+    public delegate void MyDelegate();
+    public MyDelegate onLoadDataComplete;
     private void InitializeDefaultPlayerData()
     {
         playerData.expLevel = 0;
@@ -143,6 +143,7 @@ public class GameManager : MonoBehaviour
                 // Save the initialized data to cloud so it persists for next time
                 SavePlayerDataToCloud();
             }
+            onLoadDataComplete?.Invoke();
         }
         catch (System.Exception e)
         {
@@ -150,6 +151,7 @@ public class GameManager : MonoBehaviour
             InitializeDefaultPlayerData();
             // Save the initialized data to cloud so it persists for next time
             SavePlayerDataToCloud();
+            onLoadDataComplete?.Invoke();
         }
     }
     [ContextMenu("Save Player Data to Cloud")]
