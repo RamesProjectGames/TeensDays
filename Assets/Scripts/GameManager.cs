@@ -8,31 +8,39 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
- 
+  
     public PlayerData playerData;
-     
-    public int expLevel;
-    public int expOverflow;
-    public bool kuisDone;
-
- 
-    public List<bool> checkLevelCompleted;
-    public int totalLevel = 5;
-
+    
     private void Awake()
     {
         if (Instance == null)
         {
             Debug.Log("Masuk dont destroy");
             Instance = this;
-            DontDestroyOnLoad(gameObject);           
-            
+            DontDestroyOnLoad(gameObject);            
         }
         else
         {
             Destroy(gameObject);
         }
+        
+        // Initialize playerData to avoid null reference errors
+        if (playerData == null)
+        {
+            playerData = new PlayerData();
+        }
+        
+        // Initialize default values for the player data
+        InitializeDefaultPlayerData();
     }
+     
+    public int expLevel;
+    public int expOverflow;
+    public bool kuisDone;
+ 
+    public List<bool> checkLevelCompleted;
+    public int totalLevel = 5;
+
 
     private void InitializeDefaultPlayerData()
     {
@@ -43,7 +51,9 @@ public class GameManager : MonoBehaviour
         playerData.currDiamond = 0;
         playerData.checkLevelCompleted = new SerializableList<bool>();
         playerData.ownedItems = new SerializableList<string>();
-        playerData.mailboxData = new SerializableList<MailboxData>();
+        playerData.mailboxData = new SerializableList<MailMessage>();
+        playerData.mainQuests = new SerializableList<QuestData>();
+        playerData.sideQuests = new SerializableList<QuestData>();
         playerData.classExp = 0;
         playerData.questIndex = 0;
         playerData.sideQuestIndex = 0;
@@ -60,8 +70,6 @@ public class GameManager : MonoBehaviour
         
         // UI Settings defaults
         playerData.invertCamera = false;
-
-        SavePlayerDataToCloud();
     }
 
     private void SyncPlayerDataToGame()
@@ -70,9 +78,16 @@ public class GameManager : MonoBehaviour
         expOverflow = playerData.expOverflow;
         kuisDone = playerData.kuisDone;
         checkLevelCompleted = playerData.checkLevelCompleted.list;
-        QuestSystem.instance.SetCurrentQuestIndex(playerData.questIndex);
-        QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
-        InventoryManager.Instance.LoadInventory();
+        if(QuestSystem.instance != null)
+        {
+            QuestSystem.instance.SetCurrentQuestIndex(playerData.questIndex);
+            QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);     
+            QuestSystem.instance.LoadQuests();       
+        }
+        if(InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.LoadInventory();            
+        }
         // Note: currMoney and currDiamond are accessed directly from playerData when needed
         
         // Sync other settings
@@ -86,16 +101,19 @@ public class GameManager : MonoBehaviour
         playerData.expOverflow = expOverflow;
         playerData.kuisDone = kuisDone;
         playerData.checkLevelCompleted = new SerializableList<bool>(checkLevelCompleted);
-        playerData.questIndex = QuestSystem.instance.GetCurrentQuestIndex();
-        playerData.sideQuestIndex = QuestSystem.instance.GetCurrentSideQuestIndex();
-        playerData.ownedItems = new SerializableList<string>(InventoryManager.Instance.ownedItems);
+        playerData.questIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentQuestIndex();
+        playerData.sideQuestIndex = QuestSystem.instance == null ? 0 :QuestSystem.instance.GetCurrentSideQuestIndex();
+        playerData.ownedItems = new SerializableList<string>(InventoryManager.Instance == null ? new List<string>() : InventoryManager.Instance.ownedItems);
+        playerData.mailboxData = new SerializableList<MailMessage>(MailBoxManager.Instance == null ? new List<MailMessage>() : MailBoxManager.Instance.mailboxData.messages);
+        playerData.mainQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.questDatas);
+        playerData.sideQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.sideQuestDatas);
     }
 
     private void Start()
     {
         LoadPlayerDataFromCloud();
     }
-
+    [ContextMenu("Load Player Data from Cloud")]
     private async void LoadPlayerDataFromCloud()
     {
         try
@@ -114,21 +132,27 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.LogWarning("Failed to deserialize player data from cloud.");
                     InitializeDefaultPlayerData();
+                    // Save the initialized data to cloud so it persists for next time
+                    SavePlayerDataToCloud();
                 }
             }
             else
             {
                 Debug.LogWarning("No player data found in cloud, using default values.");
                 InitializeDefaultPlayerData();
+                // Save the initialized data to cloud so it persists for next time
+                SavePlayerDataToCloud();
             }
         }
         catch (System.Exception e)
         {
             Debug.LogError($"Failed to load player data from cloud: {e}");
             InitializeDefaultPlayerData();
+            // Save the initialized data to cloud so it persists for next time
+            SavePlayerDataToCloud();
         }
     }
-
+    [ContextMenu("Save Player Data to Cloud")]
     public void SavePlayerDataToCloud()
     {
         SyncGameToPlayerData();

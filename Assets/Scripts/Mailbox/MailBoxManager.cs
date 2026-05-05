@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Collections;
+using System.Threading.Tasks;
 
 [System.Serializable]
 public class MailMessage
@@ -34,9 +35,15 @@ public class MailBoxManager : MonoBehaviour
     private string savePath;
     public MailboxData mailboxData = new MailboxData();
 
-    private void Start()
+    private async void Start()
     {
-       
+        await LoadMailboxAsync();
+
+        // ✅ Tambah data dummy kalau kosong
+        if (mailboxData.messages.Count == 0)
+        {
+            AddMessage("Selamat Datang!", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"), "Terima kasih sudah memainkan game ini.");
+        }
     }
 
     void Awake()
@@ -44,13 +51,15 @@ public class MailBoxManager : MonoBehaviour
         if (Instance == null) Instance = this;
         // savePath = Path.Combine(Application.streamingAssetsPath, "mailbox.json");
         // Debug.Log(savePath);
-        LoadMailbox();
+    }
 
-        // ✅ Tambah data dummy kalau kosong
-        if (mailboxData.messages.Count == 0)
-        {
-            AddMessage("Selamat Datang!", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"), "Terima kasih sudah memainkan game ini.");
-        }
+    public async Task LoadMailboxAsync()
+    {
+        string json = await CloudManager.Instance.LoadFromJSONCloud("mailboxData");
+        if (!string.IsNullOrEmpty(json))
+            mailboxData = JsonUtility.FromJson<MailboxData>(json);
+        else
+            mailboxData = new MailboxData();
     }
 
     public void AddMessage(string title,string date, string content)
@@ -74,16 +83,7 @@ public class MailBoxManager : MonoBehaviour
 
     public void SaveMailbox()
     {
-        string json = JsonUtility.ToJson(mailboxData, true);
+        string json = JsonUtility.ToJson(mailboxData.messages, true);
         CloudManager.Instance.SaveToCloudAsJSON("mailboxData", json);
-    }
-
-    public void LoadMailbox()
-    {
-        string json = CloudManager.Instance.LoadFromJSONCloud("mailboxData").Result;
-        if (!string.IsNullOrEmpty(json))
-            mailboxData = JsonUtility.FromJson<MailboxData>(json);
-        else
-            mailboxData = new MailboxData();
     }
 }

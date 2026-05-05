@@ -50,7 +50,7 @@ public class CutsceneController : MonoBehaviour
 
     void Start()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
 
         // 1️⃣ Tentukan cutscene berdasarkan progress
         if (unlockedLevel >= 6)

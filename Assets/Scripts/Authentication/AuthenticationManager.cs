@@ -36,7 +36,6 @@ public class AuthenticationManager : MonoBehaviour
     }
     async void Start()
     {
-
         await StartClientService();
     }
     private void InitializeFirebase()
@@ -78,9 +77,9 @@ public class AuthenticationManager : MonoBehaviour
         // Auto sign-in if user exists
         AutoSignIn();
     }
-    private void AutoSignIn()
+    private async void AutoSignIn()
     {
-        if(auth == null)
+        if (auth == null)
         {
             // Debug.LogError("FirebaseAuth is not initialized.");
             return;
@@ -120,7 +119,7 @@ public class AuthenticationManager : MonoBehaviour
         }
         else
         {
-             
+
         }
         // Store user ID in playerData and save to cloud
         if (GameManager.Instance != null && GameManager.Instance.playerData != null)
@@ -133,12 +132,11 @@ public class AuthenticationManager : MonoBehaviour
         var mainMenuSettings = FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include);
         if (mainMenuSettings != null)
         {
-            mainMenuSettings.loadingPanel.SetActive(true);
-            mainMenuSettings.ChangeScene("Dwiky");
+            mainMenuSettings.ShowPlayButton(true);
         }
     }
 
-     #region Anonymous Sign In
+    #region Anonymous Sign In
     public async void SignInAnonymouslyAsync()
     {
         try
@@ -158,9 +156,9 @@ public class AuthenticationManager : MonoBehaviour
     #endregion
 
     #region Google Sign In
-    public void SignInWithGoogle()
+    public async void SignInWithGoogle()
     {
-        
+
         try
         {
             // Initialize Google Sign-In if not already done
@@ -177,57 +175,56 @@ public class AuthenticationManager : MonoBehaviour
 
             // Start Google Sign-In
             var signIn = GoogleSignIn.DefaultInstance.SignIn();
-            
-            signIn.ContinueWith(task =>
+
+            await signIn;
+
+            if (signIn.IsCanceled)
             {
-                if (task.IsCanceled)
-                {
-                    Debug.Log("Google sign-in was cancelled.");
-                    // ShowError(ErrorMenu.Action.SignIn, "Google sign-in was cancelled.", "OK");
-                    return;
-                }
-                else if (task.IsFaulted)
-                {
-                    Debug.LogError($"Google sign-in failed: {task.Exception}");
-                    // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed. Please try again.", "OK");
-                    return;
-                }
+                Debug.Log("Google sign-in was cancelled.");
+                // ShowError(ErrorMenu.Action.SignIn, "Google sign-in was cancelled.", "OK");
+                return;
+            }
+            else if (signIn.IsFaulted)
+            {
+                Debug.LogError($"Google sign-in failed: {signIn.Exception}");
+                // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed. Please try again.", "OK");
+                return;
+            }
 
-                var googleUser = task.Result;
-                if (googleUser == null)
-                {
-                    // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed.", "OK");
-                    return;
-                }
+            var googleUser = signIn.Result;
+            if (googleUser == null)
+            {
+                // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed.", "OK");
+                return;
+            }
 
-                // Create Firebase credential with Google token
-                Credential credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
-                
-                // Sign in to Firebase with Google credential
-                auth.SignInWithCredentialAsync(credential).ContinueWith(authTask =>
-                {
-                    if (authTask.IsCanceled)
-                    {
-                        Debug.Log("Firebase sign-in was cancelled.");
-                        // ShowError(ErrorMenu.Action.SignIn, "Sign-in was cancelled.", "OK");
-                    }
-                    else if (authTask.IsFaulted)
-                    {
-                        Debug.LogError($"Firebase sign-in failed: {authTask.Exception}");
-                        // ShowError(ErrorMenu.Action.SignIn, "Sign-in failed. Please try again.", "OK");
-                    }
-                    else
-                    {
-                        currentUser = authTask.Result;
-                        Debug.Log("Google Sign-In Successful: " + currentUser.UserId);
-                        googleAuthenticated = true;
-                        isAuthenticated = true;
-                        FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include)?.ShowPlayButton(true);
-                        OnSignedIn();
-                        // OnSignedIn will be called automatically via AuthStateChanged
-                    }
-                });
-            });
+            // Create Firebase credential with Google token
+            Credential credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
+
+            // Sign in to Firebase with Google credential
+            var authTask = auth.SignInWithCredentialAsync(credential);
+            await authTask;
+
+            if (authTask.IsCanceled)
+            {
+                Debug.Log("Firebase sign-in was cancelled.");
+                // ShowError(ErrorMenu.Action.SignIn, "Sign-in was cancelled.", "OK");
+            }
+            else if (authTask.IsFaulted)
+            {
+                Debug.LogError($"Firebase sign-in failed: {authTask.Exception}");
+                // ShowError(ErrorMenu.Action.SignIn, "Sign-in failed. Please try again.", "OK");
+            }
+            else
+            {
+                currentUser = authTask.Result;
+                Debug.Log("Google Sign-In Successful: " + currentUser.UserId);
+                googleAuthenticated = true;
+                isAuthenticated = true;
+                FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include)?.ShowPlayButton(true);
+                OnSignedIn();
+                // OnSignedIn will be called automatically via AuthStateChanged
+            }
         }
         catch (Exception ex)
         {
@@ -236,7 +233,7 @@ public class AuthenticationManager : MonoBehaviour
         }
     }
 
-    public void LinkWithGoogleAsync()
+    public async void LinkWithGoogleAsync()
     {
         if (auth.CurrentUser == null)
         {
@@ -260,67 +257,65 @@ public class AuthenticationManager : MonoBehaviour
 
             // Start Google Sign-In
             var signIn = GoogleSignIn.DefaultInstance.SignIn();
-            
-            signIn.ContinueWith(task =>
+            await signIn;
+
+            if (signIn.IsCanceled)
             {
-                if (task.IsCanceled)
-                {
-                    Debug.Log("Google sign-in was cancelled.");
-                    // ShowError(ErrorMenu.Action.SignIn, "Google sign-in was cancelled.", "OK");
-                    return;
-                }
-                else if (task.IsFaulted)
-                {
-                    Debug.LogError($"Google sign-in failed: {task.Exception}");
-                    // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed. Please try again.", "OK");
-                    return;
-                }
+                Debug.Log("Google sign-in was cancelled.");
+                // ShowError(ErrorMenu.Action.SignIn, "Google sign-in was cancelled.", "OK");
+                return;
+            }
+            else if (signIn.IsFaulted)
+            {
+                Debug.LogError($"Google sign-in failed: {signIn.Exception}");
+                // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed. Please try again.", "OK");
+                return;
+            }
 
-                var googleUser = task.Result;
-                if (googleUser == null)
-                {
-                    // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed.", "OK");
-                    return;
-                }
+            var googleUser = signIn.Result;
+            if (googleUser == null)
+            {
+                // ShowError(ErrorMenu.Action.SignIn, "Google sign-in failed.", "OK");
+                return;
+            }
 
-                // Create Firebase credential with Google token
-                Credential credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
-                
-                // Link current user with Google account
-                currentUser.LinkWithCredentialAsync(credential).ContinueWith(linkTask =>
+            // Create Firebase credential with Google token
+            Credential credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
+
+            // Link current user with Google account
+            var linkTask = currentUser.LinkWithCredentialAsync(credential);
+            await linkTask;
+
+            if (linkTask.IsCanceled)
+            {
+                Debug.Log("Google link was cancelled.");
+                // ShowError(ErrorMenu.Action.SignIn, "Google link was cancelled.", "OK");
+            }
+            else if (linkTask.IsFaulted)
+            {
+                if (linkTask.Exception != null && linkTask.Exception.InnerException is FirebaseException firebaseEx)
                 {
-                    if (linkTask.IsCanceled)
+                    if (firebaseEx.ErrorCode == (int)AuthError.CredentialAlreadyInUse)
                     {
-                        Debug.Log("Google link was cancelled.");
-                        // ShowError(ErrorMenu.Action.SignIn, "Google link was cancelled.", "OK");
-                    }
-                    else if (linkTask.IsFaulted)
-                    {
-                        if (linkTask.Exception != null && linkTask.Exception.InnerException is FirebaseException firebaseEx)
-                        {
-                            if (firebaseEx.ErrorCode == (int)AuthError.CredentialAlreadyInUse)
-                            {
-                                // ShowError(ErrorMenu.Action.SignIn, "This Google account is already linked to another user.", "OK");
-                            }
-                            else
-                            {
-                                // ShowError(ErrorMenu.Action.SignIn, "Failed to link Google account.", "OK");
-                            }
-                        }
-                        else
-                        {
-                            // ShowError(ErrorMenu.Action.SignIn, "Failed to link Google account.", "OK");
-                        }
-                        Debug.LogError($"Google link failed: {linkTask.Exception}");
+                        // ShowError(ErrorMenu.Action.SignIn, "This Google account is already linked to another user.", "OK");
                     }
                     else
                     {
-                        currentUser = linkTask.Result.User;
-                        // Debug.Log("Google account linked successfully: " + currentUser.UserId);
-                        googleAuthenticated = true;
+                        // ShowError(ErrorMenu.Action.SignIn, "Failed to link Google account.", "OK");
                     }
-                });
-            });
+                }
+                else
+                {
+                    // ShowError(ErrorMenu.Action.SignIn, "Failed to link Google account.", "OK");
+                }
+                Debug.LogError($"Google link failed: {linkTask.Exception}");
+            }
+            else
+            {
+                currentUser = linkTask.Result.User;
+                // Debug.Log("Google account linked successfully: " + currentUser.UserId);
+                googleAuthenticated = true;
+            }
         }
         catch (Exception ex)
         {
@@ -329,7 +324,7 @@ public class AuthenticationManager : MonoBehaviour
         }
     }
 
-    public void UnlinkGoogleAsync()
+    public async void UnlinkGoogleAsync()
     {
         if (currentUser == null)
         {
@@ -339,25 +334,25 @@ public class AuthenticationManager : MonoBehaviour
 
         try
         {
-            currentUser.UnlinkAsync(GoogleAuthProvider.ProviderId).ContinueWith(unlinkTask =>
+            var unlinkTask = currentUser.UnlinkAsync(GoogleAuthProvider.ProviderId);
+            await unlinkTask;
+
+            if (unlinkTask.IsCanceled)
             {
-                if (unlinkTask.IsCanceled)
-                {
-                    Debug.Log("Google unlink was cancelled.");
-                    // ShowError(ErrorMenu.Action.SignIn, "Google unlink was cancelled.", "OK");
-                }
-                else if (unlinkTask.IsFaulted)
-                {
-                    Debug.LogError($"Google unlink failed: {unlinkTask.Exception}");
-                    // ShowError(ErrorMenu.Action.SignIn, "Failed to unlink Google account.", "OK");
-                }
-                else
-                {
-                    currentUser = unlinkTask.Result.User;
-                    Debug.Log("Google account unlinked successfully.");
-                    googleAuthenticated = false;
-                }
-            });
+                Debug.Log("Google unlink was cancelled.");
+                // ShowError(ErrorMenu.Action.SignIn, "Google unlink was cancelled.", "OK");
+            }
+            else if (unlinkTask.IsFaulted)
+            {
+                Debug.LogError($"Google unlink failed: {unlinkTask.Exception}");
+                // ShowError(ErrorMenu.Action.SignIn, "Failed to unlink Google account.", "OK");
+            }
+            else
+            {
+                currentUser = unlinkTask.Result.User;
+                Debug.Log("Google account unlinked successfully.");
+                googleAuthenticated = false;
+            }
         }
         catch (Exception ex)
         {
@@ -365,7 +360,7 @@ public class AuthenticationManager : MonoBehaviour
             // ShowError(ErrorMenu.Action.SignIn, "Failed to unlink Google account.", "OK");
         }
     }
-    
+
     public async void SwitchGoogleAccount()
     {
         if (googleAuthenticated)
@@ -374,29 +369,29 @@ public class AuthenticationManager : MonoBehaviour
             GoogleSignIn.DefaultInstance.SignOut();
         }
 
-         if (auth.CurrentUser.IsAnonymous)
-         {
-             Debug.Log("Deleting anonymous user");
-             string userIdToDelete = !string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId : 
-                                   (GameManager.Instance != null && GameManager.Instance.playerData != null ? 
-                                    GameManager.Instance.playerData.userId : "");
-             await CloudManager.Instance.DeletePlayerData(userIdToDelete);
-             await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>
-             {
-                 if (deleteTask.IsCanceled)
-                 {
-                     Debug.Log("Anonymous user deletion was cancelled.");
-                 }
-                 else if (deleteTask.IsFaulted)
-                 {
-                     Debug.LogError($"Anonymous user deletion failed: {deleteTask.Exception}");
-                 }
-                 else
-                 {
-                     Debug.Log("Anonymous user deleted successfully.");
-                 }
-             });
-         }
+        if (auth.CurrentUser.IsAnonymous)
+        {
+            Debug.Log("Deleting anonymous user");
+            string userIdToDelete = !string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId :
+                                  (GameManager.Instance != null && GameManager.Instance.playerData != null ?
+                                   GameManager.Instance.playerData.userId : "");
+            await CloudManager.Instance.DeletePlayerData(userIdToDelete);
+            await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>
+            {
+                if (deleteTask.IsCanceled)
+                {
+                    Debug.Log("Anonymous user deletion was cancelled.");
+                }
+                else if (deleteTask.IsFaulted)
+                {
+                    Debug.LogError($"Anonymous user deletion failed: {deleteTask.Exception}");
+                }
+                else
+                {
+                    Debug.Log("Anonymous user deleted successfully.");
+                }
+            });
+        }
         FirebaseAuth.DefaultInstance.SignOut();
         SignInWithGoogle();
     }
@@ -405,38 +400,38 @@ public class AuthenticationManager : MonoBehaviour
     public async void SignOut()
     {
         if (googleAuthenticated)
-            {
-                // CloudManager.Singleton.SaveToCloud();
-                Debug.Log("Signing out Google");
-                GoogleSignIn.DefaultInstance.SignOut();
-            }
-
-             if (auth.CurrentUser.IsAnonymous)
-             {
-                 Debug.Log("Deleting anonymous user");
-                 string userIdToDelete = !string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId : 
-                                       (GameManager.Instance != null && GameManager.Instance.playerData != null ? 
-                                        GameManager.Instance.playerData.userId : "");
-                 await CloudManager.Instance.DeletePlayerData(userIdToDelete);
-                 await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>
-                 {
-                     if (deleteTask.IsCanceled)
-                     {
-                         Debug.Log("Anonymous user deletion was cancelled.");
-                     }
-                     else if (deleteTask.IsFaulted)
-                     {
-                         Debug.LogError($"Anonymous user deletion failed: {deleteTask.Exception}");
-                     }
-                     else
-                     {
-                         Debug.Log("Anonymous user deleted successfully.");
-                     }
-                 });
-            }
-            FirebaseAuth.DefaultInstance.SignOut();
-            // No need to delete ExistPlayer key as we're using cloud storage
+        {
+            // CloudManager.Singleton.SaveToCloud();
+            Debug.Log("Signing out Google");
+            GoogleSignIn.DefaultInstance.SignOut();
         }
+
+        if (auth.CurrentUser.IsAnonymous)
+        {
+            Debug.Log("Deleting anonymous user");
+            string userIdToDelete = !string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId :
+                                  (GameManager.Instance != null && GameManager.Instance.playerData != null ?
+                                   GameManager.Instance.playerData.userId : "");
+            if (CloudManager.Instance != null) await CloudManager.Instance.DeletePlayerData(userIdToDelete);
+            await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>
+            {
+                if (deleteTask.IsCanceled)
+                {
+                    Debug.Log("Anonymous user deletion was cancelled.");
+                }
+                else if (deleteTask.IsFaulted)
+                {
+                    Debug.LogError($"Anonymous user deletion failed: {deleteTask.Exception}");
+                }
+                else
+                {
+                    Debug.Log("Anonymous user deleted successfully.");
+                }
+            });
+        }
+        FirebaseAuth.DefaultInstance.SignOut();
+        // No need to delete ExistPlayer key as we're using cloud storage
+    }
 
     public async void DeleteAccount()
     {
@@ -447,8 +442,8 @@ public class AuthenticationManager : MonoBehaviour
             return;
         }
 
-        await CloudManager.Instance.DeletePlayerData(!string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId : 
-                                                   (GameManager.Instance != null && GameManager.Instance.playerData != null ? 
+        await CloudManager.Instance.DeletePlayerData(!string.IsNullOrEmpty(auth.CurrentUser.UserId) ? auth.CurrentUser.UserId :
+                                                   (GameManager.Instance != null && GameManager.Instance.playerData != null ?
                                                     GameManager.Instance.playerData.userId : ""));
         await auth.CurrentUser.DeleteAsync().ContinueWith(deleteTask =>
         {

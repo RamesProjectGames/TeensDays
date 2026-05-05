@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class ProfilManager : MonoBehaviour
     public TMP_Text currTextProf;
     public TMP_Text diaTextProf;
     public TMP_Text nameTextProf;
+    public Transform changeNameProf;
 
     [Header("Buttons In Profile")]
     public Button[] profileBtns;
@@ -48,7 +50,22 @@ public class ProfilManager : MonoBehaviour
     {
         currTextProf.text = playerManager.money_text.text;
         diaTextProf.text = playerManager.diamond_text.text;
-        nameTextProf.text = GameManager.Instance.playerData.displayName;
+        nameTextProf.text =  (GameManager.Instance.playerData.displayName == null)? "" : GameManager.Instance.playerData.displayName;
+    }
+    public void OpenChangeName(bool open)
+    {
+        if(changeNameProf == null) return;
+        if(open)
+        {
+            changeNameProf.LeanScale(Vector3.one, 1.5f).setOnStart(() =>
+            {
+                changeNameProf.transform.localScale = Vector3.zero;
+            });
+        }
+        else
+        {
+            changeNameProf.LeanScale(Vector3.zero, 1.5f);
+        }
     }
     public void ChangeName(string newName)
     {

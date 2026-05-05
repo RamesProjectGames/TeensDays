@@ -26,3 +26,15 @@ public class Quest
         return isDone && subQuests.All(sq => sq.isDone);
     }
 }
+[System.Serializable]
+public class QuestData
+{
+    public string questName;
+    public bool isDone;
+    public List<QuestData> subQuests = new List<QuestData>();
+    public bool IsFullyCompleted()
+    {
+        // Quest utama selesai jika dirinya dan semua subquest selesai
+        return isDone && subQuests.All(sq => sq.isDone);
+    }
+}

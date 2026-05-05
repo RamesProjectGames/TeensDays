@@ -9,6 +9,8 @@ public class QuestSystem : MonoBehaviour
     public static QuestSystem instance;
     public List<Quest> quests = new List<Quest>();
     public List<Quest> sideQuests = new List<Quest>(); // Side quest list
+    public List<QuestData> questDatas = new List<QuestData>();
+    public List<QuestData> sideQuestDatas = new List<QuestData>(); 
     [SerializeField] private int currentQuestIndex = 0;
     [SerializeField] private int currentSideQuestIndex = 0;
     [SerializeField] private float blinkSpeed = 2f;
@@ -24,7 +26,7 @@ public class QuestSystem : MonoBehaviour
 
     private void Start()
     {
-        
+        InitilializeQuestData();
     }
 
     private void Update()
@@ -39,6 +41,126 @@ public class QuestSystem : MonoBehaviour
         //UpdateQuestDisplay();
         //CheckAutoCompleteQuests();
         UpdateQuestOutlines();
+    }
+    public void InitilializeQuestData()
+    {
+        foreach (var quest in quests)
+        {
+            if(!questDatas.Exists(qd => string.Compare(qd.questName, quest.text, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                QuestData questData = new QuestData
+                {
+                    questName = quest.text,
+                    isDone = quest.isDone
+                };
+                foreach (var subquest in quest.subQuests)
+                {
+                    QuestData subQuestData = new QuestData
+                    {
+                        questName = subquest.text,
+                        isDone = subquest.isDone
+                    };
+                    questData.subQuests.Add(subQuestData);                
+                }
+                questDatas.Add(questData);
+            }
+        }
+        foreach (var sideQuest in sideQuests)
+        {
+            if(!sideQuestDatas.Exists(qd => string.Compare(qd.questName, sideQuest.text, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                QuestData sideQuestData = new QuestData
+                {
+                    questName = sideQuest.text,
+                    isDone = sideQuest.isDone
+                };
+                foreach (var subquest in sideQuest.subQuests)
+                {
+                    QuestData subQuestData = new QuestData
+                    {
+                        questName = subquest.text,
+                        isDone = subquest.isDone
+                    };
+                    sideQuestData.subQuests.Add(subQuestData);
+                }
+                sideQuestDatas.Add(sideQuestData);
+            }
+        }
+        foreach (var mainQuest in GameManager.Instance.playerData.mainQuests.list)
+        {
+            if (questDatas.Exists(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                int mainQuestIndex = questDatas.FindIndex(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                questDatas[mainQuestIndex].isDone = mainQuest.isDone;
+                foreach (var subQuest in mainQuest.subQuests)
+                {
+                    int subQuestIndex = questDatas[mainQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                    questDatas[mainQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
+                }
+            }
+        }
+        foreach (var sideQuest in GameManager.Instance.playerData.sideQuests.list)
+        {
+            if (sideQuestDatas.Exists(qd => string.Compare(qd.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                int sideQuestIndex = sideQuestDatas.FindIndex(sq => string.Compare(sq.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                sideQuestDatas[sideQuestIndex].isDone = sideQuest.isDone;  
+                foreach (var subQuest in sideQuest.subQuests)
+                {
+                    int subQuestIndex = sideQuestDatas[sideQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                    sideQuestDatas[sideQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
+                }
+            }
+        }
+    }
+    public void LoadQuests()
+    {
+        foreach (var mainQuest in GameManager.Instance.playerData.mainQuests.list)
+        {
+            if (questDatas.Exists(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                int mainQuestIndex = questDatas.FindIndex(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                questDatas[mainQuestIndex].isDone = mainQuest.isDone;
+                foreach (var subQuest in mainQuest.subQuests)
+                {
+                    int subQuestIndex = questDatas[mainQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                    questDatas[mainQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
+                }
+            }
+            if (quests.Exists(qd => string.Compare(qd.text, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                int mainQuestIndex = quests.FindIndex(sq => string.Compare(sq.text, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                quests[mainQuestIndex].isDone = mainQuest.isDone;
+                foreach (var subQuest in mainQuest.subQuests)
+                {
+                    int subQuestIndex = quests[mainQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.text, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                    quests[mainQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
+                }
+            }
+        }
+        foreach (var sideQuest in GameManager.Instance.playerData.sideQuests.list)
+        {
+            if (sideQuestDatas.Exists(qd => string.Compare(qd.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                int sideQuestIndex = sideQuestDatas.FindIndex(sq => string.Compare(sq.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                sideQuestDatas[sideQuestIndex].isDone = sideQuest.isDone;  
+                foreach (var subQuest in sideQuest.subQuests)
+                {
+                    int subQuestIndex = sideQuestDatas[sideQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                    sideQuestDatas[sideQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
+                }
+            }
+            if (sideQuests.Exists(qd => string.Compare(qd.text, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                int sideQuestIndex = sideQuests.FindIndex(sq => string.Compare(sq.text, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                sideQuests[sideQuestIndex].isDone = sideQuest.isDone;
+                foreach (var subQuest in sideQuest.subQuests)
+                {
+                    int subQuestIndex = sideQuests[sideQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.text, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+                    sideQuests[sideQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
+                }
+            }
+        }
     }
     public void SetCurrentQuestIndex(int index)
     {
@@ -91,9 +213,20 @@ public class QuestSystem : MonoBehaviour
     public void MarkQuestDone(int parentIndex, int questIndex, bool isSubQuest, bool isSideQuest = false)
     {
         List<Quest> questList = isSideQuest ? sideQuests : quests;
-
+        List<QuestData> questDataList = isSideQuest ? sideQuestDatas : questDatas;
         if (isSubQuest)
         {
+            if(parentIndex >= 0 && parentIndex < questDataList.Count)
+            {
+                QuestData subQuestData = questDataList[parentIndex].subQuests[questIndex];
+                subQuestData.isDone = true;
+                bool allDone = questDataList[parentIndex].subQuests.All(sq => sq.isDone);
+                if(allDone)
+                {
+                    questDataList[parentIndex].isDone = true;
+                    GameManager.Instance.SavePlayerDataToCloud();
+                }          
+            }
             if (parentIndex >= 0 && parentIndex < questList.Count)
             {
                 Quest subQuest = questList[parentIndex].subQuests[questIndex];
@@ -106,10 +239,16 @@ public class QuestSystem : MonoBehaviour
                     questList[parentIndex].isDone = true;
                     UpdateSingleQuestDisplay(questList[parentIndex]);
                 }
-            }
+            }            
         }
         else
         {
+            if(parentIndex >= 0 && parentIndex < questDataList.Count)
+            {
+                questDataList[questIndex].isDone = true;
+                GameManager.Instance.SavePlayerDataToCloud();
+                
+            }
             if (questIndex >= 0 && questIndex < questList.Count)
             {
                 questList[questIndex].isDone = true;
