@@ -17,7 +17,7 @@ public class RunSystem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void StopRunning()
     {
-        PlayerMovement.Instance.moveSpeed = 2f;
+        PlayerMovement.Instance.moveSpeed = 1f;
         isRunning = false;
         PlayerMovement.Instance.animator.SetBool("Running", false);
     }

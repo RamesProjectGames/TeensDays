@@ -11,6 +11,8 @@ public class PlayerInteraction : MonoBehaviour
 {
     [Header("Cinemachine")]
     public CinemachineVirtualCamera talkCam;
+    public Transform talkCameraTarget;
+    public Transform playerTransform;
 
     public float interactRange = 3f;
     public LayerMask npcLayer;
@@ -103,18 +105,55 @@ public class PlayerInteraction : MonoBehaviour
         // =======================
         // 🎥 Aktifkan kamera dialog
         // =======================
-        Transform lookTarget = npcBeingTalkedTo.transform.Find("HeadLookTarget");
-        if (lookTarget != null)
-        {
-            talkCam.LookAt = lookTarget;
-        }
-        else
-        {
-            Debug.Log("Tidak menemukan HeadLookTarget");
-            talkCam.LookAt = npcBeingTalkedTo.transform;
-        }
+        // ===================================
+        // 🎥 POSITION CAMERA TARGET
+        // ===================================
 
+        // Posisi tengah antara player dan NPC
+        Vector3 middlePoint =
+            (playerTransform.position + npcBeingTalkedTo.transform.position) / 2f;
+
+        // Geser sedikit ke atas
+        middlePoint.y += 1.5f;
+
+        // Simpan ke target kamera
+        npcBeingTalkedTo.transform.Find("HeadLookTarget").position = middlePoint;
+
+        // ===================================
+        // 🎥 HITUNG ARAH SAMPING
+        // ===================================
+
+        // Arah dari NPC ke player
+        Vector3 dir =
+            (playerTransform.position - npcBeingTalkedTo.transform.position).normalized;
+
+        // Ambil arah samping
+        Vector3 sideOffset = Vector3.Cross(dir, Vector3.up).normalized;
+
+        // Posisi kamera di samping
+        Vector3 camPos =
+            middlePoint + sideOffset * 3f + Vector3.up * 1.5f;
+
+        // Pindahkan TalkCam
+        talkCam.transform.position = camPos;
+
+        // Kamera lihat ke tengah
+        talkCam.LookAt = npcBeingTalkedTo.transform.Find("HeadLookTarget");
+
+        // Aktifkan kamera
         talkCam.Priority = 20;
+        //Transform lookTarget = npcBeingTalkedTo.transform.Find("HeadLookTarget");
+        //if (lookTarget != null)
+        //{
+        //    talkCam.LookAt = lookTarget;
+        //}
+        //else
+        //{
+        //    Debug.Log("Tidak menemukan HeadLookTarget");
+        //    talkCam.LookAt = npcBeingTalkedTo.transform;
+        //}
+
+        //talkCam.Priority = 20;
 
         var data = NPCPatrolManager.Instance.GetNPCData(npcBeingTalkedTo.gameObject);
         if (data != null)
@@ -137,9 +176,9 @@ public class PlayerInteraction : MonoBehaviour
         // ==========================
         //  NPC Hadap ke Player
         // ==========================
-        Vector3 dir = (transform.position - currentNPC.transform.position).normalized;
-        dir.y = 0;
-        currentNPC.transform.rotation = Quaternion.LookRotation(dir);
+        Vector3 dir2 = (transform.position - currentNPC.transform.position).normalized;
+        dir2.y = 0;
+        currentNPC.transform.rotation = Quaternion.LookRotation(dir2);
 
         //// ==========================
         ////  NPC Animasi Idle
