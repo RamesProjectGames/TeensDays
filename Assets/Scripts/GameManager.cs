@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         LoadPlayerDataFromCloud();
     }
     [ContextMenu("Load Player Data from Cloud")]
@@ -180,6 +181,13 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
  
+    }
+    void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            SavePlayerDataToCloud();
+        }
     }
     void OnApplicationQuit()
     {

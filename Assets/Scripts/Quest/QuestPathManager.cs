@@ -6,27 +6,56 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(LineRenderer))]
 public class QuestPathManager : MonoBehaviour
-{
-    public Transform player;         // Referensi ke posisi player
-    public Transform questTarget;    // Tujuan quest (NPC / lokasi)
-    public NavMeshAgent agent;       // Agent hanya dipakai untuk akses NavMesh data
-
-    private LineRenderer line;
-
-    bool isFirstDraw = true;
-    float lastPathLength = 0f;
-    float updateThreshold = 0.5f; // meter
-
+{    
     public static QuestPathManager Instance;
+    [Header("References")]
+    public Transform player;
+    public Transform questTarget;
+    public NavMeshAgent agent;
 
-    Vector3 lastPlayerPos;
-    float recalcDistance = 1.0f; // meter
-    List<Vector3> cachedPath = new List<Vector3>();
+    [Header("Line Renderer")]
+    public LineRenderer line;
 
+    [Header("Path Settings")]
+    public float refreshRate = 0.15f;
+    public float recalcDistance = 0.3f;
+    public float lineHeight = 0.05f;
+
+    [Header("Curve Smoothness")]
+    [Range(2, 12)]
+    public int splineResolution = 6;
+
+    [Header("Visual Smooth")]
+    public float playerFollowSpeed = 20f;
+
+    // Cached smooth path
+    private readonly List<Vector3> cachedPath = new List<Vector3>(128);
     int lockedSize = -1;
     int maxCornerChange = 1; // toleransi
-    Vector3[] smoothPositions;
 
+    // Timing
+    private float timer;
+
+    // Optimization
+    private Vector3 lastPlayerPos;
+
+    // Visual smoothing
+    private Vector3 smoothPlayerPos;
+
+    Vector3 CatmullRom(
+    Vector3 p0,
+    Vector3 p1,
+    Vector3 p2,
+    Vector3 p3,
+    float t)
+    {
+        return 0.5f * (
+            (2f * p1) +
+            (-p0 + p2) * t +
+            (2f * p0 - 5f * p1 + 4f * p2 - p3) * t * t +
+            (-p0 + 3f * p1 - 3f * p2 + p3) * t * t * t
+        );
+    }
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -44,8 +73,12 @@ public class QuestPathManager : MonoBehaviour
 
         lastPlayerPos = player.position;
 
+        smoothPlayerPos = player.position;
+
         line.positionCount = 0;
         line.widthMultiplier = 0.2f;
+
+        SetupLineRenderer();
 
         // JANGAN override material
         // line.material = new Material(Shader.Find("Sprites/Default"));
@@ -60,13 +93,27 @@ public class QuestPathManager : MonoBehaviour
 
     void Update()
     {
-        if (player == null || questTarget == null)
+        if (player == null || questTarget == null || agent == null)
             return;
 
-        if (Vector3.Distance(player.position, lastPlayerPos) >= recalcDistance)
+        smoothPlayerPos = Vector3.Lerp(
+            smoothPlayerPos,
+            agent.nextPosition,
+            Time.deltaTime * playerFollowSpeed
+        );
+
+        timer += Time.deltaTime;
+
+        if (timer < refreshRate)
+            return;
+
+        timer = 0f;
+
+
+        if ((player.position - lastPlayerPos).sqrMagnitude >= recalcDistance * recalcDistance)
         {
-            CalculateAndCachePath();
             lastPlayerPos = player.position;
+            CalculateAndCachePath();
         }
     }
 
@@ -144,7 +191,25 @@ public class QuestPathManager : MonoBehaviour
     //    //    line.SetPositions(path.corners);
     //    //}
     //}
+     void SetupLineRenderer()
+    {
+        line.loop = false;
+        line.useWorldSpace = true;
 
+        line.textureMode = LineTextureMode.Tile;
+        line.alignment = LineAlignment.View;
+
+        line.numCornerVertices = 6;
+        line.numCapVertices = 6;
+
+        line.shadowCastingMode =
+            UnityEngine.Rendering.ShadowCastingMode.Off;
+
+        line.receiveShadows = false;
+
+        line.motionVectorGenerationMode =
+            MotionVectorGenerationMode.ForceNoMotion;
+    }
     void DrawStablePath()
     {
         int currentSize = cachedPath.Count;
@@ -165,16 +230,21 @@ public class QuestPathManager : MonoBehaviour
 
         line.positionCount = lockedSize;
 
-        for (int i = 0; i < lockedSize; i++)
+        line.SetPosition(
+            0,
+            smoothPlayerPos + Vector3.up * lineHeight
+        );
+
+        for (int i = 1; i < lockedSize; i++)
         {
             int index = Mathf.Min(i, cachedPath.Count - 1);
             Vector3 pos = cachedPath[index];
 
             // 🔥 Anchor ke player (hilangkan gap)
-            if (i == 0)
-            {
-                pos = player.position + Vector3.up * 0.05f;
-            }
+            // if (i == 0)
+            // {
+            //     pos = player.position + Vector3.up * 0.05f;
+            // }
 
             line.SetPosition(i, pos);
         }
@@ -184,7 +254,11 @@ public class QuestPathManager : MonoBehaviour
     {
         NavMeshPath navPath = new NavMeshPath();
 
-        if (!NavMesh.CalculatePath(player.position, questTarget.position, NavMesh.AllAreas, navPath))
+        if (!NavMesh.CalculatePath(
+            agent.transform.position,
+            questTarget.position,
+            NavMesh.AllAreas,
+            navPath))
             return;
 
         if (navPath.status != NavMeshPathStatus.PathComplete)
@@ -193,15 +267,53 @@ public class QuestPathManager : MonoBehaviour
             return;
         }
 
-        if(HasPathChanged(navPath))
+        cachedPath.Clear();
+
+        Vector3[] corners = navPath.corners;
+
+        if (corners.Length < 2)
+            return;
+
+        // ===== SMOOTH SPLINE =====
+
+        for (int i = 0; i < corners.Length - 1; i++)
         {
-            cachedPath.Clear();            
+            Vector3 p0 =
+                i == 0 ? corners[i] : corners[i - 1];
+
+            Vector3 p1 = corners[i];
+
+            Vector3 p2 = corners[i + 1];
+
+            Vector3 p3 =
+                i + 2 < corners.Length
+                ? corners[i + 2]
+                : p2;
+
+            int resolution = 6;
+
+            for (int j = 0; j < resolution; j++)
+            {
+                float t = j / (float)resolution;
+
+                Vector3 point = CatmullRom(p0, p1, p2, p3, t);
+
+                // Snap back to NavMesh
+                if (NavMesh.SamplePosition(
+                    point,
+                    out NavMeshHit hit,
+                    1f,
+                    NavMesh.AllAreas))
+                {
+                    cachedPath.Add(hit.position + Vector3.up * lineHeight);
+                }
+            }
         }
 
-        for (int i = 0; i < navPath.corners.Length; i++)
-        {
-            cachedPath.Add(navPath.corners[i] + Vector3.up * 0.05f);
-        }
+        cachedPath.Add(
+            corners[corners.Length - 1] +
+            Vector3.up * lineHeight
+        );
 
         DrawStablePath();
     }
@@ -215,19 +327,6 @@ public class QuestPathManager : MonoBehaviour
         lockedSize = -1;
         cachedPath.Clear();
         CalculateAndCachePath();
-    }
-    bool HasPathChanged(NavMeshPath newPath)
-    {
-        if (newPath.corners.Length != cachedPath.Count)
-            return true;
-
-        for (int i = 0; i < newPath.corners.Length; i++)
-        {
-            if (Vector3.Distance(newPath.corners[i], cachedPath[i]) > 0.1f)
-                return true;
-        }
-
-        return false;
     }
     public void ClearPath()
     {
