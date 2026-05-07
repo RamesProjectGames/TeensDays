@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(LineRenderer))]
 public class QuestPathManager : MonoBehaviour
-{    
+{
     public static QuestPathManager Instance;
     [Header("References")]
     public Transform player;
@@ -87,8 +87,7 @@ public class QuestPathManager : MonoBehaviour
         line.endColor = Color.yellow;
 
         // 🔥 DRAW PERTAMA KALI
-        if (questTarget != null)
-            CalculateAndCachePath();
+        StartCoroutine(InitPathNextFrame());
     }
 
     void Update()
@@ -104,94 +103,31 @@ public class QuestPathManager : MonoBehaviour
 
         timer += Time.deltaTime;
 
-        if (timer < refreshRate)
-            return;
-
-        timer = 0f;
-
-
-        if ((player.position - lastPlayerPos).sqrMagnitude >= recalcDistance * recalcDistance)
+        if (timer >= refreshRate)
         {
-            lastPlayerPos = player.position;
-            CalculateAndCachePath();
+            timer = 0f;
+
+            if ((player.position - lastPlayerPos).sqrMagnitude >=
+                recalcDistance * recalcDistance)
+            {
+                lastPlayerPos = player.position;
+                CalculateAndCachePath();
+            }
         }
+        
+    }
+    IEnumerator InitPathNextFrame()
+    {
+        yield return null;
+
+        agent.Warp(player.position);
+
+        CalculateAndCachePath();
+
+        DrawStablePath();
     }
 
-    //void LateUpdate()
-    //{
-    //    if (line.positionCount == 0) return;
-
-    //    if (smoothPositions == null || smoothPositions.Length != line.positionCount)
-    //        smoothPositions = new Vector3[line.positionCount];
-
-    //    for (int i = 0; i < line.positionCount; i++)
-    //    {
-    //        Vector3 target = line.GetPosition(i);
-
-    //        // 🔥 TITIK PERTAMA JANGAN DISMOOTH
-    //        if (i == 0)
-    //        {
-    //            smoothPositions[i] = target;
-    //            line.SetPosition(i, target);
-    //            continue;
-    //        }
-
-    //        if (smoothPositions[i] == Vector3.zero)
-    //            smoothPositions[i] = target;
-
-    //        smoothPositions[i] = Vector3.Lerp(
-    //            smoothPositions[i],
-    //            target,
-    //            Time.deltaTime * 10f
-    //        );
-
-    //        line.SetPosition(i, smoothPositions[i]);
-    //    }
-    //}
-
-    //void DrawPathToTarget()
-    //{
-    //    NavMeshPath path = new NavMeshPath();
-
-    //    if (!NavMesh.CalculatePath(player.position, questTarget.position, NavMesh.AllAreas, path))
-    //        return;
-
-    //    // 1️⃣ Selalu set posisi line
-    //    Vector3[] points = path.corners;
-
-    //    float yOffset = 0.05f;
-    //    for (int i = 0; i < points.Length; i++)
-    //        points[i] += Vector3.up * yOffset;
-
-    //    line.positionCount = points.Length;
-    //    line.SetPositions(points);
-
-    //    // 2️⃣ Hitung panjang path
-    //    float totalLength = 0f;
-    //    for (int i = 0; i < points.Length - 1; i++)
-    //        totalLength += Vector3.Distance(points[i], points[i + 1]);
-
-    //    // 3️⃣ Update texture scale
-    //    if (isFirstDraw || Mathf.Abs(totalLength - lastPathLength) > updateThreshold)
-    //    {
-    //        float arrowSize = 1.5f;
-    //        line.material.mainTextureScale = new Vector2(
-    //            totalLength / arrowSize,
-    //            1
-    //        );
-
-    //        lastPathLength = totalLength;
-    //        isFirstDraw = false;
-    //    }
-
-    //    //
-    //    //if (NavMesh.CalculatePath(player.position, questTarget.position, NavMesh.AllAreas, path))
-    //    //{
-    //    //    line.positionCount = path.corners.Length;
-    //    //    line.SetPositions(path.corners);
-    //    //}
-    //}
-     void SetupLineRenderer()
+    void SetupLineRenderer()
     {
         line.loop = false;
         line.useWorldSpace = true;
@@ -228,7 +164,10 @@ public class QuestPathManager : MonoBehaviour
             lockedSize = currentSize;
         }
 
-        line.positionCount = lockedSize;
+        line.positionCount = Mathf.Min(
+            lockedSize,
+            cachedPath.Count
+        );
 
         line.SetPosition(
             0,
@@ -252,29 +191,86 @@ public class QuestPathManager : MonoBehaviour
 
     void CalculateAndCachePath()
     {
-        NavMeshPath navPath = new NavMeshPath();
-
-        if (!NavMesh.CalculatePath(
-            agent.transform.position,
-            questTarget.position,
-            NavMesh.AllAreas,
-            navPath))
+        if (questTarget == null)
             return;
 
-        if (navPath.status != NavMeshPathStatus.PathComplete)
+        // ===== VALIDATE PLAYER POSITION =====
+
+        if (!NavMesh.SamplePosition(
+            agent.transform.position,
+            out NavMeshHit startHit,
+            5f,
+            NavMesh.AllAreas))
         {
-            // Optional: still draw partial path if you want
+            Debug.LogWarning("Player not on NavMesh");
             return;
         }
 
-        cachedPath.Clear();
+        // ===== VALIDATE TARGET POSITION =====
+
+        if (!NavMesh.SamplePosition(
+            questTarget.position,
+            out NavMeshHit endHit,
+            5f,
+            NavMesh.AllAreas))
+        {
+            Debug.LogWarning("Target not on NavMesh");
+            return;
+        }
+
+        NavMeshPath navPath = new NavMeshPath();
+
+        bool success = NavMesh.CalculatePath(
+            startHit.position,
+            endHit.position,
+            NavMesh.AllAreas,
+            navPath
+        );
+
+        // Debug.Log("CalculatePath Result: " + success);
+
+        if (!success)
+        {
+            Debug.LogWarning("CalculatePath failed");
+            return;
+        }
+
+        // Debug.Log("Path Status: " + navPath.status);
+
+        // for (int i = 0; i < navPath.corners.Length - 1; i++)
+        // {
+        //     Debug.DrawLine(
+        //         navPath.corners[i],
+        //         navPath.corners[i + 1],
+        //         Color.red,
+        //         5f
+        //     );
+        // }
+
+        // Debug.Log($"Start Hit: {startHit.position}");
+        // Debug.Log($"End Hit: {endHit.position}"); 
+
+        if (navPath.status == NavMeshPathStatus.PathInvalid)
+        {
+            // Debug.LogWarning("Path invalid");
+            return;
+        }
 
         Vector3[] corners = navPath.corners;
 
-        if (corners.Length < 2)
-            return;
+        // Debug.Log("Corners Count: " + corners.Length);
 
-        // ===== SMOOTH SPLINE =====
+        if (corners.Length < 2)
+        {
+            // Debug.LogWarning("Not enough corners");
+            return;
+        }
+
+        // Debug.Log("Calculate Path");
+
+        cachedPath.Clear();
+
+        // ===== SPLINE =====
 
         for (int i = 0; i < corners.Length - 1; i++)
         {
@@ -290,22 +286,27 @@ public class QuestPathManager : MonoBehaviour
                 ? corners[i + 2]
                 : p2;
 
-            int resolution = 6;
-
-            for (int j = 0; j < resolution; j++)
+            for (int j = 0; j < splineResolution; j++)
             {
-                float t = j / (float)resolution;
+                float t = j / (float)splineResolution;
 
-                Vector3 point = CatmullRom(p0, p1, p2, p3, t);
+                Vector3 point = CatmullRom(
+                    p0,
+                    p1,
+                    p2,
+                    p3,
+                    t
+                );
 
-                // Snap back to NavMesh
                 if (NavMesh.SamplePosition(
                     point,
                     out NavMeshHit hit,
                     1f,
                     NavMesh.AllAreas))
                 {
-                    cachedPath.Add(hit.position + Vector3.up * lineHeight);
+                    cachedPath.Add(
+                        hit.position + Vector3.up * lineHeight
+                    );
                 }
             }
         }
@@ -314,7 +315,7 @@ public class QuestPathManager : MonoBehaviour
             corners[corners.Length - 1] +
             Vector3.up * lineHeight
         );
-
+        
         DrawStablePath();
     }
 
@@ -331,10 +332,11 @@ public class QuestPathManager : MonoBehaviour
     public void ClearPath()
     {
         questTarget = null;
-        if (cachedPath.Count < 2)
-        {
-            line.positionCount = 0;
-            return;
-        }
+
+        cachedPath.Clear();
+
+        lockedSize = -1;
+
+        line.positionCount = 0;
     }
 }

@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public int totalLevel = 5;
     public delegate void MyDelegate();
     public MyDelegate onLoadDataComplete;
+    [ContextMenu("Reset Player Data")]
     private void InitializeDefaultPlayerData()
     {
         playerData.expLevel = 0;
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
         
         // UI Settings defaults
         playerData.invertCamera = false;
+        
     }
 
     private void SyncPlayerDataToGame()
