@@ -93,6 +93,11 @@ public class AuthenticationManager : MonoBehaviour
             if (debugSignOut)
             {
                 SignOut();
+                var mainMenuSettings = FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include);
+                if (mainMenuSettings != null)
+                {
+                    mainMenuSettings.EnableLoginButtons(true);
+                }
             }
             else
             {
