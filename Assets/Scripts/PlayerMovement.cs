@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float moveSpeed;
     public float jumpForce;
+    public float jumpForwardForce;
 
     public bool isJump;
     private Rigidbody rb;
@@ -111,9 +112,28 @@ public class PlayerMovement : MonoBehaviour
         if (isJump)
         {
             animator.SetBool("Jumping", true);
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+            // arah depan player
+            Vector3 forwardDir = transform.forward;
+
+            // velocity lompat + dorongan ke depan
+            rb.velocity = new Vector3(
+                forwardDir.x * jumpForwardForce,
+                jumpForce,
+                forwardDir.z * jumpForwardForce
+            );
+
             isJump = false;
         }
+
+        //if (isJump)
+        //{
+        //    animator.SetBool("Jumping", true);
+        //    float direction = transform.localScale.x > 0 ? 1f : -1f;
+
+        //    rb.velocity = new Vector2(rb.velocity.x + direction * jumpForwardForce,jumpForce);
+        //    isJump = false;
+        //}
     }
 
     private void OnCollisionEnter(Collision collision)
