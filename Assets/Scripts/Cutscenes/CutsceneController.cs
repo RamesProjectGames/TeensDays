@@ -9,7 +9,9 @@ public class CutsceneController : MonoBehaviour
     public enum CutsceneType
     {
         Cutscene1,
-        Cutscene2
+        Cutscene2,
+        Cutscene3,
+        Cutscene4
     }
 
     [Header("Cutscene Type")]
@@ -47,6 +49,8 @@ public class CutsceneController : MonoBehaviour
 
     public List<Image> pagesCutscene1;
     public List<Image> pagesCutscene2;
+    public List<Image> pagesCutscene3;
+    public List<Image> pagesCutscene4;
 
     void Awake()
     {
