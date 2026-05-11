@@ -4,7 +4,13 @@ using System.Xml.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+[System.Serializable]
+public class SchoolRankDisplay
+{
+    public Image rankSlider;
+    public TMP_Text rankTextProgress;
+    public Vector2 rangeLimitRank;
+}
 public class ProfilManager : MonoBehaviour
 {
     //public GameObject panelDaily;
@@ -23,8 +29,8 @@ public class ProfilManager : MonoBehaviour
     public GameObject[] kontents;
     public int selectedIndex;
 
-    public Image sdSlider;
-    public TMP_Text sdTextProgress;
+    public List<Sprite> playerIcons = new List<Sprite>();
+    public List<SchoolRankDisplay> schoolRankDisplays = new List<SchoolRankDisplay>();
 
     public PlayerManager playerManager;
     // Start is called before the first frame update
@@ -32,7 +38,6 @@ public class ProfilManager : MonoBehaviour
     {
         //panelDaily.SetActive(true);
         menuImage = profImage;
-        expSliderProf.value = playerManager.expSlider.value;
 
         for (int i = 0; i < profileBtns.Length; i++)
         {
@@ -42,7 +47,7 @@ public class ProfilManager : MonoBehaviour
 
         OnTabClicked(0); // Pilih tab pertama saat mulai
 
-        sliderSD();
+        SliderRank();
     }
 
     // Update is called once per frame
@@ -51,6 +56,9 @@ public class ProfilManager : MonoBehaviour
         currTextProf.text = playerManager.money_text.text;
         diaTextProf.text = playerManager.diamond_text.text;
         nameTextProf.text =  (GameManager.Instance.playerData.displayName == null)? "" : GameManager.Instance.playerData.displayName;
+        profImage.sprite = playerIcons[GameManager.Instance.playerData.playerIconIndex];
+        expSliderProf.value = Mathf.Clamp01(GameManager.Instance.playerData.expLevel / 100f);
+        SliderRank();
     }
     public void OpenChangeName(bool open)
     {
@@ -73,23 +81,37 @@ public class ProfilManager : MonoBehaviour
         GameManager.Instance.playerData.displayName = newName;
         GameManager.Instance.SavePlayerDataToCloud();
     }
-    void sliderSD()
+    public void SliderRank()
     {
         int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
-        int totalLevelSD = 6;
 
-        // Clamp supaya tidak lebih dari max
-        int currentLevel = Mathf.Clamp(unlockedLevel, 0, totalLevelSD);
+        foreach (var rankDisplay in schoolRankDisplays)
+        {
+            int minLevel = Mathf.RoundToInt(rankDisplay.rangeLimitRank.x);
+            int maxLevel = Mathf.RoundToInt(rankDisplay.rangeLimitRank.y);
 
-        // Hitung progress (0 - 1)
-        float progressValue = (float)currentLevel / totalLevelSD;
+            if (unlockedLevel >= minLevel && unlockedLevel <= maxLevel)
+            {
+                int currentLevel = unlockedLevel - minLevel + 1;
+                int totalLevels = maxLevel - minLevel + 1;
 
-        // Isi slider (Image Fill)
-        sdSlider.fillAmount = progressValue;
-
-        // Text progress (pilih salah satu)
-        sdTextProgress.text = currentLevel + " / " + totalLevelSD;
-        // sdTextProgress.text = Mathf.RoundToInt(progressValue * 100) + "%";
+                rankDisplay.rankSlider.fillAmount = (float)currentLevel / totalLevels;
+                rankDisplay.rankTextProgress.text = currentLevel + " / " + totalLevels;
+            }
+            else if (unlockedLevel > maxLevel)
+            {
+                // Rank completed
+                int totalLevels = maxLevel - minLevel + 1;
+                rankDisplay.rankSlider.fillAmount = 1f;
+                rankDisplay.rankTextProgress.text = totalLevels + " / " + totalLevels;
+            }
+            else
+            {
+                // Rank not yet reached
+                rankDisplay.rankSlider.fillAmount = 0f;
+                rankDisplay.rankTextProgress.text = "0 / 0";
+            }
+        }
     }
 
     public void OnTabClicked(int index)

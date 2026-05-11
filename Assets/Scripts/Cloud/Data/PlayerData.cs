@@ -7,10 +7,10 @@ public class PlayerData
     // User Identification
     public string userId;
     public string displayName;
+    public int playerIconIndex = 0;
     
     // Game Progress
     public int expLevel;
-    public int expOverflow;
     public bool kuisDone;
     public int currMoney;
     public int currDiamond;
