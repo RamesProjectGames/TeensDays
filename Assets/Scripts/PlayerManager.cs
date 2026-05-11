@@ -84,14 +84,11 @@ public class PlayerManager : MonoBehaviour
 
         if (GameManager.Instance.playerData.expLevel >= 100)
         {
-            GameManager.Instance.playerData.expOverflow = GameManager.Instance.playerData.expLevel - 100;
+            GameManager.Instance.playerData.expLevel = GameManager.Instance.playerData.expLevel %100;
 
             GameManager.Instance.playerData.classExp += 1; // Tambah level atau exp class
             hasCompleted = false;
             GameManager.Instance.playerData.kuisDone = false;
-
-            // Simpan sisa EXP ke level berikutnya
-            GameManager.Instance.playerData.expLevel = GameManager.Instance.playerData.expOverflow;
         }
     }
 

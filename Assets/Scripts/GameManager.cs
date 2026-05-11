@@ -45,8 +45,9 @@ public class GameManager : MonoBehaviour
     [ContextMenu("Reset Player Data")]
     private void InitializeDefaultPlayerData()
     {
+        playerData.displayName = string.IsNullOrEmpty(playerData.displayName) ? $"Player #{UnityEngine.Random.Range(1000, 9999)}" : playerData.displayName;
+        playerData.playerIconIndex = 0;
         playerData.expLevel = 0;
-        playerData.expOverflow = 0;
         playerData.kuisDone = false;
         playerData.currMoney = 0;
         playerData.currDiamond = 0;
@@ -76,8 +77,8 @@ public class GameManager : MonoBehaviour
 
     private void SyncPlayerDataToGame()
     {
+        
         expLevel = playerData.expLevel;
-        expOverflow = playerData.expOverflow;
         kuisDone = playerData.kuisDone;
         checkLevelCompleted = playerData.checkLevelCompleted.list;
         if(QuestSystem.instance != null)
@@ -99,8 +100,8 @@ public class GameManager : MonoBehaviour
 
     private void SyncGameToPlayerData()
     {
+        
         playerData.expLevel = expLevel;
-        playerData.expOverflow = expOverflow;
         playerData.kuisDone = kuisDone;
         playerData.checkLevelCompleted = new SerializableList<bool>(checkLevelCompleted);
         playerData.questIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentQuestIndex();
