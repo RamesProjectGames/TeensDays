@@ -21,6 +21,8 @@ public class ProfilManager : MonoBehaviour
     public TMP_Text diaTextProf;
     public TMP_Text nameTextProf;
     public Transform changeNameProf;
+    public GameObject bobonPreviewPrefab;
+    public InspectObject bobonPreview;
 
     [Header("Buttons In Profile")]
     public Button[] profileBtns;
@@ -38,6 +40,8 @@ public class ProfilManager : MonoBehaviour
     {
         //panelDaily.SetActive(true);
         menuImage = profImage;
+
+        SpawnBobonPreview();
 
         for (int i = 0; i < profileBtns.Length; i++)
         {
@@ -59,6 +63,17 @@ public class ProfilManager : MonoBehaviour
         profImage.sprite = playerIcons[GameManager.Instance.playerData.playerIconIndex];
         expSliderProf.value = Mathf.Clamp01(GameManager.Instance.playerData.expLevel / 100f);
         SliderRank();
+    }
+    public void SpawnBobonPreview()
+    {
+        var inspectData = InspectManager.Instance.OnItemSelected(bobonPreviewPrefab);
+
+        InspectObject inspectUI = bobonPreview.GetComponent<InspectObject>();
+
+        inspectUI.Horizontal = true;
+        inspectUI.Vertical = false;
+
+        inspectUI.inspectGuid = inspectData.guid;
     }
     public void OpenChangeName(bool open)
     {
