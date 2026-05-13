@@ -73,7 +73,7 @@ public class QuizManager : MonoBehaviour
     }
     async void StartTrackTime()
     {
-        startTime = await LeaderboardSystem.Instance.StartRun();
+        await LeaderboardSystem.Instance.StartRun();
     }
     void LoadCSV()
     {
@@ -233,7 +233,7 @@ public class QuizManager : MonoBehaviour
             }
 
             // Save to cloud instead of PlayerPrefs
-            LeaderboardSystem.Instance.SubmitScoreValidated(GameManager.Instance.playerData.unlockedLevel);
+            LeaderboardSystem.Instance.SubmitScoreValidated(GameManager.Instance.playerData.unlockedLevel, GameManager.Instance.playerData.playerIconIndex);
             GameManager.Instance.SavePlayerDataToCloud();
         }
         else

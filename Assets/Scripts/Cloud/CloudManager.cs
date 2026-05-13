@@ -133,28 +133,45 @@ public class CloudManager : MonoBehaviour
             //         });
             //     }
             // });
-            await dbRef.Child("users").Child(uid).RemoveValueAsync().ContinueWith(async task =>
-            {
-                if (task.IsCompleted)
-                {
-                    Debug.Log("Player data deleted successfully.");
-                    await LeaderboardSystem.Instance.DeleteFromLeaderboardFull();
-                }
-                else
-                {
-                    Debug.LogError($"Failed to delete player data: {task.Exception}");
-                }
-            });
+             await dbRef
+            .Child("users")
+            .Child(uid)
+            .RemoveValueAsync();
+
+        Debug.Log("Player data deleted successfully.");
+
+        // =========================
+        // DELETE ALL LEADERBOARDS
+        // =========================
+
+        await LeaderboardSystem.Instance.DeletePlayerFromAllLeaderboards(uid);
+
+        Debug.Log("Leaderboard entries deleted.");
+
+        // =========================
+        // DELETE RUN DATA
+        // =========================
+
+        await FirebaseDatabase.DefaultInstance
+            .RootReference
+            .Child("runs")
+            .Child(uid)
+            .RemoveValueAsync();
+
+        Debug.Log("Run data deleted.");
+
+        // =========================
+        // CLEAR LOCAL STORAGE
+        // =========================
+
+        PlayerPrefs.DeleteKey(AuthenticationManager.userIdString);
+
+        Debug.Log("Local data cleared.");
             
         }
         catch (System.Exception e)
          {
              Debug.LogError($"Error deleting document: {e}");
-         }
-         finally
-         {
-             // Clear local user ID storage since we now store it in PlayerData
-             PlayerPrefs.DeleteKey(AuthenticationManager.userIdString);
          }
     }
 }

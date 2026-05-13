@@ -2,7 +2,9 @@
 public class LeaderboardData 
 {
     public string userId;    
-    public int highestClass;
+    public int playerClass;
     public long bestTime;
     public string sortKey;
+    public int playerIconIndex;
+    public int rewardAmount;
 }

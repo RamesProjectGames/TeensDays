@@ -1,72 +1,66 @@
 using Firebase.Database;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine;
-public enum LeaderboardGroup
-{
-    Class_1_6,
-    Class_7_9,
-    Class_10_12
-}
-public partial class LeaderboardSystem : MonoBehaviour
+
+public class LeaderboardSystem : MonoBehaviour
 {
     public static LeaderboardSystem Instance { get; private set; }
-    private DatabaseReference leaderboardRef;
+
+    private DatabaseReference rootRef;
+
     public event Action<List<LeaderboardData>> OnLeaderboardUpdated;
+
+    private Query currentQuery;
 
     private void Awake()
     {
         transform.SetParent(null);
+
         if (Instance == null)
         {
             Instance = this;
         }
-    }
-    private void Start()
-    {
-        leaderboardRef = FirebaseDatabase.DefaultInstance.GetReference("leaderboard");
 
-        StartListening();
+        rootRef = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+    // =========================
+    // REALTIME LISTENER
+    // =========================
+
+    public void ListenToClassLeaderboard(int playerClass)
+    {
+        StopListening();
+
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+
+        currentQuery = rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
+            .OrderByChild("sortKey")
+            .LimitToFirst(10);
+
+        currentQuery.ValueChanged += OnLeaderboardChanged;
+    }
+
+    public void StopListening()
+    {
+        if (currentQuery != null)
+        {
+            currentQuery.ValueChanged -= OnLeaderboardChanged;
+            currentQuery = null;
+        }
     }
 
     private void OnDestroy()
     {
         StopListening();
     }
-    private void OnEnable()
-    {
-        OnLeaderboardUpdated += UpdateUI;
-    }
 
-    private void OnDisable()
-    {
-        OnLeaderboardUpdated -= UpdateUI;
-    }
-
-    void UpdateUI(List<LeaderboardData> players)
-    {
-        foreach (var p in players)
-        {
-            Debug.Log($"{p.userId} - {p.bestTime}");
-        }
-    }
-    // 🔥 START LISTENING (REAL-TIME)
-    public void StartListening()
-    {
-        leaderboardRef
-            .OrderByChild("bestTime")
-            .LimitToFirst(50)
-            .ValueChanged += OnLeaderboardValueChanged;
-    }
-
-    public void StopListening()
-    {
-        if (leaderboardRef != null)
-            leaderboardRef.ValueChanged -= OnLeaderboardValueChanged;
-    }
-
-    private void OnLeaderboardValueChanged(object sender, ValueChangedEventArgs args)
+    private void OnLeaderboardChanged(object sender, ValueChangedEventArgs args)
     {
         if (args.DatabaseError != null)
         {
@@ -74,36 +68,65 @@ public partial class LeaderboardSystem : MonoBehaviour
             return;
         }
 
-        List<LeaderboardData> list = new List<LeaderboardData>();
+        List<LeaderboardData> players = new();
 
         foreach (var child in args.Snapshot.Children)
         {
-            var data = JsonUtility.FromJson<LeaderboardData>(child.GetRawJsonValue());
-            list.Add(data);
+            LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(
+                child.GetRawJsonValue()
+            );
+
+            players.Add(data);
         }
 
-        OnLeaderboardUpdated?.Invoke(list);
-    }
-    public async Task<long> StartRun()
+        OnLeaderboardUpdated?.Invoke(players);
+    }// =========================
+    // RUN START
+    // =========================
+
+    public async Task StartRun()
     {
         var user = AuthenticationManager.Singleton.auth.CurrentUser;
+
+        if (user == null)
+        {
+            Debug.LogWarning("User not logged in");
+            return;
+        }
+
         string userId = user.UserId;
 
-        var startData = new Dictionary<string, object>
+        Dictionary<string, object> startData = new()
         {
             { "startTime", ServerValue.Timestamp }
         };
 
-        await leaderboardRef.Child("runs").Child(userId).SetValueAsync(startData);
-
-        return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(); // local reference
+        await rootRef
+            .Child("runs")
+            .Child(userId)
+            .SetValueAsync(startData);
     }
-    public async void SubmitScoreValidated(int highestClass)
+
+    // =========================
+    // SUBMIT VALIDATED SCORE
+    // =========================
+
+    async Task SubmitScoreTaskValidated(
+        int playerClass,
+        int playerIconIndex
+    )
     {
         var user = AuthenticationManager.Singleton.auth.CurrentUser;
+
+        if (user == null)
+        {
+            Debug.LogWarning("User not logged in");
+            return;
+        }
+
         string userId = user.UserId;
 
-        var snapshot = await leaderboardRef
+        var snapshot = await rootRef
             .Child("runs")
             .Child(userId)
             .GetValueAsync();
@@ -120,26 +143,44 @@ public partial class LeaderboardSystem : MonoBehaviour
 
         long duration = currentTime - startTime;
 
-        // 🔒 Anti-cheat checks
         if (!IsValidTime(duration))
         {
             Debug.LogWarning("Cheat detected");
             return;
         }
 
-        await SubmitScoreSafe(highestClass, duration);
+        await SubmitScore(
+            playerClass,
+            duration,
+            playerIconIndex
+        );
     }
+    public async void SubmitScoreValidated(int playerClass, int playerIconIndex)
+    {
+        await SubmitScoreTaskValidated(
+            playerClass,
+            playerIconIndex
+        );
+    }
+
     private bool IsValidTime(long timeMs)
     {
-        // 🚫 Too fast (impossible)
-        if (timeMs < 5000) return false; // < 5 sec
+        if (timeMs < 5000)
+            return false;
 
-        // 🚫 Too long (AFK / tampered)
-        if (timeMs > 3600000) return false; // > 1 hour
+        if (timeMs > 3600000)
+            return false;
 
         return true;
-    }
-    public async Task SubmitScore(int highestClass, long bestTimeMs)
+    }// =========================
+    // SUBMIT SCORE
+    // =========================
+
+    public async Task SubmitScore(
+        int playerClass,
+        long bestTimeMs,
+        int playerIconIndex
+    )
     {
         var user = AuthenticationManager.Singleton.auth.CurrentUser;
 
@@ -151,210 +192,136 @@ public partial class LeaderboardSystem : MonoBehaviour
 
         string userId = user.UserId;
 
-        LeaderboardData data = new LeaderboardData
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+
+        LeaderboardData data = new()
         {
             userId = userId,
-            highestClass = highestClass,
+            playerClass = playerClass,
             bestTime = bestTimeMs,
-            sortKey = GenerateSortKey(highestClass, bestTimeMs)
+            playerIconIndex = playerIconIndex,
+            rewardAmount = GetReward(bestTimeMs),
+            sortKey = GenerateSortKey(bestTimeMs)
         };
 
         string json = JsonUtility.ToJson(data);
 
-        await leaderboardRef
-            .Child("leaderboard")
+        await rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
             .Child(userId)
             .SetRawJsonValueAsync(json);
 
-        Debug.Log("Score submitted to leaderboard");
+        Debug.Log("Score submitted");
     }
 
-    // 🔹 Safe submit (only if better)
-    public async Task SubmitScoreSafe(int highestClass, long bestTimeMs)
+    // =========================
+    // GET TOP PLAYERS
+    // =========================
+
+    public async Task<List<LeaderboardData>> GetTopPlayers(
+        int playerClass,
+        int limit = 10
+    )
     {
-        var user = AuthenticationManager.Singleton.auth.CurrentUser;
-        if (user == null) return;
+        List<LeaderboardData> result = new();
 
-        string userId = user.UserId;
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
 
-        var snapshot = await leaderboardRef
-            .Child("leaderboard")
-            .Child(userId)
-            .GetValueAsync();
-
-        if (snapshot.Exists)
-        {
-            var existing = JsonUtility.FromJson<LeaderboardData>(snapshot.GetRawJsonValue());
-
-            if (bestTimeMs >= existing.bestTime)
-            {
-                Debug.Log("Not a better score");
-                return;
-            }
-        }
-
-        await SubmitScore(highestClass, bestTimeMs);
-    }
-
-    // 🔹 Get Top Players (Best Time)
-    public async Task<List<LeaderboardData>> GetTopPlayers(int limit = 10)
-    {
-        List<LeaderboardData> result = new List<LeaderboardData>();
-
-        var snapshot = await leaderboardRef
-            .Child("leaderboard")
+        var snapshot = await rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
             .OrderByChild("sortKey")
             .LimitToFirst(limit)
             .GetValueAsync();
 
-        if (!snapshot.Exists) return result;
+        if (!snapshot.Exists)
+            return result;
 
         foreach (var child in snapshot.Children)
         {
-            var data = JsonUtility.FromJson<LeaderboardData>(child.GetRawJsonValue());
+            LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(
+                child.GetRawJsonValue()
+            );
+
             result.Add(data);
         }
 
         return result;
     }
 
-    // 🔹 Get Top by Class
-    public async Task<List<LeaderboardData>> GetTopByClass(int limit = 10)
-    {
-        List<LeaderboardData> result = new List<LeaderboardData>();
+    // =========================
+    // DELETE PLAYER ENTRY
+    // =========================
 
-        var snapshot = await leaderboardRef
-            .Child("leaderboard")
-            .OrderByChild("highestClass")
-            .LimitToLast(limit)
-            .GetValueAsync();
-
-        if (!snapshot.Exists) return result;
-
-        foreach (var child in snapshot.Children)
-        {
-            var data = JsonUtility.FromJson<LeaderboardData>(child.GetRawJsonValue());
-            result.Add(data);
-        }
-
-        result.Reverse(); // highest first
-        return result;
-    }
-
-    // 🔹 Get Player Rank
-    public async Task<int> GetPlayerRank(string userId)
-    {
-        var snapshot = await leaderboardRef
-            .Child("leaderboard")
-            .OrderByChild("bestTime")
-            .GetValueAsync();
-
-        int rank = 1;
-
-        foreach (var child in snapshot.Children)
-        {
-            if (child.Key == userId)
-                return rank;
-
-            rank++;
-        }
-
-        return -1;
-    }
-    private LeaderboardGroup GetGroup(int highestClass)
-    {
-        if (highestClass <= 6) return LeaderboardGroup.Class_1_6;
-        if (highestClass <= 9) return LeaderboardGroup.Class_7_9;
-        return LeaderboardGroup.Class_10_12;
-    }
-    public class GroupedLeaderboard
-    {
-        public List<LeaderboardData> class1_6 = new();
-        public List<LeaderboardData> class7_9 = new();
-        public List<LeaderboardData> class10_12 = new();
-    }
-    public async Task<GroupedLeaderboard> GetGroupedLeaderboard(int limitPerGroup = 10)
-    {
-        var allPlayers = await GetTopPlayers(100); // fetch enough
-
-        GroupedLeaderboard grouped = new GroupedLeaderboard();
-
-        foreach (var p in allPlayers)
-        {
-            var group = GetGroup(p.highestClass);
-
-            switch (group)
-            {
-                case LeaderboardGroup.Class_1_6:
-                    if (grouped.class1_6.Count < limitPerGroup)
-                        grouped.class1_6.Add(p);
-                    break;
-
-                case LeaderboardGroup.Class_7_9:
-                    if (grouped.class7_9.Count < limitPerGroup)
-                        grouped.class7_9.Add(p);
-                    break;
-
-                case LeaderboardGroup.Class_10_12:
-                    if (grouped.class10_12.Count < limitPerGroup)
-                        grouped.class10_12.Add(p);
-                    break;
-            }
-        }
-
-        return grouped;
-    }
-    private string GenerateSortKey(int highestClass, long bestTime)
-    {
-        // invert class so higher = smaller value (for ascending sort)
-        int invertedClass = 999999 - highestClass;
-
-        // pad both values to fixed length
-        return $"{invertedClass:D6}_{bestTime:D12}";
-    }
-    public async Task DeleteFromLeaderboardFull()
+    public async Task DeleteEntry(int playerClass)
     {
         var user = AuthenticationManager.Singleton.auth.CurrentUser;
 
         if (user == null)
-        {
-            Debug.LogWarning("User not logged in");
             return;
-        }
 
-        string userId = user.UserId;
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
 
-        // 🔍 Get existing data to know group
-        var snapshot = await leaderboardRef
-            .Child("leaderboard")
-            .Child(userId)
-            .GetValueAsync();
-
-        if (!snapshot.Exists)
-        {
-            Debug.Log("User not in leaderboard");
-            return;
-        }
-
-        var data = JsonUtility.FromJson<LeaderboardData>(snapshot.GetRawJsonValue());
-
-        string groupKey = GetGroupKey(data.highestClass);
-
-        // 🔥 Multi-path delete (atomic)
-        var updates = new Dictionary<string, object>()
-        {
-            [$"leaderboard/{userId}"] = null,
-            [$"groupedLeaderboard/{groupKey}/{userId}"] = null
-        };
-
-        await leaderboardRef.UpdateChildrenAsync(updates);
-
-        Debug.Log("Deleted from ALL leaderboard nodes");
+        await rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
+            .Child(user.UserId)
+            .RemoveValueAsync();
     }
-    private string GetGroupKey(int highestClass)
+    public async Task DeletePlayerFromAllLeaderboards(string uid)
     {
-        if (highestClass <= 6) return "class1_6";
-        if (highestClass <= 9) return "class7_9";
-        return "class10_12";
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+
+        Dictionary<string, object> updates = new();
+
+        for (int i = 1; i <= 12; i++)
+        {
+            updates[
+                $"leaderboards/{seasonKey}/class_{i}/{uid}"
+            ] = null;
+        }
+
+        await rootRef.UpdateChildrenAsync(updates);
+
+        Debug.Log("Deleted player from all leaderboards.");
+    }
+
+    // =========================
+    // UTILITIES
+    // =========================
+
+    private string GenerateSortKey(long bestTime)
+    {
+        return bestTime.ToString("D12");
+    }
+
+    private int GetReward(long timeMs)
+    {
+        if (timeMs <= 60000)
+            return 1000;
+
+        if (timeMs <= 120000)
+            return 500;
+
+        return 100;
+    }
+}
+public static class SeasonUtility
+{
+    public static string GetCurrentSeasonKey()
+    {
+        var calendar = CultureInfo.InvariantCulture.Calendar;
+
+        int week = calendar.GetWeekOfYear(
+            DateTime.UtcNow,
+            CalendarWeekRule.FirstFourDayWeek,
+            DayOfWeek.Monday
+        );
+
+        return $"season_{DateTime.UtcNow.Year}_week_{week}";
     }
 }

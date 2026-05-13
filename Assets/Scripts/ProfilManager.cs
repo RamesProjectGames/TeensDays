@@ -13,6 +13,7 @@ public class SchoolRankDisplay
 }
 public class ProfilManager : MonoBehaviour
 {
+    public static ProfilManager Instance { get; private set; }
     //public GameObject panelDaily;
     public Image profImage;
     public Image menuImage;
@@ -35,6 +36,11 @@ public class ProfilManager : MonoBehaviour
     public List<SchoolRankDisplay> schoolRankDisplays = new List<SchoolRankDisplay>();
 
     public PlayerManager playerManager;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
