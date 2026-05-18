@@ -1,0 +1,94 @@
+ACHIEVEMENT SYSTEM SETUP GUIDE
+==============================
+
+1. CREATE ACHIEVEMENT SCRIPTABLE OBJECTS:
+   - Right-click in Project folder → Create → Game → Achievement
+   - Set unique Achievement ID (e.g., "first_level_complete")
+   - Set Title, Description, Icon, and Reward Amount
+   - Save in: Assets/Resources/Achievements/
+
+2. SETUP ACHIEVEMENT MANAGER IN SCENE:
+   - Create empty GameObject named "AchieveManager"
+   - Add AchieveManager.cs script
+   - In Inspector, set array size of "Default Achievements"
+   - Drag your created achievement scriptable objects into the array
+   - Assign the announcement Image and AudioSource from your UI
+
+3. SETUP ACHIEVEMENT UI PANEL:
+   - Create Canvas if not exists
+   - Create Panel for achievements UI
+   - Add AchievementUIPanel.cs script
+   - Assign in Inspector:
+     * Achievement Container (empty Transform child for spawning items)
+     * Achievement Item Prefab (see step 4)
+     * Close Button
+     * Achievement Count Text
+     * Scroll Rect
+
+4. CREATE ACHIEVEMENT UI ITEM PREFAB:
+   - Create Panel for single achievement item
+   - Add Image for achievement icon
+   - Add Texts for title, description, reward
+   - Add Button for claim action
+   - Add Image for claimed overlay (with darker color)
+   - Add Text for "Claimed" label
+   - Add AchievementUIItem.cs script
+   - Save as prefab in: Assets/Resources/UI/
+
+5. SETUP ACHIEVEMENT ANNOUNCEMENT UI:
+   - Create Panel in Canvas for announcements
+   - Position it higher on screen
+   - Add Image for achievement icon
+   - Add Texts for title and description
+   - Add AudioSource for notification sound
+   - Add AchievementAnnouncementUI.cs script
+   - Optionally add CanvasGroup for fade effects
+
+6. UNLOCK ACHIEVEMENTS IN CODE:
+   Examples:
+   
+   // Unlock by ID
+   AchievementHelper.UnlockAchievement("first_win");
+   
+   // Or use manager directly
+   AchieveManager.Instance.UnlockAchievement("achievement_id");
+   
+   // Claim achievements
+   AchieveManager.Instance.ClaimAchievement("achievement_id");
+   
+   // Check achievement status
+   AchievementData achievement = AchieveManager.Instance.GetAchievement("achievement_id");
+   if (achievement != null && !achievement.isClaimed)
+   {
+       // Show claim button
+   }
+
+7. LISTEN TO ACHIEVEMENT EVENTS:
+   Example in your UI or Game Manager:
+   
+   void OnEnable()
+   {
+       AchieveManager.Instance.OnAchievementUnlocked += HandleAchievementUnlocked;
+       AchieveManager.Instance.OnAchievementClaimed += HandleAchievementClaimed;
+   }
+   
+   void OnDisable()
+   {
+       AchieveManager.Instance.OnAchievementUnlocked -= HandleAchievementUnlocked;
+       AchieveManager.Instance.OnAchievementClaimed -= HandleAchievementClaimed;
+   }
+
+8. FIREBASE INTEGRATION:
+   - The system automatically saves/loads from Firebase
+   - Achievements are stored in: users/{userId}/achievements
+   - No manual setup required - managed by AchieveManager
+
+FEATURES:
+- Firebase Realtime Database integration
+- ScriptableObject-based achievement definition
+- Automatic cloud sync
+- Achievement unlock notifications with animations
+- Claim system with currency rewards
+- Full UI system for displaying achievements
+- Event system for listening to achievement changes
+- Helper functions for easy access

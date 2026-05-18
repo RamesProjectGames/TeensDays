@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a6c57bb30526c4c9bcb105203469c5, type: 3}
+  m_Name: SD Achievement
+  m_EditorClassIdentifier: 
+  achievementId: sd_achievement
+  title: SD Achievement
+  description: Clear all class in school until 6 class
+  achievementIcon: {fileID: 21300000, guid: 660cc57d2f4f73848a1816fdfb2f3bbd, type: 3}
+  rewardAmount: 5000
