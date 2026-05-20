@@ -129,8 +129,9 @@ public class ProfilManager : MonoBehaviour
             else
             {
                 // Rank not yet reached
+                int totalLevels = maxLevel - minLevel + 1;
                 rankDisplay.rankSlider.fillAmount = 0f;
-                rankDisplay.rankTextProgress.text = "0 / 0";
+                rankDisplay.rankTextProgress.text = $"0 / {totalLevels}";
             }
         }
     }

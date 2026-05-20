@@ -14,7 +14,7 @@ public class AchieveManager : MonoBehaviour
     public Image achieveAnnoun;
     public AudioSource achieveAnnounAudio;
     
-    private List<AchievementData> playerAchievements = new List<AchievementData>();
+    public List<AchievementData> playerAchievements = new List<AchievementData>();
     private Dictionary<string, AchievementScriptableObject> achievementLookup = new Dictionary<string, AchievementScriptableObject>();
 
     public event Action<AchievementData> OnAchievementUnlocked;

@@ -89,6 +89,5 @@ public class MainMenuSettings : MonoBehaviour
 
         loadingPanel.SetActive(false);
         videoPlayer.Play();
-        EnableMainButtons(true);
     }
 }

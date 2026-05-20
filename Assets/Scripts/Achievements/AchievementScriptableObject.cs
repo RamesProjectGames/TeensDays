@@ -23,7 +23,7 @@ public class AchievementScriptableObject : ScriptableObject
             title = title,
             description = description,
             isClaimed = isClaimed,
-            obtainedTimestamp = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            obtainedTimestamp = 0
         };
     }
 }

@@ -21,9 +21,9 @@ public class AccordionDropdown : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void ToggleMenu()
+    public void ToggleMenu(bool open)
     {
-        isOpen = !isOpen;
+        isOpen = open;
 
         // Cancel previous tweens to prevent jittering
         LeanTween.cancel(layoutElement.gameObject);
@@ -33,11 +33,14 @@ public class AccordionDropdown : MonoBehaviour
         float endHeight = isOpen ? targetHeight : 0;
         float endAlpha = isOpen ? 1f : 0f;
 
+        var layoutRectTransform = layoutElement.GetComponent<RectTransform>();
+
         // 1. Animate the height value
         LeanTween.value(layoutElement.gameObject, startHeight, endHeight, animationTime)
             .setEase(LeanTweenType.easeInOutSine)
             .setOnUpdate((float val) => {
                 layoutElement.preferredHeight = val;
+                layoutRectTransform.sizeDelta = new Vector2(layoutRectTransform.sizeDelta.x, val);
             });
 
         // 2. Animate the fade

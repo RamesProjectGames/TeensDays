@@ -1,3 +1,4 @@
+[System.Serializable]
 public class AchievementData 
 {
     public string achievementId;

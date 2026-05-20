@@ -31,8 +31,6 @@ public class PlayerInteraction : MonoBehaviour
 
     //public GameObject gerbangSekolah;
 
-    public Image achieveAnnoun;
-    public AudioSource achieveAnnounAudio;
 
     private InteractableNPC currentNPC;
     private InteractableNPC npcBeingTalkedTo;
@@ -515,15 +513,8 @@ public class PlayerInteraction : MonoBehaviour
 
                     if (npcData.questIndex == 0)
                     {
-                        achieveManager.rewardButtons[0].interactable = true;
-                        achieveAnnounAudio.Play();
-                        LeanTween.moveY(achieveAnnoun.rectTransform, 280, .7f).setOnComplete(() =>
-                        {            // Tunggu 5 detik sebelum melanjutkan
-                            LeanTween.delayedCall(5f, () =>
-                            {
-                                LeanTween.moveY(achieveAnnoun.rectTransform, 430, .7f);
-                            });
-                        });
+                        AchievementHelper.UnlockAchievement("first_quest");
+                        achieveManager.ShowAchievePanel();
 
                         //LeanTween.moveLocalX(gerbangSekolah, 15f, 7f);
 
@@ -535,7 +526,8 @@ public class PlayerInteraction : MonoBehaviour
 
                     if(npcData.questIndex == 2)
                     {
-                        achieveManager.rewardButtons[2].interactable = true;
+                        AchievementHelper.UnlockAchievement("first_achievement");
+                        achieveManager.ShowAchievePanel();
                         for (int i = 0; i < imageAnnoun.Length; i++)
                         {
                             imageAnnoun[i].SetActive(true);
