@@ -11,7 +11,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     [Header("Cinemachine")]
     public CinemachineVirtualCamera talkCam;
-    public Transform talkCameraTarget;
+    [SerializeField] private Transform talkCameraTarget;
     public Transform playerTransform;
 
     public float interactRange = 3f;
@@ -52,16 +52,22 @@ public class PlayerInteraction : MonoBehaviour
     public TMP_Text rightDialogText;
     public Image leftPortrait;
     public Image rightPortrait;
-    public int questIndex;
+    // public int questIndex;
+
+    bool isTalking = false;
 
     private void Start()
     {
-        StartQuest();
+        
     }
 
     void Update()
     {
-        if (npcBeingTalkedTo != null) return; // <-- NPC locked, jangan ubah currentNPC
+        if (npcBeingTalkedTo != null)
+        {
+            floatingButton.SetActive(!isTalking);
+            return; // <-- NPC locked, jangan ubah currentNPC  
+        } 
 
         Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
 
@@ -99,6 +105,8 @@ public class PlayerInteraction : MonoBehaviour
         if (currentNPC == null) return;
 
         npcBeingTalkedTo = currentNPC;  // <-- Kunci NPC saat ini
+
+        SetChatBubbleVisible(true);
 
         // =======================
         // 🎥 Aktifkan kamera dialog
@@ -250,6 +258,10 @@ public class PlayerInteraction : MonoBehaviour
         //}
         #endregion
     }
+    public void SetChatBubbleVisible(bool isVisible)
+    {        
+        isTalking = isVisible;
+    }
 
     public void StartQuest()
     {
@@ -258,14 +270,14 @@ public class PlayerInteraction : MonoBehaviour
 
         // Tambahkan quest utama pertama
         QuestSystem.instance.AddNewQuest(
-            QuestSystem.instance.quests[questIndex],
+            QuestSystem.instance.quests[QuestSystem.instance.GetCurrentQuestIndex()],
             true,   // isMainQuest
             false,  // isSubQuest
             false   // isSideQuest
         );
 
         // Set target jika ada
-        var quest = QuestSystem.instance.quests[questIndex];
+        var quest = QuestSystem.instance.quests[QuestSystem.instance.GetCurrentQuestIndex()];
         if (quest.targetTransform != null)
         {
             QuestSystem.instance.questPathManager
@@ -353,6 +365,7 @@ public class PlayerInteraction : MonoBehaviour
         rightBubble.SetActive(false);
 
         dialogIndex = 0;
+        SetChatBubbleVisible(false);
         OnQuestButtonClicked();
 
         int startQuestIndex = activeDialog.questIndex;                   // Quest yang muncul saat Start Game

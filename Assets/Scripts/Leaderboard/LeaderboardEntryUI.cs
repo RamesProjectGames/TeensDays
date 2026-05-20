@@ -31,7 +31,7 @@ public class LeaderboardEntryUI : MonoBehaviour
         else
         {
             medalImage.gameObject.SetActive(false);
-            rankingText.text = $"#{ranking}";
+            rankingText.text = $"{ranking}.";
         }
 
 
@@ -40,7 +40,7 @@ public class LeaderboardEntryUI : MonoBehaviour
 
         timeText.text = FormatTime(data.bestTime);
 
-        rewardText.text = $"{data.rewardAmount} Gold";
+        rewardText.text = $"{data.rewardAmount}";
 
         SetPlayerIcon(data.playerIconIndex);
     }

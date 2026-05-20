@@ -419,6 +419,98 @@ public class LeaderboardSystem : MonoBehaviour
 
         return 100;
     }
+
+    // =========================
+    // EDITOR DEBUG TOOLS
+    // =========================
+
+    [ContextMenu("Fill Leaderboard with Dummy Data")]
+    private async void FillLeaderboardDummy()
+    {
+        Debug.Log("Filling leaderboard with dummy data...");
+
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+
+        try
+        {
+            for (int classId = 1; classId <= 12; classId++)
+            {
+                for (int rank = 1; rank <= 10; rank++)
+                {
+                    long bestTime = 30000 + (rank * 5000);
+                    int playerIconIndex = UnityEngine.Random.Range(0, 5);
+
+                    LeaderboardData data = new()
+                    {
+                        userId = $"dummy_user_{classId}_{rank}",
+                        playerClass = classId,
+                        bestTime = bestTime,
+                        playerIconIndex = playerIconIndex,
+                        rewardAmount = GetReward(bestTime),
+                        sortKey = GenerateSortKey(bestTime)
+                    };
+
+                    string json = JsonUtility.ToJson(data);
+
+                    await rootRef
+                        .Child("leaderboards")
+                        .Child(seasonKey)
+                        .Child($"class_{classId}")
+                        .Child($"dummy_user_{classId}_{rank}")
+                        .SetRawJsonValueAsync(json);
+                }
+            }
+
+            Debug.Log("Leaderboard filled with dummy data!");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error filling leaderboard: {ex.Message}\nUpdate your Firebase rules to allow dummy_user_ entries.");
+        }
+    }
+
+    [ContextMenu("Reset Leaderboard")]
+    private async void ResetLeaderboard()
+    {
+        Debug.Log("Resetting dummy leaderboard entries...");
+
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+
+        try
+        {
+            for (int classId = 1; classId <= 12; classId++)
+            {
+                var snapshot = await rootRef
+                    .Child("leaderboards")
+                    .Child(seasonKey)
+                    .Child($"class_{classId}")
+                    .GetValueAsync();
+
+                if (!snapshot.Exists)
+                    continue;
+
+                foreach (var child in snapshot.Children)
+                {
+                    // Only delete dummy entries, preserve legitimate player entries
+                    if (child.Key.StartsWith("dummy_user_"))
+                    {
+                        await rootRef
+                            .Child("leaderboards")
+                            .Child(seasonKey)
+                            .Child($"class_{classId}")
+                            .Child(child.Key)
+                            .RemoveValueAsync();
+                    }
+                }
+            }
+
+            Debug.Log("Dummy leaderboard entries reset!");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error resetting leaderboard: {ex.Message}\nCheck your Firebase Realtime Database rules to allow delete access.");
+        }
+    }
 }
 public static class SeasonUtility
 {

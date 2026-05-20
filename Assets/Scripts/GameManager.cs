@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
     public int totalLevel = 5;
     public delegate void MyDelegate();
     public MyDelegate onLoadDataComplete;
+
+    [Header("References")]
+    public PlayerInteraction playerInteraction;
     [ContextMenu("Reset Player Data")]
     private void InitializeDefaultPlayerData()
     {
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour
             QuestSystem.instance.SetCurrentQuestIndex(playerData.questIndex);
             QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);     
             QuestSystem.instance.LoadQuests();       
+            playerInteraction.StartQuest();
         }
         if(InventoryManager.Instance != null)
         {
@@ -111,10 +115,9 @@ public class GameManager : MonoBehaviour
         playerData.mainQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.questDatas);
         playerData.sideQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.sideQuestDatas);
     }
-
+    
     private void Start()
-    {
-        Application.targetFrameRate = 60;
+    {       
         LoadPlayerDataFromCloud();
     }
     [ContextMenu("Load Player Data from Cloud")]
