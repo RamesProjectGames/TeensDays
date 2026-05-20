@@ -47,4 +47,8 @@ public class AccordionDropdown : MonoBehaviour
         LeanTween.alphaCanvas(canvasGroup, endAlpha, animationTime);
         canvasGroup.blocksRaycasts = isOpen;
     }
+    public void ToggleMenu()
+    {
+        ToggleMenu(!isOpen);
+    }
 }

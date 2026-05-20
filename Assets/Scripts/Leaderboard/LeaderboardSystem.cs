@@ -15,6 +15,12 @@ public class LeaderboardSystem : MonoBehaviour
 
     private Query currentQuery;
 
+    public event Action<int> OnPlayerRankUpdated;
+
+    private Query playerRankQuery;
+
+    private EventHandler<ValueChangedEventArgs> playerRankHandler;
+
     private void Awake()
     {
         transform.SetParent(null);
@@ -25,6 +31,11 @@ public class LeaderboardSystem : MonoBehaviour
         }
 
         rootRef = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+
+    void Start()
+    {
+        
     }
     // =========================
     // REALTIME LISTENER
@@ -55,6 +66,75 @@ public class LeaderboardSystem : MonoBehaviour
         }
     }
 
+    public void ListenToPlayerCurrentRank(int playerClass)
+    {
+        var user = AuthenticationManager.Singleton.auth.CurrentUser;
+
+        if (user == null)
+        {
+            Debug.LogWarning("User not logged in");
+            return;
+        }
+
+        StopPlayerRankListening();
+
+        string uid = user.UserId;
+
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+
+        playerRankQuery = rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
+            .OrderByChild("sortKey");
+
+        playerRankHandler = (sender, args) =>
+        {
+            if (args.DatabaseError != null)
+            {
+                Debug.LogError(args.DatabaseError.Message);
+                return;
+            }
+
+            int rank = 1;
+
+            bool found = false;
+
+            foreach (var child in args.Snapshot.Children)
+            {
+                if (child.Key == uid)
+                {
+                    found = true;
+
+                    OnPlayerRankUpdated?.Invoke(rank);
+
+                    break;
+                }
+
+                rank++;
+            }
+
+            if (!found)
+            {
+                OnPlayerRankUpdated?.Invoke(-1);
+            }
+        };
+
+        playerRankQuery.ValueChanged += playerRankHandler;
+    }
+
+    public void StopPlayerRankListening()
+    {
+        if (playerRankQuery != null && playerRankHandler != null)
+        {
+            playerRankQuery.ValueChanged -= playerRankHandler;
+        }
+
+        playerRankQuery = null;
+
+        playerRankHandler = null;
+    }
+
     private void OnDestroy()
     {
         StopListening();
@@ -83,7 +163,7 @@ public class LeaderboardSystem : MonoBehaviour
     }// =========================
     // RUN START
     // =========================
-
+    
     public async Task StartRun()
     {
         var user = AuthenticationManager.Singleton.auth.CurrentUser;
@@ -250,6 +330,36 @@ public class LeaderboardSystem : MonoBehaviour
         }
 
         return result;
+    }
+
+    public async Task<LeaderboardData> GetPlayerData(int playerClass)
+    {
+        var user = AuthenticationManager.Singleton.auth.CurrentUser;
+
+        if (user == null)
+        {
+            Debug.LogWarning("User not logged in");
+            return null;
+        }
+
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+        string uid = user.UserId;
+
+        var snapshot = await rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
+            .Child(uid)
+            .GetValueAsync();
+
+        if (!snapshot.Exists)
+            return null;
+
+        LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(
+            snapshot.GetRawJsonValue()
+        );
+
+        return data;
     }
 
     // =========================

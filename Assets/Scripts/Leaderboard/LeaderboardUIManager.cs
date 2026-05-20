@@ -10,10 +10,10 @@ public class LeaderboardUIManager : MonoBehaviour
 
     [Header("UI")]
     public List<Sprite> rankBackgrounds = new List<Sprite>();
+    public List<Sprite> medalSprites = new List<Sprite>();
     public GameObject emptyLeaderboardMessage;
     [Header("References")]
     public Transform contentParent;
-
     public LeaderboardEntryUI entryPrefab;
 
     [Header("Class Buttons")]
@@ -24,7 +24,7 @@ public class LeaderboardUIManager : MonoBehaviour
     public TMP_Text seasonText;
 
     private readonly List<LeaderboardEntryUI> spawnedEntries = new();
-
+    public LeaderboardEntryUI currentPlayerEntry;
 
     private int currentClass = 1;
 
@@ -47,6 +47,7 @@ public class LeaderboardUIManager : MonoBehaviour
         }
 
         LeaderboardSystem.Instance.OnLeaderboardUpdated += RefreshUI;
+        LeaderboardSystem.Instance.OnPlayerRankUpdated += UpdateCurrentPlayerRank;
 
         ChangeClass(1);
     }
@@ -56,6 +57,8 @@ public class LeaderboardUIManager : MonoBehaviour
         if (LeaderboardSystem.Instance != null)
         {
             LeaderboardSystem.Instance.OnLeaderboardUpdated -= RefreshUI;
+            LeaderboardSystem.Instance.OnPlayerRankUpdated -= UpdateCurrentPlayerRank;
+            LeaderboardSystem.Instance.StopPlayerRankListening();
         }
     }
 
@@ -78,6 +81,7 @@ public class LeaderboardUIManager : MonoBehaviour
         }
 
         LeaderboardSystem.Instance.ListenToClassLeaderboard(playerClass);
+        LeaderboardSystem.Instance.ListenToPlayerCurrentRank(playerClass);
 
         List<LeaderboardData> players =
             await LeaderboardSystem.Instance.GetTopPlayers(playerClass, 10);
@@ -122,5 +126,36 @@ public class LeaderboardUIManager : MonoBehaviour
         }
 
         spawnedEntries.Clear();
+    }
+
+    private async void UpdateCurrentPlayerRank(int rank)
+    {
+        // Destroy existing current player entry if it exists
+        // if (currentPlayerEntry != null)
+        // {
+        //     Destroy(currentPlayerEntry.gameObject);
+        //     currentPlayerEntry = null;
+        // }
+
+        // If rank is -1, player not found on leaderboard
+        if (rank == -1)
+        {
+            currentPlayerEntry.gameObject.SetActive(false);
+            return;
+        }
+
+        // Get current player's data
+        LeaderboardData playerData = await LeaderboardSystem.Instance.GetPlayerData(currentClass);
+
+        if (playerData == null)
+            return;
+
+        // Instantiate and setup current player entry
+        // currentPlayerEntry = Instantiate(
+        //     currentPlayerEntryPrefab,
+        //     contentParent
+        // );
+
+        currentPlayerEntry.Setup(rank, playerData);
     }
 }

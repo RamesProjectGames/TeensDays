@@ -4,10 +4,12 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class LeaderboardEntryUI : MonoBehaviour
 {
-    public Image backgroundImage; 
+    public Image backgroundImage;
+    public Image medalImage;
     public TMP_Text rankingText;
 
     public Image profilePicture;
@@ -21,7 +23,20 @@ public class LeaderboardEntryUI : MonoBehaviour
     {
         backgroundImage.sprite = LeaderboardUIManager.Instance.rankBackgrounds[Mathf.Clamp(ranking - 1, 0, LeaderboardUIManager.Instance.rankBackgrounds.Count - 1)];
         
-        rankingText.text = $"#{ranking}";
+        if(ranking <= 3)
+        {
+            medalImage.gameObject.SetActive(true);
+            rankingText.text = "";
+        }
+        else
+        {
+            medalImage.gameObject.SetActive(false);
+            rankingText.text = $"#{ranking}";
+        }
+
+
+        medalImage.sprite = LeaderboardUIManager.Instance.medalSprites[Mathf.Clamp(ranking - 1, 0, LeaderboardUIManager.Instance.medalSprites.Count - 1)];
+        
 
         timeText.text = FormatTime(data.bestTime);
 
