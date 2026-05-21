@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
     public GameObject[] bgSpritesLocked;
+    public GameObject[] bgNomorKelas;
+    public GameObject[] bgKelasClear;
 
     private void Start()
     {
@@ -92,6 +94,12 @@ public class LevelManager : MonoBehaviour
         {
             levelButtons[i].interactable = true;
             bgSpritesLocked[i].SetActive(false);
+
+            if (i < unlockedLevel - 1)
+            {
+                bgNomorKelas[i].SetActive(false);
+                bgKelasClear[i].SetActive(true);
+            }
         }
     }
 }
