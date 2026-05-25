@@ -323,12 +323,11 @@ public class QuestPathManager : MonoBehaviour
     public void SetQuestTarget(Transform target)
     {
         questTarget = target;
-
-        questTarget = target;
         lockedSize = -1;
         cachedPath.Clear();
         CalculateAndCachePath();
     }
+    [ContextMenu("Clear Path")]
     public void ClearPath()
     {
         questTarget = null;

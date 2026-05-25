@@ -23,7 +23,6 @@ public class LeaderboardSystem : MonoBehaviour
 
     private void Awake()
     {
-        transform.SetParent(null);
 
         if (Instance == null)
         {
@@ -193,6 +192,7 @@ public class LeaderboardSystem : MonoBehaviour
 
     async Task SubmitScoreTaskValidated(
         int playerClass,
+        int playerScore,
         int playerIconIndex
     )
     {
@@ -232,13 +232,15 @@ public class LeaderboardSystem : MonoBehaviour
         await SubmitScore(
             playerClass,
             duration,
+            playerScore,
             playerIconIndex
         );
     }
-    public async void SubmitScoreValidated(int playerClass, int playerIconIndex)
+    public async void SubmitScoreValidated(int playerClass, int playerScore, int playerIconIndex)
     {
         await SubmitScoreTaskValidated(
             playerClass,
+            playerScore,
             playerIconIndex
         );
     }
@@ -259,6 +261,7 @@ public class LeaderboardSystem : MonoBehaviour
     public async Task SubmitScore(
         int playerClass,
         long bestTimeMs,
+        int playerScore,
         int playerIconIndex
     )
     {
@@ -279,9 +282,10 @@ public class LeaderboardSystem : MonoBehaviour
             userId = userId,
             playerClass = playerClass,
             bestTime = bestTimeMs,
+            score = playerScore,
             playerIconIndex = playerIconIndex,
             rewardAmount = GetReward(bestTimeMs),
-            sortKey = GenerateSortKey(bestTimeMs)
+            sortKey = GenerateSortKey(playerScore, bestTimeMs)
         };
 
         string json = JsonUtility.ToJson(data);
@@ -404,9 +408,11 @@ public class LeaderboardSystem : MonoBehaviour
     // UTILITIES
     // =========================
 
-    private string GenerateSortKey(long bestTime)
+    private string GenerateSortKey(int score, long bestTime)
     {
-        return bestTime.ToString("D12");
+        long invertedScore = 999999999 - score;
+
+        return $"{invertedScore:D9}_{bestTime:D12}";
     }
 
     private int GetReward(long timeMs)
@@ -447,7 +453,7 @@ public class LeaderboardSystem : MonoBehaviour
                         bestTime = bestTime,
                         playerIconIndex = playerIconIndex,
                         rewardAmount = GetReward(bestTime),
-                        sortKey = GenerateSortKey(bestTime)
+                        sortKey = GenerateSortKey(0, bestTime)
                     };
 
                     string json = JsonUtility.ToJson(data);

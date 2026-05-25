@@ -206,7 +206,8 @@ public class QuizManager : MonoBehaviour
 
     void TotalScore()
     {
-        int levelIndex = SceneManager.GetActiveScene().buildIndex;
+        // int levelIndex = SceneManager.GetActiveScene().buildIndex;
+        int currentClass = GetNumberFromString(SceneManager.GetActiveScene().name);
 
         float skor = ((float)totalBenar / semuaSoal.Count) * 100f;
         soalTMP.text = $"Soal selesai!\nSkor akhir: <color=green>{skor:F0}%</color>\nBenar: {totalBenar}, Salah: {totalSalah}";
@@ -218,11 +219,11 @@ public class QuizManager : MonoBehaviour
             BackToLevel.gameObject.SetActive(true);
             sucessAudio.Play();
 
-            if (!GameManager.Instance.playerData.checkLevelCompleted.list[levelIndex])
+            if (!GameManager.Instance.playerData.checkLevelCompleted.list[currentClass-1])
             {
                 // Pertama kali lulus → hadiah besar
                 GameManager.Instance.playerData.currMoney += 15000;
-                GameManager.Instance.playerData.checkLevelCompleted.list[levelIndex] = true;
+                GameManager.Instance.playerData.checkLevelCompleted.list[currentClass - 1] = true;
                 GameManager.Instance.playerData.expLevel += 100;
                 UnlockNewLevel();
             }
@@ -233,8 +234,8 @@ public class QuizManager : MonoBehaviour
             }
 
             // Save to cloud instead of PlayerPrefs
-            LeaderboardSystem.Instance.SubmitScoreValidated(GameManager.Instance.playerData.unlockedLevel, GameManager.Instance.playerData.playerIconIndex);
-            GameManager.Instance.SavePlayerDataToCloud();
+            LeaderboardSystem.Instance.SubmitScoreValidated(currentClass,(int)skor, GameManager.Instance.playerData.playerIconIndex);
+            // GameManager.Instance.SavePlayerDataToCloud();
         }
         else
         {
@@ -249,16 +250,16 @@ public class QuizManager : MonoBehaviour
         if (alreadyUnlocked) return;
         alreadyUnlocked = true;
 
-        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        int currentClass = GetNumberFromString(SceneManager.GetActiveScene().name);
         int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
 
-        int nextLevel = currentIndex + 1;
+        int nextLevel = currentClass + 1;
 
         if (nextLevel > unlockedLevel)
         {
             GameManager.Instance.playerData.unlockedLevel = nextLevel;
-            GameManager.Instance.SavePlayerDataToCloud();
-            Debug.Log("Unlocked new level: " + nextLevel);
+            // GameManager.Instance.SavePlayerDataToCloud();
+            // Debug.Log("Unlocked new level: " + nextLevel);
         }
     }
 

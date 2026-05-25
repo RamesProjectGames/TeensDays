@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
+        transform.SetParent(null); // Ensure GameManager is at root level in hierarchy
         if (Instance == null)
         {
             Debug.Log("Masuk dont destroy");
@@ -79,8 +80,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SyncPlayerDataToGame()
-    {
-        
+    {        
         expLevel = playerData.expLevel;
         kuisDone = playerData.kuisDone;
         checkLevelCompleted = playerData.checkLevelCompleted.list;
@@ -120,6 +120,39 @@ public class GameManager : MonoBehaviour
     {       
         LoadPlayerDataFromCloud();
     }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode arg1)
+    {
+        if(scene.name == "MainMenu")
+        {
+            // Logic khusus MainMenu
+            Debug.Log("Logic khusus MainMenu dijalankan");
+            // Misalnya, reset beberapa variabel atau tampilkan UI tertentu
+        }
+        else if(scene.name == "PortalSD")
+        {
+            // Logic khusus PortalSD
+            Debug.Log("Logic khusus PortalSD dijalankan");
+            // Misalnya, set posisi player atau inisialisasi level tertentu
+        }
+        else if(scene.name == "Dwiky")
+        {
+            // Logic khusus Dwiky
+            Debug.Log("Logic khusus Dwiky dijalankan");
+            // Misalnya, set posisi player atau inisialisasi level tertentu
+            LoadPlayerDataFromCloud();
+        }
+    }
+
     [ContextMenu("Load Player Data from Cloud")]
     private async void LoadPlayerDataFromCloud()
     {
@@ -192,11 +225,11 @@ public class GameManager : MonoBehaviour
     {
         if(pause)
         {
-            SavePlayerDataToCloud();
+            // SavePlayerDataToCloud();
         }
     }
     void OnApplicationQuit()
     {
-        SavePlayerDataToCloud();
+        // SavePlayerDataToCloud();
     }
 }

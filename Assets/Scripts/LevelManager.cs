@@ -73,7 +73,7 @@ public class LevelManager : MonoBehaviour
             // Reset to default values
             GameManager.Instance.playerData.unlockedLevel = 1;
             // Reset other progress data as needed
-            GameManager.Instance.SavePlayerDataToCloud();
+            // GameManager.Instance.SavePlayerDataToCloud();
         }
     }
 
