@@ -120,6 +120,9 @@ public class QuestPathManager : MonoBehaviour
     {
         yield return null;
 
+        if (player == null || questTarget == null || agent == null)
+            yield return null;
+
         agent.Warp(player.position);
 
         CalculateAndCachePath();
