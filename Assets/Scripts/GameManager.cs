@@ -89,6 +89,10 @@ public class GameManager : MonoBehaviour
         {
             QuestSystem.instance.LoadQuests();       
             QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
+            if(playerInteraction == null)
+            {
+                playerInteraction = FindObjectOfType<PlayerInteraction>();
+            }
             playerInteraction.StartQuest();
         }
         if(InventoryManager.Instance != null)
@@ -111,7 +115,7 @@ public class GameManager : MonoBehaviour
         playerData.sideQuestIndex = QuestSystem.instance == null ? 0 :QuestSystem.instance.GetCurrentSideQuestIndex();
         playerData.ownedItems = new SerializableList<string>(InventoryManager.Instance == null ? new List<string>() : InventoryManager.Instance.ownedItems);
         playerData.mailboxData = new SerializableList<MailMessage>(MailBoxManager.Instance == null ? new List<MailMessage>() : MailBoxManager.Instance.mailboxData.messages);
-        if(SceneManager.GetActiveScene().name == "MainMenu")
+        if(SceneManager.GetActiveScene().name == "Dwiky")
         {
             playerData.mainQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.questDatas);
             playerData.sideQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.sideQuestDatas);          
@@ -149,7 +153,7 @@ public class GameManager : MonoBehaviour
         else if(scene.name == "Dwiky")
         {
             // Logic khusus Dwiky
-            Debug.Log("Logic khusus Dwiky dijalankan");
+            Debug.Log("Logic khusus Dwiky dijalankan");            
             // Misalnya, set posisi player atau inisialisasi level tertentu
             // LoadPlayerDataFromCloud();
         }

@@ -172,6 +172,9 @@ public class QuestPathManager : MonoBehaviour
             cachedPath.Count
         );
 
+        if(line.positionCount <= 0)
+            return;
+
         line.SetPosition(
             0,
             smoothPlayerPos + Vector3.up * lineHeight

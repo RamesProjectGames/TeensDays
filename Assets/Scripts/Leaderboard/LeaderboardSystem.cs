@@ -191,6 +191,7 @@ public class LeaderboardSystem : MonoBehaviour
     // =========================
 
     async Task SubmitScoreTaskValidated(
+        string displayName,
         int playerClass,
         int playerScore,
         int playerIconIndex
@@ -230,15 +231,17 @@ public class LeaderboardSystem : MonoBehaviour
         }
 
         await SubmitScore(
+            displayName,
             playerClass,
             duration,
             playerScore,
             playerIconIndex
         );
     }
-    public async void SubmitScoreValidated(int playerClass, int playerScore, int playerIconIndex)
+    public async void SubmitScoreValidated(string displayName, int playerClass, int playerScore, int playerIconIndex)
     {
         await SubmitScoreTaskValidated(
+            displayName,
             playerClass,
             playerScore,
             playerIconIndex
@@ -259,6 +262,7 @@ public class LeaderboardSystem : MonoBehaviour
     // =========================
 
     public async Task SubmitScore(
+        string displayName,
         int playerClass,
         long bestTimeMs,
         int playerScore,
@@ -281,6 +285,7 @@ public class LeaderboardSystem : MonoBehaviour
         {
             userId = userId,
             playerClass = playerClass,
+            displayName = displayName,
             bestTime = bestTimeMs,
             score = playerScore,
             playerIconIndex = playerIconIndex,

@@ -11,6 +11,7 @@ public class LeaderboardEntryUI : MonoBehaviour
     public Image backgroundImage;
     public Image medalImage;
     public TMP_Text rankingText;
+    public TMP_Text playerNameText;
 
     public Image profilePicture;
 
@@ -37,6 +38,7 @@ public class LeaderboardEntryUI : MonoBehaviour
 
         medalImage.sprite = LeaderboardUIManager.Instance.medalSprites[Mathf.Clamp(ranking - 1, 0, LeaderboardUIManager.Instance.medalSprites.Count - 1)];
         
+        playerNameText.text = string.IsNullOrEmpty(data.displayName) ? "Anonymous" : data.displayName;
 
         timeText.text = FormatTime(data.bestTime);
 
