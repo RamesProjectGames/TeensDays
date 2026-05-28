@@ -876,6 +876,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 8218621692368922929}
   medalImage: {fileID: 6602166193018026021}
   rankingText: {fileID: 4438411339559889096}
+  playerNameText: {fileID: 341913883998293281}
   profilePicture: {fileID: 283460033392477789}
   timeText: {fileID: 2246567534848800473}
   rewardText: {fileID: 6930227151423874602}

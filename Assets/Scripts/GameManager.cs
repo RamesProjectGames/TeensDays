@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     [ContextMenu("Reset Player Data")]
     private void InitializeDefaultPlayerData()
     {
+        Debug.Log("[InitializeDefaultPlayerData] Initializing default player data.");
         playerData.displayName = string.IsNullOrEmpty(playerData.displayName) ? $"Player #{UnityEngine.Random.Range(1000, 9999)}" : playerData.displayName;
         playerData.playerIconIndex = 0;
         playerData.expLevel = 0;
@@ -86,9 +87,12 @@ public class GameManager : MonoBehaviour
         checkLevelCompleted = playerData.checkLevelCompleted.list;
         if(QuestSystem.instance != null)
         {
-            QuestSystem.instance.SetCurrentQuestIndex(playerData.questIndex);
-            QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);     
             QuestSystem.instance.LoadQuests();       
+            QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
+            if(playerInteraction == null)
+            {
+                playerInteraction = FindObjectOfType<PlayerInteraction>();
+            }
             playerInteraction.StartQuest();
         }
         if(InventoryManager.Instance != null)
@@ -103,8 +107,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SyncGameToPlayerData()
-    {
-        
+    {        
         playerData.expLevel = expLevel;
         playerData.kuisDone = kuisDone;
         playerData.checkLevelCompleted = new SerializableList<bool>(checkLevelCompleted);
@@ -112,8 +115,11 @@ public class GameManager : MonoBehaviour
         playerData.sideQuestIndex = QuestSystem.instance == null ? 0 :QuestSystem.instance.GetCurrentSideQuestIndex();
         playerData.ownedItems = new SerializableList<string>(InventoryManager.Instance == null ? new List<string>() : InventoryManager.Instance.ownedItems);
         playerData.mailboxData = new SerializableList<MailMessage>(MailBoxManager.Instance == null ? new List<MailMessage>() : MailBoxManager.Instance.mailboxData.messages);
-        playerData.mainQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.questDatas);
-        playerData.sideQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.sideQuestDatas);
+        if(SceneManager.GetActiveScene().name == "Dwiky")
+        {
+            playerData.mainQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.questDatas);
+            playerData.sideQuests = new SerializableList<QuestData>(QuestSystem.instance == null ? new List<QuestData>() : QuestSystem.instance.sideQuestDatas);          
+        }
     }
     
     private void Start()
@@ -147,9 +153,9 @@ public class GameManager : MonoBehaviour
         else if(scene.name == "Dwiky")
         {
             // Logic khusus Dwiky
-            Debug.Log("Logic khusus Dwiky dijalankan");
+            Debug.Log("Logic khusus Dwiky dijalankan");            
             // Misalnya, set posisi player atau inisialisasi level tertentu
-            LoadPlayerDataFromCloud();
+            // LoadPlayerDataFromCloud();
         }
     }
 
@@ -165,7 +171,6 @@ public class GameManager : MonoBehaviour
                 if (loadedData != null)
                 {
                     playerData = loadedData;
-                    SyncPlayerDataToGame();
                     Debug.Log("Player data loaded from cloud successfully.");
                 }
                 else
@@ -183,6 +188,7 @@ public class GameManager : MonoBehaviour
                 // Save the initialized data to cloud so it persists for next time
                 SavePlayerDataToCloud();
             }
+            SyncPlayerDataToGame();
             onLoadDataComplete?.Invoke();
         }
         catch (System.Exception e)
@@ -225,11 +231,15 @@ public class GameManager : MonoBehaviour
     {
         if(pause)
         {
-            // SavePlayerDataToCloud();
+            SavePlayerDataToCloud();
+        }
+        else
+        {
+            LoadPlayerDataFromCloud();
         }
     }
     void OnApplicationQuit()
     {
-        // SavePlayerDataToCloud();
+        SavePlayerDataToCloud();
     }
 }

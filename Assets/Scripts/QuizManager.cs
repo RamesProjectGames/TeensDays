@@ -234,7 +234,7 @@ public class QuizManager : MonoBehaviour
             }
 
             // Save to cloud instead of PlayerPrefs
-            LeaderboardSystem.Instance.SubmitScoreValidated(currentClass,(int)skor, GameManager.Instance.playerData.playerIconIndex);
+            LeaderboardSystem.Instance.SubmitScoreValidated(GameManager.Instance.playerData.displayName, currentClass, (int)skor, GameManager.Instance.playerData.playerIconIndex);
             // GameManager.Instance.SavePlayerDataToCloud();
         }
         else
