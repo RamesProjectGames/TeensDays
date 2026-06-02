@@ -235,7 +235,7 @@ public class QuizManager : MonoBehaviour
 
             // Save to cloud instead of PlayerPrefs
             LeaderboardSystem.Instance.SubmitScoreValidated(GameManager.Instance.playerData.displayName, currentClass, (int)skor, GameManager.Instance.playerData.playerIconIndex);
-            // GameManager.Instance.SavePlayerDataToCloud();
+            GameManager.Instance.SavePlayerDataToCloud();
         }
         else
         {
@@ -258,7 +258,7 @@ public class QuizManager : MonoBehaviour
         if (nextLevel > unlockedLevel)
         {
             GameManager.Instance.playerData.unlockedLevel = nextLevel;
-            // GameManager.Instance.SavePlayerDataToCloud();
+            GameManager.Instance.SavePlayerDataToCloud();
             // Debug.Log("Unlocked new level: " + nextLevel);
         }
     }

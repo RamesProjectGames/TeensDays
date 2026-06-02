@@ -96,12 +96,33 @@ public class PlayerManager : MonoBehaviour
     {
         if (index >= 0 && index < sceneNames.Length)
         {
-            SceneManager.LoadScene(sceneNames[index]);
+            StartCoroutine(LoadSceneAfterSave(index));
         }
         else
         {
             Debug.LogWarning("Index scene tidak valid: " + index);
         }
+    }
+
+    private IEnumerator LoadSceneAfterSave(int index)
+    {
+        var saveTask = GameManager.Instance.SavePlayerDataToCloudAsync();
+        while (!saveTask.IsCompleted)
+        {
+            yield return null;
+        }
+
+        if (saveTask.IsFaulted)
+        {
+            Debug.LogError($"Failed to save player data before loading scene: {saveTask.Exception}");
+            // If save failed, still continue to load scene, but we have a local cache fallback.
+        }
+        else if (saveTask.IsCompletedSuccessfully)
+        {
+            Debug.Log("Player data successfully saved before scene load.");
+        }
+
+        SceneManager.LoadScene(sceneNames[index]);
     }
 
     public void UpdateSemuaSekolah()

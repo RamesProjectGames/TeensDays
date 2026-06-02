@@ -17,8 +17,8 @@ public class PlayerData
     public SerializableList<bool> checkLevelCompleted = new SerializableList<bool>();
     public SerializableList<string> ownedItems = new SerializableList<string>();
     public SerializableList<MailMessage> mailboxData = new SerializableList<MailMessage>();
-    public SerializableList<QuestData> mainQuests = new SerializableList<QuestData>();
-    public SerializableList<QuestData> sideQuests = new SerializableList<QuestData>();
+    // public SerializableList<QuestData> mainQuests = new SerializableList<QuestData>();
+    // public SerializableList<QuestData> sideQuests = new SerializableList<QuestData>();
     public int classExp;
     public int questIndex;
     public int sideQuestIndex;
@@ -35,4 +35,14 @@ public class PlayerData
     
     // UI Settings
     public bool invertCamera;
+
+    // Persisted transform data
+    public Vector3 playerPosition;
+    public Quaternion playerRotation;
+    public Vector3 cameraPosition;
+    // store camera rotation as Euler angles to make it easy to inspect in Inspector
+    public Vector3 cameraEuler;
+    // store Cinemachine FreeLook axis values for exact restore
+    public float cameraXValue;
+    public float cameraYValue;
 }

@@ -1,21 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class LocalTime
+{
+    public int classId;
+    public TMP_Text timeText;
+}
 public class LevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
     public GameObject[] bgSpritesLocked;
     public GameObject[] bgNomorKelas;
     public GameObject[] bgKelasClear;
+    public LocalTime[] bestTimes;
 
-    private void Start()
+    private async void Start()
     {
-
-
+        await UpdateBestTimes();
     }
 
     private void Awake()
@@ -102,4 +109,45 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
+
+    private async Task UpdateBestTimes()
+    {
+        if (bestTimes == null || bestTimes.Length == 0)
+            return;
+
+        if (LeaderboardSystem.Instance == null)
+        {
+            for (int i = 0; i < bestTimes.Length; i++)
+            {
+                bestTimes[i].timeText.text = "--:--:---";
+            }
+            return;
+        }
+
+        for (int i = 0; i < bestTimes.Length; i++)
+        {
+            int playerClass = bestTimes[i].classId;
+            LeaderboardData playerData = await LeaderboardSystem.Instance.GetPlayerData(playerClass);
+            if (playerData == null)
+            {
+                bestTimes[i].timeText.text = "--:--:---";
+            }
+            else
+            {
+                bestTimes[i].timeText.text = FormatTime(playerData.bestTime);
+            }
+        }
+    }
+
+    private string FormatTime(long ms)
+    {
+        long minutes = ms / 60000;
+        ms %= 60000;
+
+        long seconds = ms / 1000;
+        ms %= 1000;
+
+        return $"<b>{minutes:D2}:{seconds:D2}:{ms:D3}</b>";
+    }
 }
+
