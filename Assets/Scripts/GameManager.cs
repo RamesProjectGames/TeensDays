@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Logic khusus PortalSD dijalankan");
             // Misalnya, set posisi player atau inisialisasi level tertentu
         }
-        else if(scene.name == "Dwiky")
+        else if(scene.name == "Dwiky" || scene.name == "Steven")
         {
             // Logic khusus Dwiky
             Debug.Log("Logic khusus Dwiky dijalankan");      
