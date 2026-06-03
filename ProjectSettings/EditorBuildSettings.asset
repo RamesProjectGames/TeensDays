@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: db038ee5890a37743a4c415ba0f2374f
   - enabled: 1
+    path: Assets/Scenes/Steven.unity
+    guid: b4055f33bea44a5488291db0f74fec97
+  - enabled: 1
     path: Assets/Scenes/Dwiky.unity
     guid: 74de33e5ca4585c45a811bb825e9ba78
   - enabled: 0
