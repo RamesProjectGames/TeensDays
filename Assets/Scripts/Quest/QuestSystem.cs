@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -9,14 +11,15 @@ public class QuestSystem : MonoBehaviour
     public static QuestSystem instance;
     public List<Quest> quests = new List<Quest>();
     public List<Quest> sideQuests = new List<Quest>(); // Side quest list
-    public List<QuestData> questDatas = new List<QuestData>();
-    public List<QuestData> sideQuestDatas = new List<QuestData>(); 
+    public SerializableList<QuestData> main = null;
+    public SerializableList<QuestData> side = null;
     [SerializeField] private int currentQuestIndex = 0;
     [SerializeField] private int currentSideQuestIndex = 0;
     [SerializeField] private float blinkSpeed = 2f;
 
     public QuestUIManager questUIManager;
     public QuestPathManager questPathManager;
+    public PlayerInteraction playerInteraction;
 
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class QuestSystem : MonoBehaviour
     private void Start()
     {
         InitilializeQuestData();
+        StartCoroutine(LoadQuestsRoutine());
     }
 
     private void Update()
@@ -44,123 +48,129 @@ public class QuestSystem : MonoBehaviour
     }
     public void InitilializeQuestData()
     {
-        foreach (var quest in quests)
-        {
-            if(!questDatas.Exists(qd => string.Compare(qd.questName, quest.text, System.StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                QuestData questData = new QuestData
-                {
-                    questName = quest.text,
-                    isDone = quest.isDone
-                };
-                foreach (var subquest in quest.subQuests)
-                {
-                    QuestData subQuestData = new QuestData
-                    {
-                        questName = subquest.text,
-                        isDone = subquest.isDone
-                    };
-                    questData.subQuests.Add(subQuestData);                
-                }
-                questDatas.Add(questData);
-            }
-        }
-        foreach (var sideQuest in sideQuests)
-        {
-            if(!sideQuestDatas.Exists(qd => string.Compare(qd.questName, sideQuest.text, System.StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                QuestData sideQuestData = new QuestData
-                {
-                    questName = sideQuest.text,
-                    isDone = sideQuest.isDone
-                };
-                foreach (var subquest in sideQuest.subQuests)
-                {
-                    QuestData subQuestData = new QuestData
-                    {
-                        questName = subquest.text,
-                        isDone = subquest.isDone
-                    };
-                    sideQuestData.subQuests.Add(subQuestData);
-                }
-                sideQuestDatas.Add(sideQuestData);
-            }
-        }
-        foreach (var mainQuest in GameManager.Instance.playerData.mainQuests.list)
-        {
-            if (questDatas.Exists(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                int mainQuestIndex = questDatas.FindIndex(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                questDatas[mainQuestIndex].isDone = mainQuest.isDone;
-                foreach (var subQuest in mainQuest.subQuests)
-                {
-                    int subQuestIndex = questDatas[mainQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                    questDatas[mainQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
-                }
-            }
-        }
-        foreach (var sideQuest in GameManager.Instance.playerData.sideQuests.list)
-        {
-            if (sideQuestDatas.Exists(qd => string.Compare(qd.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                int sideQuestIndex = sideQuestDatas.FindIndex(sq => string.Compare(sq.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                sideQuestDatas[sideQuestIndex].isDone = sideQuest.isDone;  
-                foreach (var subQuest in sideQuest.subQuests)
-                {
-                    int subQuestIndex = sideQuestDatas[sideQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                    sideQuestDatas[sideQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
-                }
-            }
-        }
+        // Initialization: ensure UI reflects current scene quest defaults
+        foreach (var q in quests) UpdateSingleQuestDisplay(q);
+        foreach (var s in sideQuests) UpdateSingleQuestDisplay(s);
     }
     public void LoadQuests()
     {
-        foreach (var mainQuest in GameManager.Instance.playerData.mainQuests.list)
+        // No-op kept for compatibility. Use LoadQuestsAsync/LoadQuestsRoutine at startup instead.
+    }
+
+    private IEnumerator LoadQuestsRoutine()
+    {
+        var task = LoadQuestsAsync();
+        while (!task.IsCompleted)
+            yield return null;
+
+        if (task.IsFaulted)
         {
-            if (questDatas.Exists(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            Debug.LogError($"LoadQuestsAsync failed: {task.Exception}");
+        }
+        else
+        {           
+            ApplyLoadedQuests(task.Result);
+            if(playerInteraction == null)
             {
-                int mainQuestIndex = questDatas.FindIndex(qd => string.Compare(qd.questName, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                questDatas[mainQuestIndex].isDone = mainQuest.isDone;
-                foreach (var subQuest in mainQuest.subQuests)
-                {
-                    int subQuestIndex = questDatas[mainQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                    questDatas[mainQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
-                }
+                playerInteraction = FindObjectOfType<PlayerInteraction>();
             }
-            if (quests.Exists(qd => string.Compare(qd.text, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
+            playerInteraction.StartQuest();
+        }
+    }
+
+    public async Task<SerializableList<QuestData>> LoadQuestsAsync()
+    {
+        // Try cloud load first
+        try
+        {
+            string jsonMain = await CloudManager.Instance.LoadFromJSONCloud("mainQuests");
+            string jsonSide = await CloudManager.Instance.LoadFromJSONCloud("sideQuests");
+
+            if (!string.IsNullOrEmpty(jsonMain))
             {
-                int mainQuestIndex = quests.FindIndex(sq => string.Compare(sq.text, mainQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                quests[mainQuestIndex].isDone = mainQuest.isDone;
-                foreach (var subQuest in mainQuest.subQuests)
+                main = JsonUtility.FromJson<SerializableList<QuestData>>(jsonMain);
+            }
+            if (!string.IsNullOrEmpty(jsonSide))
+            {
+                side = JsonUtility.FromJson<SerializableList<QuestData>>(jsonSide);
+            }
+
+            // Fallback to local cache if cloud data missing
+            if (main == null)
+            {
+                main = LoadLocalQuestCache("mainQuests.json");
+            }
+            if (side == null)
+            {
+                side = LoadLocalQuestCache("sideQuests.json");
+            }
+
+            // Merge main+side into a single wrapper (we'll pack main into the Result list)
+            SerializableList<QuestData> result = new SerializableList<QuestData>();
+            if (main != null) result.list.AddRange(main.list);
+            if (side != null) result.list.AddRange(side.list);
+
+            return result;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error loading quests from cloud: {e}");
+            // fallback local
+            var fallback = LoadLocalQuestCache("mainQuests.json") ?? new SerializableList<QuestData>();
+            return fallback;
+        }
+    }
+
+    private SerializableList<QuestData> LoadLocalQuestCache(string fileName)
+    {
+        try
+        {
+            string path = System.IO.Path.Combine(Application.persistentDataPath, fileName);
+            if (!System.IO.File.Exists(path)) return null;
+            string json = System.IO.File.ReadAllText(path);
+            if (string.IsNullOrEmpty(json)) return null;
+            return JsonUtility.FromJson<SerializableList<QuestData>>(json);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"Failed to read local quest cache {fileName}: {e}");
+            return null;
+        }
+    }
+
+    private void ApplyLoadedQuests(SerializableList<QuestData> loaded)
+    {
+        if (loaded == null || loaded.list == null) return;
+
+        // Apply by matching questName to quests and sideQuests
+        foreach (var saved in loaded.list)
+        {
+            // try main quests
+            var main = quests.Find(q => string.Compare(q.text, saved.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+            if (main != null)
+            {
+                main.isDone = saved.isDone;
+                for (int i = 0; i < saved.subQuests.Count && i < main.subQuests.Count; i++)
                 {
-                    int subQuestIndex = quests[mainQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.text, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                    quests[mainQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
+                    main.subQuests[i].isDone = saved.subQuests[i].isDone;
                 }
+                UpdateSingleQuestDisplay(main);
+                continue;
+            }
+
+            // try side quests
+            var side = sideQuests.Find(q => string.Compare(q.text, saved.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
+            if (side != null)
+            {
+                side.isDone = saved.isDone;
+                for (int i = 0; i < saved.subQuests.Count && i < side.subQuests.Count; i++)
+                {
+                    side.subQuests[i].isDone = saved.subQuests[i].isDone;
+                }
+                UpdateSingleQuestDisplay(side);
             }
         }
-        foreach (var sideQuest in GameManager.Instance.playerData.sideQuests.list)
-        {
-            if (sideQuestDatas.Exists(qd => string.Compare(qd.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                int sideQuestIndex = sideQuestDatas.FindIndex(sq => string.Compare(sq.questName, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                sideQuestDatas[sideQuestIndex].isDone = sideQuest.isDone;  
-                foreach (var subQuest in sideQuest.subQuests)
-                {
-                    int subQuestIndex = sideQuestDatas[sideQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.questName, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                    sideQuestDatas[sideQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
-                }
-            }
-            if (sideQuests.Exists(qd => string.Compare(qd.text, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                int sideQuestIndex = sideQuests.FindIndex(sq => string.Compare(sq.text, sideQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                sideQuests[sideQuestIndex].isDone = sideQuest.isDone;
-                foreach (var subQuest in sideQuest.subQuests)
-                {
-                    int subQuestIndex = sideQuests[sideQuestIndex].subQuests.FindIndex(sq => string.Compare(sq.text, subQuest.questName, System.StringComparison.OrdinalIgnoreCase) == 0);
-                    sideQuests[sideQuestIndex].subQuests[subQuestIndex].isDone = subQuest.isDone;
-                }
-            }
-        }
+        
     }
     public void SetCurrentQuestIndex(int index)
     {
@@ -213,47 +223,185 @@ public class QuestSystem : MonoBehaviour
     public void MarkQuestDone(int parentIndex, int questIndex, bool isSubQuest, bool isSideQuest = false)
     {
         List<Quest> questList = isSideQuest ? sideQuests : quests;
-        List<QuestData> questDataList = isSideQuest ? sideQuestDatas : questDatas;
         if (isSubQuest)
         {
-            if(parentIndex >= 0 && parentIndex < questDataList.Count)
-            {
-                QuestData subQuestData = questDataList[parentIndex].subQuests[questIndex];
-                subQuestData.isDone = true;
-                bool allDone = questDataList[parentIndex].subQuests.All(sq => sq.isDone);
-                if(allDone)
-                {
-                    questDataList[parentIndex].isDone = true;
-                    GameManager.Instance.SavePlayerDataToCloud();
-                }          
-            }
             if (parentIndex >= 0 && parentIndex < questList.Count)
             {
-                Quest subQuest = questList[parentIndex].subQuests[questIndex];
-                subQuest.isDone = true;
-                UpdateSingleQuestDisplay(subQuest);
+                var parent = questList[parentIndex];
+                if (questIndex >= 0 && questIndex < parent.subQuests.Count)
+                {
+                    parent.subQuests[questIndex].isDone = true;
+                    UpdateSingleQuestDisplay(parent.subQuests[questIndex]);
+                }
 
-                bool allDone = questList[parentIndex].subQuests.All(sq => sq.isDone);
+                bool allDone = parent.subQuests.All(sq => sq.isDone);
                 if (allDone)
                 {
-                    questList[parentIndex].isDone = true;
-                    UpdateSingleQuestDisplay(questList[parentIndex]);
+                    parent.isDone = true;
+                    UpdateSingleQuestDisplay(parent);
                 }
-            }            
+
+                _ = SaveQuestsAsync();
+            }
         }
         else
         {
-            if(parentIndex >= 0 && parentIndex < questDataList.Count)
-            {
-                questDataList[questIndex].isDone = true;
-                GameManager.Instance.SavePlayerDataToCloud();
-                
-            }
             if (questIndex >= 0 && questIndex < questList.Count)
             {
-                questList[questIndex].isDone = true;
-                UpdateSingleQuestDisplay(questList[questIndex]);
+                var q = questList[questIndex];
+                q.isDone = true;
+                UpdateSingleQuestDisplay(q);
+                _ = SaveQuestsAsync();
             }
+        }
+    }
+    [ContextMenu("Test Mark Main Quest 0 Subquest 0 Done")]
+    public void SaveQuests()
+    {
+        _ = SaveQuestsAsync();
+    }
+    [ContextMenu("Test Complete All Quests")]
+    public void CompleteAllQuestsForTesting()
+    {
+        foreach (var q in quests)
+        {
+            q.isDone = true;
+            foreach (var sub in q.subQuests)
+            {
+                sub.isDone = true;
+            }
+        }
+        foreach (var s in sideQuests)
+        {
+            s.isDone = true;
+            foreach (var sub in s.subQuests)
+            {
+                sub.isDone = true;
+            }
+        }
+        UpdateQuestDisplay();
+        _ = SaveQuestsAsync();
+    }
+    public async Task SaveQuestsAsync()
+    {
+        try
+        {
+            var main = new SerializableList<QuestData>(new List<QuestData>());
+            foreach (var q in quests)
+            {
+                QuestData qd = new QuestData { questName = q.text, isDone = q.isDone };
+                foreach (var sub in q.subQuests)
+                {
+                    qd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                }
+                main.list.Add(qd);
+            }
+
+            var side = new SerializableList<QuestData>(new List<QuestData>());
+            foreach (var s in sideQuests)
+            {
+                QuestData sd = new QuestData { questName = s.text, isDone = s.isDone };
+                foreach (var sub in s.subQuests)
+                {
+                    sd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                }
+                side.list.Add(sd);
+            }
+
+            string jsonMain = JsonUtility.ToJson(main);
+            string jsonSide = JsonUtility.ToJson(side);
+
+            // save local caches
+            string mainFile = Path.Combine(Application.persistentDataPath, "mainQuests.json");
+            string sideFile = Path.Combine(Application.persistentDataPath, "sideQuests.json");
+            File.WriteAllText(mainFile, jsonMain);
+            File.WriteAllText(sideFile, jsonSide);
+
+            // save to cloud
+            await CloudManager.Instance.SaveToCloudAsJSONAsync("mainQuests", jsonMain);
+            await CloudManager.Instance.SaveToCloudAsJSONAsync("sideQuests", jsonSide);
+
+            Debug.Log($"Quests saved (main={main.list.Count} side={side.list.Count})");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to save quests: {e}");
+        }
+    }
+
+    // Explicit cloud-only save wrapper (does not write local cache)
+    public async Task SaveQuestsToCloudAsync()
+    {
+        try
+        {
+            var cloudMain = new SerializableList<QuestData>(new List<QuestData>());
+            foreach (var q in quests)
+            {
+                QuestData qd = new QuestData { questName = q.text, isDone = q.isDone };
+                foreach (var sub in q.subQuests)
+                {
+                    qd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                }
+                cloudMain.list.Add(qd);
+            }
+
+            var cloudSide = new SerializableList<QuestData>(new List<QuestData>());
+            foreach (var s in sideQuests)
+            {
+                QuestData sd = new QuestData { questName = s.text, isDone = s.isDone };
+                foreach (var sub in s.subQuests)
+                {
+                    sd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                }
+                cloudSide.list.Add(sd);
+            }
+
+            string jsonMain = JsonUtility.ToJson(cloudMain);
+            string jsonSide = JsonUtility.ToJson(cloudSide);
+
+            await CloudManager.Instance.SaveToCloudAsJSONAsync("mainQuests", jsonMain);
+            await CloudManager.Instance.SaveToCloudAsJSONAsync("sideQuests", jsonSide);
+
+            Debug.Log($"Quests cloud-saved (main={cloudMain.list.Count} side={cloudSide.list.Count})");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to cloud-save quests: {e}");
+        }
+    }
+
+    // Explicit cloud-only load wrapper (applies loaded quests if found)
+    public async Task<bool> LoadQuestsFromCloudAsync()
+    {
+        try
+        {
+            string jsonMain = await CloudManager.Instance.LoadFromJSONCloud("mainQuests");
+            string jsonSide = await CloudManager.Instance.LoadFromJSONCloud("sideQuests");
+
+            if (string.IsNullOrEmpty(jsonMain) && string.IsNullOrEmpty(jsonSide))
+            {
+                Debug.LogWarning("No quest data found in cloud.");
+                return false;
+            }
+
+            SerializableList<QuestData> cloudMain = null;
+            SerializableList<QuestData> cloudSide = null;
+
+            if (!string.IsNullOrEmpty(jsonMain)) cloudMain = JsonUtility.FromJson<SerializableList<QuestData>>(jsonMain);
+            if (!string.IsNullOrEmpty(jsonSide)) cloudSide = JsonUtility.FromJson<SerializableList<QuestData>>(jsonSide);
+
+            SerializableList<QuestData> merged = new SerializableList<QuestData>();
+            if (cloudMain != null) merged.list.AddRange(cloudMain.list);
+            if (cloudSide != null) merged.list.AddRange(cloudSide.list);
+
+            ApplyLoadedQuests(merged);
+            Debug.Log("Quests loaded from cloud and applied.");
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to load quests from cloud: {e}");
+            return false;
         }
     }
 

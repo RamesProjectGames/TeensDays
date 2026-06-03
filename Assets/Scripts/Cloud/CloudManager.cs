@@ -36,6 +36,18 @@ public class CloudManager : MonoBehaviour
         // Simulate a cloud save operation with a delay
         dbRef.Child("users").Child(userId).Child(childData).SetRawJsonValueAsync(jsonData);
     }
+
+    public async Task SaveToCloudAsJSONAsync(string childData, string jsonData)
+    {
+        if(AuthenticationManager.Singleton.auth.CurrentUser == null)
+        {
+            Debug.LogWarning("Player is not signed in. Cannot save to cloud.");
+            return;
+        }
+        string userId = AuthenticationManager.Singleton.auth.CurrentUser.UserId;
+        await dbRef.Child("users").Child(userId).Child(childData).SetRawJsonValueAsync(jsonData);
+    }
+
     public async Task<string> LoadFromJSONCloud(string childData)
     {
         if(AuthenticationManager.Singleton.auth.CurrentUser == null)
