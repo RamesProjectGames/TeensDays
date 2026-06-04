@@ -87,6 +87,7 @@ public class ShopManager : MonoBehaviour
         ApplyFilter(filterRarity[_filterIndex]);
     }
 
+    #region oldScript
     //public void LoadShopItems()
     //{
     //    string path = Path.Combine(Application.streamingAssetsPath, "shop_items.json");
@@ -110,6 +111,7 @@ public class ShopManager : MonoBehaviour
     //        }
     //    }
     //}
+    #endregion
 
     void ApplyFilter(string rarity)
     {
