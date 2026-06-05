@@ -496,42 +496,42 @@ public class LeaderboardSystem : MonoBehaviour
         if (user == null)
             return;
 
-        string uid = user.UserId;
-
-        var seasonRewards = new List<SeasonRewardSummary>();
-        for (int classId = 1; classId <= 12; classId++)
-        {
-            int rank = await GetPlayerRankForSeason(classId, previousSeasonKey);
-            if (rank <= 0)
-                continue;
-
-            int rewardAmount = GetRewardForRank(rank);
-            seasonRewards.Add(new SeasonRewardSummary
-            {
-                playerClass = classId,
-                rank = rank,
-                rewardAmount = rewardAmount
-            });
-        }
-
-        if (seasonRewards.Count == 0)
+        if (GameManager.Instance == null || GameManager.Instance.playerData == null)
             return;
 
-        string seasonName = SeasonUtility.GetSeasonDisplayName(previousSeasonKey);
-        string title = $"Season {seasonName} Rewards";
-        string body = ComposeSeasonEndMailBody(seasonName, seasonRewards);
+        string uid = user.UserId;
 
-        List<object> rewardList = new List<object>();
-        foreach (var summary in seasonRewards)
+        int highestUnlockedClass = GameManager.Instance.playerData.unlockedLevel;
+        if (highestUnlockedClass < 1)
+            return;
+        
+        highestUnlockedClass = Mathf.Min(highestUnlockedClass, 12);
+
+        int rank = await GetPlayerRankForSeason(highestUnlockedClass, previousSeasonKey);
+        if (rank <= 0)
+            return;
+
+        SeasonRewardSummary highestSeasonReward = new SeasonRewardSummary
         {
-            rewardList.Add(new Dictionary<string, object>
+            playerClass = highestUnlockedClass,
+            rank = rank,
+            rewardAmount = GetRewardForRank(rank)
+        };
+
+        string seasonName = SeasonUtility.GetSeasonDisplayName(previousSeasonKey);
+        string title = $"Season {seasonName} Reward";
+        string body = ComposeSeasonEndMailBody(seasonName, highestSeasonReward);
+
+        var rewardList = new List<object>
+        {
+            new Dictionary<string, object>
             {
                 { "type", "Money" },
-                { "amount", summary.rewardAmount },
-                { "classId", summary.playerClass },
-                { "rank", summary.rank }
-            });
-        }
+                { "amount", highestSeasonReward.rewardAmount },
+                { "classId", highestSeasonReward.playerClass },
+                { "rank", highestSeasonReward.rank }
+            }
+        };
 
         string messageId = Guid.NewGuid().ToString("N");
         long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -558,17 +558,11 @@ public class LeaderboardSystem : MonoBehaviour
         Debug.Log($"Season end mail sent for {seasonName} to player {uid}");
     }
 
-    private string ComposeSeasonEndMailBody(string seasonName, List<SeasonRewardSummary> rewards)
+    private string ComposeSeasonEndMailBody(string seasonName, SeasonRewardSummary reward)
     {
-        string intro = $"Season {seasonName} has ended! Your final leaderboard rewards are ready in your inbox.";
-        string detail = "Here is your leaderboard summary:";
-
-        foreach (var reward in rewards)
-        {
-            detail += $"\n- Class {reward.playerClass}: Rank {reward.rank} → {reward.rewardAmount} coins";
-        }
-
-        string outro = "Claim your rewards from the mail panel and keep climbing next season to earn bigger prizes.";
+        string intro = $"Season {seasonName} has ended! Your final leaderboard reward is ready in your inbox.";
+        string detail = $"Class {reward.playerClass}: Rank {reward.rank} → {reward.rewardAmount} coins";
+        string outro = "Claim your reward from the mail panel and keep climbing next season to earn bigger prizes.";
 
         return $"{intro}\n\n{detail}\n\n{outro}";
     }
