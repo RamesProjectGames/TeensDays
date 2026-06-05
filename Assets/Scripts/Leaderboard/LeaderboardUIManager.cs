@@ -48,6 +48,7 @@ public class LeaderboardUIManager : MonoBehaviour
 
         LeaderboardSystem.Instance.OnLeaderboardUpdated += RefreshUI;
         LeaderboardSystem.Instance.OnPlayerRankUpdated += UpdateCurrentPlayerRank;
+        LeaderboardSystem.Instance.OnSeasonChanged += UpdateSeasonText;
 
         ChangeClass(1);
     }
@@ -58,6 +59,7 @@ public class LeaderboardUIManager : MonoBehaviour
         {
             LeaderboardSystem.Instance.OnLeaderboardUpdated -= RefreshUI;
             LeaderboardSystem.Instance.OnPlayerRankUpdated -= UpdateCurrentPlayerRank;
+            LeaderboardSystem.Instance.OnSeasonChanged -= UpdateSeasonText;
             LeaderboardSystem.Instance.StopPlayerRankListening();
         }
     }
@@ -128,6 +130,12 @@ public class LeaderboardUIManager : MonoBehaviour
         spawnedEntries.Clear();
     }
 
+    private void UpdateSeasonText(string seasonKey)
+    {
+        if (seasonText != null)
+            seasonText.text = seasonKey;
+    }
+
     private async void UpdateCurrentPlayerRank(int rank)
     {
         // Destroy existing current player entry if it exists
@@ -149,6 +157,8 @@ public class LeaderboardUIManager : MonoBehaviour
 
         if (playerData == null)
             return;
+
+        playerData.rewardAmount = LeaderboardSystem.Instance.GetRewardForRank(rank);
 
         // Instantiate and setup current player entry
         // currentPlayerEntry = Instantiate(

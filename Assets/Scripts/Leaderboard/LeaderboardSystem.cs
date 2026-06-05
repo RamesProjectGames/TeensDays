@@ -10,8 +10,17 @@ public class LeaderboardSystem : MonoBehaviour
     public static LeaderboardSystem Instance { get; private set; }
 
     private DatabaseReference rootRef;
+    public event Action OnPlayerDataFetched;
 
+    public List<int> rankRewards = new() { 1000, 750, 500, 300, 200, 100, 75, 50, 25, 10 };
+    public int defaultRankReward = 0;
     public event Action<List<LeaderboardData>> OnLeaderboardUpdated;
+    public event Action<string> OnSeasonChanged;
+
+    private string currentSeasonKey;
+    private int currentClassListening = 1;
+    private bool isListeningToLeaderboard;
+    private bool isListeningToPlayerRank;
 
     private Query currentQuery;
 
@@ -30,11 +39,47 @@ public class LeaderboardSystem : MonoBehaviour
         }
 
         rootRef = FirebaseDatabase.DefaultInstance.RootReference;
+        currentSeasonKey = SeasonUtility.GetCurrentSeasonKey();
     }
 
     void Start()
     {
-        
+    }
+
+    private void Update()
+    {
+        CheckSeasonChange();
+    }
+
+    private void CheckSeasonChange()
+    {
+        string seasonKey = SeasonUtility.GetCurrentSeasonKey();
+
+        if (seasonKey == currentSeasonKey)
+            return;
+
+        string previousSeasonKey = currentSeasonKey;
+        currentSeasonKey = seasonKey;
+        HandleSeasonChanged(previousSeasonKey);
+    }
+
+    private async void HandleSeasonChanged(string previousSeasonKey)
+    {
+        Debug.Log($"Season changed to {currentSeasonKey}, resetting leaderboard listeners.");
+
+        await SendSeasonEndMailForPlayer(previousSeasonKey);
+
+        StopListening();
+        StopPlayerRankListening();
+
+        OnLeaderboardUpdated?.Invoke(new List<LeaderboardData>());
+        OnSeasonChanged?.Invoke(currentSeasonKey);
+
+        if (isListeningToLeaderboard)
+            ListenToClassLeaderboard(currentClassListening);
+
+        if (isListeningToPlayerRank)
+            ListenToPlayerCurrentRank(currentClassListening);
     }
     // =========================
     // REALTIME LISTENER
@@ -43,6 +88,9 @@ public class LeaderboardSystem : MonoBehaviour
     public void ListenToClassLeaderboard(int playerClass)
     {
         StopListening();
+
+        currentClassListening = playerClass;
+        isListeningToLeaderboard = true;
 
         string seasonKey = SeasonUtility.GetCurrentSeasonKey();
 
@@ -63,6 +111,8 @@ public class LeaderboardSystem : MonoBehaviour
             currentQuery.ValueChanged -= OnLeaderboardChanged;
             currentQuery = null;
         }
+
+        isListeningToLeaderboard = false;
     }
 
     public void ListenToPlayerCurrentRank(int playerClass)
@@ -76,6 +126,9 @@ public class LeaderboardSystem : MonoBehaviour
         }
 
         StopPlayerRankListening();
+
+        currentClassListening = playerClass;
+        isListeningToPlayerRank = true;
 
         string uid = user.UserId;
 
@@ -130,13 +183,14 @@ public class LeaderboardSystem : MonoBehaviour
         }
 
         playerRankQuery = null;
-
         playerRankHandler = null;
+        isListeningToPlayerRank = false;
     }
 
     private void OnDestroy()
     {
         StopListening();
+        StopPlayerRankListening();
     }
 
     private void OnLeaderboardChanged(object sender, ValueChangedEventArgs args)
@@ -149,13 +203,16 @@ public class LeaderboardSystem : MonoBehaviour
 
         List<LeaderboardData> players = new();
 
+        int rank = 1;
         foreach (var child in args.Snapshot.Children)
         {
             LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(
                 child.GetRawJsonValue()
             );
 
+            data.rewardAmount = GetRewardForRank(rank);
             players.Add(data);
+            rank++;
         }
 
         OnLeaderboardUpdated?.Invoke(players);
@@ -289,7 +346,7 @@ public class LeaderboardSystem : MonoBehaviour
             bestTime = bestTimeMs,
             score = playerScore,
             playerIconIndex = playerIconIndex,
-            rewardAmount = GetReward(bestTimeMs),
+            rewardAmount = 0,
             sortKey = GenerateSortKey(playerScore, bestTimeMs)
         };
 
@@ -335,6 +392,7 @@ public class LeaderboardSystem : MonoBehaviour
                 child.GetRawJsonValue()
             );
 
+            data.rewardAmount = GetRewardForRank(result.Count + 1);
             result.Add(data);
         }
 
@@ -369,6 +427,157 @@ public class LeaderboardSystem : MonoBehaviour
         );
 
         return data;
+    }
+
+    public async Task<LeaderboardData> GetPlayerDataForSeason(int playerClass, string seasonKey)
+    {
+        var user = AuthenticationManager.Singleton.auth.CurrentUser;
+
+        if (user == null)
+        {
+            Debug.LogWarning("User not logged in");
+            return null;
+        }
+
+        string uid = user.UserId;
+
+        var snapshot = await rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
+            .Child(uid)
+            .GetValueAsync();
+
+        if (!snapshot.Exists)
+            return null;
+
+        return JsonUtility.FromJson<LeaderboardData>(snapshot.GetRawJsonValue());
+    }
+
+    public async Task<int> GetPlayerRankForSeason(int playerClass, string seasonKey)
+    {
+        var user = AuthenticationManager.Singleton.auth.CurrentUser;
+
+        if (user == null)
+        {
+            Debug.LogWarning("User not logged in");
+            return -1;
+        }
+
+        string uid = user.UserId;
+
+        var snapshot = await rootRef
+            .Child("leaderboards")
+            .Child(seasonKey)
+            .Child($"class_{playerClass}")
+            .OrderByChild("sortKey")
+            .GetValueAsync();
+
+        if (!snapshot.Exists)
+            return -1;
+
+        int rank = 1;
+        foreach (var child in snapshot.Children)
+        {
+            if (child.Key == uid)
+                return rank;
+            rank++;
+        }
+
+        return -1;
+    }
+
+    private async Task SendSeasonEndMailForPlayer(string previousSeasonKey)
+    {
+        if (string.IsNullOrEmpty(previousSeasonKey))
+            return;
+
+        var user = AuthenticationManager.Singleton.auth.CurrentUser;
+        if (user == null)
+            return;
+
+        string uid = user.UserId;
+
+        var seasonRewards = new List<SeasonRewardSummary>();
+        for (int classId = 1; classId <= 12; classId++)
+        {
+            int rank = await GetPlayerRankForSeason(classId, previousSeasonKey);
+            if (rank <= 0)
+                continue;
+
+            int rewardAmount = GetRewardForRank(rank);
+            seasonRewards.Add(new SeasonRewardSummary
+            {
+                playerClass = classId,
+                rank = rank,
+                rewardAmount = rewardAmount
+            });
+        }
+
+        if (seasonRewards.Count == 0)
+            return;
+
+        string seasonName = SeasonUtility.GetSeasonDisplayName(previousSeasonKey);
+        string title = $"Season {seasonName} Rewards";
+        string body = ComposeSeasonEndMailBody(seasonName, seasonRewards);
+
+        List<object> rewardList = new List<object>();
+        foreach (var summary in seasonRewards)
+        {
+            rewardList.Add(new Dictionary<string, object>
+            {
+                { "type", "Money" },
+                { "amount", summary.rewardAmount },
+                { "classId", summary.playerClass },
+                { "rank", summary.rank }
+            });
+        }
+
+        string messageId = Guid.NewGuid().ToString("N");
+        long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        long expiresAt = DateTimeOffset.UtcNow.AddDays(30).ToUnixTimeMilliseconds();
+
+        var mailData = new Dictionary<string, object>
+        {
+            { "title", title },
+            { "body", body },
+            { "startsAt", now },
+            { "expiresAt", expiresAt },
+            { "isClaimed", false },
+            { "isRead", false },
+            { "isDeleted", false },
+            { "rewards", rewardList }
+        };
+
+        await rootRef
+            .Child("systemMail")
+            .Child(uid)
+            .Child(messageId)
+            .UpdateChildrenAsync(mailData);
+
+        Debug.Log($"Season end mail sent for {seasonName} to player {uid}");
+    }
+
+    private string ComposeSeasonEndMailBody(string seasonName, List<SeasonRewardSummary> rewards)
+    {
+        string intro = $"Season {seasonName} has ended! Your final leaderboard rewards are ready in your inbox.";
+        string detail = "Here is your leaderboard summary:";
+
+        foreach (var reward in rewards)
+        {
+            detail += $"\n- Class {reward.playerClass}: Rank {reward.rank} → {reward.rewardAmount} coins";
+        }
+
+        string outro = "Claim your rewards from the mail panel and keep climbing next season to earn bigger prizes.";
+
+        return $"{intro}\n\n{detail}\n\n{outro}";
+    }
+
+    private class SeasonRewardSummary
+    {
+        public int playerClass;
+        public int rank;
+        public int rewardAmount;
     }
 
     // =========================
@@ -418,6 +627,18 @@ public class LeaderboardSystem : MonoBehaviour
         long invertedScore = 999999999 - score;
 
         return $"{invertedScore:D9}_{bestTime:D12}";
+    }
+
+    public int GetRewardForRank(int rank)
+    {
+        if (rank <= 0)
+            return defaultRankReward;
+
+        int index = rank - 1;
+        if (index < rankRewards.Count)
+            return rankRewards[index];
+
+        return defaultRankReward;
     }
 
     private int GetReward(long timeMs)
@@ -536,5 +757,19 @@ public static class SeasonUtility
         );
 
         return $"season_{DateTime.UtcNow.Year}_week_{week}";
+    }
+
+    public static string GetSeasonDisplayName(string seasonKey)
+    {
+        if (string.IsNullOrEmpty(seasonKey))
+            return "unknown";
+
+        var parts = seasonKey.Split('_');
+        if (parts.Length == 4 && int.TryParse(parts[1], out int year))
+        {
+            return $"Week {parts[3]} of {year}";
+        }
+
+        return seasonKey;
     }
 }
