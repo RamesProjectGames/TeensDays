@@ -18,6 +18,7 @@ public class FirebaseMailManager : MonoBehaviour
     [SerializeField] public Sprite unreadIcon, readIcon;
     //[SerializeField] private GameObject notifBubble;
     List<MailItem> mailItems;
+    Coroutine mailCheck = null;
     [Header("Mail View")]
     [SerializeField] private GameObject mailView;
     [SerializeField] private TextMeshProUGUI mailTitle, mailDate, mailBody;
@@ -176,7 +177,7 @@ public class FirebaseMailManager : MonoBehaviour
                     mailItem.mailId = message.Key;
                     mailItem.title = message.Child("title").Value.ToString(); //No checks needed bcs it's a must
                     mailItem.titlePreview.text = mailItem.title;
-                    mailItem.body = message.Child("body").Exists ? message.Child("title").Value.ToString() : string.Empty;
+                    mailItem.body = message.Child("body").Exists ? message.Child("body").Value.ToString() : string.Empty;
                     mailItem.sentDate = message.Child("startsAt").Exists ? DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(message.Child("startsAt").Value)).DateTime : DateTime.Now;
                     mailItem.endDate = message.Child("expiresAt").Exists ? DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(message.Child("expiresAt").Value)).DateTime : DateTime.Now;
                     mailItem.isClaimed = message.Child("isClaimed").Exists ? bool.Parse(message.Child("isClaimed").Value.ToString()) : true;
@@ -239,7 +240,8 @@ public class FirebaseMailManager : MonoBehaviour
                     mailItems.Add(mailItem);
                 }
             }
-            StartCoroutine(CheckExpiredMail());
+            if(mailCheck == null)
+                mailCheck = StartCoroutine(CheckExpiredMail());
         }
     }
 
