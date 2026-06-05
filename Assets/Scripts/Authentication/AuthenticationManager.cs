@@ -123,6 +123,8 @@ public class AuthenticationManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
+        googleAuthenticated = IsSignedInWithGoogle();
+
         if (googleAuthenticated)
         {
             // Set google buttons to "Switch Account" and "Unlink"
@@ -229,7 +231,7 @@ public class AuthenticationManager : MonoBehaviour
             {
                 currentUser = authTask.Result;
                 Debug.Log("Google Sign-In Successful: " + currentUser.UserId);
-                googleAuthenticated = true;
+                googleAuthenticated = IsSignedInWithGoogle();
                 isAuthenticated = true;
                 FindAnyObjectByType<MainMenuSettings>(FindObjectsInactive.Include)?.ShowPlayButton(true);
                 OnSignedIn();
@@ -324,7 +326,7 @@ public class AuthenticationManager : MonoBehaviour
             {
                 currentUser = linkTask.Result.User;
                 // Debug.Log("Google account linked successfully: " + currentUser.UserId);
-                googleAuthenticated = true;
+                googleAuthenticated = IsSignedInWithGoogle();
             }
         }
         catch (Exception ex)
@@ -361,7 +363,7 @@ public class AuthenticationManager : MonoBehaviour
             {
                 currentUser = unlinkTask.Result.User;
                 Debug.Log("Google account unlinked successfully.");
-                googleAuthenticated = false;
+                googleAuthenticated = IsSignedInWithGoogle();
             }
         }
         catch (Exception ex)
@@ -473,5 +475,19 @@ public class AuthenticationManager : MonoBehaviour
         FirebaseAuth.DefaultInstance.SignOut();
         PlayerPrefs.DeleteKey("ExistPlayer");
     }
+    public bool IsSignedInWithGoogle()
+    {
+        if (auth.CurrentUser == null)
+            return false;
 
+        foreach (var profile in auth.CurrentUser.ProviderData)
+        {
+            if (profile.ProviderId == GoogleAuthProvider.ProviderId)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

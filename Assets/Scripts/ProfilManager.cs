@@ -157,4 +157,14 @@ public class ProfilManager : MonoBehaviour
             }
         }
     }
+    public void OnNameChanged(string newName)
+    {
+        if(string.IsNullOrEmpty(newName) || string.Compare(newName, GameManager.Instance.playerData.displayName) == 0)
+        {
+            return;
+        }
+        nameTextProf.text = newName;
+        GameManager.Instance.playerData.displayName = newName;
+        GameManager.Instance.SavePlayerDataToCloud();
+    }
 }
