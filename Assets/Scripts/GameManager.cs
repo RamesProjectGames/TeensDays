@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public bool kuisDone;
  
     public List<bool> checkLevelCompleted;
+    public List<int> checkLevelRetries;
     public int totalLevel = 5;
     public delegate void MyDelegate();
     public MyDelegate onLoadDataComplete;
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
         playerData.currMoney = 0;
         playerData.currDiamond = 0;
         playerData.checkLevelCompleted = new SerializableList<bool>();
+        playerData.levelRetries = new SerializableList<int>();      
         playerData.ownedItems = new SerializableList<string>();
         playerData.mailboxData = new SerializableList<MailMessage>();
         // playerData.mainQuests = new SerializableList<QuestData>();
@@ -121,6 +123,7 @@ public class GameManager : MonoBehaviour
         expLevel = playerData.expLevel;
         kuisDone = playerData.kuisDone;
         checkLevelCompleted = playerData.checkLevelCompleted.list;
+        checkLevelRetries = playerData.levelRetries.list;
         for(int i = 0; i < checkLevelCompleted.Count; i++)
         {
             if(!checkLevelCompleted[i])
@@ -190,6 +193,7 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+        playerData.levelRetries = new SerializableList<int>(checkLevelRetries);
         playerData.questIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentQuestIndex();
         if (playerInteraction != null && playerInteraction.playerTransform != null)
         {

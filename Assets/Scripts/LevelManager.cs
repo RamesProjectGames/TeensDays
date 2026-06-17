@@ -15,6 +15,7 @@ public class LocalTime
 public class LevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
+    public LocalTime[] levelRetries;
     public GameObject[] bgSpritesLocked;
     public GameObject[] bgNomorKelas;
     public GameObject[] bgKelasClear;
@@ -106,6 +107,20 @@ public class LevelManager : MonoBehaviour
             {
                 bgNomorKelas[i].SetActive(false);
                 bgKelasClear[i].SetActive(true);
+            }
+        }
+    }
+    public void GetLevelRetries()
+    {
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            var levelRetriesNumbers = GameManager.Instance.playerData.levelRetries.list;
+            for (int i = 0; i < levelRetries.Length; i++)
+            {
+                int playerClass = levelRetries[i].classId;
+                int retries = levelRetriesNumbers[playerClass];
+                levelRetries[i].timeText.text = $"{retries} / 3";
+                Debug.Log($"Level {i + 1} retries: {retries}");
             }
         }
     }
