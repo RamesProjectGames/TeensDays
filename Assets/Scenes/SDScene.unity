@@ -2874,13 +2874,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1219081345}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OpenLevel
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &536949149
@@ -4043,13 +4043,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1219081345}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OpenLevel
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 7
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Kelas 5
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &694248374
@@ -7029,13 +7029,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1219081345}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OpenLevel
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 6
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Kelas 4
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1087455624
@@ -7432,13 +7432,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1219081345}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OpenLevel
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Kelas 2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1123573725
@@ -8079,6 +8079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc5ce39d53719149868f712ed9b2ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minClass: 0
   levelButtons:
   - {fileID: 1427707421}
   - {fileID: 1123573724}
@@ -9402,13 +9403,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1219081345}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OpenLevel
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Kelas 1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1427707422
@@ -13258,13 +13259,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1219081345}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OpenLevel
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 8
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Kelas 6
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1889745622
@@ -14344,13 +14345,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1219081345}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OpenLevel
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 5
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Kelas 3
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1996169548
