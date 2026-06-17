@@ -2,55 +2,89 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
+public class UnlockedBuilding
+{    
+    public int unlockedClass;
+    public GameObject fogParticle;
+    public GameObject Building;
+    public GameObject Construction;
+}
 public class FOGManager : MonoBehaviour
 {
+    public static FOGManager Instance;
     [Header("Cameras")]
     public CinemachineFreeLook freeLookCam;
     public CinemachineVirtualCamera cinematicCam;
-
-    [SerializeField] private GameObject fogParticle_SMP;
-    [SerializeField] private GameObject SMPBuilding;
-    [SerializeField] private GameObject constructionSMP;
-
-    [SerializeField] private GameObject fogParticle_SMA;
-    [SerializeField] private GameObject SMABuilding;
-    [SerializeField] private GameObject constructionSMA;
-
-    private void Update()
+    public List<UnlockedBuilding> buildings = new List<UnlockedBuilding>();
+    void Awake()
+    {        
+        Instance = this;
+    }
+    public void LoadBuilding()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        var unlockedClass = GameManager.Instance.playerData.unlockedLevel;
+        foreach (var building in buildings)
         {
-            fogParticle_SMP.SetActive(true);
-
-           StartCoroutine(ShowObjectAfterDelay_SMP());
+            if (unlockedClass >= building.unlockedClass)
+            {
+                StartCoroutine(
+                    ShowObjectAfterDelay(
+                        unlockedClass,
+                        building.fogParticle,
+                        building.Building,
+                        building.Construction));
+            }
         }
     }
-
-    private IEnumerator ShowObjectAfterDelay_SMP()
+    private IEnumerator ShowObjectAfterDelay(int unlockedClass,GameObject fog,GameObject building, GameObject construction)
     {
-        // Pindah ke cinematic camera
-        cinematicCam.Priority = 20;
-        freeLookCam.Priority = 10;
+        var showFog = false;
 
-        yield return new WaitForSeconds(5f);
+        if (unlockedClass >= 7 && !GameManager.Instance.playerData.unlockedSMP)
+        {
+            GameManager.Instance.playerData.unlockedSMP = true;
+            showFog = true;
+        }
 
-        SMPBuilding.SetActive(true);
-        constructionSMP.SetActive(false);
+        if (unlockedClass >= 10 && !GameManager.Instance.playerData.unlockedSMA)
+        {
+            GameManager.Instance.playerData.unlockedSMA = true;
+            showFog = true;
+        }
 
-        yield return new WaitForSeconds(10f);
+        if (showFog)
+        {
+            fog.SetActive(true);
+            // Pindah ke cinematic camera
+            cinematicCam.Priority = 20;
+            freeLookCam.Priority = 10;
 
-        cinematicCam.Priority = 10;
-        freeLookCam.Priority = 20;
+            yield return new WaitForSeconds(5f);
+        }
+
+        building.SetActive(true);
+        construction.SetActive(false);
+
+        if(showFog)
+        {
+            yield return new WaitForSeconds(10f);
+
+            cinematicCam.Priority = 10;
+            freeLookCam.Priority = 20;
+            fog.SetActive(false);            
+        }
+        
+        yield return new WaitForSeconds(1f);
+        if (unlockedClass >= 7 && !GameManager.Instance.playerData.unlockedSMP)
+        {
+            NavMeshManager.Instance.RebuildSurfaceOnCertainArea("SMP");
+        }
+
+        if (unlockedClass >= 10 && !GameManager.Instance.playerData.unlockedSMA)
+        {
+            NavMeshManager.Instance.RebuildSurfaceOnCertainArea("SMA");
+        }
+        GameManager.Instance.SavePlayerDataToCloud();
     }
-
-    private IEnumerator ShowObjectAfterDelay_SMA()
-    {
-        yield return new WaitForSeconds(5f);
-
-        SMABuilding.SetActive(true);
-        constructionSMA.SetActive(true);
-    }
-
-    // Start is called before the first frame update
 }

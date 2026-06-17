@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
         playerData.playerIconIndex = 0;
         playerData.expLevel = 0;
         playerData.kuisDone = false;
+        playerData.unlockedSMP= false;
+        playerData.unlockedSMA = false;
         playerData.currMoney = 0;
         playerData.currDiamond = 0;
         playerData.checkLevelCompleted = new SerializableList<bool>();
@@ -140,6 +142,10 @@ public class GameManager : MonoBehaviour
         if(InventoryManager.Instance != null)
         {
             InventoryManager.Instance.LoadInventory();            
+        }
+        if(FOGManager.Instance != null)
+        {
+            FOGManager.Instance.LoadBuilding();
         }
 
         if (playerInteraction != null && playerInteraction.playerTransform != null)
@@ -259,6 +265,8 @@ public class GameManager : MonoBehaviour
             freeLookCamera = FindObjectOfType<CinemachineFreeLook>();      
             // Misalnya, set posisi player atau inisialisasi level tertentu
             ApplySavedTransforms();
+            
+            SyncPlayerDataToGame();
         }
     }
 

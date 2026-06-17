@@ -12,6 +12,8 @@ public class PlayerData
     // Game Progress
     public int expLevel;
     public bool kuisDone;
+    public bool unlockedSMP;
+    public bool unlockedSMA;
     public int currMoney;
     public int currDiamond;
     public SerializableList<bool> checkLevelCompleted = new SerializableList<bool>();
