@@ -134,11 +134,11 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-        if(QuestSystem.instance != null)
-        {
-            QuestSystem.instance.LoadQuests();       
-            QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
-        }
+        // if(QuestSystem.instance != null)
+        // {
+        //     QuestSystem.instance.LoadQuests();       
+        //     QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
+        // }
         if(InventoryManager.Instance != null)
         {
             InventoryManager.Instance.LoadInventory();            
@@ -266,7 +266,6 @@ public class GameManager : MonoBehaviour
             // Misalnya, set posisi player atau inisialisasi level tertentu
             ApplySavedTransforms();
             
-            SyncPlayerDataToGame();
         }
     }
 
@@ -396,5 +395,33 @@ public class GameManager : MonoBehaviour
     void OnApplicationQuit()
     {
         SavePlayerDataToCloud();
+    }
+
+    public void UnlockedAllSegmentClass()
+    {
+        if (!playerData.unlockedSMP)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                playerData.checkLevelCompleted.list[i] = true;
+                playerData.levelRetries.list[i] = 3;
+            }
+            playerData.unlockedLevel = 7;
+        }
+        else if (!playerData.unlockedSMA)
+        {
+            for (int i = 6; i < 12; i++)
+            {
+                playerData.checkLevelCompleted.list[i] = true;
+                playerData.levelRetries.list[i] = 3;
+            }
+            playerData.unlockedLevel = 12;
+        }
+        if (QuestSystem.instance != null)
+        {
+            QuestSystem.instance.HandleMainQuestCheatCode();
+            QuestSystem.instance.HandleSideQuestCheatCode();
+        }
+        SyncPlayerDataToGame();
     }
 }

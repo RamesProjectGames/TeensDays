@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class UnlockedBuilding
 {    
-    public int unlockedClass;
+    public int unlockedClassMin, unlockedClassMax;
     public GameObject fogParticle;
     public GameObject Building;
     public GameObject Construction;
@@ -26,7 +26,7 @@ public class FOGManager : MonoBehaviour
         var unlockedClass = GameManager.Instance.playerData.unlockedLevel;
         foreach (var building in buildings)
         {
-            if (unlockedClass >= building.unlockedClass)
+            if (IsBetween(unlockedClass, building.unlockedClassMin, building.unlockedClassMax))
             {
                 StartCoroutine(
                     ShowObjectAfterDelay(
@@ -59,6 +59,7 @@ public class FOGManager : MonoBehaviour
             // Pindah ke cinematic camera
             cinematicCam.Priority = 20;
             freeLookCam.Priority = 10;
+            cinematicCam.LookAt = building.transform;
 
             yield return new WaitForSeconds(5f);
         }
@@ -86,5 +87,9 @@ public class FOGManager : MonoBehaviour
             NavMeshManager.Instance.RebuildSurfaceOnCertainArea("SMA");
         }
         GameManager.Instance.SavePlayerDataToCloud();
+    }
+    public static bool IsBetween(int value, int min, int max)
+    {
+        return value >= min && value <= max;
     }
 }

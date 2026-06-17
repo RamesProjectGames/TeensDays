@@ -16,6 +16,12 @@ public class QuestSystem : MonoBehaviour
     [SerializeField] private int currentQuestIndex = 0;
     [SerializeField] private int currentSideQuestIndex = 0;
     [SerializeField] private float blinkSpeed = 2f;
+    [SerializeField] private bool enableQuestCheatCodes = true;
+    [SerializeField] private KeyCode questCheatSubmitKey = KeyCode.Return;
+    [SerializeField] private KeyCode questCheatKeypadSubmitKey = KeyCode.KeypadEnter;
+
+    private string questCheatBuffer = string.Empty;
+    private bool questCheatNotReadyWarningShown;
 
     public QuestUIManager questUIManager;
     public QuestPathManager questPathManager;
@@ -574,4 +580,53 @@ public class QuestSystem : MonoBehaviour
         }
     }
 
+    #region CheatCode
+    public void HandleMainQuestCheatCode()
+    {
+        foreach (var mainQuest in main.list)
+        {
+            foreach (var subQuest in mainQuest.subQuests)
+            {
+                subQuest.isDone = true;
+            }
+            mainQuest.isDone = true;
+        }
+        ApplyLoadedQuests(main);
+    }
+    public void HandleSideQuestCheatCode()
+    {
+        foreach (var sideQuest in side.list)
+        {
+            foreach (var subQuest in sideQuest.subQuests)
+            {
+                subQuest.isDone = true;
+            }
+            sideQuest.isDone = true;
+        }
+        ApplyLoadedQuests(side);
+    }
+    public void HandleQuestCheatCode(string questName, bool isMain)
+    {
+        if(isMain)
+        {
+            var selectedQuest = main.list.Find(x=>x.questName == questName);
+            if(selectedQuest == null) return;
+            foreach (var subQuest in selectedQuest.subQuests)
+            {
+                subQuest.isDone = true;
+            }
+            selectedQuest.isDone = true;
+        }
+        else
+        {
+            var selectedQuest = side.list.Find(x=>x.questName == questName);
+            if(selectedQuest == null) return;
+            foreach (var subQuest in selectedQuest.subQuests)
+            {
+                subQuest.isDone = true;
+            }
+            selectedQuest.isDone = true;
+        }
+    }
+    #endregion
 }

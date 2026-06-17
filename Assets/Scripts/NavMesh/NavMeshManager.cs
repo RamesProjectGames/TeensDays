@@ -38,4 +38,11 @@ public class NavMeshManager : MonoBehaviour
             }
         }
     }
+    public void RebuildNavMesh()
+    {
+        foreach (var surface in navMeshSurfaces)
+        {
+            surface.GetComponent<NavMeshSurface>().BuildNavMesh();
+        }
+    }
 }
