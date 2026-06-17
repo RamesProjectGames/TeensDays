@@ -592,6 +592,9 @@ public class QuestSystem : MonoBehaviour
             mainQuest.isDone = true;
         }
         ApplyLoadedQuests(main);
+        CheckAutoCompleteQuests();
+        UpdateQuestDisplay();
+        _ = SaveQuestsAsync();
     }
     public void HandleSideQuestCheatCode()
     {
@@ -604,6 +607,9 @@ public class QuestSystem : MonoBehaviour
             sideQuest.isDone = true;
         }
         ApplyLoadedQuests(side);
+        CheckAutoCompleteQuests();
+        UpdateQuestDisplay();
+        _ = SaveQuestsAsync();
     }
     public void HandleQuestCheatCode(string questName, bool isMain)
     {
@@ -627,6 +633,10 @@ public class QuestSystem : MonoBehaviour
             }
             selectedQuest.isDone = true;
         }
+        
+        CheckAutoCompleteQuests();
+        UpdateQuestDisplay();
+        _ = SaveQuestsAsync();
     }
     #endregion
 }
