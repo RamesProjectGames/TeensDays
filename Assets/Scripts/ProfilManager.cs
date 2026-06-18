@@ -167,4 +167,8 @@ public class ProfilManager : MonoBehaviour
         GameManager.Instance.playerData.displayName = newName;
         GameManager.Instance.SavePlayerDataToCloud();
     }
+    public void CompleteAllClass()
+    {
+        GameManager.Instance.UnlockedAllSegmentClass();
+    }
 }
