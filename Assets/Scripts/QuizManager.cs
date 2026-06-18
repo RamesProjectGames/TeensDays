@@ -272,6 +272,7 @@ public class QuizManager : MonoBehaviour
                 if (nextLevel > unlockedLevel)
                 {
                     GameManager.Instance.playerData.unlockedLevel = nextLevel;
+                    AchievementHelper.UnlockAchievement("sd_achievement");
                     GameManager.Instance.SavePlayerDataToCloud();
                     // Debug.Log("Unlocked new level: " + nextLevel);
                 }
@@ -291,12 +292,13 @@ public class QuizManager : MonoBehaviour
                 if (nextLevel > unlockedLevel)
                 {
                     GameManager.Instance.playerData.unlockedLevel = nextLevel;
+                    AchievementHelper.UnlockAchievement("smp_achievement");
                     GameManager.Instance.SavePlayerDataToCloud();
                     // Debug.Log("Unlocked new level: " + nextLevel);
                 }
             }
         }
-        else
+        else if(currentClass < 12)
         {
             int nextLevel = currentClass + 1;
 
@@ -306,6 +308,12 @@ public class QuizManager : MonoBehaviour
                 GameManager.Instance.SavePlayerDataToCloud();
                 // Debug.Log("Unlocked new level: " + nextLevel);
             }
+        }
+        else
+        {
+            AchievementHelper.UnlockAchievement("sma_achievement");
+            GameManager.Instance.playerData.unlockedLevel = 12;
+            GameManager.Instance.SavePlayerDataToCloud();
         }
     }
 

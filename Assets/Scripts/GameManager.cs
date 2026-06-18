@@ -20,13 +20,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Masuk dont destroy");
             Instance = this;
-            DontDestroyOnLoad(gameObject);            
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        
+
         // Initialize playerData to avoid null reference errors
         if (playerData == null)
         {
@@ -148,12 +148,13 @@ public class GameManager : MonoBehaviour
             FOGManager.Instance.LoadBuilding();
         }
 
+        CheckAchievements();
+
         if (playerInteraction != null && playerInteraction.playerTransform != null)
         {
             playerInteraction.playerTransform.position = playerData.playerPosition;
             playerInteraction.playerTransform.rotation = playerData.playerRotation;
         }
-
         
         if (freeLookCamera != null)
         {
@@ -227,6 +228,38 @@ public class GameManager : MonoBehaviour
         // Quest data is managed by QuestSystem; don't serialize quest lists into PlayerData here.
         // playerData.mainQuests = new SerializableList<QuestData>(new List<QuestData>());
         // playerData.sideQuests = new SerializableList<QuestData>(new List<QuestData>());
+    }
+    public async void CheckAchievements()
+    {
+        if(AchieveManager.Instance == null) return;
+        if(playerData.unlockedLevel > 6)
+        {
+            AchieveManager.Instance.UnlockAchievement("sd_achievement");
+        }
+        if(playerData.unlockedLevel > 9)
+        {
+            AchieveManager.Instance.UnlockAchievement("smp_achievement");            
+        }
+        if(playerData.unlockedLevel >= 12)
+        {
+            if(playerData.checkLevelCompleted.list[playerData.unlockedLevel])
+            {
+                AchieveManager.Instance.UnlockAchievement("sma_achievement");
+            }
+        }
+        if(LeaderboardSystem.Instance ==  null) return;
+        var playerScores = await LeaderboardSystem.Instance.GetPlayerLeaderboardScore();
+        if(!(playerScores.Count > 12 || playerScores.Count ==0))
+        {
+            foreach (var score in playerScores)
+            {
+                if(score < 90)
+                {
+                    break;
+                }
+                AchieveManager.Instance.UnlockAchievement("90_score");
+            }
+        }
     }
     
     private void Start()
