@@ -248,6 +248,15 @@ public class FirebaseMailManager : MonoBehaviour
     #region Message Details
     public async void OpenMessage(MailItem selectedMail)
     {
+        foreach (MailRewardUI temp in currentMailRewardList)
+        {
+            if (temp != null && temp.gameObject != null)
+            {
+                Destroy(temp.gameObject);
+            }
+        }
+        currentMailRewardList.Clear();
+        currentMailRewardList.TrimExcess();
         string readPath = $"{selectedMail.mailId}/isRead";
         DataSnapshot mailSnapshot = await userMailRef.GetValueAsync();
         if (mailSnapshot.Child(readPath).Value is bool isRead && !isRead)
@@ -287,6 +296,7 @@ public class FirebaseMailManager : MonoBehaviour
             MailRewardUI temp = Instantiate(rewardPrefab, mailRewardsParent).GetComponent<MailRewardUI>();
             temp.rewardData = reward;
             temp.amount.text = reward.amount.ToString();
+            temp.infoToggle.interactable = !selectedMail.isClaimed;
             switch (reward.type)
             {
                 case RewardType.Gems:
@@ -535,6 +545,10 @@ public class FirebaseMailManager : MonoBehaviour
         Debug.Log($"Successfully claimed all mails.");
         if(focusMail != null)
         {
+            foreach(MailRewardUI reward in currentMailRewardList)
+            {
+                reward.infoToggle.interactable = false;
+            }
             claimButton.gameObject.SetActive(!focusMail.isClaimed);
             claimButton.interactable = !focusMail.isClaimed;
             deleteButton.interactable = focusMail.isClaimed;
@@ -575,6 +589,10 @@ public class FirebaseMailManager : MonoBehaviour
         if (focusMail == null)
             return;
 
+        foreach (MailRewardUI reward in currentMailRewardList)
+        {
+            reward.infoToggle.interactable = false;
+        }
         //AudioManager.Singleton.SFXOneShot("Click");
         focusMail.isClaimed = true;
         claimButton.gameObject.SetActive(!focusMail.isClaimed);
