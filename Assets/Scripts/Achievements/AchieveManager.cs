@@ -23,11 +23,17 @@ public class AchieveManager : MonoBehaviour
 
     void Awake()
     {
+        transform.SetParent(null);
         if (instance == null)
         {
+            Debug.Log("Masuk dont destroy");
             instance = this;
+            DontDestroyOnLoad(gameObject);            
         }
-
+        else
+        {
+            Destroy(gameObject);
+        }
         InitializeAchievementLookup();
     }
 

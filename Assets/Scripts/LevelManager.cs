@@ -14,7 +14,9 @@ public class LocalTime
 }
 public class LevelManager : MonoBehaviour
 {
+    public int minClass;
     public Button[] levelButtons;
+    public LocalTime[] levelRetries;
     public GameObject[] bgSpritesLocked;
     public GameObject[] bgNomorKelas;
     public GameObject[] bgKelasClear;
@@ -48,6 +50,15 @@ public class LevelManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         SceneManager.LoadScene(levelId);
+    }
+    public void OpenLevel(string levelName)
+    {
+        string prevSceneName = SceneManager.GetActiveScene().name;
+        int prevSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        SceneManager.LoadScene(levelName);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -89,7 +100,7 @@ public class LevelManager : MonoBehaviour
         int unlockedLevel = 1;
         if (GameManager.Instance != null && GameManager.Instance.playerData != null)
         {
-            unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
+            unlockedLevel = GameManager.Instance.playerData.unlockedLevel - minClass;
         }
 
         for (int i = 0; i < levelButtons.Length; i++)
@@ -106,6 +117,20 @@ public class LevelManager : MonoBehaviour
             {
                 bgNomorKelas[i].SetActive(false);
                 bgKelasClear[i].SetActive(true);
+            }
+        }
+    }
+    public void GetLevelRetries()
+    {
+        if (GameManager.Instance != null && GameManager.Instance.playerData != null)
+        {
+            var levelRetriesNumbers = GameManager.Instance.playerData.levelRetries.list;
+            for (int i = 0; i < levelRetries.Length; i++)
+            {
+                int playerClass = levelRetries[i].classId - minClass;
+                int retries = levelRetriesNumbers[playerClass];
+                levelRetries[i].timeText.text = $"{retries} / 3";
+                Debug.Log($"Level {i + 1} retries: {retries}");
             }
         }
     }

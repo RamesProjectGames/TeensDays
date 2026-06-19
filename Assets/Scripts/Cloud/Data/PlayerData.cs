@@ -12,9 +12,12 @@ public class PlayerData
     // Game Progress
     public int expLevel;
     public bool kuisDone;
+    public bool unlockedSMP;
+    public bool unlockedSMA;
     public int currMoney;
     public int currDiamond;
     public SerializableList<bool> checkLevelCompleted = new SerializableList<bool>();
+    public SerializableList<int> levelRetries = new SerializableList<int>();
     public SerializableList<string> ownedItems = new SerializableList<string>();
     public SerializableList<MailMessage> mailboxData = new SerializableList<MailMessage>();
     // public SerializableList<QuestData> mainQuests = new SerializableList<QuestData>();

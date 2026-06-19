@@ -225,7 +225,6 @@ public class QuizManager : MonoBehaviour
                 GameManager.Instance.playerData.currMoney += 15000;
                 GameManager.Instance.playerData.checkLevelCompleted.list[currentClass - 1] = true;
                 GameManager.Instance.playerData.expLevel += 100;
-                UnlockNewLevel();
             }
             else
             {
@@ -233,6 +232,12 @@ public class QuizManager : MonoBehaviour
                 GameManager.Instance.playerData.currMoney += 500;
             }
 
+            if (GameManager.Instance.playerData.levelRetries.list[currentClass - 1]< 3)
+            {
+                GameManager.Instance.playerData.levelRetries.list[currentClass - 1] += 1;
+            }
+
+            UnlockNewLevel();
             // Save to cloud instead of PlayerPrefs
             LeaderboardSystem.Instance.SubmitScoreValidated(GameManager.Instance.playerData.displayName, currentClass, (int)skor, GameManager.Instance.playerData.playerIconIndex);
             GameManager.Instance.SavePlayerDataToCloud();
@@ -247,19 +252,68 @@ public class QuizManager : MonoBehaviour
 
     void UnlockNewLevel()
     {
-        if (alreadyUnlocked) return;
-        alreadyUnlocked = true;
+        // if (alreadyUnlocked) return;
+        // alreadyUnlocked = true;
 
         int currentClass = GetNumberFromString(SceneManager.GetActiveScene().name);
         int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
 
-        int nextLevel = currentClass + 1;
-
-        if (nextLevel > unlockedLevel)
+        if(currentClass == 6)
         {
-            GameManager.Instance.playerData.unlockedLevel = nextLevel;
+            int totalLevelRetries = 0;
+            for (int i = 0; i < GameManager.Instance.playerData.levelRetries.list.Count; i++)
+            {
+                totalLevelRetries += GameManager.Instance.playerData.levelRetries.list[i];
+            }
+            if(totalLevelRetries >= 18)
+            {
+                int nextLevel = currentClass + 1;
+
+                if (nextLevel > unlockedLevel)
+                {
+                    GameManager.Instance.playerData.unlockedLevel = nextLevel;
+                    AchievementHelper.UnlockAchievement("sd_achievement");
+                    GameManager.Instance.SavePlayerDataToCloud();
+                    // Debug.Log("Unlocked new level: " + nextLevel);
+                }
+            }
+        }
+        else if(currentClass ==9)
+        {
+            int totalLevelRetries = 0;
+            for (int i = 0; i < GameManager.Instance.playerData.levelRetries.list.Count; i++)
+            {
+                totalLevelRetries += GameManager.Instance.playerData.levelRetries.list[i];
+            }
+            if(totalLevelRetries >= 27)
+            {
+                int nextLevel = currentClass + 1;
+
+                if (nextLevel > unlockedLevel)
+                {
+                    GameManager.Instance.playerData.unlockedLevel = nextLevel;
+                    AchievementHelper.UnlockAchievement("smp_achievement");
+                    GameManager.Instance.SavePlayerDataToCloud();
+                    // Debug.Log("Unlocked new level: " + nextLevel);
+                }
+            }
+        }
+        else if(currentClass < 12)
+        {
+            int nextLevel = currentClass + 1;
+
+            if (nextLevel > unlockedLevel)
+            {
+                GameManager.Instance.playerData.unlockedLevel = nextLevel;
+                GameManager.Instance.SavePlayerDataToCloud();
+                // Debug.Log("Unlocked new level: " + nextLevel);
+            }
+        }
+        else
+        {
+            AchievementHelper.UnlockAchievement("sma_achievement");
+            GameManager.Instance.playerData.unlockedLevel = 12;
             GameManager.Instance.SavePlayerDataToCloud();
-            // Debug.Log("Unlocked new level: " + nextLevel);
         }
     }
 

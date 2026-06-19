@@ -20,13 +20,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Masuk dont destroy");
             Instance = this;
-            DontDestroyOnLoad(gameObject);            
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        
+
         // Initialize playerData to avoid null reference errors
         if (playerData == null)
         {
@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public bool kuisDone;
  
     public List<bool> checkLevelCompleted;
+    public List<int> checkLevelRetries;
     public int totalLevel = 5;
     public delegate void MyDelegate();
     public MyDelegate onLoadDataComplete;
@@ -57,9 +58,12 @@ public class GameManager : MonoBehaviour
         playerData.playerIconIndex = 0;
         playerData.expLevel = 0;
         playerData.kuisDone = false;
+        playerData.unlockedSMP= false;
+        playerData.unlockedSMA = false;
         playerData.currMoney = 0;
         playerData.currDiamond = 0;
         playerData.checkLevelCompleted = new SerializableList<bool>();
+        playerData.levelRetries = new SerializableList<int>();      
         playerData.ownedItems = new SerializableList<string>();
         playerData.mailboxData = new SerializableList<MailMessage>();
         // playerData.mainQuests = new SerializableList<QuestData>();
@@ -121,6 +125,7 @@ public class GameManager : MonoBehaviour
         expLevel = playerData.expLevel;
         kuisDone = playerData.kuisDone;
         checkLevelCompleted = playerData.checkLevelCompleted.list;
+        checkLevelRetries = playerData.levelRetries.list;
         for(int i = 0; i < checkLevelCompleted.Count; i++)
         {
             if(!checkLevelCompleted[i])
@@ -129,22 +134,27 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-        if(QuestSystem.instance != null)
-        {
-            QuestSystem.instance.LoadQuests();       
-            QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
-        }
+        // if(QuestSystem.instance != null)
+        // {
+        //     QuestSystem.instance.LoadQuests();       
+        //     QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
+        // }
         if(InventoryManager.Instance != null)
         {
             InventoryManager.Instance.LoadInventory();            
         }
+        if(FOGManager.Instance != null)
+        {
+            FOGManager.Instance.LoadBuilding();
+        }
+
+        CheckAchievements();
 
         if (playerInteraction != null && playerInteraction.playerTransform != null)
         {
             playerInteraction.playerTransform.position = playerData.playerPosition;
             playerInteraction.playerTransform.rotation = playerData.playerRotation;
         }
-
         
         if (freeLookCamera != null)
         {
@@ -190,6 +200,7 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+        playerData.levelRetries = new SerializableList<int>(checkLevelRetries);
         playerData.questIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentQuestIndex();
         if (playerInteraction != null && playerInteraction.playerTransform != null)
         {
@@ -217,6 +228,38 @@ public class GameManager : MonoBehaviour
         // Quest data is managed by QuestSystem; don't serialize quest lists into PlayerData here.
         // playerData.mainQuests = new SerializableList<QuestData>(new List<QuestData>());
         // playerData.sideQuests = new SerializableList<QuestData>(new List<QuestData>());
+    }
+    public async void CheckAchievements()
+    {
+        if(AchieveManager.Instance == null) return;
+        if(playerData.unlockedLevel > 6)
+        {
+            AchieveManager.Instance.UnlockAchievement("sd_achievement");
+        }
+        if(playerData.unlockedLevel > 9)
+        {
+            AchieveManager.Instance.UnlockAchievement("smp_achievement");            
+        }
+        if(playerData.unlockedLevel >= 12)
+        {
+            if(playerData.checkLevelCompleted.list[playerData.unlockedLevel])
+            {
+                AchieveManager.Instance.UnlockAchievement("sma_achievement");
+            }
+        }
+        if(LeaderboardSystem.Instance ==  null) return;
+        var playerScores = await LeaderboardSystem.Instance.GetPlayerLeaderboardScore();
+        if(!(playerScores.Count > 12 || playerScores.Count ==0))
+        {
+            foreach (var score in playerScores)
+            {
+                if(score < 90)
+                {
+                    break;
+                }
+                AchieveManager.Instance.UnlockAchievement("90_score");
+            }
+        }
     }
     
     private void Start()
@@ -255,6 +298,7 @@ public class GameManager : MonoBehaviour
             freeLookCamera = FindObjectOfType<CinemachineFreeLook>();      
             // Misalnya, set posisi player atau inisialisasi level tertentu
             ApplySavedTransforms();
+            
         }
     }
 
@@ -384,5 +428,33 @@ public class GameManager : MonoBehaviour
     void OnApplicationQuit()
     {
         SavePlayerDataToCloud();
+    }
+
+    public void UnlockedAllSegmentClass()
+    {
+        if (!playerData.unlockedSMP)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                playerData.checkLevelCompleted.list[i] = true;
+                playerData.levelRetries.list[i] = 3;
+            }
+            playerData.unlockedLevel = 7;
+        }
+        else if (!playerData.unlockedSMA)
+        {
+            for (int i = 6; i < 12; i++)
+            {
+                playerData.checkLevelCompleted.list[i] = true;
+                playerData.levelRetries.list[i] = 3;
+            }
+            playerData.unlockedLevel = 12;
+        }
+        if (QuestSystem.instance != null)
+        {
+            QuestSystem.instance.HandleMainQuestCheatCode();
+            QuestSystem.instance.HandleSideQuestCheatCode();
+        }
+        SyncPlayerDataToGame();
     }
 }

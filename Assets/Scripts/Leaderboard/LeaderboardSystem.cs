@@ -428,7 +428,24 @@ public class LeaderboardSystem : MonoBehaviour
 
         return data;
     }
-
+    public async Task<List<int>> GetPlayerLeaderboardScore()
+    {
+        List<int> scores = new List<int>();
+        for (int i = 0; i < 12; i++)
+        {            
+            LeaderboardData playerData = await LeaderboardSystem.Instance.GetPlayerData(i);
+            if(playerData == null)
+            {
+                scores.Add(0);
+                continue;
+            }
+            else
+            {
+                scores.Add(playerData.score);
+            }
+        }
+        return scores;
+    }
     public async Task<LeaderboardData> GetPlayerDataForSeason(int playerClass, string seasonKey)
     {
         var user = AuthenticationManager.Singleton.auth.CurrentUser;
