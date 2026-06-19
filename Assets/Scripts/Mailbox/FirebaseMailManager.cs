@@ -24,7 +24,7 @@ public class FirebaseMailManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mailTitle, mailDate, mailBody;
     [SerializeField] private Transform mailRewardsParent;
     [SerializeField] private Button claimButton, deleteButton;
-    [SerializeField] private Sprite diamondIcon, coinIcon, claimedFrame, unclaimedFrame;
+    [SerializeField] private Sprite diamondIcon, coinIcon;
     private List<MailRewardUI> currentMailRewardList;
     private MailItem focusMail;
     [Header("Reward Info")]
@@ -287,7 +287,6 @@ public class FirebaseMailManager : MonoBehaviour
             MailRewardUI temp = Instantiate(rewardPrefab, mailRewardsParent).GetComponent<MailRewardUI>();
             temp.rewardData = reward;
             temp.amount.text = reward.amount.ToString();
-            temp.frame.sprite = selectedMail.isClaimed ? claimedFrame : unclaimedFrame;
             switch (reward.type)
             {
                 case RewardType.Gems:
@@ -508,7 +507,6 @@ public class FirebaseMailManager : MonoBehaviour
                         {
                             MailRewardUI temp = Instantiate(rewardPrefab, allMailRewardsParent).GetComponent<MailRewardUI>();
                             temp.amount.text = reward.amount.ToString();
-                            temp.frame.sprite = unclaimedFrame;
                             temp.rewardData = reward;
                             switch (reward.type)
                             {
@@ -603,7 +601,6 @@ public class FirebaseMailManager : MonoBehaviour
             {
                 MailRewardUI temp = Instantiate(rewardPrefab, allMailRewardsParent).GetComponent<MailRewardUI>();
                 temp.amount.text = rewardItem.amount.ToString();
-                temp.frame.sprite = unclaimedFrame;
                 temp.rewardData = rewardItem;
                 switch (rewardItem.type)
                 {
