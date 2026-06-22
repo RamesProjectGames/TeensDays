@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -20,7 +21,8 @@ public class ProfilManager : MonoBehaviour
     public Slider expSliderProf;
     public TMP_Text currTextProf;
     public TMP_Text diaTextProf;
-    public TMP_Text nameTextProf;
+    public TMP_InputField nameTextProf;
+    public Button EditNameButton;
     public Transform changeNameProf;
     public GameObject bobonPreviewPrefab;
     public InspectObject bobonPreview;
@@ -36,6 +38,8 @@ public class ProfilManager : MonoBehaviour
     public List<SchoolRankDisplay> schoolRankDisplays = new List<SchoolRankDisplay>();
 
     public PlayerManager playerManager;
+
+    string newName;
 
     private void Awake()
     {
@@ -96,12 +100,6 @@ public class ProfilManager : MonoBehaviour
             changeNameProf.LeanScale(Vector3.zero, 1.5f);
         }
     }
-    public void ChangeName(string newName)
-    {
-        nameTextProf.text = newName;
-        GameManager.Instance.playerData.displayName = newName;
-        GameManager.Instance.SavePlayerDataToCloud();
-    }
     public void SliderRank()
     {
         int unlockedLevel = GameManager.Instance.playerData.unlockedLevel;
@@ -157,18 +155,71 @@ public class ProfilManager : MonoBehaviour
             }
         }
     }
-    public void OnNameChanged(string newName)
-    {
-        if(string.IsNullOrEmpty(newName) || string.Compare(newName, GameManager.Instance.playerData.displayName) == 0)
-        {
-            return;
-        }
-        nameTextProf.text = newName;
-        GameManager.Instance.playerData.displayName = newName;
-        GameManager.Instance.SavePlayerDataToCloud();
-    }
     public void CompleteAllClass()
     {
         GameManager.Instance.UnlockedAllSegmentClass();
+    }
+    public void OnNameChanged(string newName)
+    {
+        this.newName = newName;
+        OpenChangeName(true);
+    }
+    public void ChangeName()
+    {
+        DateTime lastChange = new DateTime(GameManager.Instance.playerData.replaceNameCooldown, DateTimeKind.Utc);
+        bool canChangeName =DateTime.UtcNow >= lastChange;
+        if(!canChangeName)
+        {
+            return;
+        }
+        if(string.IsNullOrEmpty(newName) || string.Compare(newName, GameManager.Instance.playerData.displayName) == 0)
+        {            
+            nameTextProf.text = GameManager.Instance.playerData.displayName;
+        }
+        else
+        {
+           nameTextProf.text = newName;            
+        }
+        nameTextProf.readOnly = true;
+        nameTextProf.interactable = false;
+        EditNameButton.interactable = true;
+        nameTextProf.DeactivateInputField();
+        GameManager.Instance.playerData.replaceNameCooldown = DateTimeOffset.UtcNow.AddHours(72).ToUnixTimeMilliseconds();
+        GameManager.Instance.playerData.displayName = nameTextProf.text;
+        GameManager.Instance.SavePlayerDataToCloud();
+    }
+    public void CancelChange()
+    {
+        nameTextProf.text = GameManager.Instance.playerData.displayName;
+        nameTextProf.readOnly = false;
+        nameTextProf.interactable = true;
+        nameTextProf.ActivateInputField();
+        EditNameButton.interactable = false;
+        OpenChangeName(false);
+    }
+    public void ToggleNameInputField()
+    {
+        long currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        long remaining = GameManager.Instance.playerData.replaceNameCooldown  - currentTime;
+
+        if (remaining > 0)
+        {
+            TimeSpan timeLeft = TimeSpan.FromMilliseconds(remaining);
+
+            string remainingTimeText = $"{timeLeft.Days}d {timeLeft.Hours}h {timeLeft.Minutes}m left";
+
+            //Added To UI, Disable Button Change
+        }
+        else
+        {
+            // Debug.Log("You can change your name now!");
+            if (nameTextProf.readOnly)
+            {
+                nameTextProf.readOnly = false;
+                nameTextProf.interactable = true;
+                nameTextProf.ActivateInputField();
+                EditNameButton.interactable = false;
+            }
+        }
     }
 }

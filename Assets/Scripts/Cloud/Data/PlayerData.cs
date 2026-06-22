@@ -7,6 +7,7 @@ public class PlayerData
     // User Identification
     public string userId;
     public string displayName;
+    public long replaceNameCooldown = 0;
     public int playerIconIndex = 0;
     
     // Game Progress

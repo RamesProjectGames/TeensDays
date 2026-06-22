@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[InitializeDefaultPlayerData] Initializing default player data.");
         playerData.displayName = string.IsNullOrEmpty(playerData.displayName) ? $"Player #{UnityEngine.Random.Range(1000, 9999)}" : playerData.displayName;
+        playerData.replaceNameCooldown = 0;
         playerData.playerIconIndex = 0;
         playerData.expLevel = 0;
         playerData.kuisDone = false;
