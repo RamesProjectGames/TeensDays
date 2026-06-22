@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
         }
         if(playerData.unlockedLevel >= 12)
         {
-            if(playerData.checkLevelCompleted.list[playerData.unlockedLevel])
+            if(playerData.checkLevelCompleted.list[playerData.unlockedLevel-1])
             {
                 AchieveManager.Instance.UnlockAchievement("sma_achievement");
             }

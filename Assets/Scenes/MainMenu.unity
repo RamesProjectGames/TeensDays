@@ -3693,7 +3693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a3e45153a599954ea2da4fde6606a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugSignOut: 1
+  debugSignOut: 0
   GoogleAPI: 707396864543-3qshllveacsvmph6of2dv4an31micd9o.apps.googleusercontent.com
 --- !u!4 &1589618626
 Transform:

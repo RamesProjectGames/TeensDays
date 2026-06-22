@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         UpdateLevelButtons();
+        GetLevelRetries();
     }
 
     private void OnEnable()

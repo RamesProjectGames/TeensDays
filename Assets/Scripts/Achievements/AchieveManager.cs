@@ -11,7 +11,6 @@ public class AchieveManager : MonoBehaviour
     public static AchieveManager Instance => instance;
 
     [SerializeField] private AchievementScriptableObject[] defaultAchievements;
-    public Image achieveAnnoun;
     public AudioSource achieveAnnounAudio;
     
     public List<AchievementData> playerAchievements = new List<AchievementData>();
@@ -160,20 +159,22 @@ public class AchieveManager : MonoBehaviour
 
     public void ShowAchievePanel(string achievementId = "")
     {
-        if (achieveAnnoun == null || achieveAnnounAudio == null)
+        if (achieveAnnounAudio == null)
+        {
+            Debug.LogWarning("Achievement announcement UI components not assigned");
+            return;
+        }
+
+        var achieveAnnoun = FindAnyObjectByType<AchievementUIPanel>();
+
+        if(achieveAnnoun == null)
         {
             Debug.LogWarning("Achievement announcement UI components not assigned");
             return;
         }
 
         achieveAnnounAudio.Play();
-        LeanTween.moveY(achieveAnnoun.rectTransform, 280, .7f).setOnComplete(() =>
-        {
-            LeanTween.delayedCall(5f, () =>
-            {
-                LeanTween.moveY(achieveAnnoun.rectTransform, 430, .7f);
-            });
-        });
+        achieveAnnoun.ShowPopUp();
     }
 
     public AchievementData GetAchievement(string achievementId)

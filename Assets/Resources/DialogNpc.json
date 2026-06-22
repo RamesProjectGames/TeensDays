@@ -1,19 +1,19 @@
 {
-   "npcs": [
+  "npcs": [
     {
       "id": "npc_1",
       "name": "IBU",
       "dialog": [
         {
-    "speaker": "BOBON",
-    "isPlayer": true,
-    "text": "Ibu, Bobon berangkat dulu, ya!"
-  },
-  {
-    "speaker": "IBU",
-    "isPlayer": false,
-    "text": "Iya, Bon. Hati-hati di jalan, ya. Belajar yang semangat!"
-  }
+          "speaker": "BOBON",
+          "isPlayer": true,
+          "text": "Ibu, Bobon berangkat dulu, ya!"
+        },
+        {
+          "speaker": "IBU",
+          "isPlayer": false,
+          "text": "Iya, Bon. Hati-hati di jalan, ya. Belajar yang semangat!"
+        }
       ],
       "givesQuest": true,
       "isMainQuest": true,
@@ -27,15 +27,79 @@
       "name": "BU GURU MIRA",
       "dialog": [
         {
-    "speaker": "BU GURU MIRA",
-    "isPlayer": false,
-    "text": "Selamat pagi, Bobon! Nama ibu Bu Mira,guru kelas kamu di Sekolah Tunas Unggul Harapan. Ayo, cepat masuk! Kelas akan segera dimulai."
-  }
+          "speaker": "BU GURU MIRA",
+          "isPlayer": false,
+          "text": "Selamat pagi, Bobon! Nama ibu Bu Mira,guru kelas kamu di Sekolah Tunas Unggul Harapan. Ayo, cepat masuk! Kelas akan segera dimulai."
+        }
       ],
       "givesQuest": true,
       "isMainQuest": true,
       "isSubQuest": false,
       "isSideQuest": false,
+      "parentIndex": 0,
+      "questIndex": 1
+    },
+    {
+      "id": "Pak Cahyo Incomplete",
+      "name": "PAK CAHYO",
+      "dialog": [
+        {
+          "speaker": "Pak Cahyo",
+          "isPlayer": false,
+          "text": "Wadoooh, bagaimana ini, kok banyak sampah begini di sini? \n Siapa lagi bocah-bocah nakal tadi yang main-main di sini?"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ada apa, Pak Cahyo?"
+        },
+        {
+          "speaker": "Pak Cahyo",
+          "isPlayer": false,
+          "text": "Oh, dek Bobon. \nIya, nih, tadi ada murid-murid nakal main di sini, nggak diberesin habis itu. \nIni, kan, jadi kotor jalanannya."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Oh, begitu, Pak. \nNggak apa-apa, Bapak! \nBobon di sini! Bobon siap bantu beresin!"
+        },
+        {
+          "speaker": "Pak Cahyo",
+          "isPlayer": false,
+          "text": "Wah, nggak keberatan, nih, dek Bobon? \nWalah walah, terima kasih, ya."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Aman, Pak Cahyo!"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": false,
+      "isSideQuest": true,
+      "parentIndex": 0,
+      "questIndex": 1
+    },
+    {
+      "id": "Pak Cahyo Complete",
+      "name": "PAK CAHYO",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Lapor, Pak Cahyo! Bobon sudah membersihkan semua sampah-sampahnya!"
+        },
+        {
+          "speaker": "Pak Cahyo",
+          "isPlayer": true,
+          "text": "Wah, hebat, dek Bobon! Terima kasih, ya,dek, ya."
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": false,
+      "isSideQuest": true,
       "parentIndex": 0,
       "questIndex": 1
     }

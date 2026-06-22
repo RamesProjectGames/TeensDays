@@ -26,28 +26,27 @@ public class FOGManager : MonoBehaviour
         var unlockedClass = GameManager.Instance.playerData.unlockedLevel;
         foreach (var building in buildings)
         {
-            if (IsBetween(unlockedClass, building.unlockedClassMin, building.unlockedClassMax))
-            {
-                StartCoroutine(
-                    ShowObjectAfterDelay(
-                        unlockedClass,
-                        building.fogParticle,
-                        building.Building,
-                        building.Construction));
-            }
+            StartCoroutine(
+                ShowObjectAfterDelay(
+                    unlockedClass,
+                    building.unlockedClassMin,
+                    building.unlockedClassMax,
+                    building.fogParticle,
+                    building.Building,
+                    building.Construction));
         }
     }
-    private IEnumerator ShowObjectAfterDelay(int unlockedClass,GameObject fog,GameObject building, GameObject construction)
+    private IEnumerator ShowObjectAfterDelay(int unlockedClass, int minClass, int MaxClass,GameObject fog,GameObject building, GameObject construction)
     {
         var showFog = false;
 
-        if (unlockedClass >= 7 && !GameManager.Instance.playerData.unlockedSMP)
+        if (IsBetween(unlockedClass, minClass , MaxClass) && !GameManager.Instance.playerData.unlockedSMP)
         {
             GameManager.Instance.playerData.unlockedSMP = true;
             showFog = true;
         }
 
-        if (unlockedClass >= 10 && !GameManager.Instance.playerData.unlockedSMA)
+        if (IsBetween(unlockedClass, minClass , MaxClass)&& !GameManager.Instance.playerData.unlockedSMA)
         {
             GameManager.Instance.playerData.unlockedSMA = true;
             showFog = true;

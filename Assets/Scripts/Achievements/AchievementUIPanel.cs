@@ -9,6 +9,7 @@ public class AchievementUIPanel : MonoBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private Text achievementCountText;
     [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private RectTransform achievementPopUp;
 
     private List<AchievementUIItem> instantiatedItems = new List<AchievementUIItem>();
 
@@ -94,5 +95,19 @@ public class AchievementUIPanel : MonoBehaviour
     public void ClosePanel()
     {
         gameObject.SetActive(false);
+    }
+    public void ShowPopUp()
+    {
+        if(achievementPopUp = null)
+        {
+            return;
+        }
+        achievementPopUp.LeanMoveY(280, .7f).setOnComplete(() =>
+        {
+            LeanTween.delayedCall(5f, () =>
+            {
+                achievementPopUp.LeanMoveY(430, .7f);
+            });
+        });
     }
 }

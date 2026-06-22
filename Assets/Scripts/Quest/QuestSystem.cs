@@ -30,7 +30,6 @@ public class QuestSystem : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
     }
 
     private void Start()
@@ -261,6 +260,12 @@ public class QuestSystem : MonoBehaviour
             }
         }
     }
+    public Quest GetQuest(string questName, bool isSideQuest = false)
+    {
+         List<Quest> questList = isSideQuest ? sideQuests : quests;
+         Quest quest = questList.Find(x=>x.text == questName);
+         return quest;
+    }
     [ContextMenu("Test Mark Main Quest 0 Subquest 0 Done")]
     public void SaveQuests()
     {
@@ -448,8 +453,8 @@ public class QuestSystem : MonoBehaviour
                  Debug.Log($"✅ Semua subquest side quest '{quest.text}' selesai!");
                  quest.isDone = true;
                  GameManager.Instance.playerData.expLevel += quest.expForQuest;
-                 currentSideQuestIndex++;
-                 ActivateQuestObject(currentSideQuestIndex);
+                //  currentSideQuestIndex++;
+                //  ActivateQuestObject(currentSideQuestIndex);
              }
 
         }

@@ -21,6 +21,7 @@ public class PlayerInteraction : MonoBehaviour
     private Quaternion originalRotation;
     public bool wasPatrolling = false;
 
+
     //public TMP_Text nameText;
     //public TMP_Text dialogText;
 
@@ -82,13 +83,13 @@ public class PlayerInteraction : MonoBehaviour
             currentNPC = null;
             floatingButton.SetActive(false);
         }
-        //Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
+        // Collider[] interactHits = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
 
         //Debug.Log(hits.Length);
 
-        //if (hits.Length > 0)
+        //if (interactHits.Length > 0)
         //{
-        //    currentNPC = hits[0].GetComponent<InteractableNPC>();
+        //    currentNPC = interactHits[0].GetComponent<Item>();
         //    if (currentNPC != null)
         //        floatingButton.SetActive(true);
 
@@ -105,6 +106,8 @@ public class PlayerInteraction : MonoBehaviour
         if (currentNPC == null) return;
 
         npcBeingTalkedTo = currentNPC;  // <-- Kunci NPC saat ini
+
+        npcBeingTalkedTo.OnTalkStart?.Invoke();
 
         SetChatBubbleVisible(true);
 
@@ -362,6 +365,8 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
+        npcBeingTalkedTo.onTalkEnded?.Invoke();
+
         npcBeingTalkedTo = null;  // <— penting
 
         if (currentNPC != null)
@@ -389,6 +394,8 @@ public class PlayerInteraction : MonoBehaviour
         leftBubble.SetActive(false);
         rightBubble.SetActive(false);
 
+
+
         dialogIndex = 0;
         SetChatBubbleVisible(false);
         OnQuestButtonClicked();
@@ -406,7 +413,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
         nextQuest = QuestSystem.instance.quests[nextQuestIndex];
-        if (nextQuest.targetTransform != null)
+        if (nextQuest.targetTransform != null && !nextQuest.isDone)
         {
             QuestSystem.instance.AddNewQuest(
                 nextQuest,
