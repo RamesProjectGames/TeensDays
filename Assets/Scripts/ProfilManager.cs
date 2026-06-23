@@ -24,6 +24,8 @@ public class ProfilManager : MonoBehaviour
     public TMP_InputField nameTextProf;
     public Button EditNameButton;
     public Transform changeNameProf;
+    public TMP_Text changeNameDesc;
+    public Button ChangeNameButton;
     public GameObject bobonPreviewPrefab;
     public InspectObject bobonPreview;
 
@@ -172,7 +174,8 @@ public class ProfilManager : MonoBehaviour
         {
             return;
         }
-        if(string.IsNullOrEmpty(newName) || string.Compare(newName, GameManager.Instance.playerData.displayName) == 0)
+        bool noChanges = string.IsNullOrEmpty(newName) || string.Compare(newName, GameManager.Instance.playerData.displayName) == 0;
+        if(noChanges)
         {            
             nameTextProf.text = GameManager.Instance.playerData.displayName;
         }
@@ -184,9 +187,12 @@ public class ProfilManager : MonoBehaviour
         nameTextProf.interactable = false;
         EditNameButton.interactable = true;
         nameTextProf.DeactivateInputField();
-        GameManager.Instance.playerData.replaceNameCooldown = DateTimeOffset.UtcNow.AddHours(72).ToUnixTimeMilliseconds();
-        GameManager.Instance.playerData.displayName = nameTextProf.text;
-        GameManager.Instance.SavePlayerDataToCloud();
+        if(!noChanges)
+        {
+            GameManager.Instance.playerData.replaceNameCooldown = DateTimeOffset.UtcNow.AddHours(72).ToUnixTimeMilliseconds();
+            GameManager.Instance.playerData.displayName = nameTextProf.text;
+            GameManager.Instance.SavePlayerDataToCloud();            
+        }
     }
     public void CancelChange()
     {
@@ -209,10 +215,14 @@ public class ProfilManager : MonoBehaviour
             string remainingTimeText = $"{timeLeft.Days}d {timeLeft.Hours}h {timeLeft.Minutes}m left";
 
             //Added To UI, Disable Button Change
+            changeNameDesc.text = $"Nickname can be change again after {remainingTimeText}, Are you sure to change’it ?";
+            ChangeNameButton.interactable = false;
         }
         else
         {
             // Debug.Log("You can change your name now!");
+            changeNameDesc.text = "are you sure to change name? (you can only change name after 72 hours you've chnage it)";
+            ChangeNameButton.interactable = true;
             if (nameTextProf.readOnly)
             {
                 nameTextProf.readOnly = false;
