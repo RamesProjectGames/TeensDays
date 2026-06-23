@@ -101,6 +101,75 @@
       "isSubQuest": false,
       "isSideQuest": true,
       "parentIndex": 0,
+      "questIndex": 2
+    },
+    {
+      "id": "Belanja Buat Ibu (Incomplete)",
+      "name": "IBU",
+      "dialog": [
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Eh, Bobon, udah pulang, nak?"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Sini sini, bantu ibu sebentar!"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ada apa, Bu?"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Ini, Bon, ibu baru mau pergi belanja ke pasar, tadi, tapi ibu lagi nunggu paket. "
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Tolong bantu ibu belanjakan kebutuhan dapur, ya,nak."
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Nih, daftar belanja sama uangnya."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Siap, Bu! Bobon akan segera kembali!"
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 3,
+      "questIndex": 1
+    },
+    {
+      "id": "Belanja Buat Ibu (Complete)",
+      "name": "IBU",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ibu, ini barang belanjaannya sudah Bobon belikan. "
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Wah, hebat anak ibu! Terima kasih, ya, nak Bobon!"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 3,
       "questIndex": 1
     }
   ]

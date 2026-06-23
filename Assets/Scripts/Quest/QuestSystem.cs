@@ -513,7 +513,7 @@ public class QuestSystem : MonoBehaviour
         }
     }
 
-    public void AddNewQuest(Quest questData, bool isMainQuest, bool isSubquest = false, bool isSideQuest = false)
+    public void AddNewQuest(Quest questData, bool isMainQuest, bool isSubquest = false, int subQuestIndex = 0, bool isSideQuest = false)
     {
         GameObject newItem = Instantiate(questUIManager.questItemPrefab);
 
@@ -573,11 +573,19 @@ public class QuestSystem : MonoBehaviour
             sub.questText = subText;
             sub.questOutline = subItem.GetComponent<Outline>();
         }
-
-        if (questData.targetTransform != null)
+        Transform targetTransform = null;
+        if(isSubquest)
         {
-            questPathManager.SetQuestTarget(questData.targetTransform);
-            Debug.Log($"🎯 Quest target diatur ke: {questData.targetTransform.name}");
+            targetTransform = questData.subQuests[subQuestIndex].targetTransform;
+        }
+        else
+        {
+            targetTransform = questData.targetTransform;
+        }
+        if (targetTransform!= null)
+        {
+            questPathManager.SetQuestTarget(targetTransform);
+            Debug.Log($"🎯 Quest target diatur ke: {targetTransform}");
         }
         else
         {

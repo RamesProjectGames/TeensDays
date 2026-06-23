@@ -306,6 +306,7 @@ public class PlayerInteraction : MonoBehaviour
                 QuestSystem.instance.quests[currentQuestIndex],
                 true,   // isMainQuest
                 false,  // isSubQuest
+                0,
                 false   // isSideQuest
             );
             QuestSystem.instance.questPathManager
@@ -419,6 +420,7 @@ public class PlayerInteraction : MonoBehaviour
                 nextQuest,
                 true,   // isMainQuest
                 false,  // isSubQuest
+                0,
                 false   // isSideQuest
             );
             QuestSystem.instance.questPathManager
@@ -469,21 +471,21 @@ public class PlayerInteraction : MonoBehaviour
         {
             QuestSystem.instance.AddNewQuest(
                 QuestSystem.instance.quests[npcData.parentIndex].subQuests[npcData.questIndex],
-                false, true, false
+                false, true,0, false
             );
         }
         else if (npcData.isSideQuest)
         {
             QuestSystem.instance.AddNewQuest(
                 QuestSystem.instance.sideQuests[npcData.questIndex],
-                false, false, true
+                false, false,0, true
             );
         }
         else if (npcData.isMainQuest)
         {
             QuestSystem.instance.AddNewQuest(
                 QuestSystem.instance.quests[npcData.questIndex],
-                true, false, false
+                true, false,0, false
             );
         }
     }
