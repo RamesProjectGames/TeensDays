@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingManager : MonoBehaviour
@@ -23,7 +24,12 @@ public class SettingManager : MonoBehaviour
     public float minXSpeed = 150f;
     public float maxXSpeed = 500f;
     public TextMeshProUGUI sensitivityText;
-
+    [Header("Account Settings")]
+    public GameObject accountPanel;
+    public Transform popUpAccountPanel;
+    public Sprite linkedGoogle, unlinkGoogle;
+    public Image saveProgress;
+    public Button loginGoogle;
 private void Start()
 {
     sliderMusic.onValueChanged.AddListener(UpdateValueText);
@@ -49,6 +55,8 @@ private void Start()
 
     // Set awal
     UpdateCameraSensitivity(sensitivitySlider.value);
+
+    UpdateSavedAccount();
 }
 
     void UpdateValueText(float value)
@@ -111,6 +119,56 @@ private void Start()
             // Update teks angka
             float displayValue = Mathf.Lerp(1f, 10f, value);
             sensitivityText.text = displayValue.ToString("0.0");
+        }
+    }
+    public void UpdateSavedAccount()
+    {
+        if(AuthenticationManager.Singleton!=null)
+        {
+            if(AuthenticationManager.Singleton.IsSignedInWithGoogle())
+            {
+                saveProgress.sprite = linkedGoogle;
+                loginGoogle.interactable= false;
+            }
+            else
+            {
+                saveProgress.sprite = unlinkGoogle;
+                loginGoogle.interactable = true;
+            }
+        }
+    }
+    public void LinkAccount()
+    {
+        if(AuthenticationManager.Singleton!=null)
+        {
+            AuthenticationManager.Singleton.LinkWithGoogleAsync();
+        }
+    }
+    public void DeleteAccount()
+    {
+        if(AuthenticationManager.Singleton!=null)
+        {
+            AuthenticationManager.Singleton.DeleteAccount(() =>
+            {
+                SceneManager.LoadScene("MainMenu");
+            });
+        }
+    }
+    public void OpenAccountPanel(bool isOpen)
+    {
+        if(isOpen)
+        {
+            popUpAccountPanel.LeanScale(Vector3.one, 1).setOnStart(() =>
+            {
+                accountPanel.SetActive(true);                
+            });
+        }
+        else
+        {
+            popUpAccountPanel.LeanScale(Vector3.zero, 1).setOnComplete(() =>
+            {
+                accountPanel.SetActive(false);
+            });
         }
     }
 }

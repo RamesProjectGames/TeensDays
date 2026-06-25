@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5226258981600306878}
+  - component: {fileID: 594395680539288859}
   m_Layer: 5
   m_Name: SubQuest_GO
   m_TagString: Untagged
@@ -37,6 +38,29 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 17}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &594395680539288859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2666165897537074973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf91913920f50f4dbae8a766946449c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest:
+    questText: {fileID: 0}
+    text: 
+    expForQuest: 0
+    targetTransform: {fileID: 0}
+    questObjectAnnoun: {fileID: 0}
+    npcObject: {fileID: 0}
+    isDone: 0
+    subQuests: []
+    questUIObject: {fileID: 0}
+    questOutline: {fileID: 0}
 --- !u!1 &2749950548298670892
 GameObject:
   m_ObjectHideFlags: 0

@@ -174,8 +174,8 @@ public class QuestSystem : MonoBehaviour
                 }
                 UpdateSingleQuestDisplay(side);
             }
-        }
-        
+        }        
+        QuestPageManager.Instance.PopulateQuestPage();
     }
     public void SetCurrentQuestIndex(int index)
     {
@@ -246,6 +246,7 @@ public class QuestSystem : MonoBehaviour
                     UpdateSingleQuestDisplay(parent);
                 }
 
+                QuestPageManager.Instance.UpdateQuestPage();
                 _ = SaveQuestsAsync();
             }
         }
@@ -256,6 +257,7 @@ public class QuestSystem : MonoBehaviour
                 var q = questList[questIndex];
                 q.isDone = true;
                 UpdateSingleQuestDisplay(q);
+                QuestPageManager.Instance.UpdateQuestPage();
                 _ = SaveQuestsAsync();
             }
         }
@@ -515,63 +517,78 @@ public class QuestSystem : MonoBehaviour
 
     public void AddNewQuest(Quest questData, bool isMainQuest, bool isSubquest = false, int subQuestIndex = 0, bool isSideQuest = false)
     {
-        GameObject newItem = Instantiate(questUIManager.questItemPrefab);
-
-        if (isMainQuest)
+        // Check if there are any duplicate with UI
+        List<QuestUI> shownQuest = new List<QuestUI>();
+        if(isMainQuest)
         {
-            newItem.transform.SetParent(questUIManager.panelMainQuestList, false);
-
+            shownQuest = questUIManager.panelMainQuestList.GetComponentsInChildren<QuestUI>().ToList();
         }
         else
         {
-            newItem.transform.SetParent(questUIManager.panelSubQuestList, false);
+            shownQuest = questUIManager.panelSubQuestList.GetComponentsInChildren<QuestUI>().ToList();
         }
+        if(!shownQuest.Exists(x=>x.quest.text == questData.text))
+        {
+            GameObject newItem = Instantiate(questUIManager.questItemPrefab);
 
-        TMP_Text questText = newItem.GetComponentInChildren<TMP_Text>();
-        if (isMainQuest && !isSubquest)
-        {
-            questText.color = Color.yellow;
-        }
-        else if (!isMainQuest && isSubquest)
-        {
-            Color customBlue;
-            if (ColorUtility.TryParseHtmlString("#00EEFF", out customBlue))
+            newItem.GetComponent<QuestUI>().SetQuest(questData);
+
+            if (isMainQuest)
             {
-                questText.color = customBlue;
+                newItem.transform.SetParent(questUIManager.panelMainQuestList, false);
+
             }
-        }
+            else
+            {
+                newItem.transform.SetParent(questUIManager.panelSubQuestList, false);
+            }
 
-        // Judul quest
-        TMP_Text mainText = newItem.GetComponentInChildren<TMP_Text>();
-        mainText.text = questData.text;
+            TMP_Text questText = newItem.GetComponentInChildren<TMP_Text>();
+            if (isMainQuest && !isSubquest)
+            {
+                questText.color = Color.yellow;
+            }
+            else if (!isMainQuest && isSubquest)
+            {
+                Color customBlue;
+                if (ColorUtility.TryParseHtmlString("#00EEFF", out customBlue))
+                {
+                    questText.color = customBlue;
+                }
+            }
 
-        // Simpan referensi
-        questData.questUIObject = newItem;
-        questData.questText = mainText;
-        questData.questOutline = newItem.GetComponent<Outline>();
+            // Judul quest
+            TMP_Text mainText = newItem.GetComponentInChildren<TMP_Text>();
+            mainText.text = questData.text;
 
-        // Spawn subquest
-        Transform subQuestParent = newItem.transform.Find("Content");
+            // Simpan referensi
+            questData.questUIObject = newItem;
+            questData.questText = mainText;
+            questData.questOutline = newItem.GetComponent<Outline>();
 
-        if (subQuestParent == null)
-        {
-            Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
-        }
+            // Spawn subquest
+            Transform subQuestParent = newItem.transform.Find("Content");
 
-        foreach (var sub in questData.subQuests)
-        {
-            Debug.Log("Subquest masuk");
+            if (subQuestParent == null)
+            {
+                Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
+            }
 
-            if (sub.questUIObject != null) continue;
+            foreach (var sub in questData.subQuests)
+            {
+                Debug.Log("Subquest masuk");
 
-            GameObject subItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
-            TMP_Text subText = subItem.GetComponentInChildren<TMP_Text>();
-            subText.text = sub.text;
+                if (sub.questUIObject != null) continue;
 
-            // simpan referensi subquest → supaya bisa di-update nanti
-            sub.questUIObject = subItem;
-            sub.questText = subText;
-            sub.questOutline = subItem.GetComponent<Outline>();
+                GameObject subItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
+                TMP_Text subText = subItem.GetComponentInChildren<TMP_Text>();
+                subText.text = sub.text;
+
+                // simpan referensi subquest → supaya bisa di-update nanti
+                sub.questUIObject = subItem;
+                sub.questText = subText;
+                sub.questOutline = subItem.GetComponent<Outline>();
+            }
         }
         Transform targetTransform = null;
         if(isSubquest)

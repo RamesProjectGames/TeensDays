@@ -170,7 +170,6 @@ public class AuthenticationManager : MonoBehaviour
     #region Google Sign In
     public async void SignInWithGoogle()
     {
-
         try
         {
             // Initialize Google Sign-In if not already done
@@ -409,7 +408,7 @@ public class AuthenticationManager : MonoBehaviour
     }
     #endregion
 
-    public async void SignOut()
+    public async void SignOut(Action onSignedOut = null)
     {
         if (googleAuthenticated)
         {
@@ -442,10 +441,11 @@ public class AuthenticationManager : MonoBehaviour
             });
         }
         FirebaseAuth.DefaultInstance.SignOut();
+        onSignedOut?.Invoke();
         // No need to delete ExistPlayer key as we're using cloud storage
     }
 
-    public async void DeleteAccount()
+    public async void DeleteAccount(Action onDeleteAccount = null)
     {
         Debug.Log("Deleting account");
         if (auth.CurrentUser == null)
@@ -472,7 +472,7 @@ public class AuthenticationManager : MonoBehaviour
                 Debug.Log("Anonymous user deleted successfully.");
             }
         });
-        FirebaseAuth.DefaultInstance.SignOut();
+        SignOut(onDeleteAccount);
         PlayerPrefs.DeleteKey("ExistPlayer");
     }
     public bool IsSignedInWithGoogle()
