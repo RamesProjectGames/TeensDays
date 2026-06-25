@@ -9,6 +9,7 @@ public class Quest
 {
     public TMP_Text questText;
     public string text;
+    public string description;
     public int expForQuest;
     public Transform targetTransform;
     public GameObject questObjectAnnoun;
@@ -19,6 +20,7 @@ public class Quest
 
     public GameObject questUIObject;   // referensi prefab UI
     public Outline questOutline;       // referensi Outline UI
+    public List<QuestReward> questRewards = new List<QuestReward>();
 
     public bool IsFullyCompleted()
     {
@@ -37,4 +39,11 @@ public class QuestData
         // Quest utama selesai jika dirinya dan semua subquest selesai
         return isDone && subQuests.All(sq => sq.isDone);
     }
+}
+[System.Serializable]
+public class QuestReward
+{
+    public string rewardId;
+    public int rewardAmount;
+    public Sprite rewardIcon;
 }
