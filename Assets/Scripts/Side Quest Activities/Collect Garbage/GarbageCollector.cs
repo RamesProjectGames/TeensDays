@@ -27,6 +27,11 @@ public class GarbageCollector : MonoBehaviour
         spawner.PoolObejct(currentTotalSpawn);
         triggerStartQuest.SetActive(false);
         triggerEndQuest.SetActive(false);
+        var questRelated = QuestSystem.instance.GetQuest(questName,true);
+        if(questRelated != null)
+        {
+            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected Garbage {currentTotalCollected} / {currentTotalCollected}");
+        }
     }
     public void Collect()
     {
@@ -47,6 +52,14 @@ public class GarbageCollector : MonoBehaviour
                 {
                     GameManager.Instance.playerData.currMoney += repeatableRewradAmount;
                 }
+            }
+        }
+        else
+        {
+            var questRelated = QuestSystem.instance.GetQuest(questName,true);
+            if(questRelated != null)
+            {
+                QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected Garbage {currentTotalCollected} / {currentTotalCollected}");                
             }
         }
     }

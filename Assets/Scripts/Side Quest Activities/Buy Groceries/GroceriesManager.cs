@@ -53,28 +53,47 @@ public class GroceriesManager : MonoBehaviour
             interactable.npcId = completedDialogue;
             interactable.onTalkEnded.RemoveAllListeners();
         }
+        string listOfGroceries = "Barang Belanja : \n";
         for (int i = 0; i < groceriesLocations.Count; i++)
         {
             groceriesLocations[i].SetActive(i == currentGrocery);
+            if(i> currentGrocery)
+            {
+                listOfGroceries += $"{groceriesLocations[i].name} \n";
+            }
+            else
+            {
+                listOfGroceries += $"<s>{groceriesLocations[i].name}<s> \n";
+            }
         }
         QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,0,true);
+        QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,listOfGroceries);
     }
     public void ProgressQuest()
     {
         if(currentGrocery < groceriesLocations.Count)
         {
             currentGrocery+=1;
+            QuestPathManager.Instance.SetQuestTarget(groceriesLocations[currentGrocery].transform);
         }
         else
         {
             FinishQuest();
-            return;
         }
-        QuestPathManager.Instance.SetQuestTarget(groceriesLocations[currentGrocery].transform);
+        string listOfGroceries = "Barang Belanja : \n";
         for (int i = 0; i < groceriesLocations.Count; i++)
         {
             groceriesLocations[i].SetActive(i== currentGrocery);
+            if(i> currentGrocery)
+            {
+                listOfGroceries += $"{groceriesLocations[i].name} \n";
+            }
+            else
+            {
+                listOfGroceries += $"<s>{groceriesLocations[i].name}<s> \n";
+            }
         }
+        QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,listOfGroceries);
     }
     public void FinishQuest()
     {

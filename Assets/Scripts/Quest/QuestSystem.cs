@@ -181,14 +181,14 @@ public class QuestSystem : MonoBehaviour
     {
         currentQuestIndex = index;
         GameManager.Instance.playerData.questIndex = index; // Sync ke playerData
-        ActivateQuestObject(currentQuestIndex);
+        ActivateQuestObject(currentQuestIndex,true);
         UpdateNPCs();
     }
     public void SetCurrentSideQuestIndex(int index)
     {
         currentSideQuestIndex = index;
         GameManager.Instance.playerData.sideQuestIndex = index; // Sync ke playerData
-        ActivateQuestObject(currentSideQuestIndex);
+        ActivateQuestObject(currentSideQuestIndex,false);
     }
     public int GetCurrentQuestIndex()
     {
@@ -436,7 +436,7 @@ public class QuestSystem : MonoBehaviour
                  quest.isDone = true;
                  GameManager.Instance.playerData.expLevel += quest.expForQuest;
                  currentQuestIndex++;
-                 ActivateQuestObject(currentQuestIndex);
+                 ActivateQuestObject(currentQuestIndex,true);
                  UpdateNPCs();
              }
         }
@@ -460,8 +460,6 @@ public class QuestSystem : MonoBehaviour
              }
 
         }
-
-
     }
     public void UpdateNPCs()
     {
@@ -476,18 +474,23 @@ public class QuestSystem : MonoBehaviour
         }
     }
 
-    public void ActivateQuestObject(int index)
+    public void ActivateQuestObject(int index, bool isMain)
     {
-        for (int i = 0; i < quests.Count; i++)
+        if(isMain)
         {
-            if (quests[i].questUIObject != null)
-                quests[i].questUIObject.SetActive(i == index);
+            for (int i = 0; i < quests.Count; i++)
+            {
+                if (quests[i].questUIObject != null)
+                    quests[i].questUIObject.SetActive(i == index);
+            }
         }
-
-        for (int i = 0; i < sideQuests.Count; i++)
+        else
         {
-            if (sideQuests[i].questUIObject != null)
-                sideQuests[i].questUIObject.SetActive(i == index);
+            for (int i = 0; i < sideQuests.Count; i++)
+            {
+                if (sideQuests[i].questUIObject != null)
+                    sideQuests[i].questUIObject.SetActive(i == index);
+            }
         }
     }
 
@@ -522,10 +525,12 @@ public class QuestSystem : MonoBehaviour
         if(isMainQuest)
         {
             shownQuest = questUIManager.panelMainQuestList.GetComponentsInChildren<QuestUI>().ToList();
+            SetCurrentQuestIndex(quests.FindIndex(x=>x==questData));
         }
         else
         {
             shownQuest = questUIManager.panelSubQuestList.GetComponentsInChildren<QuestUI>().ToList();
+            SetCurrentSideQuestIndex(sideQuests.FindIndex(x=>x==questData));
         }
         if(!shownQuest.Exists(x=>x.quest.text == questData.text))
         {
@@ -609,7 +614,53 @@ public class QuestSystem : MonoBehaviour
             Debug.LogWarning($"⚠️ Quest '{questData.text}' tidak memiliki targetTransform!");
         }
     }
+    public void UpdateCurrentQuestInfo(Quest questData, bool isMainQuest, string AddOnSubQuest)
+    {
+        List<QuestUI> shownQuest = new List<QuestUI>();
+        if(isMainQuest)
+        {
+            shownQuest = questUIManager.panelMainQuestList.GetComponentsInChildren<QuestUI>().ToList();
+        }
+        else
+        {
+            shownQuest = questUIManager.panelSubQuestList.GetComponentsInChildren<QuestUI>().ToList();
+        }
+        var currentQuest = shownQuest.Find(x=>x.quest.text == questData.text);
+        if(currentQuest != null)
+        {
+            Transform subQuestParent = currentQuest.transform.Find("Content");
 
+            if (subQuestParent == null)
+            {
+                Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
+            }
+
+            for (int i = 0; i < questData.subQuests.Count; i++)
+            {
+                Quest sub = questData.subQuests[i];
+
+                if (sub.questUIObject != null) continue;
+
+                GameObject subItem = subQuestParent.GetChild(i).gameObject;
+                TMP_Text subText = subItem.GetComponentInChildren<TMP_Text>();
+                subText.text = sub.text;
+
+                // simpan referensi subquest → supaya bisa di-update nanti
+                sub.questUIObject = subItem;
+                sub.questText = subText;
+                sub.questOutline = subItem.GetComponent<Outline>();
+            }
+
+            GameObject addOnSubItem = subQuestParent.GetChild(questData.subQuests.Count).gameObject;
+            if(addOnSubItem == null)
+            {
+                addOnSubItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
+            }
+            TMP_Text addOnSubText = addOnSubItem.GetComponentInChildren<TMP_Text>();
+            addOnSubText.text = AddOnSubQuest;
+            addOnSubItem.SetActive(string.IsNullOrEmpty(AddOnSubQuest));
+        }
+    }
     #region CheatCode
     public void HandleMainQuestCheatCode()
     {
