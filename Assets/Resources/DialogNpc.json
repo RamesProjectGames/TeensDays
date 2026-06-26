@@ -171,6 +171,120 @@
       "isSideQuest": true,
       "parentIndex": 3,
       "questIndex": 1
+    },    
+    {
+      "id": "Pagar Pak Bagus (Incomplete)",
+      "name": "PAK BAGUS",
+      "dialog": [
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Eh, Dek Bobon! Lagi ngapain, Bon?"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pagi, Pak Bagus! Bobon nggak lagi ngapa-ngapain, pak"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pak Bagus apa butuh bantuan Bobon?"
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Oh nggak lah, Bon, Bapak cuman baru mau ngecat pager, tapi istri Bapak baru nelpon."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": " Biasa, minta dibeliin beras."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Yee.... jadi Bapak tunda dulu ngecatnye. "
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Nih,lagi beres-beres."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Oooh, gitu. Gak apa-apa, Pak Bagus!"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Bobon bersedia bantuin Bapak ngecat pagar rumah Bapak."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Bobon bersedia bantuin Bapak ngecat pagar rumah Bapak."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Wah, yang bener ni, Bon? Kagak nape-nape sih"
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Cuman takutnye ngerepotin Dek Bobon aje."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Tenang, Pak Bagus! Bobon janji Bobon mengerjakannya dengan senang hati."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Oh kalo gitu, makasi banyak ye, Dek Bobon."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Ini catnye, kalo udah kelar, taro aja di pojokan, ye?"
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Bapak pamit ke pasar dulu."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Siap, Pak!"
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 4,
+      "questIndex": 0
+    },
+    {
+      "id": "Pagar Pak Bagus (Complete)",
+      "name": "PAK BAGUS",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Selesai! Waktunya merapihkan alat cat Pak Bagus."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 4,
+      "questIndex": 1
     }
   ]
 }
