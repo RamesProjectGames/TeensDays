@@ -16,6 +16,7 @@ public class PaintManager : MonoBehaviour
     public int repeatableRewradAmount;    
     InteractableNPC interactable;
     [Header("Painting")]
+    public GameObject paintingUI;
     public Color brushColor = Color.red;
     [Range(1,100)]
     public int brushRadius = 20;
@@ -26,19 +27,19 @@ public class PaintManager : MonoBehaviour
 
     [Tooltip("White pixels = required paint area")]
     [SerializeField] private Image targetImage;
+    [SerializeField] private RawImage rawImage;
     private Texture2D targetTexture;
 
     public UnityEvent<float> onProgressChanged;
     public UnityEvent onCompleted;
 
-    private RawImage rawImage;
     private Texture2D paintTexture;
 
     private bool completed;
 
     void Awake()
     {
-        rawImage = GetComponent<RawImage>();
+        // rawImage = GetComponent<RawImage>();
 
         targetTexture = targetImage.sprite.texture;
 
@@ -56,11 +57,12 @@ public class PaintManager : MonoBehaviour
     }
     void Start()
     {
-         if(NPCRelated.TryGetComponent<InteractableNPC>(out var interactable))
+        if(NPCRelated.TryGetComponent<InteractableNPC>(out var interactable))
         {
             this.interactable = interactable;
         }
         NPCRelated.SetActive(false);
+        paintingUI.SetActive(false);
     }
 
     void Update()
@@ -75,6 +77,7 @@ public class PaintManager : MonoBehaviour
     public void ActivateQuest()
     {        
         NPCRelated.SetActive(true);
+        paintingUI.SetActive(true);
         if(interactable !=null)
         {
             interactable.npcId = inCompleteDialogue;

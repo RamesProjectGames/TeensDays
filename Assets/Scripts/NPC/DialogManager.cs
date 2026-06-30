@@ -7,7 +7,7 @@ public class DialogManager : MonoBehaviour
 {
     public static DialogManager Instance;
 
-    private NPCDialogList dialogList;
+    [SerializeField] private NPCDialogList dialogList;
 
     void Awake()
     {

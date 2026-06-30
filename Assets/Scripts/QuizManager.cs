@@ -52,7 +52,6 @@ public class QuizManager : MonoBehaviour
 
     void Start()
     {
-
         LoadCSV();
         ShuffleSoal();
         TampilkanSoal(indexSoal);
