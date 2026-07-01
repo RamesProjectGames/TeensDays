@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static CostumeChanger;
 //using static UnityEditor.Progress;
 
 public class ItemUI : MonoBehaviour
@@ -30,11 +31,13 @@ public class ItemUI : MonoBehaviour
     public string rarityType;
     public string itemId;
     public Button buyButton;
+    public Button previewButton;
 
     public Sprite imageDiamond;
     public Sprite imageMoney;
     public bool isDiamondPayment;
     public bool isAlreadyPurchased;
+    public CostumeShopPreview costumePreview;
 
     //private void Awake()
     //{
@@ -72,7 +75,14 @@ public class ItemUI : MonoBehaviour
             currImage.sprite = imageMoney;
             priceMoney = _priceMoney;
             priceText.text = priceMoney.ToString();
-        }   
+        }
+
+        previewButton.onClick.RemoveAllListeners();
+
+        previewButton.onClick.AddListener(() =>
+        {
+            costumePreview.ShowPreview(itemId);
+        });
 
         buyButton.onClick.RemoveAllListeners();
 
@@ -81,6 +91,8 @@ public class ItemUI : MonoBehaviour
             ShopManager.instance.BuyItem(itemId);
         });
     }
+
+    
 
 
 }

@@ -9,6 +9,8 @@ public class CostumeShopPreview : MonoBehaviour
     public string itemId;
 
     public Button useButton;
+
+    private CostumeSet previewSet;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,9 +39,57 @@ public class CostumeShopPreview : MonoBehaviour
 
     private int currentIndex = 0;
 
-    public void CostumePreview()
+    private Dictionary<string, CostumeSet> costumeDict;
+
+    private void Awake()
     {
-        ApplyCostume(costumeSets[currentIndex]);
+        costumeDict = new Dictionary<string, CostumeSet>();
+
+        foreach (var set in costumeSets)
+        {
+            costumeDict.Add(set.itemId, set);
+        }
+    }
+
+    public void ShowPreview(string itemId)
+    {
+        this.itemId = itemId;
+
+        if (costumeDict.TryGetValue(itemId, out CostumeSet set))
+        {
+            previewSet = set;
+
+            ApplyPreviewCostume(set);
+        }
+    }
+
+    public void UseCostume()
+    {
+        PlayerPrefs.SetString("CurrentCostume", itemId);
+
+        if (costumeDict.TryGetValue(itemId, out CostumeSet set))
+        {
+            ApplyCostume(set);
+        }
+
+        Debug.Log("Menggunakan costume " + itemId);
+    }
+
+    //public void CostumePreview()
+    //{
+    //    ApplyCostume(costumeSets[currentIndex]);
+    //}
+
+    void ApplyPreviewCostume(CostumeSet set)
+    {
+        foreach (var part in set.parts)
+        {
+            if (part.targetRenderer == null)
+                continue;
+
+            part.targetRenderer.sharedMesh = part.mesh;
+            part.targetRenderer.material = part.material;
+        }
     }
 
     void ApplyCostume(CostumeSet set)

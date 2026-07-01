@@ -28,6 +28,8 @@ public class ShopManager : MonoBehaviour
     [Header("Filter Settings")]
     public string[] filterRarity;
 
+    public CostumeShopPreview costumePreview;
+
     private void Awake()
     {
         instance = this;
@@ -38,6 +40,11 @@ public class ShopManager : MonoBehaviour
     void Start()
     {
         //LoadShopItems();
+
+        for (int i = 0; i < itemCards.Length; i++)
+        {
+            itemCards[i].costumePreview = costumePreview;
+        }
 
         for (int i = 0; i < ShopBtns.Length; i++)
         {

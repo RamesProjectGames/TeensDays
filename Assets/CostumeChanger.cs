@@ -18,6 +18,7 @@ public class CostumeChanger : MonoBehaviour
     [System.Serializable]
     public class CostumeSet
     {
+        public string itemId;
         public string costumeName;
         public CostumePart[] parts;
     }
