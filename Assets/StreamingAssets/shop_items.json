@@ -1,57 +1,62 @@
 [
     {
-    "itemId": "skin_009",
-    "name": "Skin Santa",
-    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "itemId": "skin_001",
+    "name": "Baju Betawi",
+    "description": "Pakaian betawi merayakan adat Betwai",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": true,
+    "rarity": "epic",
+    "icon": "skin_betawi"
+  },
+  {
+    "itemId": "skin_002",
+    "name": "Baju Lebaran",
+    "description": "Pakaian lebaran untuk merayakan hari raya idul fitri",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": true,
+    "rarity": "epic",
+    "icon": "skin_lebaran"
+  },
+    {
+    "itemId": "skin_003",
+    "name": "Baju Olahraga",
+    "description": "Pakaian olahraga untuk emnjaga kesehatan tubuh",
+    "price": 200,
+    "priceMoney": 5000,
+    "isDiamondPayment": false,
+    "rarity": "rare",
+    "icon": "skin_olahraga"
+  },
+    {
+    "itemId": "skin_004",
+    "name": "Baju Kantor",
+    "description": "Pakaian kantor untuk tampil profesional",
     "price": 200,
     "priceMoney": 5000,
     "isDiamondPayment": false,
     "rarity": "common",
-    "icon": "skin_santa"
-  },
-  {
-    "itemId": "skin_010",
-    "name": "Skin Santa",
-    "description": "Pakaian Santa lucu merayakan hari raya Natal",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": false,
-    "rarity": "common"
-  },
-    {
-    "itemId": "skin_011",
-    "name": "Skin Santa",
-    "description": "Pakaian Santa lucu merayakan hari raya Natal",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": false,
-    "rarity": "common"
-  },
-    {
-    "itemId": "skin_012",
-    "name": "Skin Santa",
-    "description": "Pakaian Santa lucu merayakan hari raya Natal",
-    "price": 200,
-    "priceMoney": 5000,
-    "isDiamondPayment": false,
-    "rarity": "rare"
+    "icon": "skin_kantor"
   },
       {
-    "itemId": "skin_013",
-    "name": "Skin Santa",
-    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "itemId": "skin_005",
+    "name": "Baju Kantor Biru",
+    "description": "Pakaian kantor untuk tampil profesional dengan warna biru",
     "price": 200,
     "priceMoney": 5000,
     "isDiamondPayment": false,
-    "rarity": "rare"
+    "rarity": "common",
+    "icon": "skin_kantor_biru"
   },
       {
-    "itemId": "skin_014",
-    "name": "Skin Santa",
-    "description": "Pakaian Santa lucu merayakan hari raya Natal",
+    "itemId": "skin_006",
+    "name": "Baju Kantor Beige",
+    "description": "Pakaian kantor untuk tampil profesional dengan warna krim",
     "price": 200,
     "priceMoney": 5000,
     "isDiamondPayment": false,
-    "rarity": "rare"
+    "rarity": "common",
+    "icon": "skin_kantor_beige"
   }
 ]

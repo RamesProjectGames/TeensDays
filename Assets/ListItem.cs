@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 //using static UnityEditor.Progress;
@@ -9,11 +10,6 @@ public class ListItem : MonoBehaviour
 {
     public ShopItemList ShopItemList;
     public ShopManager shopManager;
-
-    private void Start()
-    {
-        StartCoroutine(LoadShopItems());
-    }
 
     public IEnumerator LoadShopItems()
     {
@@ -54,6 +50,19 @@ public class ListItem : MonoBehaviour
         ShopItemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
         shopManager.currentItemList = ShopItemList;
 
+        // 🔥 Sort items by rarity (legend > epic > rare > common)
+        var rarityOrder = new Dictionary<string, int>
+        {
+            { "legend", 0 },
+            { "epic", 1 },
+            { "rare", 2 },
+            { "common", 3 }
+        };
+
+        ShopItemList.items = ShopItemList.items
+            .OrderBy(item => rarityOrder.ContainsKey(item.rarity.ToLower()) ? rarityOrder[item.rarity.ToLower()] : 999)
+            .ToArray();
+
         // 🔥 Tampilkan ke UI
         for (int i = 0; i < ShopItemList.items.Length && i < shopManager.itemCards.Length; i++)
         {
@@ -65,6 +74,7 @@ public class ListItem : MonoBehaviour
                 ShopItemList.items[i].description,
                 ShopItemList.items[i].price,
                 ShopItemList.items[i].priceMoney,
+                GameManager.Instance.playerData.ownedItems.Contains(ShopItemList.items[i].itemId),
                 ShopItemList.items[i].isDiamondPayment,
                 ShopItemList.items[i].rarity,
                 iconSprite);

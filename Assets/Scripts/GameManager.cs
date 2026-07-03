@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
         playerData.unlockedSMA = false;
         playerData.currMoney = 0;
         playerData.currDiamond = 0;
+        playerData.currentSkinId = "default_skin"; // Set a default skin ID
         playerData.checkLevelCompleted = new SerializableList<bool>();
         playerData.levelRetries = new SerializableList<int>();      
         playerData.ownedItems = new SerializableList<string>();
@@ -143,6 +144,15 @@ public class GameManager : MonoBehaviour
         if(InventoryManager.Instance != null)
         {
             InventoryManager.Instance.LoadInventory();            
+        }
+        var listItemOnShop = FindObjectOfType<ListItem>();
+        if(listItemOnShop != null)
+        {
+            listItemOnShop.StartCoroutine(listItemOnShop.LoadShopItems());
+        }
+        if(CostumeManager.Instance != null)
+        {
+            CostumeManager.Instance.LoadCurrentSkin();
         }
         if(FOGManager.Instance != null)
         {

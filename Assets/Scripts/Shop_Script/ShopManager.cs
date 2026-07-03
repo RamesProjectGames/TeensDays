@@ -19,6 +19,7 @@ public class ShopManager : MonoBehaviour
     public GameObject filterButton;
     public bool[] shopChecked;
     public ShopItemList currentItemList;
+    public ScrollRect currentScrollRect;
 
     public int selectedIndex;
     //public int filterIndex;
@@ -67,6 +68,7 @@ public class ShopManager : MonoBehaviour
             if (i == index)
             {
                 buttonImage.sprite = onClickBtns[i];
+                currentScrollRect.content = kontents[i].GetComponent<RectTransform>();
                 kontents[i].SetActive(true);
                 if (kontents[1].activeInHierarchy)
                 {
