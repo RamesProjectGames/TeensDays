@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     public List<string> ownedItems = new List<string>();
+    public InventoryUIManager inventoryUIManager;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class InventoryManager : MonoBehaviour
             // PlayerPrefs.Save();
             GameManager.Instance.playerData.ownedItems.list = ownedItems;
             GameManager.Instance.SavePlayerDataToCloud(); 
+            inventoryUIManager.RefreshAll();
         }
     }
 

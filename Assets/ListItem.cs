@@ -53,7 +53,7 @@ public class ListItem : MonoBehaviour
         // 🔥 Sort items by rarity (legend > epic > rare > common)
         var rarityOrder = new Dictionary<string, int>
         {
-            { "legend", 0 },
+            { "legendary", 0 },
             { "epic", 1 },
             { "rare", 2 },
             { "common", 3 }
@@ -79,6 +79,27 @@ public class ListItem : MonoBehaviour
                 ShopItemList.items[i].rarity,
                 iconSprite);
         }
+        if(InventoryManager.Instance == null)
+        {
+            Debug.LogWarning("InventoryManager instance is not available.");
+            yield break;
+        }
+        var inventoryUIManager = InventoryManager.Instance.inventoryUIManager;
+        if(inventoryUIManager == null)
+        {
+            Debug.LogWarning("InventoryUIManager is not assigned in InventoryManager.");
+            yield break;
+        }
+        for(int i=0; i < ShopItemList.items.Length && i < inventoryUIManager.items.Length; i++)
+        {
+            Sprite iconSprite = Resources.Load<Sprite>("ShopIcons/" + ShopItemList.items[i].icon);
+            inventoryUIManager.items[i].Setup(
+                ShopItemList.items[i].itemId,
+                ShopItemList.items[i].rarity,
+                iconSprite,
+                ShopItemList.items[i].name,
+                inventoryUIManager.GetRaritySprite(ShopItemList.items[i].rarity));
+        }        
     }
 }
 
