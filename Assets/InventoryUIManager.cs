@@ -35,7 +35,7 @@ public class InventoryUIManager : MonoBehaviour
     public Sprite GetRaritySprite(string rarity)
     {
         // Cari sprite berdasarkan rarity
-        Sprite raritySprite = raritySprites.Find(sprite => sprite.name.ToLower() == rarity.ToLower());
+        Sprite raritySprite = raritySprites.Find(sprite => sprite.name.ToLower().Contains(rarity.ToLower(), System.StringComparison.OrdinalIgnoreCase));
 
         if (raritySprite != null)
         {

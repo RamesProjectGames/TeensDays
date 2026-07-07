@@ -18,5 +18,5 @@ public class ShopItem
 [System.Serializable]
 public class ShopItemList
 {
-    public ShopItem[] items;
+    public List<ShopItem> items = new List<ShopItem>();
 }

@@ -47,8 +47,29 @@ public class ListItem : MonoBehaviour
 
         // 🔥 Parse JSON
         string wrappedJson = "{ \"items\": " + jsonData + "}";
-        ShopItemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
-        shopManager.currentItemList = ShopItemList;
+        var shopItemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
+
+        foreach (var item in shopItemList.items)
+        {
+            if(ShopItemList.items.Any(existingItem => existingItem.itemId == item.itemId))
+            {
+                Debug.LogWarning($"Duplicate itemId found: {item.itemId}. Skipping this item.");
+                continue;
+            }
+            else
+            {
+                ShopItemList.items.Add(item);
+            }
+            if(shopManager.currentItemList.items.Any(existingItem => existingItem.itemId == item.itemId))
+            {
+                Debug.LogWarning($"Duplicate itemId found in shopManager: {item.itemId}. Skipping this item.");
+                continue;
+            }
+            else
+            {
+                shopManager.currentItemList.items.Add(item);
+            }
+        }
 
         // 🔥 Sort items by rarity (legend > epic > rare > common)
         var rarityOrder = new Dictionary<string, int>
@@ -61,10 +82,10 @@ public class ListItem : MonoBehaviour
 
         ShopItemList.items = ShopItemList.items
             .OrderBy(item => rarityOrder.ContainsKey(item.rarity.ToLower()) ? rarityOrder[item.rarity.ToLower()] : 999)
-            .ToArray();
+            .ToList();
 
         // 🔥 Tampilkan ke UI
-        for (int i = 0; i < ShopItemList.items.Length && i < shopManager.itemCards.Length; i++)
+        for (int i = 0; i < ShopItemList.items.Count && i < shopManager.itemCards.Length; i++)
         {
             Sprite iconSprite = Resources.Load<Sprite>("ShopIcons/" + ShopItemList.items[i].icon);
 
@@ -90,14 +111,13 @@ public class ListItem : MonoBehaviour
             Debug.LogWarning("InventoryUIManager is not assigned in InventoryManager.");
             yield break;
         }
-        for(int i=0; i < ShopItemList.items.Length && i < inventoryUIManager.items.Length; i++)
+        for(int i=0; i < ShopItemList.items.Count && i < inventoryUIManager.items.Length; i++)
         {
             Sprite iconSprite = Resources.Load<Sprite>("ShopIcons/" + ShopItemList.items[i].icon);
             inventoryUIManager.items[i].Setup(
                 ShopItemList.items[i].itemId,
                 ShopItemList.items[i].rarity,
                 iconSprite,
-                ShopItemList.items[i].name,
                 inventoryUIManager.GetRaritySprite(ShopItemList.items[i].rarity));
         }        
     }
