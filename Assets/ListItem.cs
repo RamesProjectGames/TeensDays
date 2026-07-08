@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 //using static UnityEditor.Progress;
@@ -9,11 +10,6 @@ public class ListItem : MonoBehaviour
 {
     public ShopItemList ShopItemList;
     public ShopManager shopManager;
-
-    private void Start()
-    {
-        StartCoroutine(LoadShopItems());
-    }
 
     public IEnumerator LoadShopItems()
     {
@@ -51,11 +47,45 @@ public class ListItem : MonoBehaviour
 
         // 🔥 Parse JSON
         string wrappedJson = "{ \"items\": " + jsonData + "}";
-        ShopItemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
-        shopManager.currentItemList = ShopItemList;
+        var shopItemList = JsonUtility.FromJson<ShopItemList>(wrappedJson);
+
+        foreach (var item in shopItemList.items)
+        {
+            if(ShopItemList.items.Any(existingItem => existingItem.itemId == item.itemId))
+            {
+                Debug.LogWarning($"Duplicate itemId found: {item.itemId}. Skipping this item.");
+                continue;
+            }
+            else
+            {
+                ShopItemList.items.Add(item);
+            }
+            if(shopManager.currentItemList.items.Any(existingItem => existingItem.itemId == item.itemId))
+            {
+                Debug.LogWarning($"Duplicate itemId found in shopManager: {item.itemId}. Skipping this item.");
+                continue;
+            }
+            else
+            {
+                shopManager.currentItemList.items.Add(item);
+            }
+        }
+
+        // 🔥 Sort items by rarity (legend > epic > rare > common)
+        var rarityOrder = new Dictionary<string, int>
+        {
+            { "legendary", 0 },
+            { "epic", 1 },
+            { "rare", 2 },
+            { "common", 3 }
+        };
+
+        ShopItemList.items = ShopItemList.items
+            .OrderBy(item => rarityOrder.ContainsKey(item.rarity.ToLower()) ? rarityOrder[item.rarity.ToLower()] : 999)
+            .ToList();
 
         // 🔥 Tampilkan ke UI
-        for (int i = 0; i < ShopItemList.items.Length && i < shopManager.itemCards.Length; i++)
+        for (int i = 0; i < ShopItemList.items.Count && i < shopManager.itemCards.Length; i++)
         {
             Sprite iconSprite = Resources.Load<Sprite>("ShopIcons/" + ShopItemList.items[i].icon);
 
@@ -65,10 +95,31 @@ public class ListItem : MonoBehaviour
                 ShopItemList.items[i].description,
                 ShopItemList.items[i].price,
                 ShopItemList.items[i].priceMoney,
+                GameManager.Instance.playerData.ownedItems.Contains(ShopItemList.items[i].itemId),
                 ShopItemList.items[i].isDiamondPayment,
                 ShopItemList.items[i].rarity,
                 iconSprite);
         }
+        if(InventoryManager.Instance == null)
+        {
+            Debug.LogWarning("InventoryManager instance is not available.");
+            yield break;
+        }
+        var inventoryUIManager = InventoryManager.Instance.inventoryUIManager;
+        if(inventoryUIManager == null)
+        {
+            Debug.LogWarning("InventoryUIManager is not assigned in InventoryManager.");
+            yield break;
+        }
+        for(int i=0; i < ShopItemList.items.Count && i < inventoryUIManager.items.Length; i++)
+        {
+            Sprite iconSprite = Resources.Load<Sprite>("ShopIcons/" + ShopItemList.items[i].icon);
+            inventoryUIManager.items[i].Setup(
+                ShopItemList.items[i].itemId,
+                ShopItemList.items[i].rarity,
+                iconSprite,
+                inventoryUIManager.GetRaritySprite(ShopItemList.items[i].rarity));
+        }        
     }
 }
 

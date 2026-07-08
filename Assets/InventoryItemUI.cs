@@ -7,13 +7,20 @@ using UnityEngine.UI;
 public class InventoryItemUI : MonoBehaviour
 {
     public string itemId;
+    public string rarity;
 
     public Button useButton; 
+    public Image rarityImage;
+    public Image iconImage;
+
     //public GameObject lockIcon; // opsional (kalau mau ada icon gembok)
 
-    public void Setup(string _itemId)
+    public void Setup(string _itemId, string rarity, Sprite _iconSprite, Sprite _raritySprite)
     {
         itemId = _itemId;
+        this.rarity = rarity;
+        iconImage.sprite = _iconSprite;
+        rarityImage.sprite = _raritySprite;
 
         Refresh();
     }
@@ -32,6 +39,23 @@ public class InventoryItemUI : MonoBehaviour
         {
             useButton.GetComponentInChildren<TMP_Text>().text = "Locked";
         }
+
+        useButton.onClick.RemoveAllListeners();
+
+        useButton.onClick.AddListener(() =>
+        {
+            if (owned)
+            {
+                // Lakukan aksi saat item digunakan
+                Debug.Log("Using item: " + itemId);
+                CostumeManager.Instance.ApplyProfileCostume(itemId);
+            }
+            else
+            {
+                Debug.Log("Item is locked: " + itemId);
+                // Tambahkan logika untuk item terkunci di sini
+            }
+        });
 
         //if (lockIcon != null)
         //    lockIcon.SetActive(!owned);

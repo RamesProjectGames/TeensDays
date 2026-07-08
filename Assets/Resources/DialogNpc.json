@@ -171,6 +171,437 @@
       "isSideQuest": true,
       "parentIndex": 3,
       "questIndex": 1
+    },
+    {
+      "id": "Pagar Pak Bagus (Incomplete)",
+      "name": "PAK BAGUS",
+      "dialog": [
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Eh, Dek Bobon! Lagi ngapain, Bon?"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pagi, Pak Bagus! Bobon nggak lagi ngapa-ngapain, pak"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pak Bagus apa butuh bantuan Bobon?"
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Oh nggak lah, Bon, Bapak cuman baru mau ngecat pager, tapi istri Bapak baru nelpon."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": " Biasa, minta dibeliin beras."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Yee.... jadi Bapak tunda dulu ngecatnye. "
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Nih,lagi beres-beres."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Oooh, gitu. Gak apa-apa, Pak Bagus!"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Bobon bersedia bantuin Bapak ngecat pagar rumah Bapak."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Bobon bersedia bantuin Bapak ngecat pagar rumah Bapak."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Wah, yang bener ni, Bon? Kagak nape-nape sih"
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Cuman takutnye ngerepotin Dek Bobon aje."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Tenang, Pak Bagus! Bobon janji Bobon mengerjakannya dengan senang hati."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Oh kalo gitu, makasi banyak ye, Dek Bobon."
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Ini catnye, kalo udah kelar, taro aja di pojokan, ye?"
+        },
+        {
+          "speaker": "Pak Bagus",
+          "isPlayer": false,
+          "text": "Bapak pamit ke pasar dulu."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Siap, Pak!"
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 4,
+      "questIndex": 0
+    },
+    {
+      "id": "Pagar Pak Bagus (Complete)",
+      "name": "PAK BAGUS",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Selesai! Waktunya merapihkan alat cat Pak Bagus."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 4,
+      "questIndex": 1
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? (Incomplete)",
+      "name": "Ibu",
+      "dialog": [
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Bobon! Ke sini sebentar, Nak."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Kenapa, Bu?"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Ibu lagi nyatet biaya keperluan rumah tangga untuk bulan depan."
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Ini sudah ada daftar barang-barangnya."
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Tapi, harga barang-barangnya harus Ibu cek di pasar dulu."
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Ibu minta tolong kamu yang tanyakan dan catatkan harga-harganya, ya, Nak?"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Siap, Bu! Bobon akan segera kembali."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 0
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Telor",
+      "name": "Penjual Telur",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pagi, Bu, telurnya berapa ya sekilo?"
+        },
+        {
+          "speaker": "Penjual Telur",
+          "isPlayer": false,
+          "text": "Sekilo <b>dua puluh ribu</b>, Le."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Hm... Ibu minta telurnya dua kilogram. \nArtinya harganya jadi..."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 1
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Daging Ayam",
+      "name": "Penjual Daging",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pagi, Pak, berapa harga sekilo daging ayam?"
+        },
+        {
+          "speaker": "Penjual Daging",
+          "isPlayer": false,
+          "text": "Harganya <b>tiga puluh ribu</b> per kilo, Nak."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Di sini ditulis Ibu mau beli tiga kilogram daging ayam, \n berarti harganya jadi.."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 2
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Beras",
+      "name": "PEMILIK TOKO KELONTONG",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pagi, pak, berapa harga berasnya?"
+        },
+        {
+          "speaker": "PEMILIK TOKO KELONTONG",
+          "isPlayer": false,
+          "text": "Pagi juga. Berasnya <b>delapan belas ribu rupiah</b> per kilogram."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Hm... Ibu minta berasnya lima kilogram.\n Artinya harganya jadi..."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 3
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Minyak",
+      "name": "PEMILIK TOKO KELONTONG",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Kalau minyak goreng berapa ya, Pak?"
+        },
+        {
+          "speaker": "PEMILIK TOKO KELONTONG",
+          "isPlayer": false,
+          "text": "Kalau minyak goreng, harganya <b>dua puluh lima ribu lima ratus rupiah</b> per liter."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ibu mau beli dua liter minyak goreng.\n Kalo gitu, harganya jadi..."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 4
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Detergen",
+      "name": "PEMILIK TOKO KELONTONG",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Kalau harga detergennya, Pak?"
+        },
+        {
+          "speaker": "Penjual Telur",
+          "isPlayer": false,
+          "text": "Sebungkus detergen harganya <b>dua puluh tiga ribu rupiah,/b>."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ibu ingin beli tiga bungkus detergen, jadinya..."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 5
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Galon",
+      "name": "TUKANG GALON",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Permisi, Pak, berapa harga segalon air isi ulang?"
+        },
+        {
+          "speaker": "Penjual Telur",
+          "isPlayer": false,
+          "text": "Segalon dua puluh dua ribu rupiah, Dek."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ibu butuh 2 galon air. Berarti harganya menjadi..."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 6
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? (Retry)",
+      "name": "Penjual Telur",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Hmm... kayaknya ada yang salah, deh, coba aku hitung lagi."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 7
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Before Complete",
+      "name": "Ibu",
+      "dialog": [
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Sudah selesai, Nak? Coba sini Ibu lihat daftar belanjaannya."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ini, Bu! Bobon sudah mencatat semuanya."
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Telur totalnya empat puluh ribu,"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "daging ayam totalnya sembilna puluh ribu,"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "beras totalnya sembilan puluh ribu,"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "minyak goreng totalnya lima puluh satu ribu,"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "detergen totalnya enam puluh sembilan ribu,"
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "air galon totalnya empat puluh empat ribu."
+        },
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Total harga semuanya jadinya, berapa, Bon?"
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 8
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Complete Wrong",
+      "name": "Ibu",
+      "dialog": [
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Coba kamu hitung lagi dengan teliti..."
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 10
+    },
+    {
+      "id": "Berapa Harga Belanja Ibu? - Complete Right",
+      "name": "Ibu",
+      "dialog": [
+        {
+          "speaker": "Ibu",
+          "isPlayer": false,
+          "text": "Wah, anak Ibu pintar sekali!"
+        }
+      ],
+      "givesQuest": false,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 11
     }
   ]
 }

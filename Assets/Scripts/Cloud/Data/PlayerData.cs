@@ -17,6 +17,7 @@ public class PlayerData
     public bool unlockedSMA;
     public int currMoney;
     public int currDiamond;
+    public string currentSkinId = "default_skin";
     public SerializableList<bool> checkLevelCompleted = new SerializableList<bool>();
     public SerializableList<int> levelRetries = new SerializableList<int>();
     public SerializableList<string> ownedItems = new SerializableList<string>();

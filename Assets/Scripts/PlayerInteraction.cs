@@ -315,6 +315,30 @@ public class PlayerInteraction : MonoBehaviour
 
         // Debug.Log("✅ Quest langsung aktif saat Start Game!");
     }
+    public void StartDialog(string dialogID = null)
+    {
+        if(string.IsNullOrEmpty(dialogID))
+        {
+            if(currentNPC == null) return;
+            activeDialog = DialogManager.Instance.GetDialogByID(currentNPC.npcId);
+            if (activeDialog == null) return;
+
+            dialogIndex = 0;
+            chatPanel.SetActive(true);
+
+            ShowDialogLine();
+        }
+        else
+        {
+            activeDialog = DialogManager.Instance.GetDialogByID(dialogID);
+            if (activeDialog == null) return;
+
+            dialogIndex = 0;
+            chatPanel.SetActive(true);
+
+            ShowDialogLine();
+        }
+    }
 
     void ShowDialogLine()
     {
@@ -364,9 +388,8 @@ public class PlayerInteraction : MonoBehaviour
                 data.isPaused = false;
                 data.agent.isStopped = false;
             }
-        }
-
-        npcBeingTalkedTo.onTalkEnded?.Invoke();
+            npcBeingTalkedTo.onTalkEnded?.Invoke();
+        }        
 
         npcBeingTalkedTo = null;  // <— penting
 

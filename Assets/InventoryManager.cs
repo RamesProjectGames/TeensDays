@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     public List<string> ownedItems = new List<string>();
+    public InventoryUIManager inventoryUIManager;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class InventoryManager : MonoBehaviour
             // PlayerPrefs.Save();
             GameManager.Instance.playerData.ownedItems.list = ownedItems;
             GameManager.Instance.SavePlayerDataToCloud(); 
+            inventoryUIManager.RefreshAll();
         }
     }
 
@@ -34,7 +36,7 @@ public class InventoryManager : MonoBehaviour
 
     public void LoadInventory()
     {
-        ownedItems.Clear();
+        // ownedItems.Clear();
 
         // contoh load sederhana (kalau item list sudah ada)
         foreach (var item in ShopManager.instance.currentItemList.items)
@@ -44,5 +46,19 @@ public class InventoryManager : MonoBehaviour
                 ownedItems.Add(item.itemId);
             }
         }
+    }
+    [ContextMenu("Unlock All Items")]
+    public void UnlockAllItems()
+    {
+        foreach (var item in ShopManager.instance.currentItemList.items)
+        {
+            if (!ownedItems.Contains(item.itemId))
+            {
+                ownedItems.Add(item.itemId);
+            }
+        }
+        GameManager.Instance.playerData.ownedItems.list = ownedItems;
+        GameManager.Instance.SavePlayerDataToCloud(); 
+        inventoryUIManager.RefreshAll();
     }
 }

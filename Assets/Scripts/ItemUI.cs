@@ -44,7 +44,7 @@ public class ItemUI : MonoBehaviour
     //    Instance = this;
     //}
 
-    public void SetItem(string _itemId,string name, string desc, int priceValue, int _priceMoney, bool _isDiamondPayment, string rarity, Sprite icon)
+    public void SetItem(string _itemId,string name, string desc, int priceValue, int _priceMoney, bool isUnlocked, bool _isDiamondPayment, string rarity, Sprite icon)
     {
         itemNameText.text = name;
         itemDescText.text = desc;
@@ -76,23 +76,32 @@ public class ItemUI : MonoBehaviour
             priceMoney = _priceMoney;
             priceText.text = priceMoney.ToString();
         }
-
         previewButton.onClick.RemoveAllListeners();
-
-        previewButton.onClick.AddListener(() =>
-        {
-            costumePreview.ShowPreview(itemId);
-        });
-
+        
         buyButton.onClick.RemoveAllListeners();
-
-        string thisItemId = _itemId;
-        buyButton.onClick.AddListener(() => {
-            ShopManager.instance.BuyItem(itemId);
-        });
+        
+        if(isUnlocked)
+        {
+            buyButton.interactable = false;
+            buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Owned";
+            previewButton.onClick.AddListener(() =>
+            {
+                costumePreview.ShowPreview(itemId);
+            });
+        }
+        else
+        {
+            buyButton.interactable = true;
+            buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy";
+            previewButton.onClick.AddListener(() =>
+            {
+                costumePreview.UseCostume(itemId);
+            });
+            string thisItemId = _itemId;
+            buyButton.onClick.AddListener(() =>
+            {
+                ShopManager.instance.BuyItem(itemId);
+            });
+        }
     }
-
-    
-
-
 }

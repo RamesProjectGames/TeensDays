@@ -264,9 +264,29 @@ public class QuestSystem : MonoBehaviour
     }
     public Quest GetQuest(string questName, bool isSideQuest = false)
     {
-         List<Quest> questList = isSideQuest ? sideQuests : quests;
-         Quest quest = questList.Find(x=>x.text == questName);
-         return quest;
+        List<Quest> questList = isSideQuest ? sideQuests : quests;
+        Quest quest = questList.Find(x => x.text == questName);
+        return quest;
+    }
+    public Quest GetSubQuest(string parentQuest, string questName, bool isSideQuest)
+    {
+        List<Quest> questList = isSideQuest ? sideQuests : quests;
+        Quest quest = questList.Find(x => x.text == parentQuest);
+        Quest subQuest = quest.subQuests.Find(x => x.text == questName);
+        return subQuest;
+    }
+    public int GetQuestIndex(string questName, bool isSideQuest = false)
+    {
+        List<Quest> questList = isSideQuest ? sideQuests : quests;
+        int quest = questList.FindIndex(x => x.text == questName);
+        return quest;
+    }
+    public int GetSubQuestIndex(string parentQuest, string questName, bool isSideQuest)
+    {
+        List<Quest> questList = isSideQuest ? sideQuests : quests;
+        Quest quest = questList.Find(x => x.text == parentQuest);
+        int subQuest = quest.subQuests.FindIndex(x => x.text == questName);
+        return subQuest;
     }
     [ContextMenu("Test Mark Main Quest 0 Subquest 0 Done")]
     public void SaveQuests()
