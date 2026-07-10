@@ -35,7 +35,7 @@ public class CostumeManager : MonoBehaviour
     }
     public void ApplyCostume(string skinId)
     {
-        if(!GameManager.Instance.playerData.ownedItems.list.Contains(skinId))
+        if(!GameManager.Instance.playerData.ownedItems.Contains(skinId))
         {
             Debug.LogWarning("Player does not own the costume with skinId: " + skinId);
             return;
@@ -59,7 +59,7 @@ public class CostumeManager : MonoBehaviour
     }
     public void ApplyProfileCostume(string skinId)
     {
-        if(!GameManager.Instance.playerData.ownedItems.list.Contains(skinId))
+        if(!GameManager.Instance.playerData.ownedItems.Contains(skinId))
         {
             Debug.LogWarning("Player does not own the costume with skinId: " + skinId);
             return;

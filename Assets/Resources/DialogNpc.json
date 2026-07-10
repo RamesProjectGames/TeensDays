@@ -497,7 +497,7 @@
     },
     {
       "id": "Berapa Harga Belanja Ibu? (Retry)",
-      "name": "Penjual Telur",
+      "name": "Penjual",
       "dialog": [
         {
           "speaker": "Bobon",

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class InventoryManager : MonoBehaviour
             ownedItems.Add(itemId);
             // PlayerPrefs.SetInt("ITEM_" + itemId, 1);
             // PlayerPrefs.Save();
-            GameManager.Instance.playerData.ownedItems.list = ownedItems;
+            GameManager.Instance.playerData.ownedItems = ownedItems.Distinct().ToList();
             GameManager.Instance.SavePlayerDataToCloud(); 
             inventoryUIManager.RefreshAll();
         }
@@ -39,9 +40,10 @@ public class InventoryManager : MonoBehaviour
         // ownedItems.Clear();
 
         // contoh load sederhana (kalau item list sudah ada)
+        if (ShopManager.instance == null || ShopManager.instance.currentItemList == null) return;
         foreach (var item in ShopManager.instance.currentItemList.items)
         {
-            if (GameManager.Instance.playerData.ownedItems.list.Contains(item.itemId))
+            if (GameManager.Instance.playerData.ownedItems.Contains(item.itemId) && !ownedItems.Contains(item.itemId))
             {
                 ownedItems.Add(item.itemId);
             }
@@ -57,7 +59,7 @@ public class InventoryManager : MonoBehaviour
                 ownedItems.Add(item.itemId);
             }
         }
-        GameManager.Instance.playerData.ownedItems.list = ownedItems;
+        GameManager.Instance.playerData.ownedItems = ownedItems.Distinct().ToList();
         GameManager.Instance.SavePlayerDataToCloud(); 
         inventoryUIManager.RefreshAll();
     }

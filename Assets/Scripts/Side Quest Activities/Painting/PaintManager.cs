@@ -35,7 +35,7 @@ public class PaintManager : MonoBehaviour
 
     private Texture2D paintTexture;
 
-    private bool completed;
+    private bool completed, startPaint;
 
     void Awake()
     {
@@ -67,6 +67,7 @@ public class PaintManager : MonoBehaviour
 
     void Update()
     {
+        if(!startPaint) return;
         if (Input.GetMouseButton(0))
         {
             Paint();
@@ -83,12 +84,13 @@ public class PaintManager : MonoBehaviour
             interactable.npcId = inCompleteDialogue;
             interactable.onTalkEnded.RemoveAllListeners();
             interactable.OnTalkStart.RemoveAllListeners();
-            interactable.OnTalkStart.AddListener(StartPaint);
+            interactable.onTalkEnded.AddListener(StartPaint);
         }
     }
     public void StartPaint()
     {
         NPCRelated.SetActive(false);
+        startPaint = true;
         if(interactable !=null)
         {
             interactable.npcId = completedDialogue;
@@ -100,6 +102,7 @@ public class PaintManager : MonoBehaviour
     public void FinishPaint()
     {
         NPCRelated.SetActive(true);
+        startPaint= false;
         if(interactable !=null)
         {
             interactable.npcId = completedDialogue;
