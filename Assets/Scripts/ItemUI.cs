@@ -43,7 +43,10 @@ public class ItemUI : MonoBehaviour
     //{
     //    Instance = this;
     //}
-
+    void Start()
+    {
+        costumePreview = GetComponent<CostumeShopPreview>();
+    }
     public void SetItem(string _itemId,string name, string desc, int priceValue, int _priceMoney, bool isUnlocked, bool _isDiamondPayment, string rarity, Sprite icon)
     {
         itemNameText.text = name;
@@ -86,7 +89,10 @@ public class ItemUI : MonoBehaviour
             buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Owned";
             previewButton.onClick.AddListener(() =>
             {
-                costumePreview.ShowPreview(itemId);
+                if (costumePreview != null)
+                {
+                    costumePreview.UseCostume(itemId);
+                }
             });
         }
         else
@@ -95,7 +101,10 @@ public class ItemUI : MonoBehaviour
             buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy";
             previewButton.onClick.AddListener(() =>
             {
-                costumePreview.UseCostume(itemId);
+                if (costumePreview != null)
+                {
+                    costumePreview.ShowPreview(itemId);
+                }
             });
             string thisItemId = _itemId;
             buyButton.onClick.AddListener(() =>

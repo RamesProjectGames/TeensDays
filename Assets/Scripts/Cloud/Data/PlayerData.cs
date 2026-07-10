@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -20,7 +21,7 @@ public class PlayerData
     public string currentSkinId = "default_skin";
     public SerializableList<bool> checkLevelCompleted = new SerializableList<bool>();
     public SerializableList<int> levelRetries = new SerializableList<int>();
-    public SerializableList<string> ownedItems = new SerializableList<string>();
+    public List<string> ownedItems = new List<string>();
     public SerializableList<MailMessage> mailboxData = new SerializableList<MailMessage>();
     // public SerializableList<QuestData> mainQuests = new SerializableList<QuestData>();
     // public SerializableList<QuestData> sideQuests = new SerializableList<QuestData>();

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
@@ -10,6 +11,11 @@ using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
+    [System.Serializable]
+    private class OwnedItemsLookup
+    {
+        public SerializableList<string> ownedItems;
+    }
     public static GameManager Instance;  
     public PlayerData playerData;
     
@@ -66,7 +72,7 @@ public class GameManager : MonoBehaviour
         playerData.currentSkinId = "default_skin"; // Set a default skin ID
         playerData.checkLevelCompleted = new SerializableList<bool>();
         playerData.levelRetries = new SerializableList<int>();      
-        playerData.ownedItems = new SerializableList<string>();
+        playerData.ownedItems = new List<string>();
         playerData.mailboxData = new SerializableList<MailMessage>();
         // playerData.mainQuests = new SerializableList<QuestData>();
         // playerData.sideQuests = new SerializableList<QuestData>();
@@ -198,6 +204,29 @@ public class GameManager : MonoBehaviour
         // UI settings will be handled by respective managers
     }
 
+    private void EnsurePlayerDataFields()
+    {
+        if (playerData == null) playerData = new PlayerData();
+
+        if (playerData.checkLevelCompleted == null)
+            playerData.checkLevelCompleted = new SerializableList<bool>();
+        else if (playerData.checkLevelCompleted.list == null)
+            playerData.checkLevelCompleted.list = new List<bool>();
+
+        if (playerData.levelRetries == null)
+            playerData.levelRetries = new SerializableList<int>();
+        else if (playerData.levelRetries.list == null)
+            playerData.levelRetries.list = new List<int>();
+
+        if (playerData.ownedItems == null)
+            playerData.ownedItems = new List<string>();
+
+        if (playerData.mailboxData == null)
+            playerData.mailboxData = new SerializableList<MailMessage>();
+        else if (playerData.mailboxData.list == null)
+            playerData.mailboxData.list = new List<MailMessage>();
+    }
+
     private void SyncGameToPlayerData()
     {        
         playerData.expLevel = expLevel;
@@ -234,7 +263,8 @@ public class GameManager : MonoBehaviour
         }
 
         playerData.sideQuestIndex = QuestSystem.instance == null ? 0 :QuestSystem.instance.GetCurrentSideQuestIndex();
-        playerData.ownedItems = new SerializableList<string>(InventoryManager.Instance == null ? new List<string>() : InventoryManager.Instance.ownedItems);
+        // Preserve existing ownedItems if InventoryManager is not available during save (avoid clearing on quit)
+        playerData.ownedItems = InventoryManager.Instance == null ? (playerData.ownedItems ?? new List<string>()) : InventoryManager.Instance.ownedItems.Distinct().ToList();
         playerData.mailboxData = new SerializableList<MailMessage>(MailBoxManager.Instance == null ? new List<MailMessage>() : MailBoxManager.Instance.mailboxData.messages);
         // Quest data is managed by QuestSystem; don't serialize quest lists into PlayerData here.
         // playerData.mainQuests = new SerializableList<QuestData>(new List<QuestData>());
@@ -362,6 +392,44 @@ public class GameManager : MonoBehaviour
                 if (loadedData != null)
                 {
                     playerData = loadedData;
+                    EnsurePlayerDataFields();
+
+                    // Backwards compatibility: previously ownedItems was SerializableList<string>
+                    // which serialized to { "ownedItems": { "list": [ ... ] } }.
+                    // If we loaded and `ownedItems` is null, try parsing that shape.
+                    if (playerData.ownedItems == null)
+                    {
+                        try
+                        {
+                            // temporary lookup struct matching the old JSON shape
+                            var lookup = JsonUtility.FromJson<OwnedItemsLookup>(jsonData);
+                            if (lookup != null && lookup.ownedItems != null && lookup.ownedItems.list != null)
+                            {
+                                playerData.ownedItems = new List<string>(lookup.ownedItems.list);
+                            }
+                        }
+                        catch (System.Exception)
+                        {
+                            // ignore and continue
+                        }
+                    }
+
+                    // Ensure default skin is present and remove duplicates
+                    if (playerData.ownedItems == null)
+                        playerData.ownedItems = new List<string>();
+                    if (!playerData.ownedItems.Contains("default_skin"))
+                    {
+                        playerData.ownedItems.Insert(0, "default_skin");
+                    }
+                    playerData.ownedItems = playerData.ownedItems.Distinct().ToList();
+
+                    // Sync to InventoryManager if available (deduplicated)
+                    if (InventoryManager.Instance != null)
+                    {
+                        InventoryManager.Instance.ownedItems = playerData.ownedItems.Distinct().ToList();
+                    }
+
+                    Debug.Log($"[LoadPlayerDataFromCloud] ownedItems count={playerData.ownedItems?.Count ?? 0} items={string.Join(",", playerData.ownedItems ?? new List<string>())}");
                     Debug.Log("Player data loaded from cloud successfully.");
                 }
                 else
@@ -395,6 +463,7 @@ public class GameManager : MonoBehaviour
     public void SavePlayerDataToCloud()
     {
         SyncGameToPlayerData();
+        Debug.Log($"[SavePlayerDataToCloud] ownedItems count={playerData.ownedItems?.Count ?? 0} items={string.Join(",", playerData.ownedItems ?? new List<string>())}");
         CloudManager.Instance.SaveToCloudAsJSON("playerData", JsonUtility.ToJson(playerData));
         Debug.Log("Player data saved to cloud.");
     }
