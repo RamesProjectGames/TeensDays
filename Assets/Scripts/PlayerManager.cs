@@ -142,7 +142,7 @@ public class PlayerManager : MonoBehaviour
 
         foreach (var sekolah in sekolahList)
         {
-            Debug.Log("masuk ke foreach");
+            // Debug.Log("masuk ke foreach");
             if (unlockedLevel >= sekolah.unlockLevel)
             {
                 sekolah.isActive = false;

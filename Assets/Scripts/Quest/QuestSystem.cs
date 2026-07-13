@@ -636,50 +636,37 @@ public class QuestSystem : MonoBehaviour
     }
     public void UpdateCurrentQuestInfo(Quest questData, bool isMainQuest, string AddOnSubQuest)
     {
-        List<QuestUI> shownQuest = new List<QuestUI>();
-        if(isMainQuest)
+        var panelChildrens = isMainQuest ? questUIManager.panelMainQuestList.GetComponentsInChildren<QuestUI>() : questUIManager.panelSubQuestList.GetComponentsInChildren<QuestUI>();
+        
+        GameObject newItem = null;
+        if(panelChildrens.Any(x => x.quest.text == questData.text))
         {
-            shownQuest = questUIManager.panelMainQuestList.GetComponentsInChildren<QuestUI>().ToList();
+            newItem = panelChildrens.First(x => x.quest.text == questData.text).gameObject;
         }
         else
         {
-            shownQuest = questUIManager.panelSubQuestList.GetComponentsInChildren<QuestUI>().ToList();
+            newItem = Instantiate(questUIManager.subQuestItemPrefab, questUIManager.panelSubQuestList);            
         }
-        var currentQuest = shownQuest.Find(x=>x.quest.text == questData.text);
-        if(currentQuest != null)
+        
+        if(newItem ==null) return;
+        
+        newItem.GetComponent<QuestUI>().SetQuest(questData);
+        Transform subQuestParent = newItem.transform.Find("Content");
+
+        if (subQuestParent == null)
         {
-            Transform subQuestParent = currentQuest.transform.Find("Content");
-
-            if (subQuestParent == null)
-            {
-                Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
-            }
-
-            for (int i = 0; i < questData.subQuests.Count; i++)
-            {
-                Quest sub = questData.subQuests[i];
-
-                if (sub.questUIObject != null) continue;
-
-                GameObject subItem = subQuestParent.GetChild(i).gameObject;
-                TMP_Text subText = subItem.GetComponentInChildren<TMP_Text>();
-                subText.text = sub.text;
-
-                // simpan referensi subquest → supaya bisa di-update nanti
-                sub.questUIObject = subItem;
-                sub.questText = subText;
-                sub.questOutline = subItem.GetComponent<Outline>();
-            }
-
-            GameObject addOnSubItem = subQuestParent.GetChild(questData.subQuests.Count).gameObject;
-            if(addOnSubItem == null)
-            {
-                addOnSubItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
-            }
-            TMP_Text addOnSubText = addOnSubItem.GetComponentInChildren<TMP_Text>();
-            addOnSubText.text = AddOnSubQuest;
-            addOnSubItem.SetActive(string.IsNullOrEmpty(AddOnSubQuest));
+            Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
         }
+
+        for (int i = subQuestParent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(subQuestParent.GetChild(i).gameObject);
+        }
+
+        GameObject addOnSubItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
+        TMP_Text addOnSubText = addOnSubItem.GetComponentInChildren<TMP_Text>();
+        addOnSubText.text = AddOnSubQuest;
+        addOnSubItem.SetActive(string.IsNullOrEmpty(AddOnSubQuest));
     }
     #region CheatCode
     public void HandleMainQuestCheatCode()

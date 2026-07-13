@@ -114,7 +114,7 @@ public class ListItem : MonoBehaviour
         for(int i=0; i < ShopItemList.items.Count && i < inventoryUIManager.items.Length; i++)
         {
             Sprite iconSprite = Resources.Load<Sprite>("ShopIcons/" + ShopItemList.items[i].icon);
-            inventoryUIManager.items[i].Setup(
+            inventoryUIManager.items[i+1].Setup(
                 ShopItemList.items[i].itemId,
                 ShopItemList.items[i].rarity,
                 iconSprite,

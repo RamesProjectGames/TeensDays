@@ -52,7 +52,7 @@ public class PriceManager : MonoBehaviour
     }
     public void StartQuest()
     {
-        relatedNPC.gameObject.SetActive(true);
+        relatedNPC.gameObject.SetActive(false);
         string groceryToAdd = "Daftar Belanja : \n";
         foreach (var vendor in vendors)
         {

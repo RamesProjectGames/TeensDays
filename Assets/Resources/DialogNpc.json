@@ -40,7 +40,7 @@
       "questIndex": 1
     },
     {
-      "id": "Pak Cahyo Incomplete",
+      "id": "Jagalah Kebersihan (InComplete)",
       "name": "PAK CAHYO",
       "dialog": [
         {
@@ -78,11 +78,11 @@
       "isMainQuest": false,
       "isSubQuest": false,
       "isSideQuest": true,
-      "parentIndex": 0,
-      "questIndex": 1
+      "parentIndex": 1,
+      "questIndex": 0
     },
     {
-      "id": "Pak Cahyo Complete",
+      "id": "Jagalah Kebersihan (Complete)",
       "name": "PAK CAHYO",
       "dialog": [
         {
@@ -100,8 +100,8 @@
       "isMainQuest": false,
       "isSubQuest": false,
       "isSideQuest": true,
-      "parentIndex": 0,
-      "questIndex": 2
+      "parentIndex": 1,
+      "questIndex": 1
     },
     {
       "id": "Belanja Buat Ibu (Incomplete)",
@@ -143,12 +143,12 @@
           "text": "Siap, Bu! Bobon akan segera kembali!"
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 3,
-      "questIndex": 1
+      "parentIndex": 2,
+      "questIndex": 0
     },
     {
       "id": "Belanja Buat Ibu (Complete)",
@@ -169,7 +169,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 3,
+      "parentIndex": 2,
       "questIndex": 1
     },
     {
@@ -262,11 +262,11 @@
           "text": "Siap, Pak!"
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 0
     },
     {
@@ -279,11 +279,11 @@
           "text": "Selesai! Waktunya merapihkan alat cat Pak Bagus."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 1
     },
     {
@@ -326,11 +326,11 @@
           "text": "Siap, Bu! Bobon akan segera kembali."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 0
     },
     {
@@ -353,11 +353,11 @@
           "text": "Hm... Ibu minta telurnya dua kilogram. \nArtinya harganya jadi..."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 1
     },
     {
@@ -380,11 +380,11 @@
           "text": "Di sini ditulis Ibu mau beli tiga kilogram daging ayam, \n berarti harganya jadi.."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 2
     },
     {
@@ -407,11 +407,11 @@
           "text": "Hm... Ibu minta berasnya lima kilogram.\n Artinya harganya jadi..."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 3
     },
     {
@@ -434,11 +434,11 @@
           "text": "Ibu mau beli dua liter minyak goreng.\n Kalo gitu, harganya jadi..."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 4
     },
     {
@@ -461,11 +461,11 @@
           "text": "Ibu ingin beli tiga bungkus detergen, jadinya..."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 5
     },
     {
@@ -488,11 +488,11 @@
           "text": "Ibu butuh 2 galon air. Berarti harganya menjadi..."
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 6
     },
     {
@@ -509,7 +509,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 7
     },
     {
@@ -562,11 +562,11 @@
           "text": "Total harga semuanya jadinya, berapa, Bon?"
         }
       ],
-      "givesQuest": false,
+      "givesQuest": true,
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 8
     },
     {
@@ -583,8 +583,8 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
-      "questIndex": 10
+      "parentIndex": 4,
+      "questIndex": 9
     },
     {
       "id": "Berapa Harga Belanja Ibu? - Complete Right",
@@ -600,8 +600,8 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
-      "questIndex": 11
+      "parentIndex": 4,
+      "questIndex": 10
     }
   ]
 }

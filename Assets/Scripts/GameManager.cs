@@ -34,13 +34,13 @@ public class GameManager : MonoBehaviour
         }
 
         // Initialize playerData to avoid null reference errors
-        if (playerData == null)
-        {
-            playerData = new PlayerData();
-        }
+        // if (playerData == null)
+        // {
+        //     playerData = new PlayerData();
+        // }
         
         // Initialize default values for the player data
-        InitializeDefaultPlayerData();
+        // InitializeDefaultPlayerData();
     }
      
     public int expLevel;
@@ -307,10 +307,15 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    private bool hasLoadedPlayerData;
+
     private void Start()
     {
         freeLookCamera = FindObjectOfType<CinemachineFreeLook>();
-        LoadPlayerDataFromCloud();
+        if (!hasLoadedPlayerData)
+        {
+            LoadPlayerDataFromCloud();
+        }
     }
     private void OnEnable()
     {
@@ -342,7 +347,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("Logic khusus Dwiky dijalankan");      
             freeLookCamera = FindObjectOfType<CinemachineFreeLook>();      
             // Misalnya, set posisi player atau inisialisasi level tertentu
-            ApplySavedTransforms();
             
         }
     }
@@ -432,9 +436,8 @@ public class GameManager : MonoBehaviour
                     {
                         InventoryManager.Instance.ownedItems = playerData.ownedItems.Distinct().ToList();
                     }
-
-                    Debug.Log($"[LoadPlayerDataFromCloud] ownedItems count={playerData.ownedItems?.Count ?? 0} items={string.Join(",", playerData.ownedItems ?? new List<string>())}");
-                    Debug.Log("Player data loaded from cloud successfully.");
+                    // Debug.Log($"[LoadPlayerDataFromCloud] ownedItems count={playerData.ownedItems?.Count ?? 0} items={string.Join(",", playerData.ownedItems ?? new List<string>())}");
+                    // Debug.Log("Player data loaded from cloud successfully.");
                 }
                 else
                 {
@@ -448,9 +451,9 @@ public class GameManager : MonoBehaviour
             {
                 Debug.LogWarning("No player data found in cloud, using default values.");
                 InitializeDefaultPlayerData();
-                // Save the initialized data to cloud so it persists for next time
                 SavePlayerDataToCloud();
             }
+            hasLoadedPlayerData = true;
             SyncPlayerDataToGame();
             onLoadDataComplete?.Invoke();
         }
@@ -460,6 +463,7 @@ public class GameManager : MonoBehaviour
             InitializeDefaultPlayerData();
             // Save the initialized data to cloud so it persists for next time
             SavePlayerDataToCloud();
+            hasLoadedPlayerData = true;
             onLoadDataComplete?.Invoke();
         }
     }
@@ -467,9 +471,9 @@ public class GameManager : MonoBehaviour
     public void SavePlayerDataToCloud()
     {
         SyncGameToPlayerData();
-        Debug.Log($"[SavePlayerDataToCloud] ownedItems count={playerData.ownedItems?.Count ?? 0} items={string.Join(",", playerData.ownedItems ?? new List<string>())}");
+        // Debug.Log($"[SavePlayerDataToCloud] ownedItems count={playerData.ownedItems?.Count ?? 0} items={string.Join(",", playerData.ownedItems ?? new List<string>())}");
         CloudManager.Instance.SaveToCloudAsJSON("playerData", JsonUtility.ToJson(playerData));
-        Debug.Log("Player data saved to cloud.");
+        // Debug.Log("Player data saved to cloud.");
     }
 
     public async Task SavePlayerDataToCloudAsync()

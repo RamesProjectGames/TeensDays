@@ -77,30 +77,21 @@ public class PlayerInteraction : MonoBehaviour
         } 
 
         Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
+        Collider[] interactHits = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
 
-        if (hits.Length > 0)
+        if (hits.Length > 0 || interactHits.Length > 0)
         {
             currentNPC = hits[0].GetComponent<InteractableNPC>();
             if (currentNPC != null)
-                floatingButton.SetActive(true);
-            SetInteractText("Talk");
+            {
+                floatingButton.SetActive(true);                
+                SetInteractText("Talk");
+            }
         }
         else
         {
             currentNPC = null;
             floatingButton.SetActive(false);
-        }
-        Collider[] interactHits = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
-
-        //Debug.Log(hits.Length);
-
-        if (interactHits.Length > 0)
-        {
-            floatingButton.SetActive(true);
-        }
-        else
-        {
-           floatingButton.SetActive(false);
         }
         floatingButtonText.text = actionButtonText;
     }
@@ -426,8 +417,6 @@ public class PlayerInteraction : MonoBehaviour
         leftBubble.SetActive(false);
         rightBubble.SetActive(false);
 
-
-
         dialogIndex = 0;
         SetChatBubbleVisible(false);
         OnQuestButtonClicked();
@@ -535,7 +524,7 @@ public class PlayerInteraction : MonoBehaviour
             if (npcData.isSubQuest)
             {
                 // ✅ Kalau ini SubQuest → langsung selesai
-                QuestSystem.instance.MarkQuestDone(npcData.parentIndex, npcData.questIndex, true, false);
+                QuestSystem.instance.MarkQuestDone(npcData.parentIndex, npcData.questIndex, npcData.isSubQuest, npcData.isSideQuest);
                 Debug.Log($"✅ Subquest {npcData.questIndex} dari Quest {npcData.parentIndex} selesai!");
             }
             else if (npcData.isMainQuest)

@@ -1,27 +1,68 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Garbage : Item
-{    
-    void OnEnable()
+{
+    private PlayerInteraction currentPlayerInteraction;
+    private UnityAction collectAction;
+
+    private void OnEnable()
     {
-        OnEnter.AddListener((GameObject go) =>
-        {
-            var playerInteraction = FindObjectOfType<PlayerInteraction>();
-            playerInteraction.SetInteractText("Collect");
-            playerInteraction.onAction.AddListener(() =>
-            {
-                GarbageCollector.Instance.Collect();
-                gameObject.SetActive(false);
-            });
-        });
+        OnEnter.AddListener(HandleEnter);
+        OnExit.AddListener(HandleExit);
     }
-    void OnDisable()
+
+    private void OnDisable()
     {
-        var playerInteraction = FindObjectOfType<PlayerInteraction>();
-        playerInteraction.SetInteractText("");
-        playerInteraction.onAction.RemoveAllListeners();
-        OnEnter.RemoveAllListeners();
+        Cleanup();
+        OnEnter.RemoveListener(HandleEnter);
+        OnExit.RemoveListener(HandleExit);
+    }
+
+    private void HandleEnter(GameObject go)
+    {
+        if (go != gameObject)
+            return;
+
+        currentPlayerInteraction = FindObjectOfType<PlayerInteraction>();
+        if (currentPlayerInteraction == null)
+            return;
+
+        currentPlayerInteraction.SetInteractText("Collect");
+
+        if (collectAction != null)
+            currentPlayerInteraction.onAction.RemoveListener(collectAction);
+
+        collectAction = () =>
+        {
+            if (!gameObject.activeInHierarchy)
+                return;
+
+            GarbageCollector.Instance.Collect();
+            gameObject.SetActive(false);
+            Cleanup();
+        };
+
+        currentPlayerInteraction.onAction.AddListener(collectAction);
+    }
+
+    private void HandleExit(GameObject go)
+    {
+        if (go != gameObject)
+            return;
+
+        Cleanup();
+    }
+
+    private void Cleanup()
+    {
+        if (currentPlayerInteraction != null && collectAction != null)
+        {
+            currentPlayerInteraction.onAction.RemoveListener(collectAction);
+            currentPlayerInteraction.SetInteractText("");
+        }
+
+        currentPlayerInteraction = null;
+        collectAction = null;
     }
 }

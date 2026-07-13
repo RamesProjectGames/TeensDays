@@ -112,7 +112,9 @@ public class QuestPageManager : MonoBehaviour
         }
         foreach (var subQuest in subQuestBox)
         {
-            subQuest.SetActive(!QuestSystem.instance.GetQuest(subQuest.GetComponent<QuestPage>().quest.text).isDone && isSide);
+            Quest subQuestData = QuestSystem.instance.GetQuest(subQuest.GetComponent<QuestPage>().quest.text);
+            bool isDone = subQuestData != null && subQuestData.isDone;
+            subQuest.SetActive(isDone && isSide);
         }
     }
     public void ShowQuestAll()

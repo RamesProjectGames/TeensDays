@@ -55,7 +55,7 @@ public class CostumeManager : MonoBehaviour
                 set.parts.targetObjects.ForEach(part => part.SetActive(false)); // Nonaktifkan GameObject untuk bagian kostum ini
             }
         }
-        GameManager.Instance.SavePlayerDataToCloud(); // Save the current skin ID to cloud
+        // GameManager.Instance.SavePlayerDataToCloud(); // Save the current skin ID to cloud
     }
     public void ApplyProfileCostume(string skinId)
     {
