@@ -666,7 +666,7 @@ public class QuestSystem : MonoBehaviour
         GameObject addOnSubItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
         TMP_Text addOnSubText = addOnSubItem.GetComponentInChildren<TMP_Text>();
         addOnSubText.text = AddOnSubQuest;
-        addOnSubItem.SetActive(string.IsNullOrEmpty(AddOnSubQuest));
+        addOnSubItem.SetActive(!string.IsNullOrEmpty(AddOnSubQuest));
     }
     #region CheatCode
     public void HandleMainQuestCheatCode()
