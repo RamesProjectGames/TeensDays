@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
@@ -16,7 +17,10 @@ public class PlayerInteraction : MonoBehaviour
 
     public float interactRange = 3f;
     public LayerMask npcLayer;
+    public LayerMask interactLayer;
     public GameObject floatingButton;
+    public TMP_Text floatingButtonText;
+    string actionButtonText = "Talk";
     public GameObject chatPanel;
     private Quaternion originalRotation;
     public bool wasPatrolling = false;
@@ -57,6 +61,8 @@ public class PlayerInteraction : MonoBehaviour
 
     bool isTalking = false;
 
+    public UnityEvent onAction;
+
     private void Start()
     {
         
@@ -77,32 +83,34 @@ public class PlayerInteraction : MonoBehaviour
             currentNPC = hits[0].GetComponent<InteractableNPC>();
             if (currentNPC != null)
                 floatingButton.SetActive(true);
+            SetInteractText("Talk");
         }
         else
         {
             currentNPC = null;
             floatingButton.SetActive(false);
         }
-        // Collider[] interactHits = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
+        Collider[] interactHits = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
 
         //Debug.Log(hits.Length);
 
-        //if (interactHits.Length > 0)
-        //{
-        //    currentNPC = interactHits[0].GetComponent<Item>();
-        //    if (currentNPC != null)
-        //        floatingButton.SetActive(true);
-
-        //}
-        //else
-        //{
-        //    currentNPC = null;
-        //    floatingButton.SetActive(false);
-        //}
+        if (interactHits.Length > 0)
+        {
+            floatingButton.SetActive(true);
+        }
+        else
+        {
+           floatingButton.SetActive(false);
+        }
+        floatingButtonText.text = actionButtonText;
     }
-
+    public void SetInteractText(string text)
+    {
+        actionButtonText = text;
+    }
     public void OnTalkButtonClicked()
     {
+        onAction?.Invoke();
         if (currentNPC == null) return;
 
         npcBeingTalkedTo = currentNPC;  // <-- Kunci NPC saat ini

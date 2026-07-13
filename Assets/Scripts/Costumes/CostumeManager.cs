@@ -79,6 +79,7 @@ public class CostumeManager : MonoBehaviour
                 set.parts.targetObjects.ForEach(part => part.SetActive(false)); // Nonaktifkan GameObject untuk bagian kostum ini
             }
         }
+        ApplyPreviewCostume(skinId); // Apply the costume to the preview as well
         ApplyCostume(skinId); // Apply the costume to the player as well
     }
 }

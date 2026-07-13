@@ -8,12 +8,20 @@ public class Garbage : Item
     {
         OnEnter.AddListener((GameObject go) =>
         {
-            GarbageCollector.Instance.Collect();
-            gameObject.SetActive(false);
+            var playerInteraction = FindObjectOfType<PlayerInteraction>();
+            playerInteraction.SetInteractText("Collect");
+            playerInteraction.onAction.AddListener(() =>
+            {
+                GarbageCollector.Instance.Collect();
+                gameObject.SetActive(false);
+            });
         });
     }
     void OnDisable()
     {
+        var playerInteraction = FindObjectOfType<PlayerInteraction>();
+        playerInteraction.SetInteractText("");
+        playerInteraction.onAction.RemoveAllListeners();
         OnEnter.RemoveAllListeners();
     }
 }

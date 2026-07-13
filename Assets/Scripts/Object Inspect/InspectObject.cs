@@ -8,7 +8,6 @@ public class InspectObject : MonoBehaviour, IDragHandler
     [SerializeField] private float rotationSpeed = 0.5f;
     
     public bool Horizontal, Vertical;
-    [HideInInspector]
     public string inspectGuid;
 
     public void OnDrag(PointerEventData eventData)
