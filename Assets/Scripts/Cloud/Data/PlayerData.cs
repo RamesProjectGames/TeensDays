@@ -22,6 +22,7 @@ public class PlayerData
     public SerializableList<bool> checkLevelCompleted = new SerializableList<bool>();
     public SerializableList<int> levelRetries = new SerializableList<int>();
     public List<string> ownedItems = new List<string>();
+    public List<string> firstPurchase = new List<string>();
     public SerializableList<MailMessage> mailboxData = new SerializableList<MailMessage>();
     // public SerializableList<QuestData> mainQuests = new SerializableList<QuestData>();
     // public SerializableList<QuestData> sideQuests = new SerializableList<QuestData>();

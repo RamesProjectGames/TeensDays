@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         playerData.checkLevelCompleted = new SerializableList<bool>();
         playerData.levelRetries = new SerializableList<int>();      
         playerData.ownedItems = new List<string>();
+        playerData.firstPurchase = new List<string>();
         playerData.mailboxData = new SerializableList<MailMessage>();
         // playerData.mainQuests = new SerializableList<QuestData>();
         // playerData.sideQuests = new SerializableList<QuestData>();
@@ -220,6 +221,9 @@ public class GameManager : MonoBehaviour
 
         if (playerData.ownedItems == null)
             playerData.ownedItems = new List<string>();
+
+        if (playerData.firstPurchase == null)
+            playerData.firstPurchase = new List<string>();
 
         if (playerData.mailboxData == null)
             playerData.mailboxData = new SerializableList<MailMessage>();

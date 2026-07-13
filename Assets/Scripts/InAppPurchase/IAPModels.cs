@@ -4,13 +4,12 @@ using System;
 [Serializable]
 public enum IAPProductKey
 {
-    // diamond200,
-    // diamond500,
-    // diamond1000,
-    // diamond2000,
-    // diamond5000,
-    // diamond10000,
-    // boostMaxStats
+    diamond10,
+    diamond25,
+    diamond70,
+    diamond150,
+    diamond320,
+    diamond850
     
 }
 

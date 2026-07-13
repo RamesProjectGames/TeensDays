@@ -11,12 +11,12 @@ using UnityEngine.Purchasing.Extension;
 public class IAPManager : MonoBehaviour
 {
     public static IAPManager Singleton { get; private set; }
-    // public const string diamond200 = "diamond200";
-    // public const string diamond500 = "diamond500";
-    // public const string diamond1000 = "diamond1000";
-    // public const string diamond2000 = "diamond2000";
-    // public const string diamond5000 = "diamond5000";
-    // public const string diamond10000 = "diamond10000";
+    public const string diamond10 = "diamond10";
+    public const string diamond25 = "diamond25";
+    public const string diamond70 = "diamond70";
+    public const string diamond150 = "diamond150";
+    public const string diamond320 = "diamond320";
+    public const string diamond850 = "diamond850";
     // public const string boostPet = "boostMaxStats";
     public static bool isInitialized { get; private set; } = false;
     private static StoreController storeController;
@@ -83,13 +83,12 @@ public class IAPManager : MonoBehaviour
     {
         var initialProductToFetch = new List<ProductDefinition>
         {
-            // new ProductDefinition(diamond200, ProductType.Consumable),
-            // new ProductDefinition(diamond500, ProductType.Consumable),
-            // new ProductDefinition(diamond1000, ProductType.Consumable),
-            // new ProductDefinition(diamond2000, ProductType.Consumable),
-            // new ProductDefinition(diamond5000, ProductType.Consumable),
-            // new ProductDefinition(diamond10000, ProductType.Consumable),
-            // new ProductDefinition(boostPet, ProductType.Consumable)
+            new ProductDefinition(diamond10, ProductType.Consumable),
+            new ProductDefinition(diamond25, ProductType.Consumable),
+            new ProductDefinition(diamond70, ProductType.Consumable),
+            new ProductDefinition(diamond150, ProductType.Consumable),
+            new ProductDefinition(diamond320, ProductType.Consumable),
+            new ProductDefinition(diamond850, ProductType.Consumable)
         };
         return initialProductToFetch;
     }
@@ -169,44 +168,103 @@ public class IAPManager : MonoBehaviour
             string productId = order.Info.PurchasedProductInfo[0].productId;
             int diamondPurchase = 0;
             int quantity = GetPurchaseQuantity(order);
-            // if (productId == diamond200)
-            // {
-            //     diamondPurchase = 200 * quantity;
-            // }
-            // else if (productId == diamond500)
-            // {
-            //     diamondPurchase = 500 * quantity;
-            // }
+            if (productId == diamond10)
+            {
+                diamondPurchase = 10 * quantity;
+            }
+            else if (productId == diamond25)
+            {
+                diamondPurchase = 25 * quantity;
+            }
             
-            // else if (productId == diamond1000)
-            // {
-            //     diamondPurchase = 1000 * quantity;
-            // }
+            else if (productId == diamond70)
+            {
+                diamondPurchase = 70 * quantity;
+            }
             
-            // else if (productId == diamond2000)
-            // {
-            //     diamondPurchase = 2000 * quantity;
-            // }
+            else if (productId == diamond150)
+            {
+                diamondPurchase = 150 * quantity;
+            }
             
-            // else if (productId == diamond5000)
-            // {
-            //     diamondPurchase = 5000 * quantity;
-            // }
-            // else if (productId == diamond10000)
-            // {
-            //     diamondPurchase = 10000 * quantity;
-            // }
+            else if (productId == diamond320)
+            {
+                diamondPurchase = 320 * quantity;
+            }
+            else if (productId == diamond850)
+            {
+                diamondPurchase = 850 * quantity;
+            }
             // else if(productId == boostPet)
             // {
             //     // PetInfoPanelMenuHandler.Instance.SetMaxStatFromIAP(BoostType, BoostAnimal);
             // }
+
+            bool isFirstPurchase = IsFirstPurchase(productId);
+            int firstPurchaseBonus = GetFirstPurchaseBonus(productId, isFirstPurchase);
+            int totalDiamondPurchase = diamondPurchase + firstPurchaseBonus;
+
+            if (isFirstPurchase)
+            {
+                TrackFirstPurchase(productId);
+            }
+
             if(productId.ToLower().Contains("diamond"))
             {
-                purchaseDetailsPanel.ShowPurchaseStateInfo(true, $"{diamondPurchase}");
-                GameManager.Instance.playerData.currDiamond += diamondPurchase;
+                purchaseDetailsPanel.ShowPurchaseStateInfo(true, $"{totalDiamondPurchase}");
+                GameManager.Instance.playerData.currDiamond += totalDiamondPurchase;
             }
             GameManager.Instance.SavePlayerDataToCloud();
             AllButtonInteractable(true);            
+        }
+    }
+
+    private bool IsFirstPurchase(string productId)
+    {
+        if (string.IsNullOrEmpty(productId) || GameManager.Instance?.playerData == null)
+            return false;
+
+        if (GameManager.Instance.playerData.firstPurchase == null)
+            GameManager.Instance.playerData.firstPurchase = new List<string>();
+
+        return !GameManager.Instance.playerData.firstPurchase.Contains(productId);
+    }
+
+    private int GetFirstPurchaseBonus(string productId, bool isFirstPurchase)
+    {
+        if (!isFirstPurchase)
+            return 0;
+
+        switch (productId)
+        {
+            case diamond10:
+                return 0;
+            case diamond25:
+                return 2;
+            case diamond70:
+                return 10;
+            case diamond150:
+                return 30;
+            case diamond320:
+                return 80;
+            case diamond850:
+                return 200;
+            default:
+                return 0;
+        }
+    }
+
+    private void TrackFirstPurchase(string productId)
+    {
+        if (string.IsNullOrEmpty(productId) || GameManager.Instance?.playerData == null)
+            return;
+
+        if (GameManager.Instance.playerData.firstPurchase == null)
+            GameManager.Instance.playerData.firstPurchase = new List<string>();
+
+        if (!GameManager.Instance.playerData.firstPurchase.Contains(productId))
+        {
+            GameManager.Instance.playerData.firstPurchase.Add(productId);
         }
     }
 
@@ -267,29 +325,27 @@ public class IAPManager : MonoBehaviour
         }
         switch (currentProductKey)
         {
-            // case IAPProductKey.diamond200:
-            //     storeController.PurchaseProduct(diamond200);
-            //     break;
-            // case IAPProductKey.diamond500:
-            //     storeController.PurchaseProduct(diamond500);
-            //     break;
-            // case IAPProductKey.diamond1000:
-            //     storeController.PurchaseProduct(diamond1000);
-            //     break;
-            // case IAPProductKey.diamond2000:
-            //     storeController.PurchaseProduct(diamond2000);
-            //     break;
-            // case IAPProductKey.diamond5000:
-            //     storeController.PurchaseProduct(diamond5000);
-            //     break;
-            // case IAPProductKey.diamond10000:
-            //     storeController.PurchaseProduct(diamond10000);
-            //     break;
+            case IAPProductKey.diamond10:
+                storeController.PurchaseProduct(diamond10);
+                break;
+            case IAPProductKey.diamond25:
+                storeController.PurchaseProduct(diamond25);
+                break;
+            case IAPProductKey.diamond70:
+                storeController.PurchaseProduct(diamond70);
+                break;
+            case IAPProductKey.diamond150:
+                storeController.PurchaseProduct(diamond150);
+                break;
+            case IAPProductKey.diamond320:
+                storeController.PurchaseProduct(diamond320);
+                break;
+            case IAPProductKey.diamond850:
+                storeController.PurchaseProduct(diamond850);
+                break;
             // case IAPProductKey.boostMaxStats:
             //     storeController.PurchaseProduct(boostPet);
             //     break;
-            case 0:
-                break;
         }
         ShowConfirmationPopUp(false);
     }
