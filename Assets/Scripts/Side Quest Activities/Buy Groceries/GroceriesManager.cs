@@ -66,7 +66,7 @@ public class GroceriesManager : MonoBehaviour
                 listOfGroceries += $"<s>{groceriesLocations[i].name}<s> \n";
             }
         }
-        QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,0,true);
+        // QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,0,true);
         QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,listOfGroceries);
     }
     public void ProgressQuest()
@@ -93,7 +93,11 @@ public class GroceriesManager : MonoBehaviour
                 listOfGroceries += $"<s>{groceriesLocations[i].name}<s> \n";
             }
         }
-        QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,listOfGroceries);
+        var questRelated = QuestSystem.instance.GetQuest(questName,true);
+        if(questRelated != null)
+        {
+            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,listOfGroceries);
+        }
     }
     public void FinishQuest()
     {

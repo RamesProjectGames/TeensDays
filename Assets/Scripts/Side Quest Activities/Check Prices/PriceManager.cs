@@ -12,6 +12,7 @@ public class PriceManager : MonoBehaviour
     public string retryGatherID;
     public string lastCheck;
     public string checkRightAnswer, checkWrongAnswer;
+    public Transform questTarget;
     public InteractableNPC relatedNPC;
     public PriceCheck lastCheckIbu;
     public List<PriceCheck> vendors = new List<PriceCheck>();
@@ -68,6 +69,7 @@ public class PriceManager : MonoBehaviour
         {
             QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,groceryToAdd);
         }
+        QuestPathManager.Instance.SetQuestTarget(vendors[0].NPC.interactableNPC.transform);
     }
     public void ProgressQuest()
     {
@@ -114,6 +116,7 @@ public class PriceManager : MonoBehaviour
         {
             QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,"Bantu Hitung Ibu total semua barang");
         }
+        QuestPathManager.Instance.SetQuestTarget(lastCheckIbu.NPC.interactableNPC.transform);
     }
     public void AccessQuiz(MiniGameSoal relatedData = null, PriceCheck priceCheck = null)
     {
@@ -122,6 +125,7 @@ public class PriceManager : MonoBehaviour
             QuizUI.SetActive(false);
             return;
         }
+        QuestPathManager.Instance.SetQuestTarget(null);
         QuizUI.SetActive(true);
         questionText.text = relatedData.soal;
         List<string> jawaban = new List<string>();
@@ -157,6 +161,7 @@ public class PriceManager : MonoBehaviour
             QuizUI.SetActive(false);
             return;
         }
+        QuestPathManager.Instance.SetQuestTarget(null);
         QuizUI.SetActive(true);
         questionText.text = lastCheckIbu.NPC.currentSoal.soal;
         List<string> jawaban = new List<string>();

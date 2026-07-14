@@ -96,7 +96,7 @@ public class PaintManager : MonoBehaviour
             interactable.npcId = completedDialogue;
             interactable.onTalkEnded.RemoveAllListeners();
         }
-        QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,0,true);
+        // QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,0,true);
         QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,"Paint Progress = 0%");
     }
     public void FinishPaint()

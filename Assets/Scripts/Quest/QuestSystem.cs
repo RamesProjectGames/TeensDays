@@ -651,22 +651,22 @@ public class QuestSystem : MonoBehaviour
         if(newItem ==null) return;
         
         newItem.GetComponent<QuestUI>().SetQuest(questData);
-        Transform subQuestParent = newItem.transform.Find("Content");
+        // Transform subQuestParent = newItem.transform.Find("Content");
 
-        if (subQuestParent == null)
-        {
-            Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
-        }
+        // if (subQuestParent == null)
+        // {
+        //     Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
+        // }
 
-        for (int i = subQuestParent.childCount - 1; i >= 0; i--)
-        {
-            Destroy(subQuestParent.GetChild(i).gameObject);
-        }
+        // for (int i = subQuestParent.childCount - 1; i >= 0; i--)
+        // {
+        //     Destroy(subQuestParent.GetChild(i).gameObject);
+        // }
 
-        GameObject addOnSubItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
-        TMP_Text addOnSubText = addOnSubItem.GetComponentInChildren<TMP_Text>();
+        // GameObject addOnSubItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
+        TMP_Text addOnSubText = newItem.GetComponentInChildren<TMP_Text>();
         addOnSubText.text = AddOnSubQuest;
-        addOnSubItem.SetActive(!string.IsNullOrEmpty(AddOnSubQuest));
+        newItem.SetActive(!string.IsNullOrEmpty(AddOnSubQuest));
     }
     #region CheatCode
     public void HandleMainQuestCheatCode()
