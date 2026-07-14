@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PriceManager : MonoBehaviour
+public class PriceManager : AssignmentManager
 {
     public static PriceManager Instance;
     
@@ -23,6 +23,27 @@ public class PriceManager : MonoBehaviour
     void Awake()
     {
         Instance= this;
+    }
+    public override void ActivateQuest()
+    {
+        base.ActivateQuest();
+        relatedNPC.gameObject.SetActive(true);
+        foreach (var vendor in vendors)
+        {
+            vendor.NPC.interactableNPC.gameObject.SetActive(false);
+        }
+        lastCheckIbu.NPC.interactableNPC.gameObject.SetActive(false);
+        QuestPathManager.Instance.SetQuestTarget(relatedNPC.transform);
+    }
+    public override void DeactivateQuest()
+    {
+        base.DeactivateQuest();
+        relatedNPC.gameObject.SetActive(false);
+        foreach (var vendor in vendors)
+        {
+            vendor.NPC.interactableNPC.gameObject.SetActive(false);
+        }
+        lastCheckIbu.NPC.interactableNPC.gameObject.SetActive(false);
     }
     public void SetQuestComplete(string questID)
     {

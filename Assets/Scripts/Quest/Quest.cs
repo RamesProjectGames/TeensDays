@@ -18,6 +18,8 @@ public class Quest
 
     public List<Quest> subQuests = new List<Quest>(); // Tambahkan ini
 
+    public AssignmentManager assignmentManager; // Tambahkan ini
+
     public GameObject questUIObject;   // referensi prefab UI
     public Outline questOutline;       // referensi Outline UI
     public List<QuestReward> questRewards = new List<QuestReward>();

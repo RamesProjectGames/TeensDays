@@ -14,7 +14,9 @@ public class QuestSystem : MonoBehaviour
     public SerializableList<QuestData> main = null;
     public SerializableList<QuestData> side = null;
     [SerializeField] private int currentQuestIndex = 0;
+    [SerializeField] private int currentMainSubQuestIndex = 0;
     [SerializeField] private int currentSideQuestIndex = 0;
+    [SerializeField] private int currentSideSubQuestIndex = 0;
     [SerializeField] private float blinkSpeed = 2f;
     [SerializeField] private bool enableQuestCheatCodes = true;
     [SerializeField] private KeyCode questCheatSubmitKey = KeyCode.Return;
@@ -177,26 +179,67 @@ public class QuestSystem : MonoBehaviour
         }        
         QuestPageManager.Instance.PopulateQuestPage();
     }
+    private int GetFirstUnfinishedSubQuestIndex(Quest quest)
+    {
+        if (quest == null || quest.subQuests == null || quest.subQuests.Count == 0)
+            return 0;
+
+        for (int i = 0; i < quest.subQuests.Count; i++)
+        {
+            if (!quest.subQuests[i].isDone)
+                return i;
+        }
+        return Mathf.Max(0, quest.subQuests.Count - 1);
+    }
+
     public void SetCurrentQuestIndex(int index)
     {
-        currentQuestIndex = index;
-        GameManager.Instance.playerData.questIndex = index; // Sync ke playerData
+        currentQuestIndex = Mathf.Clamp(index, 0, Mathf.Max(0, quests.Count - 1));
+        currentMainSubQuestIndex = GetFirstUnfinishedSubQuestIndex(quests.ElementAtOrDefault(currentQuestIndex));
+        GameManager.Instance.playerData.questIndex = currentQuestIndex; // Sync ke playerData
+        GameManager.Instance.playerData.currentMainSubQuestIndex = currentMainSubQuestIndex;
         ActivateQuestObject(currentQuestIndex,true);
         UpdateNPCs();
     }
+    public void SetCurrentMainSubQuestIndex(int index)
+    {
+        if (currentQuestIndex >= 0 && currentQuestIndex < quests.Count)
+        {
+            currentMainSubQuestIndex = Mathf.Clamp(index, 0, Mathf.Max(0, quests[currentQuestIndex].subQuests.Count - 1));
+            GameManager.Instance.playerData.currentMainSubQuestIndex = currentMainSubQuestIndex;
+        }
+    }
     public void SetCurrentSideQuestIndex(int index)
     {
-        currentSideQuestIndex = index;
-        GameManager.Instance.playerData.sideQuestIndex = index; // Sync ke playerData
+        currentSideQuestIndex = Mathf.Clamp(index, 0, Mathf.Max(0, sideQuests.Count - 1));
+        currentSideSubQuestIndex = GetFirstUnfinishedSubQuestIndex(sideQuests.ElementAtOrDefault(currentSideQuestIndex));
+        GameManager.Instance.playerData.sideQuestIndex = currentSideQuestIndex; // Sync ke playerData
+        GameManager.Instance.playerData.currentSideSubQuestIndex = currentSideSubQuestIndex;
         ActivateQuestObject(currentSideQuestIndex,false);
+    }
+    public void SetCurrentSideSubQuestIndex(int index)
+    {
+        if (currentSideQuestIndex >= 0 && currentSideQuestIndex < sideQuests.Count)
+        {
+            currentSideSubQuestIndex = Mathf.Clamp(index, 0, Mathf.Max(0, sideQuests[currentSideQuestIndex].subQuests.Count - 1));
+            GameManager.Instance.playerData.currentSideSubQuestIndex = currentSideSubQuestIndex;
+        }
     }
     public int GetCurrentQuestIndex()
     {
         return currentQuestIndex;
     }
+    public int GetCurrentMainSubQuestIndex()
+    {
+        return currentMainSubQuestIndex;
+    }
     public int GetCurrentSideQuestIndex()
     {
         return currentSideQuestIndex;
+    }
+    public int GetCurrentSideSubQuestIndex()
+    {
+        return currentSideSubQuestIndex;
     }
 
     public bool HasQuest(Quest questData)
@@ -244,6 +287,17 @@ public class QuestSystem : MonoBehaviour
                 {
                     parent.isDone = true;
                     UpdateSingleQuestDisplay(parent);
+                }
+
+                if (!isSideQuest && parentIndex == currentQuestIndex)
+                {
+                    currentMainSubQuestIndex = GetFirstUnfinishedSubQuestIndex(parent);
+                    GameManager.Instance.playerData.currentMainSubQuestIndex = currentMainSubQuestIndex;
+                }
+                if (isSideQuest && parentIndex == currentSideQuestIndex)
+                {
+                    currentSideSubQuestIndex = GetFirstUnfinishedSubQuestIndex(parent);
+                    GameManager.Instance.playerData.currentSideSubQuestIndex = currentSideSubQuestIndex;
                 }
 
                 QuestPageManager.Instance.UpdateQuestPage();

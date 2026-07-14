@@ -267,52 +267,32 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StartQuest()
     {
-        // Pastikan QuestSystem sudah siap
         if (QuestSystem.instance == null) return;
 
-        int currentQuestIndex = 0;
+        int currentQuestIndex = QuestSystem.instance.GetCurrentQuestIndex();
+        while (currentQuestIndex < QuestSystem.instance.quests.Count && QuestSystem.instance.quests[currentQuestIndex].isDone)
+        {
+            currentQuestIndex++;
+        }
 
         if (currentQuestIndex >= QuestSystem.instance.quests.Count)
         {
             Debug.Log("Semua quest utama sudah selesai!");
+            QuestSystem.instance.SetCurrentQuestIndex(currentQuestIndex);
+            QuestSystem.instance.questPathManager.SetQuestTarget(null);
             return;
-        }  
+        }
 
-        // Set target jika ada
-        var quest = QuestSystem.instance.quests[currentQuestIndex];
-        for (int i = 0; i < QuestSystem.instance.quests.Count; i++)
-        {
-            Quest q = QuestSystem.instance.quests[i];
-            if (q.isDone)
-            {
-                currentQuestIndex += 1;
-            }
-        }        
         QuestSystem.instance.SetCurrentQuestIndex(currentQuestIndex);
-        if(currentQuestIndex >= QuestSystem.instance.quests.Count)
-        {
-            Debug.Log("Semua quest utama sudah selesai!");
-            QuestSystem.instance.questPathManager
-                .SetQuestTarget(null); // Tidak ada target lagi
-            return;
-        }
-        else
-        {
-            quest = QuestSystem.instance.quests[currentQuestIndex];
-            // Tambahkan quest utama pertama
-            //Buat UI Quest
-            QuestSystem.instance.AddNewQuest(
-                QuestSystem.instance.quests[currentQuestIndex],
-                true,   // isMainQuest
-                false,  // isSubQuest
-                0,
-                false   // isSideQuest
-            );
-            QuestSystem.instance.questPathManager
-                .SetQuestTarget(quest.targetTransform);
-        }
-
-        // Debug.Log("✅ Quest langsung aktif saat Start Game!");
+        Quest quest = QuestSystem.instance.quests[currentQuestIndex];
+        QuestSystem.instance.AddNewQuest(
+            quest,
+            true,   // isMainQuest
+            false,  // isSubQuest
+            0,
+            false   // isSideQuest
+        );
+        QuestSystem.instance.questPathManager.SetQuestTarget(quest.targetTransform);
     }
     public void StartDialog(string dialogID = null)
     {

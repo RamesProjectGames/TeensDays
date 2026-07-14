@@ -143,11 +143,16 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-        // if(QuestSystem.instance != null)
-        // {
-        //     QuestSystem.instance.LoadQuests();       
-        //     QuestSystem.instance.SetCurrentSideQuestIndex(playerData.sideQuestIndex);
-        // }
+        if(QuestSystem.instance != null)
+        {
+            int mainIndex = Mathf.Clamp(playerData.questIndex, 0, Mathf.Max(0, QuestSystem.instance.quests.Count - 1));
+            QuestSystem.instance.SetCurrentQuestIndex(mainIndex);
+            QuestSystem.instance.SetCurrentMainSubQuestIndex(playerData.currentMainSubQuestIndex);
+
+            int sideIndex = Mathf.Clamp(playerData.sideQuestIndex, 0, Mathf.Max(0, QuestSystem.instance.sideQuests.Count - 1));
+            QuestSystem.instance.SetCurrentSideQuestIndex(sideIndex);
+            QuestSystem.instance.SetCurrentSideSubQuestIndex(playerData.currentSideSubQuestIndex);
+        }
         if(InventoryManager.Instance != null)
         {
             InventoryManager.Instance.LoadInventory();            
@@ -246,6 +251,9 @@ public class GameManager : MonoBehaviour
         }
         playerData.levelRetries = new SerializableList<int>(checkLevelRetries);
         playerData.questIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentQuestIndex();
+        playerData.sideQuestIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentSideQuestIndex();
+        playerData.currentMainSubQuestIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentMainSubQuestIndex();
+        playerData.currentSideSubQuestIndex = QuestSystem.instance == null ? 0 : QuestSystem.instance.GetCurrentSideSubQuestIndex();
         if (playerInteraction != null && playerInteraction.playerTransform != null)
         {
             playerData.playerPosition = playerInteraction.playerTransform.localPosition;

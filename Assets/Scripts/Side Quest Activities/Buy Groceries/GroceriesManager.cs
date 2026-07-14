@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroceriesManager : MonoBehaviour
+public class GroceriesManager : AssignmentManager
 {
     public static GroceriesManager Instance;
     public GameObject NPCRelated;
@@ -32,9 +32,23 @@ public class GroceriesManager : MonoBehaviour
         }
 
     }
-    public void ActivateQuest()
-    {        
+    public override void ActivateQuest()
+    {
+        base.ActivateQuest();
         NPCRelated.SetActive(true);
+        currentGrocery = 0;
+        if(interactable !=null)
+        {
+            interactable.npcId = inCompleteDialogue;
+            interactable.onTalkEnded.RemoveAllListeners();
+            interactable.OnTalkStart.RemoveAllListeners();
+            interactable.OnTalkStart.AddListener(StartQuest);
+        }
+    }
+    public override void DeactivateQuest()
+    {
+        base.DeactivateQuest();
+        NPCRelated.SetActive(false);
         currentGrocery = 0;
         if(interactable !=null)
         {

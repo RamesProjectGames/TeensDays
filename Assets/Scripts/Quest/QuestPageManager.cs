@@ -31,6 +31,15 @@ public class QuestPageManager : MonoBehaviour
     public void PopulateQuestPage()
     {
         if(QuestSystem.instance == null) return;
+        for (int i = questPrefabParent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(questPrefabParent.GetChild(i).gameObject);
+        }
+        foreach (var box in mainQuestsBox) Destroy(box);
+        foreach (var box in subQuestBox) Destroy(box);
+        mainQuestsBox.Clear();
+        subQuestBox.Clear();
+
         for (int i = 0; i < QuestSystem.instance.quests.Count; i++)
         {
             Quest mainQuest = QuestSystem.instance.quests[i];
@@ -50,7 +59,7 @@ public class QuestPageManager : MonoBehaviour
                     PopulateRewards();
                 });
             }
-            mainQuestBox.SetActive(i==QuestSystem.instance.GetCurrentQuestIndex());
+            mainQuestBox.SetActive(true);
             mainQuestsBox.Add(mainQuestBox);
         }
         foreach (var sideQuest in QuestSystem.instance.sideQuests)
@@ -71,6 +80,7 @@ public class QuestPageManager : MonoBehaviour
                     navigateButton.SetActive(true);
                 });
             }
+            sideQuestBox.SetActive(true);
             subQuestBox.Add(sideQuestBox);
         }
     }
@@ -104,17 +114,15 @@ public class QuestPageManager : MonoBehaviour
     public void UpdateQuestPage(bool isMain = true, bool isSide = true)
     {
         if(QuestSystem.instance == null) return;
-        for (int i = 0; i < mainQuestsBox.Count; i++)
+        foreach (var mainQuestUI in mainQuestsBox)
         {
-            GameObject mainQuestUI = mainQuestsBox[i];
-            Quest mainQuest = QuestSystem.instance.GetQuest(mainQuestUI.GetComponent<QuestPage>().quest.text);
-            mainQuestUI.SetActive(!mainQuest.isDone && isMain && i == QuestSystem.instance.GetCurrentQuestIndex());
+            Quest mainQuest = mainQuestUI.GetComponent<QuestPage>().quest;
+            mainQuestUI.SetActive(mainQuest != null && !mainQuest.isDone && isMain);
         }
-        foreach (var subQuest in subQuestBox)
+        foreach (var sideQuestUI in subQuestBox)
         {
-            Quest subQuestData = QuestSystem.instance.GetQuest(subQuest.GetComponent<QuestPage>().quest.text);
-            bool isDone = subQuestData != null && subQuestData.isDone;
-            subQuest.SetActive(isDone && isSide);
+            Quest sideQuest = sideQuestUI.GetComponent<QuestPage>().quest;
+            sideQuestUI.SetActive(sideQuest != null && !sideQuest.isDone && isSide);
         }
     }
     public void ShowQuestAll()
@@ -141,21 +149,23 @@ public class QuestPageManager : MonoBehaviour
             var currentSubQuest = SelectSubQuest(currentQuest);
             QuestSystem.instance.AddNewQuest(currentSubQuest, false, true, currentQuest.subQuests.FindIndex(x=>x==currentSubQuest),true);            
         }
+        if(currentQuest.assignmentManager != null)
+        {
+            currentQuest.assignmentManager.ActivateQuest();
+        }
         QuestPagePanel.SetActive(false);
     }
     public Quest SelectSubQuest(Quest quest)
     {
-        if(QuestSystem.instance == null) return null;
-        Quest currentSubQuest = null;
+        if(QuestSystem.instance == null || quest == null) return null;
         foreach (var subQuest in quest.subQuests)
         {
-            if(subQuest.isDone)
+            if (!subQuest.isDone)
             {
-               currentSubQuest = subQuest;
-               break;
+                return subQuest;
             }
         }
-        return currentSubQuest;
+        return null;
     }
     public void OpenPanel(bool isOpen)
     {

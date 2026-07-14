@@ -29,6 +29,8 @@ public class PlayerData
     public int classExp;
     public int questIndex;
     public int sideQuestIndex;
+    public int currentMainSubQuestIndex;
+    public int currentSideSubQuestIndex;
     public int unlockedLevel;
     
     // Daily reward system

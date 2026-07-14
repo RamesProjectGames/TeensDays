@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GarbageCollector : MonoBehaviour
+public class GarbageCollector : AssignmentManager
 {
     public static GarbageCollector Instance;
     public GameObject triggerStartQuest;
@@ -19,6 +19,22 @@ public class GarbageCollector : MonoBehaviour
     void Awake()
     {
         Instance = this;
+    }
+    public override void ActivateQuest()
+    {
+        base.ActivateQuest();
+        triggerStartQuest.SetActive(true);
+        triggerEndQuest.SetActive(false);
+        currentTotalCollected = 0;
+        currentTotalSpawn = 0;
+    }
+    public override void DeactivateQuest()
+    {
+        base.DeactivateQuest();
+        triggerStartQuest.SetActive(false);
+        triggerEndQuest.SetActive(false);
+        currentTotalCollected = 0;
+        currentTotalSpawn = 0;
     }
     public void startSpawn()
     {

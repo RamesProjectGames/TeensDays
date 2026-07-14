@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class PaintManager : MonoBehaviour
+public class PaintManager : AssignmentManager
 {
     [Header("Quest Related")]
     
@@ -75,8 +75,9 @@ public class PaintManager : MonoBehaviour
             CheckCompletion();
         }
     }
-    public void ActivateQuest()
-    {        
+    public override void ActivateQuest()
+    {
+        base.ActivateQuest();
         NPCRelated.SetActive(true);
         paintingUI.SetActive(true);
         if(interactable !=null)
@@ -86,6 +87,12 @@ public class PaintManager : MonoBehaviour
             interactable.OnTalkStart.RemoveAllListeners();
             interactable.onTalkEnded.AddListener(StartPaint);
         }
+    }
+    public override void DeactivateQuest()
+    {
+        base.DeactivateQuest();
+        NPCRelated.SetActive(false);
+        paintingUI.SetActive(false);
     }
     public void StartPaint()
     {
