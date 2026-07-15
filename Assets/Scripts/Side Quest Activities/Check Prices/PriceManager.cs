@@ -203,6 +203,15 @@ public class PriceManager : AssignmentManager
                     {
                         relatedNPC.SetNewDialogue(checkRightAnswer);
                         SetQuestComplete(lastCheck);
+                        var questRelated = QuestSystem.instance.GetQuest(questName,true);
+                        if(questRelated != null)
+                        {
+                            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,"");
+                            foreach (var reward in questRelated.questRewards)
+                            {
+                                GameManager.Instance.playerData.currMoney += reward.rewardAmount;
+                            }
+                        }
                     }
                     else
                     {

@@ -602,6 +602,145 @@
       "isSideQuest": true,
       "parentIndex": 4,
       "questIndex": 10
+    },
+    {
+      "id": "Untuk Temanku yang sakit (Incomplete)",
+      "name": "Guru- Guru Sekolah",
+      "dialog": [
+        {
+          "speaker": "Bu Mira",
+          "isPlayer": false,
+          "text": "Pak, anak ini izin sakit sejak kemarin."
+        },
+        {
+          "speaker": "Bu Mira",
+          "isPlayer": false,
+          "text": "Tapi hari ini ada lembaran materi yang harus dibagikan ke seluruh siswa."
+        },
+        {
+          "speaker": "Pak Gunawan",
+          "isPlayer": false,
+          "text": "Bagaimana, ya, Bu? Ujiannya sudah dekat"
+        },
+        {
+          "speaker": "Pak Gunawan",
+          "isPlayer": false,
+          "text": "memang sebaiknya semua siswa sudah punya lembaran materi untuk mulai belajar."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Selamat siang, Pak Gunawan, Bu Mira!"
+        },
+        {
+          "speaker": "Pak Gunawan",
+          "isPlayer": false,
+          "text": "Eh, nak Bobon, ya? Selamat siang, Nak."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Bapak Ibu sedang bicarakan apa?"
+        },
+        {
+          "speaker": "Bu Mira",
+          "isPlayer": false,
+          "text": "Ini salah satu teman kelasmu, Bon."
+        },
+        {
+          "speaker": "Bu Mira",
+          "isPlayer": false,
+          "text": "Dia sakit sejak kemarin, jadi tidak datang ke sekolah."
+        },
+        {
+          "speaker": "Bu Mira",
+          "isPlayer": false,
+          "text": "Tapi, hari ini harusnya semua siswa harus sudah dapat lembaran materi untuk ujian minggu depan."
+        },
+        {
+          "speaker": "Bu Mira",
+          "isPlayer": false,
+          "text": "Ibu khawatir temanmu itu tidak bisa mulai belajar karena belum mendapatkan lembaran materi ini."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Oh begitu, Bu."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Kalau begitu, biar Bobon yang antar lembarannya!"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Rumahnya dekat dengan Bobon!"
+        },
+        {
+          "speaker": "Pak Gunawan",
+          "isPlayer": false,
+          "text": "Begitukah, nak Bobon? Wah, kamu baik sekali!"
+        },
+        {
+          "speaker": "Pak Gunawan",
+          "isPlayer": false,
+          "text": "Nanti Bapak kasih hadiah buat kamu!"
+        },
+        {
+          "speaker": "Bu Mira",
+          "isPlayer": false,
+          "text": "Ibu bangga sama kamu. Ini, lembar materinya."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Siap, Bu Mira! Siap, Pak Gunawan!"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 0
+    },
+    {
+      "id": "Untuk Temanku yang sakit (Complete)",
+      "name": "Teman Sekelas Bobon",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Permisi!"
+        },
+        {
+          "speaker": "Murid 1",
+          "isPlayer": false,
+          "text": "Uhuk-uhuk. Eh, Bobon? Kamu lagi ngapain di sini?."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ibu Mira minta tolong anterin lembar materi ini buat kamu belajar!"
+        },
+        {
+          "speaker": "Murid 1",
+          "isPlayer": false,
+          "text": "Oh, yang ujian minggu depan itu, ya? Wah terima kasih, ya, Bon! Uhuk uhuk."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Sama-sama! Semoga cepat sembuh ya. Lalu kita bisa belajar bareng lagi di sekolah!"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 5,
+      "questIndex": 1
     }
   ]
 }
