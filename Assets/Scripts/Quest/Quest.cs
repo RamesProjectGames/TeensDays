@@ -48,4 +48,10 @@ public class QuestReward
     public string rewardId;
     public int rewardAmount;
     public Sprite rewardIcon;
+    public QuestRewardType type;
+}
+public enum QuestRewardType
+{
+    Money,
+    Diamonds
 }

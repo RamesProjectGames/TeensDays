@@ -741,6 +741,70 @@
       "isSideQuest": true,
       "parentIndex": 5,
       "questIndex": 1
+    },
+    {
+      "id": "Buku Serial di Etalase (Incomplete)",
+      "name": "Ibu Kartika",
+      "dialog": [
+        {
+          "speaker": "Ibu Kartika",
+          "isPlayer": false,
+          "text": "Halo, Nak."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ibu lagi ngapain? Kenapa bukunya banyak banget?"
+        },
+        {
+          "speaker": "Ibu Kartika",
+          "isPlayer": false,
+          "text": "Buku-buku ini sedang Ibu tata untuk dipajang depan etalase toko."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Ooooh..."
+        },
+        {
+          "speaker": "Ibu Kartika",
+          "isPlayer": false,
+          "text": "Ini koleksi novel yang baru keluar, ada dua belas jumlahnya. Kamu mau coba mengurutkan novel ini, Nak?"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Waah, boleh, Bu? Oke! Bobon akan melakukan yang terbaik!"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 6,
+      "questIndex": 0
+    },
+    {
+      "id": "Buku Serial di Etalase (Complete)",
+      "name": "Ibu Kartika",
+      "dialog": [
+        {
+          "speaker": "Bobon",
+          "isPlayer": false,
+          "text": "Selesai, Bu! Ini sudah Bobon urutkan!"
+        },
+        {
+          "speaker": "Ibu Kartika",
+          "isPlayer": false,
+          "text": "Wah, terima kasih, ya, Nak."
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 6,
+      "questIndex": 1
     }
   ]
 }
