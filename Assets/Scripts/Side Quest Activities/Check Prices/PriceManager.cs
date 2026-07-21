@@ -203,13 +203,37 @@ public class PriceManager : AssignmentManager
                     {
                         relatedNPC.SetNewDialogue(checkRightAnswer);
                         SetQuestComplete(lastCheck);
-                        var questRelated = QuestSystem.instance.GetQuest(questName,true);
-                        if(questRelated != null)
+                        var questRelated = QuestSystem.instance.GetQuest(questName, true);
+                        if (questRelated != null)
                         {
-                            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,"");
-                            foreach (var reward in questRelated.questRewards)
+                            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated, false, "");
+                            if (!questRelated.isDone)
                             {
-                                GameManager.Instance.playerData.currMoney += reward.rewardAmount;
+                                foreach (var reward in questRelated.questRewards)
+                                {
+                                    if (reward.type == QuestRewardType.Money)
+                                    {
+                                        GameManager.Instance.playerData.currMoney += reward.rewardAmount;
+                                    }
+                                    else if (reward.type == QuestRewardType.Diamonds)
+                                    {
+                                        GameManager.Instance.playerData.currDiamond += reward.rewardAmount;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                foreach (var reward in questRelated.questRewards)
+                                {
+                                    if (reward.type == QuestRewardType.Money)
+                                    {
+                                        GameManager.Instance.playerData.currMoney += reward.rewardAmount / 10;
+                                    }
+                                    else if (reward.type == QuestRewardType.Diamonds)
+                                    {
+                                        GameManager.Instance.playerData.currDiamond += reward.rewardAmount / 10;
+                                    }
+                                }
                             }
                         }
                     }

@@ -53,6 +53,40 @@ public class CourierManager : AssignmentManager
         {
             QuestSystem.instance.UpdateCurrentQuestInfo(relatedSubQuest, false, "");
         }
+
+        var questRelated = QuestSystem.instance.GetQuest(questName, true);
+        if (questRelated != null)
+        {
+            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated, false, "");
+            if (!questRelated.isDone)
+            {
+                foreach (var reward in questRelated.questRewards)
+                {
+                    if (reward.type == QuestRewardType.Money)
+                    {
+                        GameManager.Instance.playerData.currMoney += reward.rewardAmount;
+                    }
+                    else if (reward.type == QuestRewardType.Diamonds)
+                    {
+                        GameManager.Instance.playerData.currDiamond += reward.rewardAmount;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var reward in questRelated.questRewards)
+                {
+                    if (reward.type == QuestRewardType.Money)
+                    {
+                        GameManager.Instance.playerData.currMoney += reward.rewardAmount / 10;
+                    }
+                    else if (reward.type == QuestRewardType.Diamonds)
+                    {
+                        GameManager.Instance.playerData.currDiamond += reward.rewardAmount / 10;
+                    }
+                }
+            }
+        }
         QuestPathManager.Instance.SetQuestTarget(null);
         EndNPC.gameObject.SetActive(false);
         EndNPC.onTalkEnded.RemoveAllListeners();

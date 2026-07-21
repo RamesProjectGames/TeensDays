@@ -91,7 +91,7 @@ public class DragAndDropManager : AssignmentManager
         puzzlePanel.SetActive(true);
         GeneratePuzzle();
         int questIndex = QuestSystem.instance.GetQuestIndex(questName,true);
-        int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName,inCompleteDialogue,true);
+        int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName,completedDialogue,true);
         if(questIndex != -1 && subQuestIndex != -1)
         {
             QuestSystem.instance.MarkQuestDone(questIndex, subQuestIndex, true, true);
@@ -188,6 +188,14 @@ public class DragAndDropManager : AssignmentManager
         RelatedNPC.SetNewDialogue(completedDialogue);
         RelatedNPC.onTalkEnded.RemoveAllListeners();
         puzzlePanel.SetActive(false);
+
+        
+        int questIndex = QuestSystem.instance.GetQuestIndex(questName,true);
+        int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName,completedDialogue,true);
+        if(questIndex != -1 && subQuestIndex != -1)
+        {
+            QuestSystem.instance.MarkQuestDone(questIndex, subQuestIndex, true, true);
+        }
 
         var questRelated = QuestSystem.instance.GetQuest(questName,true);
         if(questRelated != null)
