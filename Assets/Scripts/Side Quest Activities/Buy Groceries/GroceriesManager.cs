@@ -35,6 +35,7 @@ public class GroceriesManager : AssignmentManager
     public override void ActivateQuest()
     {
         base.ActivateQuest();
+        LoadProgressFromQuestState(questName, true);
         NPCRelated.SetActive(true);
         currentGrocery = 0;
         if(interactable !=null)
@@ -60,6 +61,8 @@ public class GroceriesManager : AssignmentManager
     }
     public void StartQuest()
     {
+        MarkStarted();
+        SetProgress(0f);
         NPCRelated.SetActive(false);
         currentGrocery = 0;
         if(interactable !=null)
@@ -85,15 +88,29 @@ public class GroceriesManager : AssignmentManager
     }
     public void ProgressQuest()
     {
-        if(currentGrocery < groceriesLocations.Count)
-        {
-            currentGrocery+=1;
-            QuestPathManager.Instance.SetQuestTarget(groceriesLocations[currentGrocery].transform);
-        }
-        else
+        if (currentGrocery >= groceriesLocations.Count)
         {
             FinishQuest();
+            return;
         }
+
+        currentGrocery += 1;
+        if (currentGrocery < groceriesLocations.Count)
+        {
+            QuestPathManager.Instance.SetQuestTarget(groceriesLocations[currentGrocery].transform);
+        }
+
+        if (groceriesLocations.Count > 0)
+        {
+            SetProgress(Mathf.Clamp01((float)currentGrocery / groceriesLocations.Count));
+        }
+
+        if (currentGrocery >= groceriesLocations.Count)
+        {
+            FinishQuest();
+            return;
+        }
+
         string listOfGroceries = "Barang Belanja : \n";
         for (int i = 0; i < groceriesLocations.Count; i++)
         {
@@ -122,6 +139,7 @@ public class GroceriesManager : AssignmentManager
             interactable.onTalkEnded.AddListener(() =>
             {
                 QuestSystem.instance.MarkQuestDone(3, 1, true, true);
+                TrackProgressFromSubQuests(questName, true);
                 var questRelated = QuestSystem.instance.GetQuest(questName, true);
                 if (questRelated != null)
                 {
@@ -133,11 +151,17 @@ public class GroceriesManager : AssignmentManager
                     {
                         GameManager.Instance.playerData.currMoney += repeatableRewradAmount;
                     }
+
+                    if (questRelated.isDone)
+                    {
+                        CompleteProgress();
+                    }
                 }
                 ResetQuest();
             });
         }        
         QuestSystem.instance.MarkQuestDone(3, 0, true, true);
+        TrackProgressFromSubQuests(questName, true);
         QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,1,true);
         
     }

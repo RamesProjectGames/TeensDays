@@ -17,6 +17,7 @@ public class CourierManager : AssignmentManager
     public override void ActivateQuest()
     {
         base.ActivateQuest();
+        LoadProgressFromQuestState(questName, true, 1);
         NPCRelated.gameObject.SetActive(true);
         EndNPC.gameObject.SetActive(false);
     }
@@ -29,6 +30,7 @@ public class CourierManager : AssignmentManager
     }
     public void StartQuest()
     {
+        MarkStarted();
         NPCRelated.gameObject.SetActive(false);
         EndNPC.gameObject.SetActive(true);
         EndNPC.onTalkEnded.RemoveAllListeners();
@@ -38,21 +40,23 @@ public class CourierManager : AssignmentManager
         {
             QuestSystem.instance.UpdateCurrentQuestInfo(relatedSubQuest, false, "Antarkan lembar materinya ke rumah teman.");
         }
+        TrackProgressFromSubQuests(questName, true, 1);
         QuestPathManager.Instance.SetQuestTarget(EndNPC.transform);
     }
     public void CompleteQuest()
     {
         var relatedSubQuest = QuestSystem.instance.GetSubQuest(questName, completedDialogue, true);
         int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName, completedDialogue, true);
-        if(!relatedSubQuest.isDone && subQuestIndex > 0)
+        if(relatedSubQuest != null && !relatedSubQuest.isDone && subQuestIndex > 0)
         {
             QuestSystem.instance.MarkQuestDone(5,subQuestIndex , true, true);
-            QuestSystem.instance.CheckAutoCompleteQuests();            
+            QuestSystem.instance.CheckAutoCompleteQuests();
         }
         if(relatedSubQuest != null)
         {
             QuestSystem.instance.UpdateCurrentQuestInfo(relatedSubQuest, false, "");
         }
+        TrackProgressFromSubQuests(questName, true, 1);
 
         var questRelated = QuestSystem.instance.GetQuest(questName, true);
         if (questRelated != null)
@@ -85,6 +89,11 @@ public class CourierManager : AssignmentManager
                         GameManager.Instance.playerData.currDiamond += reward.rewardAmount / 10;
                     }
                 }
+            }
+
+            if (questRelated.isDone)
+            {
+                CompleteProgress();
             }
         }
         QuestPathManager.Instance.SetQuestTarget(null);

@@ -149,9 +149,12 @@ public class GameManager : MonoBehaviour
             QuestSystem.instance.SetCurrentQuestIndex(mainIndex);
             QuestSystem.instance.SetCurrentMainSubQuestIndex(playerData.currentMainSubQuestIndex);
 
-            int sideIndex = Mathf.Clamp(playerData.sideQuestIndex, 0, Mathf.Max(0, QuestSystem.instance.sideQuests.Count - 1));
+            int sideIndex = playerData.sideQuestIndex < 0
+                ? -1
+                : Mathf.Clamp(playerData.sideQuestIndex, 0, Mathf.Max(0, QuestSystem.instance.sideQuests.Count - 1));
             QuestSystem.instance.SetCurrentSideQuestIndex(sideIndex);
             QuestSystem.instance.SetCurrentSideSubQuestIndex(playerData.currentSideSubQuestIndex);
+            StartCoroutine(QuestSystem.instance.LoadQuestsRoutine());
         }
         if(InventoryManager.Instance != null)
         {
@@ -514,6 +517,10 @@ public class GameManager : MonoBehaviour
     {
         if(pause)
         {
+            if (QuestSystem.instance != null)
+            {
+                QuestSystem.instance.SaveQuests();
+            }
             SavePlayerDataToCloud();
         }
         else
@@ -523,6 +530,10 @@ public class GameManager : MonoBehaviour
     }
     void OnApplicationQuit()
     {
+        if (QuestSystem.instance != null)
+        {
+            QuestSystem.instance.SaveQuests();
+        }
         SavePlayerDataToCloud();
     }
 

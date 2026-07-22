@@ -11,6 +11,8 @@ public class GarbageCollector : AssignmentManager
     public Vector2 amountToSpawn = new Vector2(10,15);
     public Spawner spawner;
     public string questName;
+    public string inCompleteDialogue;
+    public string completedDialogue;
     public int rewardAmount;
     public int repeatableRewradAmount;
     int currentTotalSpawn;
@@ -23,6 +25,7 @@ public class GarbageCollector : AssignmentManager
     public override void ActivateQuest()
     {
         base.ActivateQuest();
+        LoadProgressFromQuestState(questName, true, 1);
         triggerStartQuest.SetActive(true);
         triggerEndQuest.SetActive(false);
         currentTotalCollected = 0;
@@ -38,23 +41,32 @@ public class GarbageCollector : AssignmentManager
     }
     public void startSpawn()
     {
+        MarkStarted();
         currentTotalSpawn = (int)Random.Range(amountToSpawn.x, amountToSpawn.y);
         currentTotalCollected = 0;
         spawner.PoolObejct(currentTotalSpawn);
         triggerStartQuest.SetActive(false);
         triggerEndQuest.SetActive(false);
+        SetProgress(0f);
         var questRelated = QuestSystem.instance.GetQuest(questName,true);
         if(questRelated != null)
         {
-            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected Garbage {currentTotalCollected} / {currentTotalCollected}");
+            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected Garbage {currentTotalCollected} / {currentTotalSpawn}");
         }
+        QuestSystem.instance.MarkQuestDone(QuestSystem.instance.GetQuestIndex(questName,true),1,true,true);
     }
     public void Collect()
     {
         currentTotalCollected+=1;
+        if (currentTotalSpawn > 0)
+        {
+            SetProgress((float)currentTotalCollected / currentTotalSpawn);
+        }
+
         if(currentTotalCollected >= currentTotalSpawn)
         {
             triggerEndQuest.SetActive(true);
+            CompleteProgress();
             var questRelated = QuestSystem.instance.GetQuest(questName,true);
             if(questRelated != null)
             {
@@ -68,6 +80,8 @@ public class GarbageCollector : AssignmentManager
                 {
                     GameManager.Instance.playerData.currMoney += repeatableRewradAmount;
                 }
+                QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected All Garbages");
+                QuestSystem.instance.MarkQuestDone(QuestSystem.instance.GetQuestIndex(questName,true),1,true,true);
             }
         }
         else
@@ -75,7 +89,7 @@ public class GarbageCollector : AssignmentManager
             var questRelated = QuestSystem.instance.GetQuest(questName,true);
             if(questRelated != null)
             {
-                QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected Garbage {currentTotalCollected} / {currentTotalCollected}");                
+                QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected Garbage {currentTotalCollected} / {currentTotalSpawn}");                
             }
         }
     }
@@ -83,8 +97,14 @@ public class GarbageCollector : AssignmentManager
     {
         if(currentTotalCollected >= currentTotalSpawn)
         {
-            triggerStartQuest.SetActive(true);
+            triggerStartQuest.SetActive(false);
             triggerEndQuest.SetActive(false);
+            var questRelated = QuestSystem.instance.GetQuest(questName,true);
+            if(questRelated != null)
+            {
+                QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,"");    
+                QuestSystem.instance.RemoveQuestFromUI(questRelated);
+            }
         }
     }
 }

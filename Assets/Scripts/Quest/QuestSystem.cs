@@ -37,7 +37,6 @@ public class QuestSystem : MonoBehaviour
     private void Start()
     {
         InitilializeQuestData();
-        StartCoroutine(LoadQuestsRoutine());
     }
 
     private void Update()
@@ -64,7 +63,7 @@ public class QuestSystem : MonoBehaviour
         // No-op kept for compatibility. Use LoadQuestsAsync/LoadQuestsRoutine at startup instead.
     }
 
-    private IEnumerator LoadQuestsRoutine()
+    public IEnumerator LoadQuestsRoutine()
     {
         var task = LoadQuestsAsync();
         while (!task.IsCompleted)
@@ -82,6 +81,7 @@ public class QuestSystem : MonoBehaviour
                 playerInteraction = FindObjectOfType<PlayerInteraction>();
             }
             playerInteraction.StartQuest();
+            playerInteraction.StartSideQuest();
         }
     }
 
@@ -122,8 +122,13 @@ public class QuestSystem : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError($"Error loading quests from cloud: {e}");
-            // fallback local
-            var fallback = LoadLocalQuestCache("mainQuests.json") ?? new SerializableList<QuestData>();
+            // Fallback local for both main and side when cloud load fails
+            main = LoadLocalQuestCache("mainQuests.json") ?? new SerializableList<QuestData>();
+            side = LoadLocalQuestCache("sideQuests.json") ?? new SerializableList<QuestData>();
+
+            SerializableList<QuestData> fallback = new SerializableList<QuestData>();
+            if (main != null) fallback.list.AddRange(main.list);
+            if (side != null) fallback.list.AddRange(side.list);
             return fallback;
         }
     }
@@ -269,6 +274,8 @@ public class QuestSystem : MonoBehaviour
 
         currentSideQuestIndex = -1;
         currentSideSubQuestIndex = -1;
+        GameManager.Instance.playerData.sideQuestIndex = -1;
+        GameManager.Instance.playerData.currentSideSubQuestIndex = -1;
     }
 
     public void RemoveQuestFromUI(Quest quest)
@@ -323,6 +330,15 @@ public class QuestSystem : MonoBehaviour
                 {
                     parent.isDone = true;
                     UpdateSingleQuestDisplay(parent);
+                    RemoveQuestFromUI(parent);
+
+                    if (isSideQuest && parentIndex == currentSideQuestIndex)
+                    {
+                        currentSideQuestIndex = -1;
+                        currentSideSubQuestIndex = -1;
+                        GameManager.Instance.playerData.sideQuestIndex = -1;
+                        GameManager.Instance.playerData.currentSideSubQuestIndex = -1;
+                    }
                 }
 
                 if (!isSideQuest && parentIndex == currentQuestIndex)
@@ -347,6 +363,16 @@ public class QuestSystem : MonoBehaviour
                 var q = questList[questIndex];
                 q.isDone = true;
                 UpdateSingleQuestDisplay(q);
+                RemoveQuestFromUI(q);
+
+                if (isSideQuest && questIndex == currentSideQuestIndex)
+                {
+                    currentSideQuestIndex = -1;
+                    currentSideSubQuestIndex = -1;
+                    GameManager.Instance.playerData.sideQuestIndex = -1;
+                    GameManager.Instance.playerData.currentSideSubQuestIndex = -1;
+                }
+
                 QuestPageManager.Instance.UpdateQuestPage();
                 _ = SaveQuestsAsync();
             }
@@ -364,6 +390,28 @@ public class QuestSystem : MonoBehaviour
         Quest quest = questList.Find(x => x.text == parentQuest);
         Quest subQuest = quest.subQuests.Find(x => x.text == questName);
         return subQuest;
+    }
+    public string GetQuestName(int questIndex, bool isMain)
+    {
+        string questName = "";
+        List<Quest> questList = isMain ? quests : sideQuests;
+        Quest quest = questList[questIndex];
+        if(quest != null)
+        {            
+            questName = quest.text;
+        }
+        return questName;
+    }
+    public string GetSubQuestName(int questIndex, int subQuestIndex, bool isMain)
+    {
+        string subQuestName = "";
+        List<Quest> questList = isMain ? quests : sideQuests;
+        Quest quest = questList[questIndex];
+        if(quest == null) return subQuestName;
+        Quest subQuest = quest.subQuests[subQuestIndex];
+        if(subQuest == null) return subQuestName;
+        subQuestName =subQuest.text;
+        return subQuestName;
     }
     public int GetQuestIndex(string questName, bool isSideQuest = false)
     {
@@ -773,17 +821,17 @@ public class QuestSystem : MonoBehaviour
         if(newItem ==null) return;
         
         newItem.GetComponent<QuestUI>().SetQuest(questData);
-        // Transform subQuestParent = newItem.transform.Find("Content");
+        Transform subQuestParent = newItem.transform.Find("Content");
 
-        // if (subQuestParent == null)
-        // {
-        //     Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
-        // }
+        if (subQuestParent == null)
+        {
+            Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
+        }
 
-        // for (int i = subQuestParent.childCount - 1; i >= 0; i--)
-        // {
-        //     Destroy(subQuestParent.GetChild(i).gameObject);
-        // }
+        for (int i = subQuestParent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(subQuestParent.GetChild(i).gameObject);
+        }
 
         // GameObject addOnSubItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
         TMP_Text addOnSubText = newItem.GetComponentInChildren<TMP_Text>();

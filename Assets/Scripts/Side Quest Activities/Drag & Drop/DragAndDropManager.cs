@@ -41,6 +41,7 @@ public class DragAndDropManager : AssignmentManager
     public override void ActivateQuest()
     {
         base.ActivateQuest();
+        LoadProgressFromQuestState(questName, true);
         RelatedNPC.SetNewDialogue(inCompleteDialogue);
         RelatedNPC.onTalkEnded.RemoveAllListeners();
         RelatedNPC.onTalkEnded.AddListener(StartPuzzle);
@@ -88,6 +89,7 @@ public class DragAndDropManager : AssignmentManager
     }
     public void StartPuzzle()
     {
+        MarkStarted();
         puzzlePanel.SetActive(true);
         GeneratePuzzle();
         int questIndex = QuestSystem.instance.GetQuestIndex(questName,true);
@@ -95,6 +97,7 @@ public class DragAndDropManager : AssignmentManager
         if(questIndex != -1 && subQuestIndex != -1)
         {
             QuestSystem.instance.MarkQuestDone(questIndex, subQuestIndex, true, true);
+            TrackProgressFromSubQuests(questName, true);
         }
     }
     public void GeneratePuzzle()
@@ -195,6 +198,7 @@ public class DragAndDropManager : AssignmentManager
         if(questIndex != -1 && subQuestIndex != -1)
         {
             QuestSystem.instance.MarkQuestDone(questIndex, subQuestIndex, true, true);
+            TrackProgressFromSubQuests(questName, true);
         }
 
         var questRelated = QuestSystem.instance.GetQuest(questName,true);
@@ -229,6 +233,7 @@ public class DragAndDropManager : AssignmentManager
                 }
             }
         }
+        CompleteProgress();
         onPuzzleSolved?.Invoke();
     }
 

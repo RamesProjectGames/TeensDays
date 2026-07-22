@@ -4,12 +4,17 @@ using UnityEngine.Events;
 public class Garbage : Item
 {
     private PlayerInteraction currentPlayerInteraction;
-    private UnityAction collectAction;
 
     private void OnEnable()
     {
         OnEnter.AddListener(HandleEnter);
         OnExit.AddListener(HandleExit);
+        textBubble = "Collect";
+        onInteract.AddListener(() =>
+        {
+            GarbageCollector.Instance.Collect();
+            gameObject.SetActive(false);
+        });
     }
 
     private void OnDisable()
@@ -17,6 +22,7 @@ public class Garbage : Item
         Cleanup();
         OnEnter.RemoveListener(HandleEnter);
         OnExit.RemoveListener(HandleExit);
+        onInteract.RemoveAllListeners();
     }
 
     private void HandleEnter(GameObject go)
@@ -26,24 +32,7 @@ public class Garbage : Item
 
         currentPlayerInteraction = FindObjectOfType<PlayerInteraction>();
         if (currentPlayerInteraction == null)
-            return;
-
-        currentPlayerInteraction.SetInteractText("Collect");
-
-        if (collectAction != null)
-            currentPlayerInteraction.onAction.RemoveListener(collectAction);
-
-        collectAction = () =>
-        {
-            if (!gameObject.activeInHierarchy)
-                return;
-
-            GarbageCollector.Instance.Collect();
-            gameObject.SetActive(false);
-            Cleanup();
-        };
-
-        currentPlayerInteraction.onAction.AddListener(collectAction);
+            return;        
     }
 
     private void HandleExit(GameObject go)
@@ -55,14 +44,8 @@ public class Garbage : Item
     }
 
     private void Cleanup()
-    {
-        if (currentPlayerInteraction != null && collectAction != null)
-        {
-            currentPlayerInteraction.onAction.RemoveListener(collectAction);
-            currentPlayerInteraction.SetInteractText("");
-        }
-
+    {        
         currentPlayerInteraction = null;
-        collectAction = null;
+        textBubble = "";
     }
 }

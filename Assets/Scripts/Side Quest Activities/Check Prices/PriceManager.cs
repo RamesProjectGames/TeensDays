@@ -27,6 +27,7 @@ public class PriceManager : AssignmentManager
     public override void ActivateQuest()
     {
         base.ActivateQuest();
+        LoadProgressFromQuestState(questName, true, 1);
         relatedNPC.gameObject.SetActive(true);
         foreach (var vendor in vendors)
         {
@@ -51,10 +52,11 @@ public class PriceManager : AssignmentManager
     {
         var relatedSubQuest = QuestSystem.instance.GetSubQuest(questName, questID, true);
         int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName, questID, true);
-        if(!relatedSubQuest.isDone && subQuestIndex > 0)
+        if(relatedSubQuest != null && !relatedSubQuest.isDone && subQuestIndex > 0)
         {
             QuestSystem.instance.MarkQuestDone(5,subQuestIndex , true, true);
-            QuestSystem.instance.CheckAutoCompleteQuests();            
+            QuestSystem.instance.CheckAutoCompleteQuests();
+            TrackProgressFromSubQuests(questName, true, 1);
         }
     }
     public bool CheckQuestComplete(string questID)
@@ -76,6 +78,7 @@ public class PriceManager : AssignmentManager
     }
     public void StartQuest()
     {
+        MarkStarted();
         relatedNPC.gameObject.SetActive(false);
         string groceryToAdd = "Daftar Belanja : \n";
         foreach (var vendor in vendors)
@@ -92,6 +95,7 @@ public class PriceManager : AssignmentManager
         {
             QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,groceryToAdd);
         }
+        TrackProgressFromSubQuests(questName, true, 1);
         QuestPathManager.Instance.SetQuestTarget(vendors[0].NPC.interactableNPC.transform);
     }
     public void ProgressQuest()
@@ -124,6 +128,11 @@ public class PriceManager : AssignmentManager
         if(questCompletedAmount >= totalAmount)
         {
             FinishQuest();
+        }
+
+        if (totalAmount > 0)
+        {
+            SetProgress((float)questCompletedAmount / totalAmount);
         }
     }
     public void FinishQuest()
@@ -208,6 +217,7 @@ public class PriceManager : AssignmentManager
                         var questRelated = QuestSystem.instance.GetQuest(questName, true);
                         if (questRelated != null)
                         {
+                            TrackProgressFromSubQuests(questName, true, 1);
                             QuestSystem.instance.UpdateCurrentQuestInfo(questRelated, false, "");
                             if (!questRelated.isDone)
                             {
@@ -237,6 +247,10 @@ public class PriceManager : AssignmentManager
                                     }
                                 }
                             }
+                        }
+                        if (questRelated != null && questRelated.isDone)
+                        {
+                            CompleteProgress();
                         }
                     }
                     else

@@ -38,6 +38,7 @@ public class PlayerInteraction : MonoBehaviour
 
 
     private InteractableNPC currentNPC;
+    private Item currentItem;
     private InteractableNPC npcBeingTalkedTo;
     public QuestSystem questSystem;
     //public QuestPathManager questPathManager;
@@ -61,8 +62,6 @@ public class PlayerInteraction : MonoBehaviour
 
     bool isTalking = false;
 
-    public UnityEvent onAction;
-
     private void Start()
     {
         
@@ -79,7 +78,7 @@ public class PlayerInteraction : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, npcLayer);
         Collider[] interactHits = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
 
-        if (hits.Length > 0 || interactHits.Length > 0)
+        if (hits.Length > 0)
         {
             currentNPC = hits[0].GetComponent<InteractableNPC>();
             if (currentNPC != null)
@@ -88,9 +87,19 @@ public class PlayerInteraction : MonoBehaviour
                 SetInteractText("Talk");
             }
         }
+        else if(interactHits.Length > 0)
+        {
+            currentItem = interactHits[0].GetComponent<Item>();
+            if(currentItem != null)
+            {
+                floatingButton.SetActive(true);                
+                SetInteractText(currentItem.textBubble);                
+            }
+        }
         else
         {
             currentNPC = null;
+            currentItem = null;
             floatingButton.SetActive(false);
         }
         floatingButtonText.text = actionButtonText;
@@ -101,7 +110,11 @@ public class PlayerInteraction : MonoBehaviour
     }
     public void OnTalkButtonClicked()
     {
-        onAction?.Invoke();
+        if( currentItem != null)
+        {
+            currentItem.onInteract?.Invoke();            
+        }
+
         if (currentNPC == null) return;
 
         npcBeingTalkedTo = currentNPC;  // <-- Kunci NPC saat ini
@@ -292,7 +305,36 @@ public class PlayerInteraction : MonoBehaviour
             0,
             false   // isSideQuest
         );
-        QuestSystem.instance.questPathManager.SetQuestTarget(quest.targetTransform);
+        QuestSystem.instance.questPathManager.SetQuestTarget(quest.targetTransform);        
+    }
+    public void StartSideQuest()
+    {
+        if (QuestSystem.instance == null) return;
+
+        int sideQuestIndex = QuestSystem.instance.GetCurrentSideQuestIndex();
+        if (sideQuestIndex < 0 || sideQuestIndex >= QuestSystem.instance.sideQuests.Count)
+        {
+            return;
+        }
+
+        var currentSideQuest = QuestSystem.instance.sideQuests[sideQuestIndex];
+        if (currentSideQuest == null) return;
+
+        int sideSubQuestIndex = QuestSystem.instance.GetCurrentSideSubQuestIndex();
+        if (currentSideQuest.subQuests == null || currentSideQuest.subQuests.Count == 0)
+        {
+            sideSubQuestIndex = 0;
+        }
+        else
+        {
+            sideSubQuestIndex = Mathf.Clamp(sideSubQuestIndex, 0, currentSideQuest.subQuests.Count - 1);
+        }
+
+        QuestSystem.instance.AddNewQuest(currentSideQuest, false, true, sideSubQuestIndex, true);
+        if(currentSideQuest.assignmentManager != null)
+        {
+            currentSideQuest.assignmentManager.ActivateQuest();
+        }
     }
     public void StartDialog(string dialogID = null)
     {

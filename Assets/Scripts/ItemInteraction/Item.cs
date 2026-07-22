@@ -22,11 +22,13 @@ public class Item : MonoBehaviour
 
     [Header("Filter")]
     [SerializeField] private string requiredTag = "";
+    public string textBubble = "";
 
     [Header("Events")]
     public UnityEvent<GameObject> OnEnter;
     public UnityEvent<GameObject> OnStay;
     public UnityEvent<GameObject> OnExit;
+    public UnityEvent onInteract;
 
     private readonly HashSet<Collider> currentColliders = new();
     private readonly HashSet<Collider> previousColliders = new();

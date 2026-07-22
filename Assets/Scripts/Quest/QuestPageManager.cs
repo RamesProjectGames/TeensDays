@@ -22,7 +22,7 @@ public class QuestPageManager : MonoBehaviour
     public GameObject noRewardsText;
 
     List<GameObject> mainQuestsBox = new List<GameObject>();
-    List<GameObject> subQuestBox = new List<GameObject>();
+    List<GameObject> sideQuestBox = new List<GameObject>();
     Quest currentQuest = null;
     void Awake()
     {
@@ -36,9 +36,9 @@ public class QuestPageManager : MonoBehaviour
             Destroy(questPrefabParent.GetChild(i).gameObject);
         }
         foreach (var box in mainQuestsBox) Destroy(box);
-        foreach (var box in subQuestBox) Destroy(box);
+        foreach (var box in sideQuestBox) Destroy(box);
         mainQuestsBox.Clear();
-        subQuestBox.Clear();
+        sideQuestBox.Clear();
 
         for (int i = 0; i < QuestSystem.instance.quests.Count; i++)
         {
@@ -81,7 +81,7 @@ public class QuestPageManager : MonoBehaviour
                 });
             }
             sideQuestBox.SetActive(true);
-            subQuestBox.Add(sideQuestBox);
+            this.sideQuestBox.Add(sideQuestBox);
         }
     }
     public void PopulateRewards()
@@ -127,7 +127,7 @@ public class QuestPageManager : MonoBehaviour
             Quest mainQuest = mainQuestUI.GetComponent<QuestPage>().quest;
             mainQuestUI.SetActive(mainQuest != null && !mainQuest.isDone && isMain);
         }
-        foreach (var sideQuestUI in subQuestBox)
+        foreach (var sideQuestUI in sideQuestBox)
         {
             Quest sideQuest = sideQuestUI.GetComponent<QuestPage>().quest;
             sideQuestUI.SetActive(sideQuest != null && !sideQuest.isDone && isSide);

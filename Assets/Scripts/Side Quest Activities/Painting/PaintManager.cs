@@ -78,6 +78,7 @@ public class PaintManager : AssignmentManager
     public override void ActivateQuest()
     {
         base.ActivateQuest();
+        LoadProgressFromQuestState(questName, true);
         NPCRelated.SetActive(true);
         paintingUI.SetActive(true);
         if(interactable !=null)
@@ -96,6 +97,8 @@ public class PaintManager : AssignmentManager
     }
     public void StartPaint()
     {
+        MarkStarted();
+        SetProgress(0f);
         NPCRelated.SetActive(false);
         startPaint = true;
         if(interactable !=null)
@@ -116,6 +119,7 @@ public class PaintManager : AssignmentManager
             interactable.onTalkEnded.AddListener(() =>
             {
                 QuestSystem.instance.MarkQuestDone(4, 1, true, true);
+                TrackProgressFromSubQuests(questName, true);
                 var questRelated = QuestSystem.instance.GetQuest(questName, true);
                 if (questRelated != null)
                 {
@@ -127,11 +131,17 @@ public class PaintManager : AssignmentManager
                     {
                         GameManager.Instance.playerData.currMoney += repeatableRewradAmount;
                     }
+
+                    if (questRelated.isDone)
+                    {
+                        CompleteProgress();
+                    }
                 }
                 ResetQuest();
             });
         }        
         QuestSystem.instance.MarkQuestDone(4, 0, true, true);
+        TrackProgressFromSubQuests(questName, true);
         QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,1,true);
         
     }
@@ -234,6 +244,7 @@ public class PaintManager : AssignmentManager
         }
 
         float progress = required == 0 ? 0 : (float)painted / required;
+        SetProgress(progress);
 
         
         QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,$"Paint Progress = {progress * 100}%");
@@ -243,6 +254,7 @@ public class PaintManager : AssignmentManager
         if (!completed && progress >= completionRequirement)
         {
             completed = true;
+            CompleteProgress();
             onCompleted?.Invoke();
         }
     }
