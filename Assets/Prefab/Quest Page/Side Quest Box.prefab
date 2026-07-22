@@ -93,11 +93,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 40.55
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -10.093689}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -273,6 +273,20 @@ MonoBehaviour:
   titleText: {fileID: 8082034775496416355}
   subtitleText: {fileID: 8127262897824702397}
   leadButton: {fileID: 6853129545114321949}
+  quest:
+    questText: {fileID: 0}
+    text: 
+    description: 
+    expForQuest: 0
+    targetTransform: {fileID: 0}
+    questObjectAnnoun: {fileID: 0}
+    npcObject: {fileID: 0}
+    isDone: 0
+    subQuests: []
+    assignmentManager: {fileID: 0}
+    questUIObject: {fileID: 0}
+    questOutline: {fileID: 0}
+    questRewards: []
 --- !u!1 &6450404958171545586
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,11 +380,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 34.1
   m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1

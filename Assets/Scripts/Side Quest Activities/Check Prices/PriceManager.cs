@@ -39,6 +39,8 @@ public class PriceManager : AssignmentManager
     {
         base.DeactivateQuest();
         relatedNPC.gameObject.SetActive(false);
+        
+        QuizUI.SetActive(false);
         foreach (var vendor in vendors)
         {
             vendor.NPC.interactableNPC.gameObject.SetActive(false);

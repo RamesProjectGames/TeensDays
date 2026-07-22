@@ -138,6 +138,20 @@ MonoBehaviour:
   titleText: {fileID: 8178266200430994838}
   subtitleText: {fileID: 9095141697087025997}
   leadButton: {fileID: 7699320290696825947}
+  quest:
+    questText: {fileID: 0}
+    text: 
+    description: 
+    expForQuest: 0
+    targetTransform: {fileID: 0}
+    questObjectAnnoun: {fileID: 0}
+    npcObject: {fileID: 0}
+    isDone: 0
+    subQuests: []
+    assignmentManager: {fileID: 0}
+    questUIObject: {fileID: 0}
+    questOutline: {fileID: 0}
+    questRewards: []
 --- !u!1 &5425853871767905265
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,10 +245,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 34.1
   m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -366,11 +380,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 36.4
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1

@@ -111,10 +111,15 @@ public class ListItem : MonoBehaviour
             Debug.LogWarning("InventoryUIManager is not assigned in InventoryManager.");
             yield break;
         }
-        for(int i=0; i < ShopItemList.items.Count && i < inventoryUIManager.items.Length; i++)
+        int maxItems = Mathf.Min(ShopItemList.items.Count,inventoryUIManager.items.Length);
+        Debug.Log($"max : {maxItems}");
+        for(int i=0; i < maxItems; i++)
         {
+            if(ShopItemList.items[i]==null) continue;
+            if(ShopItemList.items[i].itemId.Contains("default", System.StringComparison.OrdinalIgnoreCase))
+                continue;
             Sprite iconSprite = Resources.Load<Sprite>("ShopIcons/" + ShopItemList.items[i].icon);
-            inventoryUIManager.items[i+1].Setup(
+            inventoryUIManager.items[i].Setup(
                 ShopItemList.items[i].itemId,
                 ShopItemList.items[i].rarity,
                 iconSprite,

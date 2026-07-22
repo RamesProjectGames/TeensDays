@@ -265,14 +265,17 @@ MonoBehaviour:
   quest:
     questText: {fileID: 0}
     text: 
+    description: 
     expForQuest: 0
     targetTransform: {fileID: 0}
     questObjectAnnoun: {fileID: 0}
     npcObject: {fileID: 0}
     isDone: 0
     subQuests: []
+    assignmentManager: {fileID: 0}
     questUIObject: {fileID: 0}
     questOutline: {fileID: 0}
+    questRewards: []
 --- !u!1 &8416084637962025147
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +384,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 177.23755, y: 22.566101}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7164605382303636682

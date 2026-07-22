@@ -53,8 +53,8 @@ public class QuestPageManager : MonoBehaviour
             {
                 page.Set(mainQuest.text,currentSubQuest == null ? "" : currentSubQuest.text,mainQuest, () =>
                 {
-                    SetPageContents(mainQuest.text,currentSubQuest == null ? "This Quest Does't Have sub quests" : currentSubQuest.text,mainQuest.description);
                     currentQuest = mainQuest;
+                    SetPageContents(mainQuest.text,currentSubQuest == null ? "This Quest Does't Have sub quests" : currentSubQuest.text,mainQuest.description);
                     navigateButton.SetActive(true);
                     PopulateRewards();
                 });
@@ -74,8 +74,8 @@ public class QuestPageManager : MonoBehaviour
             {
                 page.Set(sideQuest.text,currentSubQuest == null ? "" : currentSubQuest.text,sideQuest, () =>
                 {
-                    SetPageContents(sideQuest.text,currentSubQuest == null ? "This Quest Does't Have sub quests" : currentSubQuest.text,sideQuest.description);                    
                     currentQuest = sideQuest;
+                    SetPageContents(sideQuest.text,currentSubQuest == null ? "This Quest Does't Have sub quests" : currentSubQuest.text,sideQuest.description);                    
                     PopulateRewards();
                     navigateButton.SetActive(true);
                 });
@@ -103,13 +103,21 @@ public class QuestPageManager : MonoBehaviour
                 rewardUI.GetComponentInChildren<Image>().sprite = reward.rewardIcon;
             }
         }
-        noRewardsText.SetActive(currentQuest.questRewards.Count>0);
+        noRewardsText.SetActive(currentQuest.questRewards.Count<=0);
     }
     public void SetPageContents(string title, string subTitle, string desc)
     {
         questTitle.text = title;
         subQuestTitle.text = subTitle;
         questDescription.text = desc;
+        if(CheckOnGoingQuest())
+        {
+            navigateButton.GetComponentInChildren<TMP_Text>().text = "Cancel Navigation";
+        }
+        else
+        {
+            navigateButton.GetComponentInChildren<TMP_Text>().text = "Navigate";            
+        }
     }
     public void UpdateQuestPage(bool isMain = true, bool isSide = true)
     {
@@ -140,18 +148,37 @@ public class QuestPageManager : MonoBehaviour
     public void NavigateToQuest()
     {
         if(currentQuest == null) return;
-        if(QuestSystem.instance.quests.Exists(x=>x == currentQuest))
+        if(CheckOnGoingQuest())
         {
-            QuestSystem.instance.AddNewQuest(currentQuest, true, false, 0, false);            
+            CancelNavigation();
         }
         else
         {
-            var currentSubQuest = SelectSubQuest(currentQuest);
-            QuestSystem.instance.AddNewQuest(currentSubQuest, false, true, currentQuest.subQuests.FindIndex(x=>x==currentSubQuest),true);            
+            if (QuestSystem.instance.quests.Exists(x => x == currentQuest))
+            {
+                QuestSystem.instance.AddNewQuest(currentQuest, true, false, 0, false);
+            }
+            else
+            {
+                var currentSubQuest = SelectSubQuest(currentQuest);
+                int currentSubQuestIndex = currentQuest.subQuests.FindIndex(x => x == currentSubQuest) < 0 ? 0 : currentQuest.subQuests.FindIndex(x => x == currentSubQuest);
+                QuestSystem.instance.AddNewQuest(currentQuest, false, true, currentSubQuestIndex, true);
+                QuestSystem.instance.SetCurrentSideQuestIndex(QuestSystem.instance.sideQuests.FindIndex(x => x == currentQuest));
+                QuestSystem.instance.SetCurrentSideSubQuestIndex(currentSubQuestIndex);
+            }
+            if (currentQuest.assignmentManager != null)
+            {
+                currentQuest.assignmentManager.ActivateQuest();
+            }
+            QuestPagePanel.SetActive(false);
         }
-        if(currentQuest.assignmentManager != null)
+    }
+    public void CancelNavigation()
+    {
+        QuestSystem.instance.CancelNavigation();
+        if (currentQuest.assignmentManager != null)
         {
-            currentQuest.assignmentManager.ActivateQuest();
+            currentQuest.assignmentManager.DeactivateQuest();
         }
         QuestPagePanel.SetActive(false);
     }
@@ -171,5 +198,19 @@ public class QuestPageManager : MonoBehaviour
     {
         QuestPagePanel.SetActive(isOpen);
         navigateButton.SetActive(false);
+    }
+    public bool CheckOnGoingQuest()
+    {
+        bool isMain = QuestSystem.instance.quests.Exists(x=>x==currentQuest);
+        bool isOngoing = false;
+        if(isMain)
+        {
+            isOngoing = QuestSystem.instance.GetCurrentQuestIndex() == QuestSystem.instance.quests.FindIndex(x=>x==currentQuest);
+        }
+        else
+        {
+            isOngoing = QuestSystem.instance.GetCurrentSideQuestIndex() == QuestSystem.instance.sideQuests.FindIndex(x=>x==currentQuest);
+        }
+        return isOngoing;
     }
 }

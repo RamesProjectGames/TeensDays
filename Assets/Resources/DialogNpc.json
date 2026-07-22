@@ -78,7 +78,7 @@
       "isMainQuest": false,
       "isSubQuest": false,
       "isSideQuest": true,
-      "parentIndex": 1,
+      "parentIndex": 0,
       "questIndex": 0
     },
     {
@@ -100,7 +100,7 @@
       "isMainQuest": false,
       "isSubQuest": false,
       "isSideQuest": true,
-      "parentIndex": 1,
+      "parentIndex": 0,
       "questIndex": 1
     },
     {
@@ -147,7 +147,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 2,
+      "parentIndex": 1,
       "questIndex": 0
     },
     {
@@ -169,7 +169,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 2,
+      "parentIndex": 1,
       "questIndex": 1
     },
     {
@@ -266,7 +266,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 3,
+      "parentIndex": 2,
       "questIndex": 0
     },
     {
@@ -283,7 +283,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 3,
+      "parentIndex": 2,
       "questIndex": 1
     },
     {
@@ -330,7 +330,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 0
     },
     {
@@ -357,7 +357,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 1
     },
     {
@@ -384,7 +384,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 2
     },
     {
@@ -411,7 +411,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 3
     },
     {
@@ -438,7 +438,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 4
     },
     {
@@ -465,7 +465,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 5
     },
     {
@@ -492,7 +492,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 6
     },
     {
@@ -509,7 +509,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 7
     },
     {
@@ -566,7 +566,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 8
     },
     {
@@ -583,7 +583,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 9
     },
     {
@@ -600,7 +600,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 4,
+      "parentIndex": 3,
       "questIndex": 10
     },
     {
@@ -702,7 +702,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 0
     },
     {
@@ -739,7 +739,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 5,
+      "parentIndex": 4,
       "questIndex": 1
     },
     {
@@ -781,7 +781,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 6,
+      "parentIndex": 5,
       "questIndex": 0
     },
     {
@@ -803,7 +803,7 @@
       "isMainQuest": false,
       "isSubQuest": true,
       "isSideQuest": true,
-      "parentIndex": 6,
+      "parentIndex": 5,
       "questIndex": 1
     }
   ]

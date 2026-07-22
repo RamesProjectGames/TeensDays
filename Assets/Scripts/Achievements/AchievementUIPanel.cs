@@ -98,16 +98,16 @@ public class AchievementUIPanel : MonoBehaviour
     }
     public void ShowPopUp()
     {
-        if(achievementPopUp = null)
+        if(achievementPopUp == null)
         {
             return;
         }
-        achievementPopUp.LeanMoveY(280, .7f).setOnComplete(() =>
+        LeanTween.moveY(achievementPopUp,280,.7f);
+        // achievementPopUp.LeanMoveY(280, .7f);
+        LeanTween.delayedCall(5f, () =>
         {
-            LeanTween.delayedCall(5f, () =>
-            {
-                achievementPopUp.LeanMoveY(430, .7f);
-            });
+            LeanTween.moveY(achievementPopUp,430,.7f);
+            // achievementPopUp.LeanMoveY(430, .7f);
         });
     }
 }

@@ -211,8 +211,8 @@ public class QuestSystem : MonoBehaviour
     }
     public void SetCurrentSideQuestIndex(int index)
     {
-        currentSideQuestIndex = Mathf.Clamp(index, 0, Mathf.Max(0, sideQuests.Count - 1));
-        currentSideSubQuestIndex = GetFirstUnfinishedSubQuestIndex(sideQuests.ElementAtOrDefault(currentSideQuestIndex));
+        currentSideQuestIndex = Mathf.Clamp(index, -1, Mathf.Max(0, sideQuests.Count - 1));
+        currentSideSubQuestIndex = currentSideQuestIndex >= 0 ? GetFirstUnfinishedSubQuestIndex(sideQuests[currentSideQuestIndex]) : -1;
         GameManager.Instance.playerData.sideQuestIndex = currentSideQuestIndex; // Sync ke playerData
         GameManager.Instance.playerData.currentSideSubQuestIndex = currentSideSubQuestIndex;
         ActivateQuestObject(currentSideQuestIndex,false);
@@ -221,7 +221,7 @@ public class QuestSystem : MonoBehaviour
     {
         if (currentSideQuestIndex >= 0 && currentSideQuestIndex < sideQuests.Count)
         {
-            currentSideSubQuestIndex = Mathf.Clamp(index, 0, Mathf.Max(0, sideQuests[currentSideQuestIndex].subQuests.Count - 1));
+            currentSideSubQuestIndex = Mathf.Clamp(index, -1, Mathf.Max(0, sideQuests[currentSideQuestIndex].subQuests.Count - 1));
             GameManager.Instance.playerData.currentSideSubQuestIndex = currentSideSubQuestIndex;
         }
     }
@@ -240,6 +240,42 @@ public class QuestSystem : MonoBehaviour
     public int GetCurrentSideSubQuestIndex()
     {
         return currentSideSubQuestIndex;
+    }
+
+    public void SetQuestPathTarget(Transform target)
+    {
+        if (QuestPathManager.Instance != null)
+        {
+            QuestPathManager.Instance.SetQuestTarget(target);
+        }
+    }
+
+    public void CancelNavigation()
+    {
+        if (QuestPathManager.Instance != null)
+        {
+            QuestPathManager.Instance.ClearPath();
+        }
+
+        // if (currentQuestIndex >= 0 && currentQuestIndex < quests.Count)
+        // {
+        //     RemoveQuestFromUI(quests[currentQuestIndex]);
+        // }
+
+        if (currentSideQuestIndex >= 0 && currentSideQuestIndex < sideQuests.Count)
+        {
+            RemoveQuestFromUI(sideQuests[currentSideQuestIndex]);
+        }
+
+        currentSideQuestIndex = -1;
+        currentSideSubQuestIndex = -1;
+    }
+
+    public void RemoveQuestFromUI(Quest quest)
+    {
+        if (quest == null) return;
+        bool isMain = quests.Exists(x=> x ==quest);
+        RemoveExistingQuest(quest,isMain);
     }
 
     public bool HasQuest(Quest questData)
@@ -519,7 +555,7 @@ public class QuestSystem : MonoBehaviour
             Debug.Log($"[CheckAutoComplete] currentQuestIndex {currentQuestIndex} out of range (total={quests.Count})");
         }
 
-        if (currentSideQuestIndex < sideQuests.Count)
+        if (currentSideQuestIndex >= 0 && currentSideQuestIndex < sideQuests.Count)
         {
             var quest = sideQuests[currentSideQuestIndex];
 
@@ -678,6 +714,38 @@ public class QuestSystem : MonoBehaviour
         {
             targetTransform = questData.targetTransform;
         }
+        if (targetTransform!= null)
+        {
+            questPathManager.SetQuestTarget(targetTransform);
+            Debug.Log($"🎯 Quest target diatur ke: {targetTransform}");
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ Quest '{questData.text}' tidak memiliki targetTransform!");
+        }
+    }
+    public void RemoveExistingQuest(Quest questData, bool isMainQuest)
+    {
+        // Check if there are any duplicate with UI
+        List<QuestUI> shownQuest = new List<QuestUI>();
+        if(isMainQuest)
+        {
+            shownQuest = questUIManager.panelMainQuestList.GetComponentsInChildren<QuestUI>().ToList();
+        }
+        else
+        {
+            shownQuest = questUIManager.panelSubQuestList.GetComponentsInChildren<QuestUI>().ToList();
+        }
+        if(shownQuest.Exists(x=>x.quest.text == questData.text))
+        {
+            var QuestObject = shownQuest.Find(x=>x.quest.text == questData.text);
+            if(!isMainQuest && QuestObject != null)
+            {
+                Destroy(QuestObject.gameObject);
+            }
+        }
+
+        Transform targetTransform = quests[currentQuestIndex].targetTransform;
         if (targetTransform!= null)
         {
             questPathManager.SetQuestTarget(targetTransform);
