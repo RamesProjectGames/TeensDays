@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [Header("Objects Variables")]
-    public GameObject objectToSpawn;
+    public GameObject[] objectToSpawn;
     public Transform objectParent;
     [Header("Numeric Variable")]
     public int totalPool = 20;
@@ -29,12 +29,22 @@ public class Spawner : MonoBehaviour
     }
     public void InstantiateObject()
     {
-        for (int i = 0; i < totalPool; i++)
-        {            
-            GameObject spawnPool = Instantiate(objectToSpawn, Vector3.zero ,Quaternion.identity, objectParent);
-            spawnPool.SetActive(false);
-            objects.Add(spawnPool);
+
+        foreach (GameObject prefab in objectToSpawn)
+        {
+            for (int i = 0; i < totalPool; i++)
+            {
+                GameObject obj = Instantiate(prefab, Vector3.zero, Quaternion.identity, objectParent);
+                obj.SetActive(false);
+                objects.Add(obj);
+            }
         }
+        //for (int i = 0; i < totalPool; i++)
+        //{            
+        //    GameObject spawnPool = Instantiate(objectToSpawn, Vector3.zero ,Quaternion.identity, objectParent);
+        //    spawnPool.SetActive(false);
+        //    objects.Add(spawnPool);
+        //}
     }
     public void PoolObejct(int totalToPool)
     {
