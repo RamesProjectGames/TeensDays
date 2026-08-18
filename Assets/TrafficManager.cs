@@ -91,23 +91,39 @@ public class TrafficManager : MonoBehaviour
 
     private void SpawnRandomCar()
     {
-        TrafficCar car =
-            GetAvailableCar();
+        Debug.Log("=== TRY SPAWN CAR ===");
+
+        TrafficCar car = GetAvailableCar();
 
         if (car == null)
+        {
+            Debug.LogWarning("Tidak ada car yang tersedia di pool!");
             return;
+        }
 
-        TrafficNode spawn =
-            GetRandomSpawnNode();
+        TrafficNode spawn = GetRandomSpawnNode();
 
         if (spawn == null)
+        {
+            Debug.LogWarning("Spawn Node NULL!");
             return;
+        }
+
+        Debug.Log("Spawn Node: " + spawn.name);
 
         TrafficNode destination =
             GetRandomDestination(spawn);
 
         if (destination == null)
+        {
+            Debug.LogWarning("Destination NULL!");
             return;
+        }
+
+        Debug.Log(
+            "Destination: " +
+            destination.name
+        );
 
         List<TrafficNode> route =
             FindRoute(
@@ -115,9 +131,22 @@ public class TrafficManager : MonoBehaviour
                 destination
             );
 
-        if (route == null ||
-            route.Count < 2)
+        if (route == null)
+        {
+            Debug.LogWarning(
+                "ROUTE TIDAK DITEMUKAN: " +
+                spawn.name +
+                " -> " +
+                destination.name
+            );
+
             return;
+        }
+
+        Debug.Log(
+            "Route ditemukan. Jumlah node: " +
+            route.Count
+        );
 
         float speed =
             Random.Range(
@@ -133,6 +162,48 @@ public class TrafficManager : MonoBehaviour
             speed,
             rotationSpeed
         );
+        //TrafficCar car =
+        //    GetAvailableCar();
+
+        //if (car == null)
+        //    return;
+
+        //TrafficNode spawn =
+        //    GetRandomSpawnNode();
+
+        //if (spawn == null)
+        //    return;
+
+        //TrafficNode destination =
+        //    GetRandomDestination(spawn);
+
+        //if (destination == null)
+        //    return;
+
+        //List<TrafficNode> route =
+        //    FindRoute(
+        //        spawn,
+        //        destination
+        //    );
+
+        //if (route == null ||
+        //    route.Count < 2)
+        //    return;
+
+        //float speed =
+        //    Random.Range(
+        //        minSpeed,
+        //        maxSpeed
+        //    );
+
+        //car.gameObject.SetActive(true);
+
+        //car.Initialize(
+        //    this,
+        //    route,
+        //    speed,
+        //    rotationSpeed
+        //);
     }
 
     private TrafficCar GetAvailableCar()
