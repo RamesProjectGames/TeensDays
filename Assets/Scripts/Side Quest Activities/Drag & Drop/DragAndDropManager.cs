@@ -91,6 +91,7 @@ public class DragAndDropManager : AssignmentManager
     {
         MarkStarted();
         puzzlePanel.SetActive(true);
+        RelatedNPC.gameObject.SetActive(false);
         GeneratePuzzle();
         int questIndex = QuestSystem.instance.GetQuestIndex(questName,true);
         int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName,completedDialogue,true);
@@ -190,6 +191,11 @@ public class DragAndDropManager : AssignmentManager
 
         RelatedNPC.SetNewDialogue(completedDialogue);
         RelatedNPC.onTalkEnded.RemoveAllListeners();
+        RelatedNPC.onTalkEnded.AddListener(() =>
+        {
+            ResetPuzzle();
+        });
+        RelatedNPC.gameObject.SetActive(true);
         puzzlePanel.SetActive(false);
 
         
@@ -236,7 +242,17 @@ public class DragAndDropManager : AssignmentManager
         CompleteProgress();
         onPuzzleSolved?.Invoke();
     }
-
+    public void ResetPuzzle(bool allowReset = true)
+    {
+        if(!allowReset)
+            return;
+        Clear();
+        GeneratePuzzle();
+        RelatedNPC.SetNewDialogue(inCompleteDialogue);
+        RelatedNPC.onTalkEnded.RemoveAllListeners();
+        RelatedNPC.onTalkEnded.AddListener(StartPuzzle);
+        RelatedNPC.gameObject.SetActive(true);
+    }
     public DragSlot GetNearestSlot(Vector2 position)
     {
         float closest = float.MaxValue;

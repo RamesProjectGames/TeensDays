@@ -805,6 +805,87 @@
       "isSideQuest": true,
       "parentIndex": 5,
       "questIndex": 1
+    },
+    {
+      "id": "Mangkok Pak Selamet",
+      "name": "Pak Selamet",
+      "dialog": [
+        {
+          "speaker": "Pak Selamet",
+          "isPlayer": false,
+          "text": "Wah, capeknya... Rame bener hari ini. Syukurlah..."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Bapak kenapa? Kok sendirian? Bu Marni gak kelihatan."
+        },
+        {
+          "speaker": "Pak Selamet",
+          "isPlayer": false,
+          "text": "Eh, Nak Bobon. Iya nih, Bon. Ibu lagi sakit jadi Bapak suruh istirahat di rumah."
+        },
+        {
+          "speaker": "Pak Selamet",
+          "isPlayer": false,
+          "text": "Tapi jadinya, malah, Bapak kewalahan berberes alat makan pelanggan."
+        },
+        {
+          "speaker": "Pak Selamet",
+          "isPlayer": false,
+          "text": "Itu, di meja sana, belum Bapak hitung sisa mangkoknya berapa."
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Tenang, Pak Selamet! Bobon bantu hitungin mangkok di sana, ya!"
+        },
+        {
+          "speaker": "Pak Selamet",
+          "isPlayer": false,
+          "text": "Eh, gapapa nih, Nak Bon? Wah, makasih ya"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 6,
+      "questIndex": 0
+    },
+    {
+      "id": "Mangkok Pak Selamet - Right",
+      "name": "Pak Selamet",
+      "dialog": [
+        {
+          "speaker": "Pak Selamet",
+          "isPlayer": false,
+          "text": "Bon, kayaknya Nak Bobon salah hitung.Coba hitung lagi, ya, Nak Bon."
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 6,
+      "questIndex": 1
+    },
+    {
+      "id": "Mangkok Pak Selamet - Wrong",
+      "name": "Pak Selamet",
+      "dialog": [
+        {
+          "speaker": "Pak Selamet",
+          "isPlayer": false,
+          "text": "Makasih banyak, ya, Nak Bon! Semoga Nak Bobon diberkahi! Hahahaha!"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 6,
+      "questIndex": 2
     }
   ]
 }

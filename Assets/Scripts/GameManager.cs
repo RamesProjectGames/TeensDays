@@ -319,6 +319,7 @@ public class GameManager : MonoBehaviour
     }
     
     private bool hasLoadedPlayerData;
+    private bool isResumingFromPause;
 
     private void Start()
     {
@@ -515,18 +516,26 @@ public class GameManager : MonoBehaviour
     }
     void OnApplicationPause(bool pause)
     {
-        if(pause)
+        if (pause)
         {
+            isResumingFromPause = false;
             if (QuestSystem.instance != null)
             {
                 QuestSystem.instance.SaveQuests();
             }
             SavePlayerDataToCloud();
+            return;
         }
-        else
+
+        if (isResumingFromPause)
         {
-            LoadPlayerDataFromCloud();
+            return;
         }
+
+        isResumingFromPause = true;
+        // Avoid reloading the entire cloud save on resume because it reinitializes
+        // active quest state and can reset side-quest progress when the app comes back.
+        // The data is already saved on pause; resume should continue without resetting state.
     }
     void OnApplicationQuit()
     {

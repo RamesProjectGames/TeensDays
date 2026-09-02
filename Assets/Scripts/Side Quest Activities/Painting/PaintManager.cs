@@ -34,14 +34,17 @@ public class PaintManager : AssignmentManager
     public UnityEvent onCompleted;
 
     private Texture2D paintTexture;
-
+    private Color[] targetPixels;
+    private Color[] paintPixels;
     private bool completed, startPaint;
+    private bool completionCheckQueued;
 
     void Awake()
     {
         // rawImage = GetComponent<RawImage>();
 
         targetTexture = targetImage.sprite.texture;
+        targetPixels = targetTexture.GetPixels();
 
         paintTexture = new Texture2D(
             targetTexture.width,
@@ -70,9 +73,16 @@ public class PaintManager : AssignmentManager
         if(!startPaint) return;
         if (Input.GetMouseButton(0))
         {
-            Paint();
+            if (Paint())
+            {
+                completionCheckQueued = true;
+            }
 
-            CheckCompletion();
+            if (completionCheckQueued && Time.frameCount % 3 == 0)
+            {
+                CheckCompletion();
+                completionCheckQueued = false;
+            }
         }
     }
     public override void ActivateQuest()
@@ -80,7 +90,6 @@ public class PaintManager : AssignmentManager
         base.ActivateQuest();
         LoadProgressFromQuestState(questName, true);
         NPCRelated.SetActive(true);
-        paintingUI.SetActive(true);
         if(interactable !=null)
         {
             interactable.npcId = inCompleteDialogue;
@@ -100,6 +109,7 @@ public class PaintManager : AssignmentManager
         MarkStarted();
         SetProgress(0f);
         NPCRelated.SetActive(false);
+        paintingUI.SetActive(true);
         startPaint = true;
         if(interactable !=null)
         {
@@ -112,6 +122,7 @@ public class PaintManager : AssignmentManager
     public void FinishPaint()
     {
         NPCRelated.SetActive(true);
+        paintingUI.SetActive(false);
         startPaint= false;
         if(interactable !=null)
         {
@@ -142,7 +153,7 @@ public class PaintManager : AssignmentManager
         }        
         QuestSystem.instance.MarkQuestDone(4, 0, true, true);
         TrackProgressFromSubQuests(questName, true);
-        QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,1,true);
+        QuestSystem.instance.AddNewQuest(QuestSystem.instance.GetQuest(questName,true),false,true,QuestSystem.instance.GetSubQuestIndex(questName,completedDialogue,true),true);
         
     }
     public void ResetQuest()
@@ -156,7 +167,7 @@ public class PaintManager : AssignmentManager
             interactable.OnTalkStart.AddListener(StartPaint);
         }
     }    
-    void Paint()
+    bool Paint()
     {
         Vector2 localPoint;
 
@@ -165,7 +176,7 @@ public class PaintManager : AssignmentManager
             Input.mousePosition,
             null,
             out localPoint))
-            return;
+            return false;
 
         Rect rect = rawImage.rectTransform.rect;
 
@@ -175,12 +186,13 @@ public class PaintManager : AssignmentManager
         int x = Mathf.RoundToInt(normalizedX * paintTexture.width);
         int y = Mathf.RoundToInt(normalizedY * paintTexture.height);
 
-        DrawCircle(x, y);
+        return DrawCircle(x, y);
     }
 
-    void DrawCircle(int cx, int cy)
+    bool DrawCircle(int cx, int cy)
     {
         int rSquared = brushRadius * brushRadius;
+        bool changed = false;
 
         for (int x = -brushRadius; x <= brushRadius; x++)
         {
@@ -195,58 +207,70 @@ public class PaintManager : AssignmentManager
                 if (px < 0 || py < 0 || px >= paintTexture.width || py >= paintTexture.height)
                     continue;
 
-                paintTexture.SetPixel(px, py, brushColor);
+                int index = py * paintTexture.width + px;
+
+                if (targetPixels[index].a < 0.5f)
+                    continue;
+
+                Color current = paintPixels[index];
+
+                if (current.a > 0.1f && Mathf.Approximately(current.r, brushColor.r) &&
+                    Mathf.Approximately(current.g, brushColor.g) &&
+                    Mathf.Approximately(current.b, brushColor.b) &&
+                    Mathf.Approximately(current.a, brushColor.a))
+                    continue;
+
+                paintPixels[index] = brushColor;
+                changed = true;
             }
         }
 
-        paintTexture.Apply();
+        if (!changed)
+            return false;
+
+        paintTexture.SetPixels(paintPixels);
+        paintTexture.Apply(false);
+        return true;
     }
 
     public void ClearTexture()
     {
         Color clear = new Color(0,0,0,0);
 
-        Color[] pixels = new Color[targetTexture.width * targetTexture.height];
+        paintPixels = new Color[targetTexture.width * targetTexture.height];
 
-        for(int i=0;i<pixels.Length;i++)
-            pixels[i] = clear;
+        for(int i=0;i<paintPixels.Length;i++)
+            paintPixels[i] = clear;
 
-        paintTexture.SetPixels(pixels);
-        paintTexture.Apply();
+        paintTexture.SetPixels(paintPixels);
+        paintTexture.Apply(false);
 
+        completionCheckQueued = false;
         completed = false;
     }
 
     void CheckCompletion()
     {
-        if (targetTexture == null)
+        if (targetTexture == null || targetPixels == null || paintPixels == null)
             return;
 
         int required = 0;
         int painted = 0;
 
-        for (int x = 0; x < targetTexture.width; x++)
+        for (int i = 0; i < targetPixels.Length; i++)
         {
-            for (int y = 0; y < targetTexture.height; y++)
-            {
-                Color target = targetTexture.GetPixel(x, y);
+            if (targetPixels[i].a < 0.5f)
+                continue;
 
-                if (target.a < 0.5f)
-                    continue;
+            required++;
 
-                required++;
-
-                Color player = paintTexture.GetPixel(x, y);
-
-                if (player.a > 0.1f)
-                    painted++;
-            }
+            if (paintPixels[i].a > 0.1f)
+                painted++;
         }
 
         float progress = required == 0 ? 0 : (float)painted / required;
         SetProgress(progress);
 
-        
         QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,$"Paint Progress = {progress * 100}%");
 
         onProgressChanged?.Invoke(progress);
@@ -254,6 +278,7 @@ public class PaintManager : AssignmentManager
         if (!completed && progress >= completionRequirement)
         {
             completed = true;
+            QuestSystem.instance.UpdateCurrentQuestInfo(QuestSystem.instance.GetQuest(questName,true),false,$"Done painting! talk to pak bagus");
             CompleteProgress();
             onCompleted?.Invoke();
         }
@@ -261,24 +286,21 @@ public class PaintManager : AssignmentManager
 
     public float GetCompletion()
     {
-        if (targetTexture == null)
+        if (targetTexture == null || targetPixels == null || paintPixels == null)
             return 0;
 
         int required = 0;
         int painted = 0;
 
-        for (int x = 0; x < targetTexture.width; x++)
+        for (int i = 0; i < targetPixels.Length; i++)
         {
-            for (int y = 0; y < targetTexture.height; y++)
-            {
-                if (targetTexture.GetPixel(x, y).a < 0.5f)
-                    continue;
+            if (targetPixels[i].a < 0.5f)
+                continue;
 
-                required++;
+            required++;
 
-                if (paintTexture.GetPixel(x,y).a > 0.1f)
-                    painted++;
-            }
+            if (paintPixels[i].a > 0.1f)
+                painted++;
         }
 
         return required == 0 ? 0 : (float)painted / required;

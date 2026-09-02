@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [System.Serializable]
 public class TeleportLocation
@@ -11,13 +12,16 @@ public class TeleportLocation
 
 public class TeleportController : MonoBehaviour
 {
-
     public static TeleportController Instance;
 
     [Header("References")]
     public Transform player;
+    public NavMeshAgent navMeshAgent;
     public GameObject teleportUI;
     public GameObject teleportCanva;
+
+    [Header("Teleport Settings")]
+    public float teleportOffsetFromTarget = 2.5f;
 
     [Header("Teleport Locations")]
     public TeleportLocation[] locations;
@@ -27,11 +31,70 @@ public class TeleportController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        ResolvePlayerReferences();
+    }
+
+    private void Start()
+    {
+        ResolvePlayerReferences();
+    }
+
+    private void ResolvePlayerReferences()
+    {
+        if (player == null)
+        {
+            var playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+        }
+
+        if (navMeshAgent == null && player != null)
+        {
+            navMeshAgent = player.GetComponentInChildren<NavMeshAgent>();
+        }
+    }
+
+    public void TeleportTo(Transform target)
+    {
+        if (target == null)
+        {
+            Debug.LogWarning("Target teleport tidak valid.");
+            return;
+        }
+
+        if (isTeleporting) return;
+
+        ResolvePlayerReferences();
+        if (player == null)
+        {
+            var playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj == null)
+            {
+                Debug.LogWarning("Player tidak ditemukan untuk teleport.");
+                return;
+            }
+            player = playerObj.transform;
+            navMeshAgent = player.GetComponentInChildren<NavMeshAgent>();
+        }
+
+        StartCoroutine(TeleportProcess(target));
     }
 
     public void TeleportTo(string locationName)
     {
         if (isTeleporting) return;
+        if (player == null)
+        {
+            var playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj == null)
+            {
+                Debug.LogWarning("Player tidak ditemukan untuk teleport.");
+                return;
+            }
+            player = playerObj.transform;
+        }
 
         foreach (var loc in locations)
         {
@@ -45,22 +108,63 @@ public class TeleportController : MonoBehaviour
         Debug.LogWarning("Lokasi tidak ditemukan: " + locationName);
     }
 
+    private Vector3 GetTeleportPositionInFrontOfTarget(Transform target)
+    {
+        Vector3 forward = target.forward;
+        if (forward.sqrMagnitude < 0.01f)
+        {
+            forward = Vector3.forward;
+        }
+
+        return target.position + forward.normalized * teleportOffsetFromTarget;
+    }
+
     IEnumerator TeleportProcess(Transform target)
     {
+        if (target == null || player == null)
+        {
+            Debug.LogWarning("Teleport target atau player belum siap.");
+            isTeleporting = false;
+            yield break;
+        }
+
+        ResolvePlayerReferences();
+
         isTeleporting = true;
-        teleportUI.SetActive(false);
+        if (teleportUI != null) teleportUI.SetActive(false);
 
-        yield return fadeControllerTeleport.Instance.FadeOut();
+        if (fadeControllerTeleport.Instance != null)
+        {
+            yield return fadeControllerTeleport.Instance.FadeOut();
+        }
 
-        // Disable movement (opsional)
-        //var movement = player.GetComponent<PlayerController>();
-        //if (movement != null) movement.enabled = false;
+        Vector3 destination = GetTeleportPositionInFrontOfTarget(target);
+        player.position = destination;
 
-        player.position = target.position;
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.Warp(destination);
+        }
 
-        yield return fadeControllerTeleport.Instance.FadeIn();
+        if (player != null)
+        {
+            Vector3 lookDirection = target.position - player.position;
+            if (lookDirection.sqrMagnitude > 0.01f)
+            {
+                player.rotation = Quaternion.LookRotation(lookDirection.normalized, Vector3.up);
+            }
+        }
 
-        //if (movement != null) movement.enabled = true;
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.ResetPath();
+            navMeshAgent.velocity = Vector3.zero;
+        }
+
+        if (fadeControllerTeleport.Instance != null)
+        {
+            yield return fadeControllerTeleport.Instance.FadeIn();
+        }
 
         isTeleporting = false;
     }
@@ -85,7 +189,7 @@ public class TeleportController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            teleportUI.SetActive(true);
+            if (teleportUI != null) teleportUI.SetActive(true);
         }
     }
 
@@ -94,8 +198,8 @@ public class TeleportController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            teleportUI.SetActive(false);
-            teleportCanva.SetActive(false);
+            if (teleportUI != null) teleportUI.SetActive(false);
+            if (teleportCanva != null) teleportCanva.SetActive(false);
         }
     }
 

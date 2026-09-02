@@ -197,6 +197,50 @@ public class QuestSystem : MonoBehaviour
         return Mathf.Max(0, quest.subQuests.Count - 1);
     }
 
+    public void TryTriggerQuestTeleport(Quest quest, bool isMainQuest = true, bool isSubQuest = false, int subQuestIndex = 0)
+    {
+        if (quest == null || !quest.autoTeleportOnStart)
+            return;
+
+        if (!isMainQuest && currentQuestIndex >= 0 && currentQuestIndex < quests.Count)
+        {
+            var activeMainQuest = quests[currentQuestIndex];
+            if (activeMainQuest != null && activeMainQuest.autoTeleportOnStart && !activeMainQuest.isDone)
+            {
+                return;
+            }
+        }
+
+        Quest targetQuest = quest;
+        // if (isSubQuest && quest.subQuests != null && subQuestIndex >= 0 && subQuestIndex < quest.subQuests.Count)
+        // {
+        //     targetQuest = quest.subQuests[subQuestIndex];
+        // }
+
+        Transform targetTransform = targetQuest.targetTransform;
+        if (targetTransform == null && targetQuest.teleportTarget != null)
+        {
+            targetTransform = targetQuest.teleportTarget.transform;
+        }
+
+        if (targetTransform == null)
+        {
+            if (!string.IsNullOrEmpty(targetQuest.teleportDestinationName) && TeleportController.Instance != null)
+            {
+                TeleportController.Instance.TeleportTo(targetQuest.teleportDestinationName);
+            }
+            return;
+        }
+
+        if (TeleportController.Instance == null)
+        {
+            Debug.LogWarning($"TeleportController not found while trying to teleport for quest '{quest.text}'.");
+            return;
+        }
+
+        TeleportController.Instance.TeleportTo(targetTransform);
+    }
+
     public void SetCurrentQuestIndex(int index)
     {
         currentQuestIndex = Mathf.Clamp(index, 0, Mathf.Max(0, quests.Count - 1));
@@ -632,22 +676,63 @@ public class QuestSystem : MonoBehaviour
         }
     }
 
+    private void UpdateSubQuestVisibility(Quest quest, bool isMain)
+    {
+        if (quest == null) return;
+
+        for (int i = 0; i < quest.subQuests.Count; i++)
+        {
+            var subQuest = quest.subQuests[i];
+            if (subQuest == null || subQuest.questUIObject == null) continue;
+
+            bool showSubQuest = !subQuest.isDone;
+            subQuest.questUIObject.SetActive(showSubQuest);
+
+            if (subQuest.questOutline != null)
+            {
+                bool isCurrentSubQuest = isMain
+                    ? i == currentMainSubQuestIndex && currentQuestIndex >= 0 && currentQuestIndex < quests.Count && quests[currentQuestIndex] == quest
+                    : i == currentSideSubQuestIndex && currentSideQuestIndex >= 0 && currentSideQuestIndex < sideQuests.Count && sideQuests[currentSideQuestIndex] == quest;
+
+                subQuest.questOutline.enabled = isCurrentSubQuest;
+            }
+        }
+    }
+
     public void ActivateQuestObject(int index, bool isMain)
     {
         if(isMain)
         {
             for (int i = 0; i < quests.Count; i++)
             {
-                if (quests[i].questUIObject != null)
-                    quests[i].questUIObject.SetActive(i == index);
+                if (quests[i].questUIObject == null) continue;
+
+                bool showQuest = !quests[i].isDone;
+                quests[i].questUIObject.SetActive(showQuest);
+
+                if (quests[i].questOutline != null)
+                {
+                    quests[i].questOutline.enabled = i == index;
+                }
+
+                UpdateSubQuestVisibility(quests[i], true);
             }
         }
         else
         {
             for (int i = 0; i < sideQuests.Count; i++)
             {
-                if (sideQuests[i].questUIObject != null)
-                    sideQuests[i].questUIObject.SetActive(i == index);
+                if (sideQuests[i].questUIObject == null) continue;
+
+                bool showQuest = !sideQuests[i].isDone;
+                sideQuests[i].questUIObject.SetActive(showQuest);
+
+                if (sideQuests[i].questOutline != null)
+                {
+                    sideQuests[i].questOutline.enabled = i == index;
+                }
+
+                UpdateSubQuestVisibility(sideQuests[i], false);
             }
         }
     }
@@ -696,6 +781,8 @@ public class QuestSystem : MonoBehaviour
 
             newItem.GetComponent<QuestUI>().SetQuest(questData);
 
+            newItem.SetActive(!questData.isDone && (isMainQuest ? GetCurrentQuestIndex() == quests.FindIndex(x=>x==questData) : GetCurrentSideQuestIndex() == sideQuests.FindIndex(x=>x==questData)));
+
             if (isMainQuest)
             {
                 newItem.transform.SetParent(questUIManager.panelMainQuestList, false);
@@ -737,8 +824,9 @@ public class QuestSystem : MonoBehaviour
                 Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
             }
 
-            foreach (var sub in questData.subQuests)
+            for (int i = 0; i < questData.subQuests.Count; i++)
             {
+                Quest sub = questData.subQuests[i];
                 Debug.Log("Subquest masuk");
 
                 if (sub.questUIObject != null) continue;
@@ -751,6 +839,7 @@ public class QuestSystem : MonoBehaviour
                 sub.questUIObject = subItem;
                 sub.questText = subText;
                 sub.questOutline = subItem.GetComponent<Outline>();
+                subItem.SetActive(!sub.isDone && (isMainQuest ? i == currentMainSubQuestIndex : i == currentSideSubQuestIndex));
             }
         }
         Transform targetTransform = null;
@@ -771,6 +860,8 @@ public class QuestSystem : MonoBehaviour
         {
             Debug.LogWarning($"⚠️ Quest '{questData.text}' tidak memiliki targetTransform!");
         }
+
+        // TryTriggerQuestTeleport(questData, isMainQuest, isSubquest, subQuestIndex);
     }
     public void RemoveExistingQuest(Quest questData, bool isMainQuest)
     {
@@ -892,6 +983,31 @@ public class QuestSystem : MonoBehaviour
             selectedQuest.isDone = true;
         }
         
+        CheckAutoCompleteQuests();
+        UpdateQuestDisplay();
+        _ = SaveQuestsAsync();
+    }
+    [ContextMenu("Reset All Commpleted Quest")]
+    public void ResetAllQuestComplete()
+    {
+        foreach (var mainQuest in main.list)
+        {
+            foreach (var subQuest in mainQuest.subQuests)
+            {
+                subQuest.isDone = false;
+            }
+            mainQuest.isDone = false;
+        }
+        foreach (var sideQuest in side.list)
+        {
+            foreach (var subQuest in sideQuest.subQuests)
+            {
+                subQuest.isDone = false;
+            }
+            sideQuest.isDone = false;
+        }
+        ApplyLoadedQuests(main);
+        ApplyLoadedQuests(side);
         CheckAutoCompleteQuests();
         UpdateQuestDisplay();
         _ = SaveQuestsAsync();

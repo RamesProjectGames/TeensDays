@@ -44,7 +44,7 @@ public class GarbageCollector : AssignmentManager
         MarkStarted();
         currentTotalSpawn = (int)Random.Range(amountToSpawn.x, amountToSpawn.y);
         currentTotalCollected = 0;
-        spawner.PoolObejct(currentTotalSpawn);
+        spawner.PoolObjects(currentTotalSpawn);
         triggerStartQuest.SetActive(false);
         triggerEndQuest.SetActive(false);
         SetProgress(0f);

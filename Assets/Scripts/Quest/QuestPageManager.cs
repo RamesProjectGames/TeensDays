@@ -59,12 +59,13 @@ public class QuestPageManager : MonoBehaviour
                     PopulateRewards();
                 });
             }
-            mainQuestBox.SetActive(true);
+            mainQuestBox.SetActive(QuestSystem.instance.GetCurrentQuestIndex() == i);
             mainQuestsBox.Add(mainQuestBox);
         }
-        foreach (var sideQuest in QuestSystem.instance.sideQuests)
+        for (int i = 0; i < QuestSystem.instance.sideQuests.Count; i++)
         {
-            if(sideQuest.isDone)
+            Quest sideQuest = QuestSystem.instance.sideQuests[i];
+            if (sideQuest.isDone)
             {
                 continue;
             }
@@ -122,13 +123,15 @@ public class QuestPageManager : MonoBehaviour
     public void UpdateQuestPage(bool isMain = true, bool isSide = true)
     {
         if(QuestSystem.instance == null) return;
-        foreach (var mainQuestUI in mainQuestsBox)
+        for (int i = 0; i < mainQuestsBox.Count; i++)
         {
+            GameObject mainQuestUI = mainQuestsBox[i];
             Quest mainQuest = mainQuestUI.GetComponent<QuestPage>().quest;
-            mainQuestUI.SetActive(mainQuest != null && !mainQuest.isDone && isMain);
+            mainQuestUI.SetActive(mainQuest != null && QuestSystem.instance.GetCurrentQuestIndex() == i && !mainQuest.isDone && isMain);
         }
-        foreach (var sideQuestUI in sideQuestBox)
+        for (int i = 0; i < sideQuestBox.Count; i++)
         {
+            GameObject sideQuestUI = sideQuestBox[i];
             Quest sideQuest = sideQuestUI.GetComponent<QuestPage>().quest;
             sideQuestUI.SetActive(sideQuest != null && !sideQuest.isDone && isSide);
         }
@@ -150,6 +153,10 @@ public class QuestPageManager : MonoBehaviour
         if(currentQuest == null) return;
         if(CheckOnGoingQuest())
         {
+            if(QuestSystem.instance.quests.Exists(x => x == currentQuest))
+            {
+                QuestSystem.instance.RemoveExistingQuest(currentQuest, QuestSystem.instance.quests.Exists(x => x == currentQuest));
+            }
             CancelNavigation();
         }
         else
@@ -166,6 +173,7 @@ public class QuestPageManager : MonoBehaviour
                 QuestSystem.instance.SetCurrentSideQuestIndex(QuestSystem.instance.sideQuests.FindIndex(x => x == currentQuest));
                 QuestSystem.instance.SetCurrentSideSubQuestIndex(currentSubQuestIndex);
             }
+            TeleportController.Instance.TeleportTo(currentQuest.targetTransform);
             if (currentQuest.assignmentManager != null)
             {
                 currentQuest.assignmentManager.ActivateQuest();

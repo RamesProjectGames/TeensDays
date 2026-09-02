@@ -305,7 +305,8 @@ public class PlayerInteraction : MonoBehaviour
             0,
             false   // isSideQuest
         );
-        QuestSystem.instance.questPathManager.SetQuestTarget(quest.targetTransform);        
+        QuestSystem.instance.questPathManager.SetQuestTarget(quest.targetTransform);
+        // QuestSystem.instance.TryTriggerQuestTeleport(quest, true, false, 0);
     }
     public void StartSideQuest()
     {
@@ -331,6 +332,7 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         QuestSystem.instance.AddNewQuest(currentSideQuest, false, true, sideSubQuestIndex, true);
+        // QuestSystem.instance.TryTriggerQuestTeleport(currentSideQuest, false, true, sideSubQuestIndex);
         if(currentSideQuest.assignmentManager != null)
         {
             currentSideQuest.assignmentManager.ActivateQuest();

@@ -16,6 +16,11 @@ public class Quest
     public GameObject npcObject;
     public bool isDone;
 
+    [Header("Quest Teleport")]
+    public bool autoTeleportOnStart = true;
+    public string teleportDestinationName;
+    public QuestTeleportTarget teleportTarget;
+
     public List<Quest> subQuests = new List<Quest>(); // Tambahkan ini
 
     public AssignmentManager assignmentManager; // Tambahkan ini

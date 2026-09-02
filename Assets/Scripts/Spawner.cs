@@ -13,6 +13,9 @@ public class Spawner : MonoBehaviour
     public Vector3 spawnArea = new Vector3(10, 2, 10);
     public Vector3 spawnAreaPivot = new Vector3(0,0,0);
     float spawnTimer;
+    public bool canStack;
+    [Range(0f, 100f)]
+    public float stackChance = 25f;
 
 
     public List<GameObject> objects = new List<GameObject>();
@@ -46,19 +49,66 @@ public class Spawner : MonoBehaviour
         //    objects.Add(spawnPool);
         //}
     }
-    public void PoolObejct(int totalToPool)
+    [ContextMenu("Debug/Pool Objects")]
+    public void PoolObjects()
     {
-        int numberOfObject = Mathf.Min(totalPool, totalToPool);
-        for (int i = 0; i < totalToPool; i++)
+        PoolObjects(totalPool);
+    }
+
+    public void PoolObjects(int totalToPool)
+    {
+        if (objects == null || objects.Count == 0)
+        {
+            return;
+        }
+
+        int numberOfObject = Mathf.Clamp(totalToPool, 0, objects.Count);
+        for (int i = 0; i < numberOfObject; i++)
+        {
+            if (objects[i].activeInHierarchy)
+            {
+                continue;
+            }
+
+            if (canStack && ShouldStack())
+            {
+                if (i > 0)
+                {
+                    objects[i].transform.position = GetRandomStackedPos(objects[i - 1]);
+                }
+                else
+                {
+                    objects[i].transform.position = GetRandomPos();
+                }
+            }
+            else
+            {
+                objects[i].transform.position = GetRandomPos();
+            }
+
+            objects[i].SetActive(true);
+        }
+    }
+    public void ActivateAllObjects()
+    {
+        for (int i = 0; i < totalPool; i++)
         {
             if(objects[i].activeInHierarchy)
             {
                 continue;
             }
-            objects[i].transform.position = GetRandomPos();
             objects[i].SetActive(true);
         }
     }
+    [ContextMenu("Debug/Deactivate All Objects")]
+    public void DeactivateAllObjects()
+    {
+        foreach (GameObject obj in objects)
+        {
+            obj.SetActive(false);
+        }
+    }
+    
     public Vector3 GetRandomPos()
     {
         Vector3 center = transform.TransformPoint(spawnAreaPivot);
@@ -70,6 +120,23 @@ public class Spawner : MonoBehaviour
         );
 
         return center + transform.rotation * offset;
+    }
+    public Vector3 GetRandomStackedPos(GameObject basePosition)
+    {
+        Vector3 center = basePosition.transform.position;
+
+        Vector3 offset = new Vector3(
+            basePosition.transform.position.x ,
+            basePosition.transform.position.y + basePosition.transform.localScale.y,
+            basePosition.transform.position.z
+        );
+
+        return center + transform.rotation * offset;
+    }
+    public bool ShouldStack()
+    {
+        float percentChance = Mathf.Clamp(stackChance, 0f, 100f);
+        return Random.value * 100f < percentChance;
     }
     void OnDrawGizmos()
     {

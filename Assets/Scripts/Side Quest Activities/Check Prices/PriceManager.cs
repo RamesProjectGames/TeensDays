@@ -24,17 +24,28 @@ public class PriceManager : AssignmentManager
     {
         Instance= this;
     }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus)
+        {
+            RefreshQuestProgressDisplay();
+        }
+    }
+
     public override void ActivateQuest()
     {
         base.ActivateQuest();
         LoadProgressFromQuestState(questName, true, 1);
+        RefreshQuestProgressDisplay();
         relatedNPC.gameObject.SetActive(true);
         foreach (var vendor in vendors)
         {
             vendor.NPC.interactableNPC.gameObject.SetActive(false);
         }
         lastCheckIbu.NPC.interactableNPC.gameObject.SetActive(false);
-        QuestPathManager.Instance.SetQuestTarget(relatedNPC.transform);
+        questTarget = relatedNPC != null ? relatedNPC.transform : null;
+        SetQuestTarget(questTarget);
     }
     public override void DeactivateQuest()
     {
@@ -80,63 +91,91 @@ public class PriceManager : AssignmentManager
     {
         MarkStarted();
         relatedNPC.gameObject.SetActive(false);
-        string groceryToAdd = "Daftar Belanja : \n";
         foreach (var vendor in vendors)
         {
             vendor.NPC.SetNPC();
             vendor.NPC.interactableNPC.gameObject.SetActive(true);
-            foreach (var quest in vendor.NPC.questAcossiate)
-            {
-                groceryToAdd += $"{quest.itemRelated} \n";                
-            }
         }
-        var questRelated = QuestSystem.instance.GetQuest(questName,true);
-        if(questRelated != null)
-        {
-            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,groceryToAdd);
-        }
+        RefreshQuestProgressDisplay();
         TrackProgressFromSubQuests(questName, true, 1);
-        QuestPathManager.Instance.SetQuestTarget(vendors[0].NPC.interactableNPC.transform);
+        questTarget = vendors.Count > 0 && vendors[0].NPC != null && vendors[0].NPC.interactableNPC != null
+            ? vendors[0].NPC.interactableNPC.transform
+            : null;
+        SetQuestTarget(questTarget);
     }
-    public void ProgressQuest()
+    private void RefreshQuestProgressDisplay()
     {
         string groceryToAdd = "Daftar Belanja : \n";
-        var questCompletedAmount = 0;
-        var totalAmount = 0;
+        int questCompletedAmount = 0;
+        int totalAmount = 0;
+
         foreach (var vendor in vendors)
         {
+            if (vendor == null || vendor.NPC == null)
+            {
+                continue;
+            }
+
             foreach (var quest in vendor.NPC.questAcossiate)
             {
+                if (string.IsNullOrEmpty(quest.itemRelated))
+                {
+                    continue;
+                }
+
+                totalAmount += 1;
                 if (CheckQuestComplete(quest.questRelated))
                 {
-                    groceryToAdd += $"<s>{quest.itemRelated}</s> \n";
+                    groceryToAdd += $"<color=#4CAF50><s>{quest.itemRelated}</s></color> \n";
                     questCompletedAmount += 1;
                 }
                 else
                 {
-                    groceryToAdd += $"{quest.itemRelated} \n";
-                }                
-                totalAmount+=1;
+                    groceryToAdd += $"<color=#FFFFFF>{quest.itemRelated}</color> \n";
+                }
             }
-        }
-        var questRelated = QuestSystem.instance.GetQuest(questName,true);
-        if(questRelated != null)
-        {
-            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,groceryToAdd);
-        }
-
-        if(questCompletedAmount >= totalAmount)
-        {
-            FinishQuest();
         }
 
         if (totalAmount > 0)
         {
             SetProgress((float)questCompletedAmount / totalAmount);
         }
+
+        var questRelated = QuestSystem.instance.GetQuest(questName, true);
+        if (questRelated != null)
+        {
+            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated, false, groceryToAdd);
+        }
+
+        if (questCompletedAmount >= totalAmount && totalAmount > 0)
+        {
+            FinishQuest();
+        }
+    }
+    private void SetQuestTarget(Transform target)
+    {
+        questTarget = target;
+        if (QuestPathManager.Instance != null)
+        {
+            QuestPathManager.Instance.SetQuestTarget(target);
+        }
+    }
+    public void ProgressQuest()
+    {
+        RefreshQuestProgressDisplay();
+        if (vendors.Count > 0 && vendors[0].NPC != null && vendors[0].NPC.interactableNPC != null)
+        {
+            questTarget = vendors[0].NPC.interactableNPC.transform;
+            SetQuestTarget(questTarget);
+        }
     }
     public void FinishQuest()
     {
+        if (lastCheckIbu != null && lastCheckIbu.NPC != null && lastCheckIbu.NPC.interactableNPC != null)
+        {
+            questTarget = lastCheckIbu.NPC.interactableNPC.transform;
+            SetQuestTarget(questTarget);
+        }
         relatedNPC.SetNewDialogue(lastCheck);
         relatedNPC.onTalkEnded.RemoveAllListeners();
         relatedNPC.onTalkEnded.AddListener(() =>
@@ -146,9 +185,12 @@ public class PriceManager : AssignmentManager
         var questRelated = QuestSystem.instance.GetQuest(questName,true);
         if(questRelated != null)
         {
-            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,"Bantu Hitung Ibu total semua barang");
+            QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,"<color=#4CAF50>Bantu Hitung Ibu total semua barang</color>");
         }
-        QuestPathManager.Instance.SetQuestTarget(lastCheckIbu.NPC.interactableNPC.transform);
+        if (lastCheckIbu != null && lastCheckIbu.NPC != null && lastCheckIbu.NPC.interactableNPC != null)
+        {
+            QuestPathManager.Instance.SetQuestTarget(lastCheckIbu.NPC.interactableNPC.transform);
+        }
     }
     public void AccessQuiz(MiniGameSoal relatedData = null, PriceCheck priceCheck = null)
     {
