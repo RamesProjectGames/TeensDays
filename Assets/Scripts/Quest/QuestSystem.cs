@@ -17,8 +17,8 @@ public class QuestSystem : MonoBehaviour
     public SerializableList<QuestData> side = null;
     [SerializeField] private int currentQuestIndex = 0;
     [SerializeField] private int currentMainSubQuestIndex = 0;
-    [SerializeField] private int currentSideQuestIndex = 0;
-    [SerializeField] private int currentSideSubQuestIndex = 0;
+    [SerializeField] private int currentSideQuestIndex = -1;
+    [SerializeField] private int currentSideSubQuestIndex = -1;
     [SerializeField] private float blinkSpeed = 2f;
     [SerializeField] private bool enableQuestCheatCodes = true;
     [SerializeField] private KeyCode questCheatSubmitKey = KeyCode.Return;
