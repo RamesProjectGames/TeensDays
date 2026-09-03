@@ -17,18 +17,19 @@ public class PaintManager : AssignmentManager
     InteractableNPC interactable;
     [Header("Painting")]
     public GameObject paintingUI;
-    public Color brushColor = Color.red;
-    [Range(1,100)]
+    [Range(1,500)]
     public int brushRadius = 20;
 
     [Header("Completion")]
     [Range(0f,1f)]
     public float completionRequirement = 0.95f;
 
-    [Tooltip("White pixels = required paint area")]
+    [Tooltip("Mask image. Visible pixels define the area that can be painted.")]
     [SerializeField] private Image targetImage;
+    [Tooltip("Unfinished image displayed above the finished image.")]
     [SerializeField] private RawImage rawImage;
     private Texture2D targetTexture;
+    private Texture2D unfinishedTexture;
 
     public UnityEvent<float> onProgressChanged;
     public UnityEvent onCompleted;
@@ -46,15 +47,23 @@ public class PaintManager : AssignmentManager
         targetTexture = targetImage.sprite.texture;
         targetPixels = targetTexture.GetPixels();
 
+        unfinishedTexture = rawImage.texture as Texture2D;
+        if (unfinishedTexture == null)
+        {
+            Debug.LogError("PaintManager requires Raw Image to use a readable Texture2D.", this);
+            enabled = false;
+            return;
+        }
+
         paintTexture = new Texture2D(
-            targetTexture.width,
-            targetTexture.height,
+            unfinishedTexture.width,
+            unfinishedTexture.height,
             TextureFormat.RGBA32,
             false
         );
         paintTexture.filterMode = FilterMode.Point;
 
-        ClearTexture();
+        ResetPaintTexture();
 
         rawImage.texture = paintTexture;
     }
@@ -104,6 +113,7 @@ public class PaintManager : AssignmentManager
         NPCRelated.SetActive(false);
         paintingUI.SetActive(false);
     }
+    [ContextMenu("Start Paint")]
     public void StartPaint()
     {
         MarkStarted();
@@ -212,15 +222,10 @@ public class PaintManager : AssignmentManager
                 if (targetPixels[index].a < 0.5f)
                     continue;
 
-                Color current = paintPixels[index];
-
-                if (current.a > 0.1f && Mathf.Approximately(current.r, brushColor.r) &&
-                    Mathf.Approximately(current.g, brushColor.g) &&
-                    Mathf.Approximately(current.b, brushColor.b) &&
-                    Mathf.Approximately(current.a, brushColor.a))
+                if (paintPixels[index].a <= 0.1f)
                     continue;
 
-                paintPixels[index] = brushColor;
+                paintPixels[index] = Color.clear;
                 changed = true;
             }
         }
@@ -235,18 +240,18 @@ public class PaintManager : AssignmentManager
 
     public void ClearTexture()
     {
-        Color clear = new Color(0,0,0,0);
-
-        paintPixels = new Color[targetTexture.width * targetTexture.height];
-
-        for(int i=0;i<paintPixels.Length;i++)
-            paintPixels[i] = clear;
-
-        paintTexture.SetPixels(paintPixels);
-        paintTexture.Apply(false);
+        ResetPaintTexture();
 
         completionCheckQueued = false;
         completed = false;
+    }
+
+    private void ResetPaintTexture()
+    {
+        paintPixels = unfinishedTexture.GetPixels();
+
+        paintTexture.SetPixels(paintPixels);
+        paintTexture.Apply(false);
     }
 
     void CheckCompletion()
@@ -264,7 +269,7 @@ public class PaintManager : AssignmentManager
 
             required++;
 
-            if (paintPixels[i].a > 0.1f)
+            if (paintPixels[i].a <= 0.1f)
                 painted++;
         }
 
@@ -299,7 +304,7 @@ public class PaintManager : AssignmentManager
 
             required++;
 
-            if (paintPixels[i].a > 0.1f)
+            if (paintPixels[i].a <= 0.1f)
                 painted++;
         }
 
