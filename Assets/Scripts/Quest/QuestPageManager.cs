@@ -43,7 +43,7 @@ public class QuestPageManager : MonoBehaviour
         for (int i = 0; i < QuestSystem.instance.quests.Count; i++)
         {
             Quest mainQuest = QuestSystem.instance.quests[i];
-            if (mainQuest.isDone)
+            if (mainQuest.isDone || !QuestSystem.instance.IsQuestUnlocked(mainQuest))
             {
                 continue;
             }
@@ -65,7 +65,7 @@ public class QuestPageManager : MonoBehaviour
         for (int i = 0; i < QuestSystem.instance.sideQuests.Count; i++)
         {
             Quest sideQuest = QuestSystem.instance.sideQuests[i];
-            if (sideQuest.isDone)
+            if (sideQuest.isDone || !QuestSystem.instance.IsQuestUnlocked(sideQuest))
             {
                 continue;
             }
@@ -150,7 +150,7 @@ public class QuestPageManager : MonoBehaviour
     }
     public void NavigateToQuest()
     {
-        if(currentQuest == null) return;
+        if(currentQuest == null || !QuestSystem.instance.IsQuestUnlocked(currentQuest)) return;
         if(CheckOnGoingQuest())
         {
             if(QuestSystem.instance.quests.Exists(x => x == currentQuest))

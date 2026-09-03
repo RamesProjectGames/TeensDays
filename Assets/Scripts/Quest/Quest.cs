@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 [System.Serializable]
 public class Quest
@@ -15,6 +17,12 @@ public class Quest
     public GameObject questObjectAnnoun;
     public GameObject npcObject;
     public bool isDone;
+    public bool isUnlocked = true;
+    public string questAssetAddressKey;
+    public AssetReference assetReference;
+    [HideInInspector] public AsyncOperationHandle<GameObject> assetHandle;
+    [HideInInspector] public bool hasAssetDownloaded;
+    [HideInInspector] public GameObject spawnedAsset;
 
     [Header("Quest Teleport")]
     public bool autoTeleportOnStart = true;
@@ -22,6 +30,9 @@ public class Quest
     public QuestTeleportTarget teleportTarget;
 
     public List<Quest> subQuests = new List<Quest>(); // Tambahkan ini
+
+    [Header("Side Quest Unlocks")]
+    public List<string> sideQuestsToUnlock = new List<string>();
 
     public AssignmentManager assignmentManager; // Tambahkan ini
 
@@ -40,6 +51,7 @@ public class QuestData
 {
     public string questName;
     public bool isDone;
+    public bool isUnlocked = true;
     public List<QuestData> subQuests = new List<QuestData>();
     public bool IsFullyCompleted()
     {

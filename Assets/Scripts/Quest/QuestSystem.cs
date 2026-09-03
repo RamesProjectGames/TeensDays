@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class QuestSystem : MonoBehaviour
 {
@@ -54,10 +56,146 @@ public class QuestSystem : MonoBehaviour
     }
     public void InitilializeQuestData()
     {
-        // Initialization: ensure UI reflects current scene quest defaults
-        foreach (var q in quests) UpdateSingleQuestDisplay(q);
-        foreach (var s in sideQuests) UpdateSingleQuestDisplay(s);
+        foreach (var q in quests)
+        {
+            if (q == null) continue;
+            q.isUnlocked = q.isUnlocked || IsQuestUnlockedByIndex(quests.IndexOf(q), false);
+            UpdateSingleQuestDisplay(q);
+        }
+        foreach (var s in sideQuests)
+        {
+            if (s == null) continue;
+            s.isUnlocked = s.isUnlocked || IsQuestUnlockedByIndex(sideQuests.IndexOf(s), true);
+            UpdateSingleQuestDisplay(s);
+        }
+        UnlockSideQuestsFromCompletedQuests();
+        QuestPageManager.Instance?.PopulateQuestPage();
     }
+
+    public bool IsQuestUnlocked(Quest quest)
+    {
+        if (quest == null) return false;
+        return quest.isUnlocked;
+    }
+
+    public void UnlockQuest(Quest quest)
+    {
+        if (quest == null) return;
+        quest.isUnlocked = true;
+        if (quest.assetReference != null && !quest.hasAssetDownloaded)
+        {
+            DownloadQuestAsset(quest);
+        }
+        QuestPageManager.Instance?.PopulateQuestPage();
+    }
+
+    public void UnlockQuestByIndex(int index, bool isSideQuest = false)
+    {
+        var questList = isSideQuest ? sideQuests : quests;
+        if (index >= 0 && index < questList.Count)
+        {
+            UnlockQuest(questList[index]);
+        }
+    }
+
+    private void UnlockConfiguredSideQuests(Quest completedQuest)
+    {
+        if (completedQuest == null || completedQuest.sideQuestsToUnlock == null)
+        {
+            return;
+        }
+
+        foreach (var sideQuestName in completedQuest.sideQuestsToUnlock)
+        {
+            if (string.IsNullOrEmpty(sideQuestName))
+            {
+                continue;
+            }
+
+            var sideQuest = sideQuests.Find(quest =>
+                quest != null && string.Equals(quest.text, sideQuestName, System.StringComparison.OrdinalIgnoreCase));
+            UnlockQuest(sideQuest);
+        }
+    }
+
+    private void UnlockSideQuestsFromCompletedQuests()
+    {
+        foreach (var quest in quests.Concat(sideQuests))
+        {
+            if (quest != null && quest.isDone)
+            {
+                UnlockConfiguredSideQuests(quest);
+            }
+        }
+    }
+
+    public bool IsQuestUnlockedByIndex(int index, bool isSideQuest = false)
+    {
+        var questList = isSideQuest ? sideQuests : quests;
+        if (index < 0 || index >= questList.Count || questList[index] == null)
+        {
+            return false;
+        }
+
+        return questList[index].isUnlocked;
+    }
+
+    public void DownloadQuestAsset(Quest quest)
+    {
+        if (quest == null || quest.assetReference == null || string.IsNullOrEmpty(quest.questAssetAddressKey))
+        {
+            return;
+        }
+
+        if (quest.hasAssetDownloaded && quest.spawnedAsset != null)
+        {
+            return;
+        }
+
+        _ = DownloadQuestAssetAsync(quest);
+    }
+
+    private async Task DownloadQuestAssetAsync(Quest quest)
+    {
+        if (quest == null || quest.assetReference == null)
+        {
+            return;
+        }
+
+        bool success = await AddressableQuestAssetManager.Instance.DownloadAssetAsync(quest.assetReference);
+        if (success)
+        {
+            quest.hasAssetDownloaded = true;
+            quest.isUnlocked = true;
+            quest.spawnedAsset = quest.assetReference.Asset as GameObject;
+        }
+    }
+
+    public void ReleaseUnusedQuestAsset(Quest quest)
+    {
+        if (quest == null) return;
+
+        if (quest.spawnedAsset != null)
+        {
+            Destroy(quest.spawnedAsset);
+            quest.spawnedAsset = null;
+        }
+
+        if (quest.assetReference != null)
+        {
+            if (AddressableQuestAssetManager.Instance != null)
+            {
+                AddressableQuestAssetManager.Instance.ReleaseAsset(quest.assetReference);
+            }
+            else
+            {
+                quest.assetReference.ReleaseAsset();
+            }
+        }
+
+        quest.hasAssetDownloaded = false;
+    }
+
     public void LoadQuests()
     {
         // No-op kept for compatibility. Use LoadQuestsAsync/LoadQuestsRoutine at startup instead.
@@ -162,9 +300,11 @@ public class QuestSystem : MonoBehaviour
             if (main != null)
             {
                 main.isDone = saved.isDone;
+                main.isUnlocked = saved.isUnlocked;
                 for (int i = 0; i < saved.subQuests.Count && i < main.subQuests.Count; i++)
                 {
                     main.subQuests[i].isDone = saved.subQuests[i].isDone;
+                    main.subQuests[i].isUnlocked = saved.subQuests[i].isUnlocked;
                 }
                 UpdateSingleQuestDisplay(main);
                 continue;
@@ -175,14 +315,25 @@ public class QuestSystem : MonoBehaviour
             if (side != null)
             {
                 side.isDone = saved.isDone;
+                side.isUnlocked = saved.isUnlocked;
                 for (int i = 0; i < saved.subQuests.Count && i < side.subQuests.Count; i++)
                 {
                     side.subQuests[i].isDone = saved.subQuests[i].isDone;
+                    side.subQuests[i].isUnlocked = saved.subQuests[i].isUnlocked;
                 }
                 UpdateSingleQuestDisplay(side);
             }
-        }        
-        QuestPageManager.Instance.PopulateQuestPage();
+        }
+        foreach (var quest in quests.Concat(sideQuests))
+        {
+            if (quest == null) continue;
+            if (quest.isUnlocked && quest.assetReference != null && !quest.hasAssetDownloaded)
+            {
+                DownloadQuestAsset(quest);
+            }
+        }
+        UnlockSideQuestsFromCompletedQuests();
+        QuestPageManager.Instance?.PopulateQuestPage();
     }
     private int GetFirstUnfinishedSubQuestIndex(Quest quest)
     {
@@ -373,8 +524,10 @@ public class QuestSystem : MonoBehaviour
                 if (allDone)
                 {
                     parent.isDone = true;
+                    UnlockConfiguredSideQuests(parent);
                     UpdateSingleQuestDisplay(parent);
                     RemoveQuestFromUI(parent);
+                    ReleaseUnusedQuestAsset(parent);
 
                     if (isSideQuest && parentIndex == currentSideQuestIndex)
                     {
@@ -406,8 +559,10 @@ public class QuestSystem : MonoBehaviour
             {
                 var q = questList[questIndex];
                 q.isDone = true;
+                UnlockConfiguredSideQuests(q);
                 UpdateSingleQuestDisplay(q);
                 RemoveQuestFromUI(q);
+                ReleaseUnusedQuestAsset(q);
 
                 if (isSideQuest && questIndex == currentSideQuestIndex)
                 {
@@ -504,10 +659,10 @@ public class QuestSystem : MonoBehaviour
             var main = new SerializableList<QuestData>(new List<QuestData>());
             foreach (var q in quests)
             {
-                QuestData qd = new QuestData { questName = q.text, isDone = q.isDone };
+                QuestData qd = new QuestData { questName = q.text, isDone = q.isDone, isUnlocked = q.isUnlocked };
                 foreach (var sub in q.subQuests)
                 {
-                    qd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                    qd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone, isUnlocked = sub.isUnlocked });
                 }
                 main.list.Add(qd);
             }
@@ -515,10 +670,10 @@ public class QuestSystem : MonoBehaviour
             var side = new SerializableList<QuestData>(new List<QuestData>());
             foreach (var s in sideQuests)
             {
-                QuestData sd = new QuestData { questName = s.text, isDone = s.isDone };
+                QuestData sd = new QuestData { questName = s.text, isDone = s.isDone, isUnlocked = s.isUnlocked };
                 foreach (var sub in s.subQuests)
                 {
-                    sd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                    sd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone, isUnlocked = sub.isUnlocked });
                 }
                 side.list.Add(sd);
             }
@@ -552,10 +707,10 @@ public class QuestSystem : MonoBehaviour
             var cloudMain = new SerializableList<QuestData>(new List<QuestData>());
             foreach (var q in quests)
             {
-                QuestData qd = new QuestData { questName = q.text, isDone = q.isDone };
+                QuestData qd = new QuestData { questName = q.text, isDone = q.isDone, isUnlocked = q.isUnlocked };
                 foreach (var sub in q.subQuests)
                 {
-                    qd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                    qd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone, isUnlocked = sub.isUnlocked });
                 }
                 cloudMain.list.Add(qd);
             }
@@ -563,10 +718,10 @@ public class QuestSystem : MonoBehaviour
             var cloudSide = new SerializableList<QuestData>(new List<QuestData>());
             foreach (var s in sideQuests)
             {
-                QuestData sd = new QuestData { questName = s.text, isDone = s.isDone };
+                QuestData sd = new QuestData { questName = s.text, isDone = s.isDone, isUnlocked = s.isUnlocked };
                 foreach (var sub in s.subQuests)
                 {
-                    sd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone });
+                    sd.subQuests.Add(new QuestData { questName = sub.text, isDone = sub.isDone, isUnlocked = sub.isUnlocked });
                 }
                 cloudSide.list.Add(sd);
             }
