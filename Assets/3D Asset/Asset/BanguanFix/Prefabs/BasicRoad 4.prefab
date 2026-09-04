@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5116584388647451986}
   - component: {fileID: 9113478977821641952}
   - component: {fileID: 2042231555380040050}
+  - component: {fileID: 538361683828939364}
   m_Layer: 0
   m_Name: BasicRoad 4
   m_TagString: Ground
@@ -126,3 +127,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5116584388647451986}
   m_Enabled: 1
+--- !u!208 &538361683828939364
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012297193773585207}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.041, y: 0.120000005, z: 0.001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.120000005, z: 0.001}
+  m_TimeToStationary: 0.5

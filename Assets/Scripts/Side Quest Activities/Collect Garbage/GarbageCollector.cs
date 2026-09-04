@@ -54,6 +54,7 @@ public class GarbageCollector : AssignmentManager
             QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected Garbage {currentTotalCollected} / {currentTotalSpawn}");
         }
         QuestSystem.instance.MarkQuestDone(QuestSystem.instance.GetQuestIndex(questName,true),1,true,true);
+        QuestPathManager.Instance.SetQuestTarget(null);
     }
     public void Collect()
     {
@@ -82,6 +83,7 @@ public class GarbageCollector : AssignmentManager
                 }
                 QuestSystem.instance.UpdateCurrentQuestInfo(questRelated,false,$"Collected All Garbages");
                 QuestSystem.instance.MarkQuestDone(QuestSystem.instance.GetQuestIndex(questName,true),1,true,true);
+                QuestPathManager.Instance.SetQuestTarget(triggerEndQuest.transform);
             }
         }
         else

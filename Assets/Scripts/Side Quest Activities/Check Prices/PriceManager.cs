@@ -27,10 +27,23 @@ public class PriceManager : AssignmentManager
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus)
+        if (!pauseStatus && IsActiveSideQuest())
         {
             RefreshQuestProgressDisplay();
         }
+    }
+
+    private bool IsActiveSideQuest()
+    {
+        if (QuestSystem.instance == null)
+        {
+            return false;
+        }
+
+        int activeSideQuestIndex = QuestSystem.instance.GetCurrentSideQuestIndex();
+        return activeSideQuestIndex >= 0
+            && activeSideQuestIndex < QuestSystem.instance.sideQuests.Count
+            && QuestSystem.instance.sideQuests[activeSideQuestIndex].text == questName;
     }
 
     public override void ActivateQuest()

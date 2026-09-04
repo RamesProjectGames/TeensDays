@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8544524552142929018}
   - component: {fileID: 6380450710804581339}
   - component: {fileID: 7400705633761967788}
+  - component: {fileID: 5108396599979998971}
   m_Layer: 0
   m_Name: BasicRoad L1 - Copy
   m_TagString: Ground
@@ -127,3 +128,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7919966236315579489, guid: 8032f06f74711e347be58b2892907a26, type: 3}
+--- !u!208 &5108396599979998971
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2257960597465954251}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.05, y: 0.05, z: 0.001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.01, y: 0.15, z: 0.001}
+  m_TimeToStationary: 0.5

@@ -979,22 +979,25 @@ public class QuestSystem : MonoBehaviour
                 Debug.LogError("Parent untuk subquest tidak ditemukan di prefab! Pastikan ada child bernama Content");
             }
 
-            for (int i = 0; i < questData.subQuests.Count; i++)
+            if (isMainQuest && subQuestParent != null)
             {
-                Quest sub = questData.subQuests[i];
-                Debug.Log("Subquest masuk");
+                for (int i = 0; i < questData.subQuests.Count; i++)
+                {
+                    Quest sub = questData.subQuests[i];
+                    Debug.Log("Subquest masuk");
 
-                if (sub.questUIObject != null) continue;
+                    if (sub.questUIObject != null) continue;
 
-                GameObject subItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
-                TMP_Text subText = subItem.GetComponentInChildren<TMP_Text>();
-                subText.text = sub.text;
+                    GameObject subItem = Instantiate(questUIManager.subQuestItemPrefab, subQuestParent);
+                    TMP_Text subText = subItem.GetComponentInChildren<TMP_Text>();
+                    subText.text = sub.text;
 
-                // simpan referensi subquest → supaya bisa di-update nanti
-                sub.questUIObject = subItem;
-                sub.questText = subText;
-                sub.questOutline = subItem.GetComponent<Outline>();
-                subItem.SetActive(!sub.isDone && (isMainQuest ? i == currentMainSubQuestIndex : i == currentSideSubQuestIndex));
+                    // simpan referensi subquest → supaya bisa di-update nanti
+                    sub.questUIObject = subItem;
+                    sub.questText = subText;
+                    sub.questOutline = subItem.GetComponent<Outline>();
+                    subItem.SetActive(!sub.isDone && i == currentMainSubQuestIndex);
+                }
             }
         }
         Transform targetTransform = null;

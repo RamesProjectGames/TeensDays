@@ -445,32 +445,35 @@ public class PlayerInteraction : MonoBehaviour
         SetChatBubbleVisible(false);
         OnQuestButtonClicked();
 
-        int startQuestIndex = activeDialog.questIndex;                   // Quest yang muncul saat Start Game
-        int nextQuestIndex = startQuestIndex + 1; // Quest berikutnya
-        var nextQuest = QuestSystem.instance.quests[nextQuestIndex];
-        for (int i = 0; i < QuestSystem.instance.quests.Count; i++)
+        if (activeDialog.isMainQuest)
         {
-            Quest q = QuestSystem.instance.quests[i];
-            if (!q.isDone)
+            int startQuestIndex = activeDialog.questIndex;                   // Quest yang muncul saat Start Game
+            int nextQuestIndex = startQuestIndex + 1; // Quest berikutnya
+            var nextQuest = QuestSystem.instance.quests[nextQuestIndex];
+            for (int i = 0; i < QuestSystem.instance.quests.Count; i++)
             {
-                nextQuestIndex = i;
-                break;
+                Quest q = QuestSystem.instance.quests[i];
+                if (!q.isDone)
+                {
+                    nextQuestIndex = i;
+                    break;
+                }
             }
-        }
-        nextQuest = QuestSystem.instance.quests[nextQuestIndex];
-        if (nextQuest.targetTransform != null && !nextQuest.isDone)
-        {
-            QuestSystem.instance.AddNewQuest(
-                nextQuest,
-                true,   // isMainQuest
-                false,  // isSubQuest
-                0,
-                false   // isSideQuest
-            );
-            QuestSystem.instance.questPathManager
-                .SetQuestTarget(nextQuest.targetTransform);
+            nextQuest = QuestSystem.instance.quests[nextQuestIndex];
+            if (nextQuest.targetTransform != null && !nextQuest.isDone)
+            {
+                QuestSystem.instance.AddNewQuest(
+                    nextQuest,
+                    true,   // isMainQuest
+                    false,  // isSubQuest
+                    0,
+                    false   // isSideQuest
+                );
+                QuestSystem.instance.questPathManager
+                    .SetQuestTarget(nextQuest.targetTransform);
 
-            Debug.Log($"🎯 Target diarahkan ke {nextQuest.targetTransform.name}");
+                Debug.Log($"🎯 Target diarahkan ke {nextQuest.targetTransform.name}");
+            }
         }
 
         // =======================
@@ -631,46 +634,8 @@ public class PlayerInteraction : MonoBehaviour
             }
             else if (npcData.isSideQuest)
             {
-                var sideQuest = QuestSystem.instance.sideQuests[npcData.questIndex];
-
-                // Cek apakah side quest punya subquest
-                if (sideQuest.subQuests != null && sideQuest.subQuests.Count > 0)
-                {
-                    // ✅ Mark subquest tertentu done
-                    QuestSystem.instance.MarkQuestDone(npcData.questIndex, npcData.subQuestIndex, true, true);
-
-                    // ✅ Cek apakah semua subquest sudah selesai
-                    bool allDone = sideQuest.subQuests.All(sq => sq.isDone);
-                    if (allDone && !sideQuest.isDone)
-                    {
-                        sideQuest.isDone = true;
-                        QuestSystem.instance.UpdateSingleQuestDisplay(sideQuest);
-                        Debug.Log($"✅ Semua subquest selesai → Side Quest {npcData.questIndex} selesai!");
-
-                        // 🟢 Tambahan → lanjut ke side quest berikutnya
-                        int nextIndex = npcData.questIndex + 1;
-                        if (nextIndex < QuestSystem.instance.sideQuests.Count)
-                        {
-                            var nextSide = QuestSystem.instance.sideQuests[nextIndex];
-                            //QuestSystem.instance.AddNewQuest(nextSide, false, false, true);
-
-                            if (nextSide.targetTransform != null)
-                            {
-                                QuestSystem.instance.questPathManager.SetQuestTarget(nextSide.targetTransform);
-                                Debug.Log($"🎯 Target side quest diatur ke {nextSide.targetTransform.name}");
-                            }
-                        }
-                    }
-
-                    //questObjectSide.SetActive(false);
-                    //contohSideQuest.SetActive(false);
-                }
-                else
-                {
-                    // Tidak punya subquest → langsung done
-                    QuestSystem.instance.MarkQuestDone(-1, npcData.questIndex, false, true);
-                    Debug.Log($"✅ Side Quest {npcData.questIndex} selesai!");
-                }
+                // GiveQuest(npcData);
+                // Debug.Log($"▶ Side Quest {npcData.questIndex} dimulai.");
             }
 
             QuestSystem.instance.CheckAutoCompleteQuests();

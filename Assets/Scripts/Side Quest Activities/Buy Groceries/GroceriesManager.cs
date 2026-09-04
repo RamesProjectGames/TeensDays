@@ -8,6 +8,7 @@ public class GroceriesManager : AssignmentManager
     public GameObject NPCRelated;
     public GameObject groceryLocation;
     public List<GameObject> groceriesLocations = new List<GameObject>();
+    [SerializeField] private float groceryLocationArrivalDistance = 3f;
     public string questName;
     public string inCompleteDialogue;
     public string completedDialogue;
@@ -15,10 +16,33 @@ public class GroceriesManager : AssignmentManager
     public int repeatableRewradAmount;
     public int currentGrocery;
     InteractableNPC interactable;
+    private bool hasReachedGroceryLocation;
+
     void Awake()
     {
         Instance = this;
     }
+
+    void Update()
+    {
+        if (!isStarted || hasReachedGroceryLocation || groceryLocation == null)
+        {
+            return;
+        }
+
+        var playerInteraction = FindAnyObjectByType<PlayerInteraction>();
+        if (playerInteraction == null || playerInteraction.playerTransform == null)
+        {
+            return;
+        }
+
+        if (Vector3.Distance(playerInteraction.playerTransform.position, groceryLocation.transform.position) <= groceryLocationArrivalDistance)
+        {
+            hasReachedGroceryLocation = true;
+            UpdatePathTarget();
+        }
+    }
+
     void Start()
     {
         if(NPCRelated.TryGetComponent<InteractableNPC>(out var interactable))
@@ -36,6 +60,7 @@ public class GroceriesManager : AssignmentManager
     private void RestoreCurrentGroceryProgress()
     {
         currentGrocery = 0;
+        hasReachedGroceryLocation = false;
         var questRelated = QuestSystem.instance != null ? QuestSystem.instance.GetQuest(questName, true) : null;
         if (questRelated != null)
         {
@@ -44,6 +69,7 @@ public class GroceriesManager : AssignmentManager
                 if (questRelated.subQuests[i].isDone)
                 {
                     currentGrocery = i + 1;
+                    hasReachedGroceryLocation = true;
                 }
             }
         }
@@ -101,7 +127,7 @@ public class GroceriesManager : AssignmentManager
             return;
         }
 
-        if (currentGrocery <= 0 && groceryLocation != null)
+        if (!hasReachedGroceryLocation && groceryLocation != null)
         {
             QuestPathManager.Instance.SetQuestTarget(groceryLocation.transform);
         }
@@ -148,6 +174,7 @@ public class GroceriesManager : AssignmentManager
         SetProgress(0f);
         NPCRelated.transform.parent.gameObject.SetActive(false);
         currentGrocery = 0;
+        hasReachedGroceryLocation = false;
         if(interactable !=null)
         {
             interactable.npcId = completedDialogue;
@@ -172,7 +199,7 @@ public class GroceriesManager : AssignmentManager
             var questRelated = QuestSystem.instance != null ? QuestSystem.instance.GetQuest(questName, true) : null;
             if (questRelated != null)
             {
-                QuestSystem.instance.UpdateCurrentQuestInfo(questRelated, false, "Barang Belanja : \n<color=#4CAF50><s>Semua Barang Sudah Dibeli</s></color>");
+                QuestSystem.instance.UpdateCurrentQuestInfo(questRelated, false, "Barang Belanja : \n<color=#4CAF50><s>Semua Barang Sudah Dibeli \nLapor ke Ibu</s></color>");
             }
             FinishQuest();
             return;
@@ -227,6 +254,7 @@ public class GroceriesManager : AssignmentManager
     {
         if(interactable != null)
         {
+            NPCRelated.gameObject.SetActive(false);
             interactable.npcId = inCompleteDialogue;
             interactable.onTalkEnded.RemoveAllListeners();
             interactable.OnTalkStart.RemoveAllListeners();
