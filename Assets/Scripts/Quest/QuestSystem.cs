@@ -250,6 +250,22 @@ public class QuestSystem : MonoBehaviour
                 side = LoadLocalQuestCache("sideQuests.json");
             }
 
+            bool initializedMainQuests = main == null;
+            bool initializedSideQuests = side == null;
+            if (initializedMainQuests)
+            {
+                main = CreateQuestData(quests);
+            }
+            if (initializedSideQuests)
+            {
+                side = CreateQuestData(sideQuests);
+            }
+
+            if (initializedMainQuests || initializedSideQuests)
+            {
+                await SaveQuestsAsync();
+            }
+
             // Merge main+side into a single wrapper (we'll pack main into the Result list)
             SerializableList<QuestData> result = new SerializableList<QuestData>();
             if (main != null) result.list.AddRange(main.list);
@@ -261,14 +277,64 @@ public class QuestSystem : MonoBehaviour
         {
             Debug.LogError($"Error loading quests from cloud: {e}");
             // Fallback local for both main and side when cloud load fails
-            main = LoadLocalQuestCache("mainQuests.json") ?? new SerializableList<QuestData>();
-            side = LoadLocalQuestCache("sideQuests.json") ?? new SerializableList<QuestData>();
+            main = LoadLocalQuestCache("mainQuests.json");
+            side = LoadLocalQuestCache("sideQuests.json");
+
+            bool initializedMainQuests = main == null;
+            bool initializedSideQuests = side == null;
+            if (initializedMainQuests)
+            {
+                main = CreateQuestData(quests);
+            }
+            if (initializedSideQuests)
+            {
+                side = CreateQuestData(sideQuests);
+            }
+
+            if (initializedMainQuests || initializedSideQuests)
+            {
+                await SaveQuestsAsync();
+            }
 
             SerializableList<QuestData> fallback = new SerializableList<QuestData>();
             if (main != null) fallback.list.AddRange(main.list);
             if (side != null) fallback.list.AddRange(side.list);
             return fallback;
         }
+    }
+
+    private SerializableList<QuestData> CreateQuestData(IEnumerable<Quest> questList)
+    {
+        var questDataList = new SerializableList<QuestData>();
+        foreach (var quest in questList)
+        {
+            if (quest == null) continue;
+
+            var questData = new QuestData
+            {
+                questName = quest.text,
+                isDone = quest.isDone,
+                isUnlocked = quest.isUnlocked
+            };
+
+            if (quest.subQuests != null)
+            {
+                foreach (var subQuest in quest.subQuests)
+                {
+                    if (subQuest == null) continue;
+                    questData.subQuests.Add(new QuestData
+                    {
+                        questName = subQuest.text,
+                        isDone = subQuest.isDone,
+                        isUnlocked = subQuest.isUnlocked
+                    });
+                }
+            }
+
+            questDataList.list.Add(questData);
+        }
+
+        return questDataList;
     }
 
     private SerializableList<QuestData> LoadLocalQuestCache(string fileName)
@@ -1041,16 +1107,23 @@ public class QuestSystem : MonoBehaviour
                 Destroy(QuestObject.gameObject);
             }
         }
-
-        Transform targetTransform = quests[currentQuestIndex].targetTransform;
-        if (targetTransform!= null)
+        if(currentQuestIndex >= 0 && currentQuestIndex < quests.Count)
         {
-            questPathManager.SetQuestTarget(targetTransform);
-            Debug.Log($"🎯 Quest target diatur ke: {targetTransform}");
+            Transform targetTransform = quests[currentQuestIndex].targetTransform;
+            if (targetTransform!= null)
+            {
+                questPathManager.SetQuestTarget(targetTransform);
+                Debug.Log($"🎯 Quest target diatur ke: {targetTransform}");
+            }
+            else
+            {
+                Debug.LogWarning($"⚠️ Quest '{questData.text}' tidak memiliki targetTransform!");
+            }
         }
         else
         {
-            Debug.LogWarning($"⚠️ Quest '{questData.text}' tidak memiliki targetTransform!");
+            questPathManager.SetQuestTarget(null);
+            Debug.LogWarning("⚠️ Tidak ada quest saat ini, target quest diatur ke null.");
         }
     }
     public void UpdateCurrentQuestInfo(Quest questData, bool isMainQuest, string AddOnSubQuest)
@@ -1088,6 +1161,7 @@ public class QuestSystem : MonoBehaviour
         newItem.SetActive(!string.IsNullOrEmpty(AddOnSubQuest));
     }
     #region CheatCode
+    [ContextMenu("Debug Complete Main Quests And Unlock All Side Quests")]
     public void HandleMainQuestCheatCode()
     {
         foreach (var mainQuest in main.list)
@@ -1098,8 +1172,18 @@ public class QuestSystem : MonoBehaviour
             }
             mainQuest.isDone = true;
         }
+        foreach (var sideQuest in sideQuests)
+        {
+            UnlockQuest(sideQuest);
+        }
         ApplyLoadedQuests(main);
-        CheckAutoCompleteQuests();
+        currentQuestIndex = quests.Count;
+        currentMainSubQuestIndex = -1;
+        GameManager.Instance.playerData.questIndex = currentQuestIndex;
+        GameManager.Instance.playerData.currentMainSubQuestIndex = currentMainSubQuestIndex;
+        ActivateQuestObject(currentQuestIndex, true);
+        SetQuestPathTarget(null);
+        UpdateNPCs();
         UpdateQuestDisplay();
         _ = SaveQuestsAsync();
     }

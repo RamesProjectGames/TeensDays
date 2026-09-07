@@ -14,6 +14,7 @@ public class PriceManager : AssignmentManager
     public string checkRightAnswer, checkWrongAnswer;
     public Transform questTarget;
     public InteractableNPC relatedNPC;
+    [SerializeField] private bool hasTalkedToRelatedNPC;
     public PriceCheck lastCheckIbu;
     public List<PriceCheck> vendors = new List<PriceCheck>();
     public GameObject QuizUI;
@@ -30,6 +31,14 @@ public class PriceManager : AssignmentManager
         if (!pauseStatus && IsActiveSideQuest())
         {
             RefreshQuestProgressDisplay();
+            if (HasStartedVendorChecks())
+            {
+                RestoreStartedQuestState();
+            }
+            else
+            {
+                RestoreInitialQuestState();
+            }
         }
     }
 
@@ -51,15 +60,140 @@ public class PriceManager : AssignmentManager
         base.ActivateQuest();
         LoadProgressFromQuestState(questName, true, 1);
         RefreshQuestProgressDisplay();
-        relatedNPC.gameObject.SetActive(true);
+
+        if (HasStartedVendorChecks())
+        {
+            RestoreStartedQuestState();
+            return;
+        }
+
+        RestoreInitialQuestState();
+    }
+
+    private void RestoreInitialQuestState()
+    {
+        if (relatedNPC != null)
+        {
+            relatedNPC.gameObject.SetActive(true);
+        }
+
         foreach (var vendor in vendors)
         {
-            vendor.NPC.interactableNPC.gameObject.SetActive(false);
+            if (vendor != null && vendor.NPC != null && vendor.NPC.interactableNPC != null)
+            {
+                vendor.NPC.interactableNPC.gameObject.SetActive(false);
+            }
         }
-        lastCheckIbu.NPC.interactableNPC.gameObject.SetActive(false);
-        questTarget = relatedNPC != null ? relatedNPC.transform : null;
-        SetQuestTarget(questTarget);
+
+        if (lastCheckIbu != null && lastCheckIbu.NPC != null && lastCheckIbu.NPC.interactableNPC != null)
+        {
+            lastCheckIbu.NPC.interactableNPC.gameObject.SetActive(true);
+        }
+
+        SetQuestTarget(relatedNPC != null ? relatedNPC.transform : null);
     }
+
+    private bool HasStartedVendorChecks()
+    {
+        if (hasTalkedToRelatedNPC)
+        {
+            return true;
+        }
+
+        foreach (var vendor in vendors)
+        {
+            if (vendor == null || vendor.NPC == null || vendor.NPC.questAcossiate == null)
+            {
+                continue;
+            }
+
+            if (vendor.NPC.questAcossiate.Exists(quest =>
+                quest != null && !string.IsNullOrEmpty(quest.questRelated) && CheckQuestComplete(quest.questRelated)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void RestoreStartedQuestState()
+    {
+        if (!IsStarted)
+        {
+            return;
+        }
+
+        if (IsCompleted)
+        {
+            if (relatedNPC != null)
+            {
+                relatedNPC.gameObject.SetActive(true);
+            }
+
+            foreach (var vendor in vendors)
+            {
+                if (vendor != null && vendor.NPC != null && vendor.NPC.interactableNPC != null)
+                {
+                    vendor.NPC.interactableNPC.gameObject.SetActive(false);
+                }
+            }
+
+            if (lastCheckIbu != null && lastCheckIbu.NPC != null && lastCheckIbu.NPC.interactableNPC != null)
+            {
+                lastCheckIbu.NPC.interactableNPC.gameObject.SetActive(true);
+                SetQuestTarget(lastCheckIbu.NPC.interactableNPC.transform);
+            }
+
+            return;
+        }
+
+        if (relatedNPC != null)
+        {
+            relatedNPC.gameObject.SetActive(false);
+        }
+
+        Transform firstVendorTarget = null;
+        foreach (var vendor in vendors)
+        {
+            if (RestoreVendorState(vendor) && firstVendorTarget == null)
+            {
+                firstVendorTarget = vendor.NPC.interactableNPC.transform;
+            }
+        }
+
+        SetQuestTarget(firstVendorTarget);
+    }
+
+    private bool RestoreVendorState(PriceCheck vendor)
+    {
+        if (vendor == null || vendor.NPC == null || vendor.NPC.interactableNPC == null)
+        {
+            return false;
+        }
+
+        var vendorNPC = vendor.NPC;
+        if (vendorNPC.questAcossiate == null || vendorNPC.questAcossiate.Count == 0)
+        {
+            vendorNPC.interactableNPC.gameObject.SetActive(false);
+            return false;
+        }
+
+        int nextQuestIndex = vendorNPC.questAcossiate.FindIndex(quest =>
+            quest != null && !string.IsNullOrEmpty(quest.questRelated) && !CheckQuestComplete(quest.questRelated));
+        if (nextQuestIndex < 0)
+        {
+            vendorNPC.interactableNPC.gameObject.SetActive(false);
+            return false;
+        }
+
+        vendorNPC.currentQuest = nextQuestIndex;
+        vendorNPC.currentSoal = vendorNPC.GetCurrentSoal();
+        vendorNPC.interactableNPC.SetNewDialogue(vendorNPC.questAcossiate[nextQuestIndex].questRelated);
+        vendorNPC.interactableNPC.gameObject.SetActive(true);
+        return true;
+    }
+
     public override void DeactivateQuest()
     {
         base.DeactivateQuest();
@@ -103,6 +237,7 @@ public class PriceManager : AssignmentManager
     public void StartQuest()
     {
         MarkStarted();
+        hasTalkedToRelatedNPC = true;
         relatedNPC.gameObject.SetActive(false);
         foreach (var vendor in vendors)
         {
@@ -176,10 +311,24 @@ public class PriceManager : AssignmentManager
     public void ProgressQuest()
     {
         RefreshQuestProgressDisplay();
-        if (vendors.Count > 0 && vendors[0].NPC != null && vendors[0].NPC.interactableNPC != null)
+        Transform nextVendorTarget = null;
+        foreach (var vendor in vendors)
         {
-            questTarget = vendors[0].NPC.interactableNPC.transform;
-            SetQuestTarget(questTarget);
+            if (RestoreVendorState(vendor) && nextVendorTarget == null)
+            {
+                nextVendorTarget = vendor.NPC.interactableNPC.transform;
+            }
+        }
+
+        if (nextVendorTarget != null)
+        {
+            SetQuestTarget(nextVendorTarget);
+        }
+        else if (lastCheckIbu != null && lastCheckIbu.NPC != null && lastCheckIbu.NPC.interactableNPC != null)
+        {
+            lastCheckIbu.NPC.SetNPC();
+            lastCheckIbu.NPC.interactableNPC.gameObject.SetActive(true);
+            SetQuestTarget(lastCheckIbu.NPC.interactableNPC.transform);
         }
     }
     public void FinishQuest()
@@ -202,6 +351,7 @@ public class PriceManager : AssignmentManager
         }
         if (lastCheckIbu != null && lastCheckIbu.NPC != null && lastCheckIbu.NPC.interactableNPC != null)
         {
+            lastCheckIbu.NPC.SetNPC();
             QuestPathManager.Instance.SetQuestTarget(lastCheckIbu.NPC.interactableNPC.transform);
         }
     }
@@ -223,14 +373,16 @@ public class PriceManager : AssignmentManager
         Shuffle(jawaban);
         for (int i = 0; i < answers.Count; i++)
         {
+            var jawabanText = jawaban[i];
             answers[i].onClick.RemoveAllListeners();
-            answers[i].GetComponentInChildren<TextMeshProUGUI>().text = jawaban[i];
+            answers[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = jawabanText;
             answers[i].onClick.AddListener(() =>
             {
                 if(priceCheck!=null)
                 {
-                    if (jawaban[i] == relatedData.kunci.ToString())
+                    if (jawabanText == relatedData.kunci.ToString())
                     {
+                        QuizUI.SetActive(false);
                         priceCheck.Proceed();
                     }
                     else
@@ -259,13 +411,14 @@ public class PriceManager : AssignmentManager
         Shuffle(jawaban);
         for (int i = 0; i < answers.Count; i++)
         {
+            var jawabanText = jawaban[i];
             answers[i].onClick.RemoveAllListeners();
-            answers[i].GetComponentInChildren<TextMeshProUGUI>().text = jawaban[i];
+            answers[i].GetComponentInChildren<TextMeshProUGUI>().text = jawabanText;
             answers[i].onClick.AddListener(() =>
             {
                 if(lastCheckIbu!=null)
                 {
-                    if (jawaban[i] == lastCheckIbu.NPC.currentSoal.kunci.ToString())
+                    if (jawabanText == lastCheckIbu.NPC.currentSoal.kunci.ToString())
                     {
                         relatedNPC.SetNewDialogue(checkRightAnswer);
                         SetQuestComplete(lastCheck);

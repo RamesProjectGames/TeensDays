@@ -29,26 +29,27 @@ public class RepeatingNPC
     public void SetNPC()
     {
         currentQuest = 0;
-        if (questAcossiate.Count < 0) return;
+        if (questAcossiate == null || questAcossiate.Count == 0) return;
         interactableNPC.SetNewDialogue(questAcossiate[currentQuest].questRelated);
+        currentSoal = GetCurrentSoal();
     }
     public void Proceed()
     {
         currentQuest += 1;
-        if (questAcossiate.Count < 0) return;
-        Mathf.Clamp(currentQuest, 0, questAcossiate.Count-1);
+        if (questAcossiate == null || questAcossiate.Count == 0) return;
+        currentQuest = Mathf.Clamp(currentQuest, 0, questAcossiate.Count - 1);
         interactableNPC.SetNewDialogue(questAcossiate[currentQuest].questRelated);
-        currentSoal = Soals[currentQuest];
+        currentSoal = GetCurrentSoal();
     }
     public string GetQuestAssociate()
     {
-        if(questAcossiate.Count < 0)return "";
+        if (questAcossiate == null || currentQuest < 0 || currentQuest >= questAcossiate.Count) return "";
         string quest = questAcossiate[currentQuest].questRelated;
         return quest;
     }
     public MiniGameSoal GetCurrentSoal()
     {
-        if(Soals.Count < 0 )return null;
+        if (Soals == null || currentQuest < 0 || currentQuest >= Soals.Count) return null;
         MiniGameSoal soal = Soals[currentQuest];
         return soal;
     }

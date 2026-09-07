@@ -19,6 +19,7 @@ public class QuestPathManager : MonoBehaviour
     [Header("Path Settings")]
     public float refreshRate = 0.15f;
     public float recalcDistance = 0.3f;
+    [Min(0f)] public float targetArrivalDistance = 2f;
     public float lineHeight = 0.05f;
 
     [Header("Curve Smoothness")]
@@ -95,6 +96,12 @@ public class QuestPathManager : MonoBehaviour
         if (player == null || questTarget == null || agent == null)
             return;
 
+        if (HasReachedQuestTarget())
+        {
+            ClearPath();
+            return;
+        }
+
         smoothPlayerPos = Vector3.Lerp(
             smoothPlayerPos,
             agent.nextPosition,
@@ -115,6 +122,12 @@ public class QuestPathManager : MonoBehaviour
             }
         }
         
+    }
+    private bool HasReachedQuestTarget()
+    {
+        Vector3 targetOffset = questTarget.position - player.position;
+        targetOffset.y = 0f;
+        return targetOffset.sqrMagnitude <= targetArrivalDistance * targetArrivalDistance;
     }
     IEnumerator InitPathNextFrame()
     {
@@ -328,6 +341,12 @@ public class QuestPathManager : MonoBehaviour
     // Panggil ini ketika quest aktif atau selesai
     public void SetQuestTarget(Transform target)
     {
+        if (target == null)
+        {
+            ClearPath();
+            return;
+        }
+
         questTarget = target;
         lockedSize = -1;
         cachedPath.Clear();

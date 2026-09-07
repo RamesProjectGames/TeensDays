@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 424453705233131851}
   - component: {fileID: 7227900147062206868}
   - component: {fileID: 4089346496229733642}
+  - component: {fileID: 5994862619428073087}
   m_Layer: 0
   m_Name: TanahPemabatas2 1
   m_TagString: Untagged
@@ -126,3 +127,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 424453705233131851}
   m_Enabled: 0
+--- !u!208 &5994862619428073087
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8897685597831504664}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.001}
+  m_TimeToStationary: 0.5

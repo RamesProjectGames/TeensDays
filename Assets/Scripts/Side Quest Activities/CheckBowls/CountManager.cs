@@ -29,6 +29,7 @@ public class CountManager : AssignmentManager
     public override void ActivateQuest()
     {
         base.ActivateQuest();
+        relatedNPC.gameObject.SetActive(true);
         relatedNPC.SetNewDialogue(questName);
         relatedNPC.onTalkEnded.RemoveAllListeners();
         relatedNPC.onTalkEnded.AddListener(StartQuest);
@@ -66,7 +67,8 @@ public class CountManager : AssignmentManager
         spawner.PoolObjects();
         SetQuestComplete(subQuestName);
         TrackProgressFromSubQuests(questName, true, 1);
-        AccessQuiz();
+        relatedNPC.onTalkEnded.RemoveAllListeners();
+        relatedNPC.onTalkEnded.AddListener(AccessQuiz);
     }
     public void FinishQuest()
     {
@@ -131,12 +133,19 @@ public class CountManager : AssignmentManager
         Shuffle(jawaban);
         for (int i = 0; i < answers.Count; i++)
         {
+            if (i >= jawaban.Count || string.IsNullOrEmpty(jawaban[i]))
+            {
+                answers[i].gameObject.SetActive(false);
+                continue;
+            }
+            answers[i].gameObject.SetActive(true);
+            var jawabanText = jawaban[i];
             answers[i].onClick.RemoveAllListeners();
             answers[i].GetComponentInChildren<TextMeshProUGUI>().text = jawaban[i];
             answers[i].onClick.AddListener(() =>
             {
                 var questRelated = QuestSystem.instance.GetQuest(questName, true);
-                if (jawaban[i] == relatedData.kunci.ToString())
+                if (jawabanText == relatedData.kunci.ToString())
                 {
                     relatedNPC.SetNewDialogue(checkRightAnswer);
                     relatedNPC.onTalkEnded.RemoveAllListeners();
@@ -144,7 +153,9 @@ public class CountManager : AssignmentManager
                 }
                 else
                 {
-                    relatedNPC.SetNewDialogue(checkWrongAnswer);
+                    var playerInteraction = FindAnyObjectByType<PlayerInteraction>();
+                    if (playerInteraction == null) return;
+                    playerInteraction.StartDialog(checkWrongAnswer);
                     relatedNPC.onTalkEnded.RemoveAllListeners();
                     relatedNPC.onTalkEnded.AddListener(AccessQuiz);
                 }

@@ -11,6 +11,7 @@ public class Quest
 {
     public TMP_Text questText;
     public string text;
+    public string subTitle;
     public string description;
     public int expForQuest;
     public Transform targetTransform;

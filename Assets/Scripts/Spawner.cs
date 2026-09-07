@@ -62,31 +62,32 @@ public class Spawner : MonoBehaviour
             return;
         }
 
-        int numberOfObject = Mathf.Clamp(totalToPool, 0, objects.Count);
+        List<GameObject> availableObjects = objects.FindAll(obj => !obj.activeInHierarchy);
+        int numberOfObject = Mathf.Clamp(totalToPool, 0, availableObjects.Count);
         for (int i = 0; i < numberOfObject; i++)
         {
-            if (objects[i].activeInHierarchy)
-            {
-                continue;
-            }
+            int selectedIndex = Random.Range(0, availableObjects.Count);
+            GameObject selectedObject = availableObjects[selectedIndex];
+            availableObjects.RemoveAt(selectedIndex);
 
+            var randomObject = Random.Range(0, objects.Count);
             if (canStack && ShouldStack())
             {
                 if (i > 0)
                 {
-                    objects[i].transform.position = GetRandomStackedPos(objects[i - 1]);
+                    selectedObject.transform.position = GetRandomStackedPos(objects[randomObject]);
                 }
                 else
                 {
-                    objects[i].transform.position = GetRandomPos();
+                    selectedObject.transform.position = GetRandomPos();
                 }
             }
             else
             {
-                objects[i].transform.position = GetRandomPos();
+                selectedObject.transform.position = GetRandomPos();
             }
 
-            objects[i].SetActive(true);
+            selectedObject.SetActive(true);
         }
     }
     public void ActivateAllObjects()

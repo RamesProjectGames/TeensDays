@@ -43,6 +43,7 @@ public class DragAndDropManager : AssignmentManager
         base.ActivateQuest();
         LoadProgressFromQuestState(questName, true);
         RelatedNPC.SetNewDialogue(inCompleteDialogue);
+        RelatedNPC.gameObject.SetActive(true);
         RelatedNPC.onTalkEnded.RemoveAllListeners();
         RelatedNPC.onTalkEnded.AddListener(StartPuzzle);
         var questRelated = QuestSystem.instance.GetQuest(questName,true);
@@ -251,7 +252,7 @@ public class DragAndDropManager : AssignmentManager
         RelatedNPC.SetNewDialogue(inCompleteDialogue);
         RelatedNPC.onTalkEnded.RemoveAllListeners();
         RelatedNPC.onTalkEnded.AddListener(StartPuzzle);
-        RelatedNPC.gameObject.SetActive(true);
+        RelatedNPC.gameObject.SetActive(false);
     }
     public DragSlot GetNearestSlot(Vector2 position)
     {

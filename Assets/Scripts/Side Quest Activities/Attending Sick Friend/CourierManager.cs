@@ -25,13 +25,14 @@ public class CourierManager : AssignmentManager
     {
         base.DeactivateQuest();
         NPCRelated.gameObject.SetActive(false);
-        EndNPC.gameObject.SetActive(true);
+        EndNPC.gameObject.SetActive(false);
         EndNPC.onTalkEnded.RemoveAllListeners();
     }
     public void StartQuest()
     {
         MarkStarted();
         NPCRelated.gameObject.SetActive(false);
+        NPCRelated.onTalkEnded.RemoveAllListeners();
         EndNPC.gameObject.SetActive(true);
         EndNPC.onTalkEnded.RemoveAllListeners();
         EndNPC.onTalkEnded.AddListener(CompleteQuest);
@@ -40,16 +41,24 @@ public class CourierManager : AssignmentManager
         {
             QuestSystem.instance.UpdateCurrentQuestInfo(relatedSubQuest, false, "Antarkan lembar materinya ke rumah teman.");
         }
+        int questIndex = QuestSystem.instance.GetQuestIndex(questName,true);
+        int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName, inCompleteDialogue, true);
+        if(relatedSubQuest != null && !relatedSubQuest.isDone && subQuestIndex > 0)
+        {
+            QuestSystem.instance.MarkQuestDone(questIndex,subQuestIndex , true, true);
+            QuestSystem.instance.CheckAutoCompleteQuests();
+        }
         TrackProgressFromSubQuests(questName, true, 1);
         QuestPathManager.Instance.SetQuestTarget(EndNPC.transform);
     }
     public void CompleteQuest()
     {
+        int questIndex = QuestSystem.instance.GetQuestIndex(questName,true);
         var relatedSubQuest = QuestSystem.instance.GetSubQuest(questName, completedDialogue, true);
         int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName, completedDialogue, true);
         if(relatedSubQuest != null && !relatedSubQuest.isDone && subQuestIndex > 0)
         {
-            QuestSystem.instance.MarkQuestDone(5,subQuestIndex , true, true);
+            QuestSystem.instance.MarkQuestDone(questIndex,subQuestIndex , true, true);
             QuestSystem.instance.CheckAutoCompleteQuests();
         }
         if(relatedSubQuest != null)

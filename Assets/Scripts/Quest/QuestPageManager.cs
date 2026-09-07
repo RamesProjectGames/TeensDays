@@ -73,10 +73,10 @@ public class QuestPageManager : MonoBehaviour
             var currentSubQuest = SelectSubQuest(sideQuest);
             if(sideQuestBox.TryGetComponent<QuestPage>(out var page))
             {
-                page.Set(sideQuest.text,currentSubQuest == null ? "" : currentSubQuest.text,sideQuest, () =>
+                page.Set(sideQuest.text,sideQuest.subTitle,sideQuest, () =>
                 {
                     currentQuest = sideQuest;
-                    SetPageContents(sideQuest.text,currentSubQuest == null ? "This Quest Does't Have sub quests" : currentSubQuest.text,sideQuest.description);                    
+                    SetPageContents(sideQuest.text,sideQuest.subTitle,sideQuest.description);                    
                     PopulateRewards();
                     navigateButton.SetActive(true);
                 });
@@ -91,7 +91,7 @@ public class QuestPageManager : MonoBehaviour
         {
             for (int i = 0; i < rewardsParent.childCount; i++)
             {
-                Destroy(rewardsParent.GetChild(i));
+                Destroy(rewardsParent.GetChild(i).gameObject);
             }
         }
         if(currentQuest == null) return;
@@ -101,7 +101,7 @@ public class QuestPageManager : MonoBehaviour
             foreach (var reward in currentQuest.questRewards)
             {
                 GameObject rewardUI = Instantiate(rewardPrefab, rewardsParent);
-                rewardUI.GetComponentInChildren<Image>().sprite = reward.rewardIcon;
+                rewardUI.transform.GetChild(0).GetComponent<Image>().sprite = reward.rewardIcon;
             }
         }
         noRewardsText.SetActive(currentQuest.questRewards.Count<=0);
