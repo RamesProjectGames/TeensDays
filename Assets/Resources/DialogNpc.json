@@ -886,6 +886,75 @@
       "isSideQuest": true,
       "parentIndex": 6,
       "questIndex": 2
+    },
+    {
+      "id": "Dimas Mau Es Krim! - Incomplete",
+      "name": "Pak Selamet",
+      "dialog": [
+        {
+          "speaker": "Dimas",
+          "isPlayer": false,
+          "text": "Ibuuuu! Beliin! DImas kepengeeeeen~!"
+        },
+        {
+          "speaker": "Ibu Dharma",
+          "isPlayer": false,
+          "text": "Sudah, sudah, jangan rewel. Ibu lagi nunggu tamu, kita belinya habis ketemu tamu Ibu aja, ya, Nak?"
+        },
+        {
+          "speaker": "Dimas",
+          "isPlayer": false,
+          "text": "Aaaaahh~! Nggak mau, Dimas maunya sekaraaaang!"
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Pagi, Bu Dharma!"
+        },
+        {
+          "speaker": "Ibu Dharma",
+          "isPlayer": false,
+          "text": "Eh, Nak Bobon? Dimas, itu teman sekolah kamu. Ayo, sudah, jangan rewel lagi. Nanti malu, loh. "
+        },
+        {
+          "speaker": "Bobon",
+          "isPlayer": true,
+          "text": "Dimas, kamu pengen beli es krim? Sini, Bobon beliin!"
+        },
+        {
+          "speaker": "Dimas",
+          "isPlayer": false,
+          "text": "Wah, yang bener, Bon? Asik!"
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 7,
+      "questIndex": 0
+    },
+    {
+      "id": "Dimas Mau Es Krim! - Complete",
+      "name": "Pak Selamet",
+      "dialog": [
+        {
+          "speaker": "Dimas",
+          "isPlayer": false,
+          "text": "Hore! Es krimku!"
+        },
+        {
+          "speaker": "Ibu Dharma",
+          "isPlayer": false,
+          "text": "Aduh, jadi ngerepotin, terima kasih ya, Nak Bobon. Kamu anak baik."
+        }
+      ],
+      "givesQuest": true,
+      "isMainQuest": false,
+      "isSubQuest": true,
+      "isSideQuest": true,
+      "parentIndex": 7,
+      "questIndex": 1
     }
   ]
 }
