@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -13,6 +14,7 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public DragSlot CurrentSlot;
 
     [Header("UI")]
+    [SerializeField] private Image itemImage;
     [SerializeField] private TMP_Text numberText;
 
     [Header("Settings")]
@@ -46,6 +48,10 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         CorrectOrder = number;
         numberText.text = number.ToString();
+    }
+    public void SetImage(Sprite sprite)
+    {
+        itemImage.sprite = sprite;
     }
 
 

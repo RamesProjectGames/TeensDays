@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class DragAndDropManager : AssignmentManager
 {
@@ -14,6 +15,7 @@ public class DragAndDropManager : AssignmentManager
     [SerializeField] private GameObject puzzlePanel;
     public InteractableNPC RelatedNPC;
     [Header("Prefabs")]
+    [SerializeField] private List<Sprite> itemIcons;
     [SerializeField] private DragSlot slotPrefab;
     [SerializeField] private DragItem itemPrefab;
 
@@ -70,13 +72,20 @@ public class DragAndDropManager : AssignmentManager
         if (slots == null || items == null)
             return;
 
-        for (int i = 0; i < slots.Count; i++)
+        if (HasActiveLayout(slotContainer))
         {
-            if (slots[i] == null)
-                continue;
+            RefreshLayout(slotContainer);
+        }
+        else
+        {
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if (slots[i] == null)
+                    continue;
 
-            slots[i].RectTransform.anchoredPosition =
-                startPosition + new Vector2((itemSize.x + gap) * i, 0);
+                slots[i].RectTransform.anchoredPosition =
+                    startPosition + new Vector2((itemSize.x + gap) * i, 0);
+            }
         }
 
         foreach (DragItem item in items)
@@ -94,33 +103,37 @@ public class DragAndDropManager : AssignmentManager
         puzzlePanel.SetActive(true);
         RelatedNPC.gameObject.SetActive(false);
         GeneratePuzzle();
-        int questIndex = QuestSystem.instance.GetQuestIndex(questName,true);
-        int subQuestIndex = QuestSystem.instance.GetSubQuestIndex(questName,completedDialogue,true);
-        if(questIndex != -1 && subQuestIndex != -1)
-        {
-            QuestSystem.instance.MarkQuestDone(questIndex, subQuestIndex, true, true);
-            TrackProgressFromSubQuests(questName, true);
-        }
     }
+    [ContextMenu("Generate Puzzle")]
     public void GeneratePuzzle()
     {
         Clear();
 
+        SetLayoutGroupsEnabled(true);
         CreateSlots();
         CreateItems();
+        RefreshLayouts();
+        SetLayoutGroupsEnabled(false);
         ShuffleItems();
         
         onStartPuzzle?.Invoke();
     }
-
+    [ContextMenu("Clear Puzzle")]
     void Clear()
     {
+        #if !UNITY_EDITOR
         foreach (Transform child in slotContainer)
             Destroy(child.gameObject);
 
         foreach (Transform child in itemContainer)
             Destroy(child.gameObject);
+        #elif UNITY_EDITOR
+        foreach (Transform child in slotContainer)
+            DestroyImmediate(child.gameObject);
 
+        foreach (Transform child in itemContainer)
+            DestroyImmediate(child.gameObject);
+        #endif
         slots.Clear();
         items.Clear();
     }
@@ -133,12 +146,40 @@ public class DragAndDropManager : AssignmentManager
 
             RectTransform rt = slot.GetComponent<RectTransform>();
 
-            rt.anchoredPosition = startPosition + new Vector2((itemSize.x + gap) * i, 0);
+            if (!HasActiveLayout(slotContainer))
+                rt.anchoredPosition = startPosition + new Vector2((itemSize.x + gap) * i, 0);
 
             slot.SlotIndex = i;
 
             slots.Add(slot);
         }
+    }
+
+    private bool HasActiveLayout(RectTransform container)
+    {
+        LayoutGroup layoutGroup = container.GetComponent<LayoutGroup>();
+        return layoutGroup != null && layoutGroup.isActiveAndEnabled;
+    }
+
+    private void SetLayoutGroupsEnabled(bool enabled)
+    {
+        foreach (LayoutGroup layoutGroup in slotContainer.GetComponents<LayoutGroup>())
+            layoutGroup.enabled = enabled;
+
+        foreach (LayoutGroup layoutGroup in itemContainer.GetComponents<LayoutGroup>())
+            layoutGroup.enabled = enabled;
+    }
+
+    private void RefreshLayouts()
+    {
+        RefreshLayout(slotContainer);
+        RefreshLayout(itemContainer);
+    }
+
+    private void RefreshLayout(RectTransform container)
+    {
+        if (HasActiveLayout(container))
+            LayoutRebuilder.ForceRebuildLayoutImmediate(container);
     }
 
     void CreateItems()
@@ -148,6 +189,8 @@ public class DragAndDropManager : AssignmentManager
             DragItem item = Instantiate(itemPrefab, itemContainer);
 
             item.SetNumber(i + 1);
+
+            item.SetImage(itemIcons[i]);
 
             items.Add(item);
         }

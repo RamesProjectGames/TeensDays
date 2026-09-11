@@ -65,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CorrectOrder: 1
   CurrentSlot: {fileID: 0}
+  itemImage: {fileID: 853172275510303414}
   numberText: {fileID: 8061739940127106778}
   swapDuration: 0.25
   dragScale: 1.1
@@ -127,16 +128,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: f63ecf8c28d98544ab6abdf2cb9a581b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -161,7 +162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1347804956763746557
 RectTransform:
   m_ObjectHideFlags: 0
