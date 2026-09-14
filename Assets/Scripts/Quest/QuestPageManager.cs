@@ -64,8 +64,8 @@ public class QuestPageManager : MonoBehaviour
         }
         for (int i = 0; i < QuestSystem.instance.sideQuests.Count; i++)
         {
-            Quest sideQuest = QuestSystem.instance.sideQuests[i];
-            if (sideQuest.isDone || !QuestSystem.instance.IsQuestUnlocked(sideQuest))
+            SideQuest sideQuest = QuestSystem.instance.sideQuests[i];
+            if (sideQuest.isDone || !QuestSystem.instance.IsSideQuestAvailable(sideQuest))
             {
                 continue;
             }
@@ -132,8 +132,8 @@ public class QuestPageManager : MonoBehaviour
         for (int i = 0; i < sideQuestBox.Count; i++)
         {
             GameObject sideQuestUI = sideQuestBox[i];
-            Quest sideQuest = sideQuestUI.GetComponent<QuestPage>().quest;
-            sideQuestUI.SetActive(sideQuest != null && !sideQuest.isDone && isSide);
+            SideQuest sideQuest = sideQuestUI.GetComponent<QuestPage>().quest as SideQuest;
+            sideQuestUI.SetActive(sideQuest != null && !sideQuest.isDone && QuestSystem.instance.IsSideQuestAvailable(sideQuest) && isSide);
         }
     }
     public void ShowQuestAll()
@@ -151,6 +151,7 @@ public class QuestPageManager : MonoBehaviour
     public void NavigateToQuest()
     {
         if(currentQuest == null || !QuestSystem.instance.IsQuestUnlocked(currentQuest)) return;
+        if (currentQuest is SideQuest sideQuest && !QuestSystem.instance.IsSideQuestAvailable(sideQuest)) return;
         if(CheckOnGoingQuest())
         {
             if(QuestSystem.instance.quests.Exists(x => x == currentQuest))

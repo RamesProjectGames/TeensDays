@@ -47,6 +47,13 @@ public class Quest
         return isDone && subQuests.All(sq => sq.isDone);
     }
 }
+
+[System.Serializable]
+public class SideQuest : Quest
+{
+    public int classRequirement;
+}
+
 [System.Serializable]
 public class QuestData
 {

@@ -12,7 +12,7 @@ public class QuestSystem : MonoBehaviour
 {
     public static QuestSystem instance;
     public List<Quest> quests = new List<Quest>();
-    public List<Quest> sideQuests = new List<Quest>(); // Side quest list
+    public List<SideQuest> sideQuests = new List<SideQuest>(); // Side quest list
     public SerializableList<QuestData> main = null;
     public SerializableList<QuestData> side = null;
     [SerializeField] private int currentQuestIndex = 0;
@@ -34,6 +34,11 @@ public class QuestSystem : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private IReadOnlyList<Quest> GetQuestList(bool isSideQuest)
+    {
+        return isSideQuest ? sideQuests : quests;
     }
 
     private void Start()
@@ -78,6 +83,35 @@ public class QuestSystem : MonoBehaviour
         return quest.isUnlocked;
     }
 
+    public bool IsSideQuestAvailable(SideQuest sideQuest)
+    {
+        if (sideQuest == null || !sideQuest.isUnlocked)
+        {
+            return false;
+        }
+
+        if (sideQuest.classRequirement <= 0)
+        {
+            return true;
+        }
+
+        var completedLevels = GameManager.Instance?.playerData?.checkLevelCompleted?.list;
+        if (completedLevels == null)
+        {
+            return false;
+        }
+
+        for (int index = completedLevels.Count - 1; index >= 0; index--)
+        {
+            if (completedLevels[index])
+            {
+                return index + 1 >= sideQuest.classRequirement;
+            }
+        }
+
+        return false;
+    }
+
     public void UnlockQuest(Quest quest)
     {
         if (quest == null) return;
@@ -91,7 +125,7 @@ public class QuestSystem : MonoBehaviour
 
     public void UnlockQuestByIndex(int index, bool isSideQuest = false)
     {
-        var questList = isSideQuest ? sideQuests : quests;
+        IReadOnlyList<Quest> questList = GetQuestList(isSideQuest);
         if (index >= 0 && index < questList.Count)
         {
             UnlockQuest(questList[index]);
@@ -131,7 +165,7 @@ public class QuestSystem : MonoBehaviour
 
     public bool IsQuestUnlockedByIndex(int index, bool isSideQuest = false)
     {
-        var questList = isSideQuest ? sideQuests : quests;
+        IReadOnlyList<Quest> questList = GetQuestList(isSideQuest);
         if (index < 0 || index >= questList.Count || questList[index] == null)
         {
             return false;
@@ -574,7 +608,7 @@ public class QuestSystem : MonoBehaviour
 
     public void MarkQuestDone(int parentIndex, int questIndex, bool isSubQuest, bool isSideQuest = false)
     {
-        List<Quest> questList = isSideQuest ? sideQuests : quests;
+        IReadOnlyList<Quest> questList = GetQuestList(isSideQuest);
         if (isSubQuest)
         {
             if (parentIndex >= 0 && parentIndex < questList.Count)
@@ -645,21 +679,23 @@ public class QuestSystem : MonoBehaviour
     }
     public Quest GetQuest(string questName, bool isSideQuest = false)
     {
-        List<Quest> questList = isSideQuest ? sideQuests : quests;
-        Quest quest = questList.Find(x => x.text == questName);
+        IReadOnlyList<Quest> questList = GetQuestList(isSideQuest);
+        Quest quest = questList.FirstOrDefault(x => x.text == questName);
         return quest;
     }
     public Quest GetSubQuest(string parentQuest, string questName, bool isSideQuest)
     {
-        List<Quest> questList = isSideQuest ? sideQuests : quests;
-        Quest quest = questList.Find(x => x.text == parentQuest);
+        IReadOnlyList<Quest> questList = GetQuestList(isSideQuest);
+        Quest quest = questList.FirstOrDefault(x => x.text == parentQuest);
+        if (quest == null) return null;
         Quest subQuest = quest.subQuests.Find(x => x.text == questName);
         return subQuest;
     }
     public string GetQuestName(int questIndex, bool isMain)
     {
         string questName = "";
-        List<Quest> questList = isMain ? quests : sideQuests;
+        IReadOnlyList<Quest> questList = GetQuestList(!isMain);
+        if (questIndex < 0 || questIndex >= questList.Count) return questName;
         Quest quest = questList[questIndex];
         if(quest != null)
         {            
@@ -670,9 +706,11 @@ public class QuestSystem : MonoBehaviour
     public string GetSubQuestName(int questIndex, int subQuestIndex, bool isMain)
     {
         string subQuestName = "";
-        List<Quest> questList = isMain ? quests : sideQuests;
+        IReadOnlyList<Quest> questList = GetQuestList(!isMain);
+        if (questIndex < 0 || questIndex >= questList.Count) return subQuestName;
         Quest quest = questList[questIndex];
         if(quest == null) return subQuestName;
+        if (subQuestIndex < 0 || subQuestIndex >= quest.subQuests.Count) return subQuestName;
         Quest subQuest = quest.subQuests[subQuestIndex];
         if(subQuest == null) return subQuestName;
         subQuestName =subQuest.text;
@@ -680,14 +718,18 @@ public class QuestSystem : MonoBehaviour
     }
     public int GetQuestIndex(string questName, bool isSideQuest = false)
     {
-        List<Quest> questList = isSideQuest ? sideQuests : quests;
-        int quest = questList.FindIndex(x => x.text == questName);
-        return quest;
+        IReadOnlyList<Quest> questList = GetQuestList(isSideQuest);
+        for (int index = 0; index < questList.Count; index++)
+        {
+            if (questList[index].text == questName) return index;
+        }
+        return -1;
     }
     public int GetSubQuestIndex(string parentQuest, string questName, bool isSideQuest)
     {
-        List<Quest> questList = isSideQuest ? sideQuests : quests;
-        Quest quest = questList.Find(x => x.text == parentQuest);
+        IReadOnlyList<Quest> questList = GetQuestList(isSideQuest);
+        Quest quest = questList.FirstOrDefault(x => x.text == parentQuest);
+        if (quest == null) return -1;
         int subQuest = quest.subQuests.FindIndex(x => x.text == questName);
         return subQuest;
     }
