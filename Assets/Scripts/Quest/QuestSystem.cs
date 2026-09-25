@@ -1077,7 +1077,7 @@ public class QuestSystem : MonoBehaviour
             // Simpan referensi
             questData.questUIObject = newItem;
             questData.questText = mainText;
-            questData.questOutline = newItem.GetComponent<Outline>();
+            //questData.questOutline = newItem.GetComponent<Outline>();
 
             // Spawn subquest
             Transform subQuestParent = newItem.transform.Find("Content");

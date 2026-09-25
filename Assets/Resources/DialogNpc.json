@@ -24,10 +24,10 @@
     },
     {
       "id": "npc_2",
-      "name": "BU GURU MIRA",
+      "name": "IBU GURU",
       "dialog": [
         {
-          "speaker": "BU GURU MIRA",
+          "speaker": "IBU GURU",
           "isPlayer": false,
           "text": "Selamat pagi, Bobon! Nama ibu Bu Mira,guru kelas kamu di Sekolah Tunas Unggul Harapan. Ayo, cepat masuk! Kelas akan segera dimulai."
         }
