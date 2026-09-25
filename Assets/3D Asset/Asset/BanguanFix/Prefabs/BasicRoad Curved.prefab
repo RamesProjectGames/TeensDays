@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5638753652283754932}
   - component: {fileID: 505323713787303709}
   - component: {fileID: 4743050054190645635}
+  - component: {fileID: 2588020254529343628}
   m_Layer: 0
   m_Name: BasicRoad Curved
   m_TagString: Ground
@@ -126,3 +127,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5638753652283754932}
   m_Enabled: 1
+--- !u!208 &2588020254529343628
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256309829256919305}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.041, y: 0.008, z: 0.001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.007, z: 0.001}
+  m_TimeToStationary: 0.5
