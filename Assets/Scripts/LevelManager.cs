@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
         await UpdateBestTimes();
     }
 
-    private void Awake()
+    private void Update()
     {
         UpdateLevelButtons();
         GetLevelRetries();
@@ -67,6 +67,7 @@ public class LevelManager : MonoBehaviour
 
         if (SceneEntryManager.LastEntryID != "PortalSD")
             return;
+
 
         Debug.Log("Logic khusus PortalSD dijalankan");
         //SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -128,7 +129,7 @@ public class LevelManager : MonoBehaviour
             var levelRetriesNumbers = GameManager.Instance.playerData.levelRetries.list;
             for (int i = 0; i < levelRetries.Length; i++)
             {
-                int playerClass = levelRetries[i].classId - minClass;
+                int playerClass = levelRetries[i].classId -1 - minClass;
                 int retries = levelRetriesNumbers[playerClass];
                 levelRetries[i].timeText.text = $"{retries} / 3";
                 Debug.Log($"Level {i + 1} retries: {retries}");
