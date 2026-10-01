@@ -35,4 +35,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Kelas 6.unity
     guid: 7e683bb9145ddc14187491474bda24a2
+  - enabled: 1
+    path: Assets/Scenes/Kelas 7.unity
+    guid: 077d71d5d0c7c974e82d354bb882fd6a
+  - enabled: 1
+    path: Assets/Scenes/Kelas 8.unity
+    guid: 427b173e97ce9f44586fa23cda4ef252
+  - enabled: 1
+    path: Assets/Scenes/Kelas 9.unity
+    guid: 07449b0763a2d274cb2a5eb8f4e12588
   m_configObjects: {}

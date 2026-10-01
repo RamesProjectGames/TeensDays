@@ -198,7 +198,7 @@ public class QuizManager : MonoBehaviour
 
         if (semuaSoal.Count > 1)
         {
-            semuaSoal = semuaSoal.GetRange(0, 10);
+            semuaSoal = semuaSoal.GetRange(0, 20);
         }
 
     }

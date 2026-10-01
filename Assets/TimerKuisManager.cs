@@ -19,7 +19,7 @@ public class TimerKuisManager : MonoBehaviour
     void Start()
     {
         quizSlider.maxValue = totalQuestions;
-        quizSlider.minValue = 1;
+        quizSlider.minValue = 0;
 
         UpdateSlider();
     }
